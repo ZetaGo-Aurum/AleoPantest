@@ -1,0 +1,140 @@
+# AloPantest - Comprehensive Penetration Testing Framework
+# Python 3.8+
+# Installation: pip install -r requirements.txt
+
+# Core Framework
+click==8.1.7
+rich==13.7.0
+pydantic==2.5.0
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# CLI & TUI
+textual==0.48.0
+typer==0.9.0
+colorama==0.4.6
+termcolor==2.4.0
+tabulate==0.9.0
+prettytable==3.10.0
+
+# Network Tools
+scapy==2.5.0
+nmap==0.0.1
+python-nmap==0.7.1
+paramiko==3.4.0
+pycryptodome==3.19.0
+requests==2.31.0
+urllib3==2.1.0
+httpx==0.25.2
+aiohttp==3.9.1
+websockets==12.0
+
+# Web Scraping & Crawling
+beautifulsoup4==4.12.2
+selenium==4.15.2
+scrapy==2.11.0
+httplib2==0.22.0
+fake-useragent==1.4.0
+lxml==4.9.3
+
+# SQL & Database
+sqlalchemy==2.0.23
+pymysql==1.1.0
+psycopg2-binary==2.9.9
+sqlite3-python==1.0.0
+pymongo==4.6.0
+
+# OSINT & Data Collection
+shodan==1.28.2
+googlesearch-python==1.2.3
+requests-html==0.10.0
+instagrapi==2.0.0
+tweepy==4.14.0
+selenium-wire==5.1.0
+browser-cookie3==0.19.1
+
+# Cryptography & Encoding
+cryptography==41.0.7
+pycryptodome==3.19.0
+base64==0.0.0
+hashlib==0.0.0
+jwt==1.3.1
+pyaes==1.6.1
+
+# Password Tools
+passlib==1.7.4
+bcrypt==4.1.1
+argon2-cffi==23.1.0
+hashcat==0.0.1
+
+# WiFi & Wireless
+scapy-radio==0.3
+pylorcon==0.1.3
+pywifi==1.1.1
+aircrack-ng==1.6
+
+# API & Web Testing
+requests-auth==6.0.0
+graphene==3.3
+fastapi==0.109.0
+flask==3.0.0
+
+# Proxy & Tunneling
+pysocks==1.7.1
+requests-socks==0.7.1
+ngrok==1.0.1
+pexpect==4.9.0
+
+# File Analysis
+magic-python==0.4.24
+exifread==3.0.0
+pillow==10.1.0
+pdf2image==1.16.3
+
+# Encoding & Decoding
+base58==2.1.1
+base91==1.0.1
+qrcode==7.4.2
+pycqrcode==1.2.1
+
+# Reverse Engineering
+capstone==5.0.0
+keystone-engine==0.9.2
+unicorn==2.1.0
+
+# Vulnerability Scanning
+bandit==1.7.5
+safety==2.3.5
+semgrep==1.45.0
+
+# Logging & Monitoring
+loguru==0.7.2
+sentry-sdk==1.38.0
+prometheus-client==0.19.0
+
+# Data Processing
+pandas==2.1.3
+numpy==1.26.2
+scipy==1.11.4
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.23.2
+mock==5.1.0
+
+# Development Tools
+black==23.12.0
+flake8==6.1.0
+isort==5.13.2
+mypy==1.7.1
+
+# Async & Concurrency
+asyncio==3.4.3
+aiofiles==23.2.1
+concurrent-futures==0.0.0
+
+# Utils
+tqdm==4.66.1
+pytz==2023.3
+arrow==1.3.0
+pexpect==4.9.0

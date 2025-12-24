@@ -1,0 +1,70 @@
+# Default Configuration untuk AloPantest
+# Copy ke settings.yml dan customize sesuai kebutuhan
+
+# Global Settings
+timeout: 30              # Timeout untuk request (detik)
+retries: 3              # Jumlah retry
+thread_count: 5         # Thread untuk multi-threading operations
+verbose: false          # Verbose output
+debug: false            # Debug mode
+
+# User Agent untuk HTTP requests
+user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+
+# Proxy Settings (optional)
+proxy: null
+proxy_type: "http"      # http, https, socks5
+proxy_auth: null
+
+# Output Settings
+output_dir: "./output"  # Output directory
+log_dir: "./logs"       # Log directory
+log_level: "INFO"       # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Cache Settings
+cache_enabled: true     # Enable caching
+cache_ttl: 3600        # Cache TTL (detik)
+cache_dir: "./.cache"   # Cache directory
+
+# Network Settings
+max_connections: 100
+max_retries: 3
+connection_pool_size: 10
+
+# Database Settings (jika menggunakan)
+database:
+  enabled: false
+  type: "sqlite"        # sqlite, mysql, postgresql, mongodb
+  host: "localhost"
+  port: 5432
+  username: "user"
+  password: "password"
+  database: "alopantest"
+
+# API Settings
+api:
+  enabled: false
+  host: "0.0.0.0"
+  port: 5000
+  debug: false
+  cors_enabled: true
+
+# Security Settings
+security:
+  verify_ssl: true
+  allow_redirects: true
+  follow_redirects: false
+  max_redirects: 5
+
+# Rate Limiting
+rate_limiting:
+  enabled: false
+  requests_per_second: 10
+  burst_size: 20
+
+# Notification Settings
+notifications:
+  enabled: false
+  email: false
+  webhook: false
+  slack: false
