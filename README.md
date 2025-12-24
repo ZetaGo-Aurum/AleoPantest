@@ -18,7 +18,7 @@
 - [Overview](#overview)
 - [Features](#features)
 - [Installation](#installation)
-- [Quick Start](#quick-start)
+- [Quick Start](/QUICKSTART.md)
 - [Available Tools](#available-tools)
 - [Usage Guide](#usage-guide)
 - [Platform Support](#platform-support)
@@ -641,3 +641,4 @@ python alo_pantest_cli.py run <tool-id> --output results.json
 ---
 
 **Happy Testing! Stay Ethical! 🛡️**
+
