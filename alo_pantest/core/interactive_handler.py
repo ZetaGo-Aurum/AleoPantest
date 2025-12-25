@@ -1,6 +1,6 @@
 """Interactive CLI handler for user-friendly tool interaction"""
 import sys
-from typing import Dict, Any, Optional, List, Callable
+from typing import Dict, Any, Optional, List, Callable, Tuple
 from pathlib import Path
 
 try:
@@ -213,7 +213,7 @@ class SafeParameterHandler:
             return False
     
     @staticmethod
-    def validate_parameter(param_name: str, param_value: str) -> tuple[bool, Optional[str]]:
+    def validate_parameter(param_name: str, param_value: str) -> Tuple[bool, Optional[str]]:
         """
         Validate parameter value
         
