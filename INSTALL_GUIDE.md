@@ -15,7 +15,7 @@
 ```bash
 # Clone repository
 git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AloPantest
+cd AleoPantest
 
 # Create virtual environment (recommended)
 python -m venv .venv
