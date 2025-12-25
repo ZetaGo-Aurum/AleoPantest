@@ -2,7 +2,7 @@
 import random
 import threading
 import time
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from datetime import datetime
 import socket
 
@@ -11,31 +11,83 @@ from alo_pantest.core.logger import logger
 
 
 class DDoSSimulator(BaseTool):
-    """DDoS Attack Tool - Real attacks with safety limits (Educational & Authorized Testing)"""
+    """
+    DDoS Attack Simulator - Educational & Authorized Testing Only
+    
+    IMPORTANT: This tool is for authorized penetration testing and educational purposes only.
+    Unauthorized DDoS attacks are illegal and can result in federal charges.
+    """
     
     # Safety limits to prevent unintended damage
     SAFETY_LIMITS = {
-        'max_duration': 120,  # Max 2 minutes per attack
-        'max_threads': 50,    # Max 50 concurrent connections
-        'max_rate': 10000,    # Max 10k requests
-        'rate_limit_threshold': 1000  # Pause if > 1k req/sec
+        'max_duration': 120,      # Max 2 minutes per attack
+        'max_threads': 50,        # Max 50 concurrent connections
+        'max_rate': 10000,        # Max 10k requests
+        'rate_limit_threshold': 1000,  # Pause if > 1k req/sec
+        'min_interval_between_attacks': 5  # Min 5 seconds between attacks
+    }
+    
+    # Predefined safe configurations
+    PRESET_CONFIGS = {
+        'light': {'duration': 10, 'threads': 5},
+        'medium': {'duration': 30, 'threads': 10},
+        'heavy': {'duration': 60, 'threads': 20},
     }
     
     def __init__(self):
         metadata = ToolMetadata(
-            name="DDoS Attack Tool",
+            name="DDoS Simulator",
             category=ToolCategory.NETWORK,
-            version="2.0.0",
+            version="2.1.0",
             author="AloPantest Team",
-            description="Real DDoS attack tool with safety limits for authorized penetration testing",
-            usage="aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 10",
+            description="""
+Educational DDoS simulation tool for authorized penetration testing.
+Demonstrates various attack types with built-in safety limits and legal warnings.
+AUTHORIZED TESTING ONLY - Unauthorized attacks are federal crimes.
+            """,
+            usage="""
+Examples (AUTHORIZED TESTING ONLY):
+  aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 10 --authorized
+  aleopantest run ddos-sim --target example.com --type dns --preset light --authorized
+  
+Attack Types:
+  - http:     HTTP flood attack (Layer 7)
+  - dns:      DNS amplification (Layer 3/4)
+  - slowloris: Slowloris attack (Layer 7)
+  - syn:      SYN flood simulation (Layer 4)
+  - udp:      UDP flood simulation (Layer 4)
+
+Presets (use --preset instead of --duration/--threads):
+  - light:   Duration 10s, 5 threads (safe for testing)
+  - medium:  Duration 30s, 10 threads (moderate load)
+  - heavy:   Duration 60s, 20 threads (heavy load)
+
+SAFETY FEATURES:
+  ✓ Maximum duration capped at 2 minutes
+  ✓ Maximum 50 concurrent connections
+  ✓ Automatic rate limiting
+  ✓ Comprehensive logging
+  ✓ Legal disclaimers and warnings
+            """,
             requirements=['requests', 'scapy'],
-            tags=['ddos', 'attack', 'network', 'penetration-test'],
+            tags=['ddos', 'attack', 'network', 'penetration-test', 'simulation'],
             risk_level="CRITICAL",
-            legal_disclaimer="ILLEGAL without explicit written authorization. Federal penalties apply."
+            legal_disclaimer="""
+⚠️  CRITICAL LEGAL WARNING:
+    • Unauthorized DDoS attacks are FEDERAL CRIMES in most jurisdictions
+    • US: Computer Fraud and Abuse Act (CFAA) - Up to 10 years imprisonment + fines
+    • EU: ePrivacy Directive - Up to 5 years imprisonment
+    • AU: Criminal Code - Up to 10 years imprisonment
+    
+    ✓ ONLY use this tool on systems you own or have EXPLICIT written authorization to test
+    ✓ Document all testing and authorization
+    ✓ Coordinate with your ISP for large-scale testing
+    ✓ Never target infrastructure you don't control
+            """
         )
         super().__init__(metadata)
         self.attack_running = False
+        self.last_attack_time = None
         self.attack_stats = {
             'total_requests': 0,
             'successful_requests': 0,
@@ -45,35 +97,68 @@ class DDoSSimulator(BaseTool):
             'rate': 0
         }
     
-    def validate_input(self, target: str = None, type: str = None, duration: int = None, threads: int = None, **kwargs) -> bool:
-        """Validate input parameters with safety limits"""
+    def validate_input(self, target: str = None, type: str = None, duration: Optional[int] = None, 
+                      threads: Optional[int] = None, preset: Optional[str] = None, **kwargs) -> bool:
+        """
+        Validate input parameters with safety limits
+        
+        Args:
+            target: Target domain/IP
+            type: Attack type (http, dns, syn, udp, slowloris)
+            duration: Duration in seconds (optional if using preset)
+            threads: Number of threads (optional if using preset)
+            preset: Preset configuration (light, medium, heavy)
+            **kwargs: Additional arguments (must include 'authorized')
+        
+        Returns:
+            True if valid, False otherwise
+        """
         if not target:
             self.add_error("Target is required")
             return False
         
         if not type:
-            self.add_error("Attack type is required (http, syn, udp, dns, slowloris)")
+            self.add_error("Attack type is required: http, dns, syn, udp, slowloris")
             return False
         
-        if type not in ['http', 'syn', 'udp', 'dns', 'slowloris']:
-            self.add_error(f"Invalid attack type: {type}")
+        if type.lower() not in ['http', 'syn', 'udp', 'dns', 'slowloris']:
+            self.add_error(f"Invalid attack type: {type}. Valid types: http, syn, udp, dns, slowloris")
             return False
         
-        # Safety checks
+        # Check authorization flag
+        auth = kwargs.get('authorized', False)
+        if not auth:
+            self.add_error("❌ AUTHORIZATION REQUIRED: Use --authorized flag to confirm you have explicit written permission")
+            return False
+        
+        # Handle preset configuration
+        if preset:
+            preset = preset.lower()
+            if preset not in self.PRESET_CONFIGS:
+                self.add_error(f"Invalid preset: {preset}. Valid presets: {', '.join(self.PRESET_CONFIGS.keys())}")
+                return False
+            preset_config = self.PRESET_CONFIGS[preset]
+            duration = preset_config['duration']
+            threads = preset_config['threads']
+            self.add_warning(f"Using preset '{preset}': duration={duration}s, threads={threads}")
+        
+        # Apply safety limits
         duration = duration or 30
         if duration > self.SAFETY_LIMITS['max_duration']:
-            self.add_warning(f"Duration capped at {self.SAFETY_LIMITS['max_duration']}s (safety limit)")
+            self.add_warning(f"Duration limited to {self.SAFETY_LIMITS['max_duration']}s (safety limit)")
             duration = self.SAFETY_LIMITS['max_duration']
+        
+        if duration < 5:
+            self.add_warning("Duration too short, setting to 5 seconds minimum")
+            duration = 5
         
         threads = threads or 10
         if threads > self.SAFETY_LIMITS['max_threads']:
-            self.add_warning(f"Threads capped at {self.SAFETY_LIMITS['max_threads']} (safety limit)")
+            self.add_warning(f"Threads limited to {self.SAFETY_LIMITS['max_threads']} (safety limit)")
             threads = self.SAFETY_LIMITS['max_threads']
         
-        # Add authorization requirement
-        auth = kwargs.get('authorized', False)
-        if not auth:
-            self.add_error("Requires --authorized flag. You must have explicit written authorization.")
+        if threads < 1:
+            self.add_error("Threads must be at least 1")
             return False
         
         return True
@@ -235,13 +320,38 @@ class DDoSSimulator(BaseTool):
         
         return analyses.get(attack_type, {})
     
-    def run(self, target: str = None, type: str = None, duration: int = 30, threads: int = 5, **kwargs) -> Dict[str, Any]:
-        """Run DDoS simulation"""
-        if not self.validate_input(target, type, duration, **kwargs):
+    def run(self, target: str = None, type: str = None, duration: Optional[int] = None, 
+            threads: Optional[int] = None, preset: Optional[str] = None, **kwargs) -> Dict[str, Any]:
+        """
+        Run DDoS simulation with safety limits
+        
+        Args:
+            target: Target domain/IP
+            type: Attack type (http, dns, syn, udp, slowloris)
+            duration: Duration in seconds
+            threads: Number of threads
+            preset: Preset configuration (light, medium, heavy)
+            **kwargs: Additional arguments including 'authorized'
+        
+        Returns:
+            Dictionary with simulation results
+        """
+        if not self.validate_input(target, type, duration, threads, preset, **kwargs):
             return None
         
+        # Apply preset if specified
+        if preset:
+            preset_lower = preset.lower()
+            if preset_lower in self.PRESET_CONFIGS:
+                preset_config = self.PRESET_CONFIGS[preset_lower]
+                duration = preset_config['duration']
+                threads = preset_config['threads']
+        
+        duration = duration or 30
+        threads = threads or 5
+        
         self.clear_results()
-        logger.info(f"Starting DDoS simulation: {type} against {target}")
+        logger.info(f"Starting DDoS simulation: {type} against {target} for {duration}s with {threads} threads")
         
         result = {
             'tool': 'DDoS Simulator',

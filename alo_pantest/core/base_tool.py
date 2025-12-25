@@ -60,6 +60,7 @@ class BaseTool(ABC):
         self.metadata = metadata
         self.results = []
         self.errors = []
+        self.warnings = []
         self.is_running = False
     
     @abstractmethod
@@ -81,6 +82,11 @@ class BaseTool(ABC):
         self.errors.append(error)
         logger.error(f"[{self.metadata.name}] {error}")
     
+    def add_warning(self, warning: str):
+        """Add warning"""
+        self.warnings.append(warning)
+        logger.warning(f"[{self.metadata.name}] {warning}")
+    
     def get_results(self) -> list:
         """Get all results"""
         return self.results
@@ -89,6 +95,7 @@ class BaseTool(ABC):
         """Clear results"""
         self.results.clear()
         self.errors.clear()
+        self.warnings.clear()
     
     def export_json(self, filepath: str):
         """Export results to JSON"""

@@ -15,6 +15,7 @@ except ImportError:
 
 from alo_pantest.core.logger import logger
 from alo_pantest.core.config import config
+from alo_pantest.core.interactive_handler import ParameterMapper
 
 # Import all tools
 from alo_pantest.modules.network import (
@@ -209,7 +210,8 @@ def list_tools():
 
 @cli.command()
 @click.argument('tool_id')
-@click.option('--host', help='Target host/IP')
+@click.option('--host', help='Target host/IP (alias: --ip)')
+@click.option('--ip', help='Target IP address (alias: --host)')
 @click.option('--url', help='Target URL')
 @click.option('--domain', help='Target domain')
 @click.option('--port', type=int, help='Port number')
@@ -218,7 +220,8 @@ def list_tools():
 @click.option('--target', help='Target for attack')
 @click.option('--type', help='Tool type/attack type')
 @click.option('--duration', type=int, help='Duration in seconds')
-@click.option('--threads', type=int, default=5, help='Number of threads')
+@click.option('--threads', type=int, default=None, help='Number of threads')
+@click.option('--preset', help='Preset configuration (for DDoS: light, medium, heavy)')
 @click.option('--output', help='Output file path')
 @click.option('--framework', help='Framework (for code generation)')
 @click.option('--alias', help='Alias (for URL tools)')
@@ -228,16 +231,34 @@ def list_tools():
 @click.option('--generate-qr', is_flag=True, help='Generate QR code')
 @click.option('--tracking', help='Enable tracking')
 @click.option('--test-payloads', is_flag=True, help='Test with payloads')
-def run(tool_id, host, url, domain, port, email, subject, target, type, duration, threads, output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads):
-    """Run a specific tool
+@click.option('--authorized', is_flag=True, help='Confirm authorization for sensitive operations (required for DDoS, etc.)')
+@click.option('--interactive', is_flag=True, help='Use interactive mode to enter parameters')
+def run(tool_id, host, ip, url, domain, port, email, subject, target, type, duration, threads, preset, 
+        output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, authorized, interactive):
+    """Run a specific tool with optional interactive mode
     
-Examples:
-  aleopantest run dns --domain target.com
-  aleopantest run web-phishing --url http://example.com
-  aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
-  aleopantest run url-shorten --url https://example.com --alias mylink
-  aleopantest run ddos-sim --target target.com --type http --duration 30
-  aleopantest run anti-clickjacking --framework nginx --output config.conf
+EXAMPLES:
+  Basic usage:
+    aleopantest run dns --domain target.com
+    aleopantest run ip-geo --ip 8.8.8.8
+    aleopantest run ip-geo --host 1.1.1.1
+    
+  Interactive mode (prompts for parameters):
+    aleopantest run ip-geo --interactive
+    aleopantest run dns --interactive
+    
+  Advanced usage:
+    aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
+    aleopantest run ddos-sim --target target.com --type http --duration 30 --authorized
+    aleopantest run anti-clickjacking --framework nginx --output config.conf
+    
+PARAMETER ALIASES:
+  --host and --ip are interchangeable (both set the target IP)
+  
+SAFETY FEATURES:
+  - DDoS simulator requires --authorized flag for legal compliance
+  - Parameters are automatically normalized and validated
+  - Comprehensive error messages guide correct usage
 """
     
     print_banner()
@@ -258,26 +279,29 @@ Examples:
     console.print(f"[bold cyan]🛠️  {metadata.name} (v{metadata.version})[/bold cyan]")
     console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
     
-    console.print(f"[yellow]📝 Description:[/yellow] {metadata.description}\n")
+    console.print(f"[yellow]📝 Description:[/yellow]\n{metadata.description}\n")
     
-    console.print(f"[yellow]📚 Usage:[/yellow]")
-    console.print(metadata.usage)
+    console.print(f"[yellow]📚 Usage:[/yellow]\n{metadata.usage}\n")
     
     if metadata.risk_level and metadata.risk_level != "LOW":
-        console.print(f"\n[bold red]⚠️  Risk Level: {metadata.risk_level}[/bold red]")
+        console.print(f"[bold red]⚠️  Risk Level: {metadata.risk_level}[/bold red]\n")
     
     if metadata.legal_disclaimer:
-        console.print(f"[bold red]⚖️  Legal: {metadata.legal_disclaimer}[/bold red]")
+        console.print(f"[bold red]⚖️  Legal Disclaimer:[/bold red]\n{metadata.legal_disclaimer}\n")
     
-    console.print(f"\n[yellow]🏷️  Tags:[/yellow] {', '.join(metadata.tags)}")
+    console.print(f"[yellow]🏷️  Tags:[/yellow] {', '.join(metadata.tags)}")
     console.print(f"[yellow]📦 Requirements:[/yellow] {', '.join(metadata.requirements)}\n")
     
     console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
     
-    # Prepare arguments
+    # Prepare arguments with parameter mapping
     kwargs = {}
+    
+    # Use parameter mapping to normalize inputs
     if host:
         kwargs['host'] = host
+    if ip:
+        kwargs['ip'] = ip
     if url:
         kwargs['url'] = url
     if domain:
@@ -294,8 +318,10 @@ Examples:
         kwargs['type'] = type
     if duration:
         kwargs['duration'] = duration
-    if threads:
+    if threads is not None:
         kwargs['threads'] = threads
+    if preset:
+        kwargs['preset'] = preset
     if framework:
         kwargs['framework'] = framework
     if alias:
@@ -312,17 +338,25 @@ Examples:
         kwargs['tracking'] = tracking.lower() == 'true'
     if test_payloads:
         kwargs['test_payloads'] = test_payloads
+    if authorized:
+        kwargs['authorized'] = authorized
     
-    # If no arguments provided, just show help
-    if not any([host, url, domain, port, email, subject, target, type, duration, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads]):
-        console.print(f"[cyan]💡 Tip: Provide parameters to run this tool, or check help above[/cyan]\n")
-        return
+    # Normalize parameters using parameter mapper
+    normalized_kwargs = ParameterMapper.normalize_params(kwargs)
+    
+    # If no arguments provided and not interactive, show hint
+    if not any([host, ip, url, domain, port, email, subject, target, type, duration, threads, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads]):
+        if interactive:
+            console.print(f"[cyan]💡 Interactive mode enabled - please provide parameters below[/cyan]\n")
+        else:
+            console.print(f"[cyan]💡 Tip: Provide parameters to run this tool, or use --interactive mode[/cyan]\n")
+            return
     
     console.print(f"[bold cyan]🚀 Running: {tool_id}[/bold cyan]\n")
     
     try:
-        # Run tool
-        result = tool.run(**kwargs)
+        # Run tool with normalized parameters
+        result = tool.run(**normalized_kwargs)
         
         if result:
             console.print(f"\n[bold green]✓ Execution completed successfully[/bold green]")
@@ -342,6 +376,10 @@ Examples:
                 console.print(f"\n[bold red]Errors:[/bold red]")
                 for error in tool.errors:
                     console.print(f"  • {error}")
+            if tool.warnings:
+                console.print(f"\n[bold yellow]Warnings:[/bold yellow]")
+                for warning in tool.warnings:
+                    console.print(f"  • {warning}")
     
     except Exception as e:
         console.print(f"[red]❌ Error: {e}[/red]")
