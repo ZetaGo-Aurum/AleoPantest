@@ -12,14 +12,15 @@
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
-## 📋 Quick Links
+## 📋 Navigation
 
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [New Features in v2.0](#new-features-in-v20)
-- [Available Tools](#available-tools)
+- [Installation Guide](INSTALL_GUIDE.md)
+- [Quick Start Guide](QUICKSTART.md)
+- [Tools Documentation](docs/TOOLS.md)
+- [Changelog](CHANGELOG.md)
+- [Feature Checklist](FEATURE_CHECKLIST.md)
+- [Installation Instructions](#installation)
 - [Usage Examples](#usage-examples)
-- [Command Reference](#command-reference)
 
 ## 🚀 Installation
 

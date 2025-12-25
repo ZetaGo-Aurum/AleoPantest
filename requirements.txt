@@ -19,7 +19,6 @@ prettytable==3.10.0
 
 # Network Tools
 scapy==2.5.0
-nmap==0.0.1
 python-nmap==0.7.1
 paramiko==3.4.0
 pycryptodome==3.19.0
