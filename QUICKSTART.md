@@ -4,7 +4,7 @@
 
 ### 1. Install Package
 ```bash
-cd AloPantest
+cd AleoPantest
 pip install -e .
 pip install -r requirements.txt
 ```
