@@ -232,9 +232,15 @@ def list_tools():
 @click.option('--tracking', help='Enable tracking')
 @click.option('--test-payloads', is_flag=True, help='Test with payloads')
 @click.option('--authorized', is_flag=True, help='Confirm authorization for sensitive operations (required for DDoS, etc.)')
+@click.option('--query', help='Search query (for dorking tools)')
+@click.option('--engine', help='Search engine (for dorking tools: google, duckduckgo, github, shodan)')
+@click.option('--template', help='Dorking template (exposed_configs, admin_panels, backup_files, source_code, user_data)')
+@click.option('--text', help='Text to hash or process (alias: --input)')
+@click.option('--file-path', help='File path to hash or process')
+@click.option('--algorithm', help='Hash algorithm (md5, sha1, sha256, sha512)')
 @click.option('--interactive', is_flag=True, help='Use interactive mode to enter parameters')
 def run(tool_id, host, ip, url, domain, port, email, subject, target, type, duration, threads, preset, 
-        output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, authorized, interactive):
+        output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, authorized, query, engine, template, text, file_path, algorithm, interactive):
     """Run a specific tool with optional interactive mode
     
 EXAMPLES:
@@ -340,12 +346,24 @@ SAFETY FEATURES:
         kwargs['test_payloads'] = test_payloads
     if authorized:
         kwargs['authorized'] = authorized
+    if query:
+        kwargs['query'] = query
+    if engine:
+        kwargs['engine'] = engine
+    if template:
+        kwargs['template'] = template
+    if text:
+        kwargs['text'] = text
+    if file_path:
+        kwargs['file_path'] = file_path
+    if algorithm:
+        kwargs['algorithm'] = algorithm
     
     # Normalize parameters using parameter mapper
     normalized_kwargs = ParameterMapper.normalize_params(kwargs)
     
     # If no arguments provided and not interactive, show hint
-    if not any([host, ip, url, domain, port, email, subject, target, type, duration, threads, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads]):
+    if not any([host, ip, url, domain, port, email, subject, target, type, duration, threads, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, query, engine, template, text, file_path, algorithm]):
         if interactive:
             console.print(f"[cyan]💡 Interactive mode enabled - please provide parameters below[/cyan]\n")
         else:

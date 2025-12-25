@@ -31,6 +31,11 @@ class ParameterMapper:
         'duration': ['timeout', 'time_limit'],
         'threads': ['thread_count', 'workers', 'connections'],
         'type': ['attack_type', 'method', 'mode'],
+        # Hash tool aliases
+        'text': ['input', 'data', 'hash_input'],
+        'algorithm': ['hash_type', 'method'],
+        # Method parameter
+        'method': ['attack_method', 'type', 'algorithm'],
     }
     
     @staticmethod
