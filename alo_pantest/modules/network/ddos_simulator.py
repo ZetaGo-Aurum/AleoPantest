@@ -11,18 +11,28 @@ from alo_pantest.core.logger import logger
 
 
 class DDoSSimulator(BaseTool):
-    """DDoS Simulator - Educational tool for simulating DDoS attacks and analyzing impact"""
+    """DDoS Attack Tool - Real attacks with safety limits (Educational & Authorized Testing)"""
+    
+    # Safety limits to prevent unintended damage
+    SAFETY_LIMITS = {
+        'max_duration': 120,  # Max 2 minutes per attack
+        'max_threads': 50,    # Max 50 concurrent connections
+        'max_rate': 10000,    # Max 10k requests
+        'rate_limit_threshold': 1000  # Pause if > 1k req/sec
+    }
     
     def __init__(self):
         metadata = ToolMetadata(
-            name="DDoS Simulator",
+            name="DDoS Attack Tool",
             category=ToolCategory.NETWORK,
             version="2.0.0",
             author="AloPantest Team",
-            description="Simulates DDoS attacks for educational purposes and authorized testing",
-            usage="aleopantest run ddos-sim --target example.com --type http --duration 30",
-            requirements=['requests'],
-            tags=['ddos', 'attack', 'network', 'testing']
+            description="Real DDoS attack tool with safety limits for authorized penetration testing",
+            usage="aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 10",
+            requirements=['requests', 'scapy'],
+            tags=['ddos', 'attack', 'network', 'penetration-test'],
+            risk_level="CRITICAL",
+            legal_disclaimer="ILLEGAL without explicit written authorization. Federal penalties apply."
         )
         super().__init__(metadata)
         self.attack_running = False
@@ -31,11 +41,12 @@ class DDoSSimulator(BaseTool):
             'successful_requests': 0,
             'failed_requests': 0,
             'start_time': None,
-            'end_time': None
+            'end_time': None,
+            'rate': 0
         }
     
-    def validate_input(self, target: str = None, type: str = None, duration: int = None, **kwargs) -> bool:
-        """Validate input parameters"""
+    def validate_input(self, target: str = None, type: str = None, duration: int = None, threads: int = None, **kwargs) -> bool:
+        """Validate input parameters with safety limits"""
         if not target:
             self.add_error("Target is required")
             return False
@@ -45,14 +56,24 @@ class DDoSSimulator(BaseTool):
             return False
         
         if type not in ['http', 'syn', 'udp', 'dns', 'slowloris']:
-            self.add_error(f"Invalid attack type: {type}. Must be one of: http, syn, udp, dns, slowloris")
+            self.add_error(f"Invalid attack type: {type}")
             return False
         
-        if not duration:
-            duration = 30
+        # Safety checks
+        duration = duration or 30
+        if duration > self.SAFETY_LIMITS['max_duration']:
+            self.add_warning(f"Duration capped at {self.SAFETY_LIMITS['max_duration']}s (safety limit)")
+            duration = self.SAFETY_LIMITS['max_duration']
         
-        if duration < 0:
-            self.add_error("Duration must be positive")
+        threads = threads or 10
+        if threads > self.SAFETY_LIMITS['max_threads']:
+            self.add_warning(f"Threads capped at {self.SAFETY_LIMITS['max_threads']} (safety limit)")
+            threads = self.SAFETY_LIMITS['max_threads']
+        
+        # Add authorization requirement
+        auth = kwargs.get('authorized', False)
+        if not auth:
+            self.add_error("Requires --authorized flag. You must have explicit written authorization.")
             return False
         
         return True

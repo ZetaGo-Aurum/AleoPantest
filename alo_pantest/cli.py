@@ -34,7 +34,7 @@ from alo_pantest.modules.utilities import (
     URLEncoder, ReverseShellGenerator
 )
 from alo_pantest.modules.phishing import (
-    WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation
+    WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation, NgrokPhishing
 )
 from alo_pantest.modules.clickjacking import (
     ClickjackingChecker, ClickjackingMaker, AntiClickjackingGenerator
@@ -42,6 +42,7 @@ from alo_pantest.modules.clickjacking import (
 from alo_pantest.modules.security import (
     AntiDDoS, WAFDetector
 )
+from alo_pantest.modules.web import AdvancedDorking
 
 console = Console()
 
@@ -65,12 +66,14 @@ TOOLS_REGISTRY = {
     'crawler': WebCrawler,
     'vuln-scan': VulnerabilityScanner,
     'subdomain': SubdomainFinder,
+    'advanced-dorking': AdvancedDorking,
     
     # Phishing Tools
     'web-phishing': WebPhishing,
     'email-phishing': EmailPhishing,
     'phishing-locator': PhishingLocator,
     'phishing-impersonation': PhishingImpersonation,
+    'ngrok-phishing': NgrokPhishing,
     
     # Clickjacking Tools
     'clickjacking-check': ClickjackingChecker,
