@@ -31,7 +31,7 @@ from alo_pantest.modules.osint import (
 )
 from alo_pantest.modules.utilities import (
     PasswordGenerator, HashTools, ProxyManager,
-    URLEncoder, ReverseShellGenerator
+    URLEncoder, ReverseShellGenerator, URLMasking, URLShortener
 )
 from alo_pantest.modules.phishing import (
     WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation, NgrokPhishing
@@ -97,17 +97,19 @@ TOOLS_REGISTRY = {
     'proxy': ProxyManager,
     'encode': URLEncoder,
     'revshell': ReverseShellGenerator,
+    'url-mask': URLMasking,
+    'url-shorten': URLShortener,
 }
 
 # Organize tools by category
 TOOLS_BY_CATEGORY = {
     'Network': ['port-scan', 'ping', 'dns', 'traceroute', 'whois', 'ssl-check', 'ip-scan', 'sniffer', 'ddos-sim'],
-    'Web': ['sql-inject', 'xss-detect', 'csrf-detect', 'crawler', 'vuln-scan', 'subdomain'],
-    'Phishing': ['web-phishing', 'email-phishing', 'phishing-locator', 'phishing-impersonation'],
+    'Web': ['sql-inject', 'xss-detect', 'csrf-detect', 'crawler', 'vuln-scan', 'subdomain', 'advanced-dorking'],
+    'Phishing': ['web-phishing', 'email-phishing', 'phishing-locator', 'phishing-impersonation', 'ngrok-phishing'],
     'Clickjacking': ['clickjacking-check', 'clickjacking-make', 'anti-clickjacking'],
     'Security': ['anti-ddos', 'waf-detect'],
     'OSINT': ['email-find', 'domain-info', 'ip-geo', 'metadata', 'dorking'],
-    'Utilities': ['passgen', 'hash', 'proxy', 'encode', 'revshell'],
+    'Utilities': ['passgen', 'hash', 'proxy', 'encode', 'revshell', 'url-mask', 'url-shorten'],
 }
 
 

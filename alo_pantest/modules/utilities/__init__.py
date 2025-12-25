@@ -4,6 +4,8 @@ from .hash_tools import HashTools
 from .proxy_manager import ProxyManager
 from .url_encoder import URLEncoder
 from .reverse_shell_generator import ReverseShellGenerator
+from .url_masking import URLMasking
+from .url_shortener import URLShortener
 
 __all__ = [
     'PasswordGenerator',
@@ -11,4 +13,6 @@ __all__ = [
     'ProxyManager',
     'URLEncoder',
     'ReverseShellGenerator',
+    'URLMasking',
+    'URLShortener',
 ]
