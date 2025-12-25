@@ -54,7 +54,7 @@ class NgrokPhishing(BaseTool):
         try:
             from pyngrok import ngrok
             ngrok.set_auth_token(self.ngrok_token)
-            self.add_success("Ngrok authenticated successfully")
+            self.add_result("Ngrok authenticated successfully")
             return True
         except Exception as e:
             self.add_error(f"Failed to setup ngrok: {str(e)}")
@@ -170,12 +170,18 @@ class NgrokPhishing(BaseTool):
     def execute(self, **kwargs) -> Dict[str, Any]:
         """Execute phishing server deployment"""
         if not self.validate_input(**kwargs):
-            return self.format_output()
+            return {
+                'success': False,
+                'errors': self.errors
+            }
         
         try:
             # Setup ngrok
             if not self.setup_ngrok():
-                return self.format_output()
+                return {
+                    'success': False,
+                    'errors': self.errors
+                }
             
             # Get phishing type
             phishing_type = kwargs.get('phishing_type', 'login')
@@ -183,16 +189,16 @@ class NgrokPhishing(BaseTool):
             # Create appropriate page
             if phishing_type == 'login':
                 html_content = self.create_login_page()
-                self.add_success("Created login phishing page template")
+                self.add_result(f"Created login phishing page template")
             elif phishing_type == 'camera':
                 html_content = self.create_camera_page()
-                self.add_success("Created camera permission phishing page")
+                self.add_result(f"Created camera permission phishing page")
             elif phishing_type == 'location':
                 html_content = self.create_location_page()
-                self.add_success("Created location permission phishing page")
+                self.add_result(f"Created location permission phishing page")
             else:
                 html_content = kwargs.get('custom_html', '<h1>Custom Phishing Page</h1>')
-                self.add_success("Using custom phishing page")
+                self.add_result(f"Using custom phishing page")
             
             # Save HTML to file
             output_dir = Path('./output/phishing')
@@ -200,33 +206,31 @@ class NgrokPhishing(BaseTool):
             html_file = output_dir / f'phishing_{phishing_type}_{int(time.time())}.html'
             html_file.write_text(html_content)
             
-            self.add_output("Phishing Page Info", {
+            self.add_result({
                 "Type": phishing_type,
                 "Saved to": str(html_file),
                 "Ngrok Token": "***" + self.ngrok_token[-4:] if self.ngrok_token else "N/A",
                 "Status": "Page created - Ready for ngrok deployment",
-                "Warning": "⚠️ Ensure you have proper authorization before deployment",
-                "Educational Use": "This tool is for authorized security training only"
+                "Warning": "⚠️ Ensure you have proper authorization before deployment"
             })
             
-            self.add_recommendation(
-                "Deployment Instructions",
-                [
-                    "1. Install Flask: pip install flask",
-                    "2. Create Flask app with the HTML template",
-                    "3. Run: ngrok http 5000",
-                    "4. Share ngrok URL only for authorized testing",
-                    "5. Monitor logs for credential captures",
-                    "6. Immediately stop server after testing"
-                ]
-            )
-            
-            self.success = True
+            return {
+                'success': True,
+                'results': self.results,
+                'html_file': str(html_file),
+                'type': phishing_type
+            }
             
         except Exception as e:
             self.add_error(f"Execution failed: {str(e)}")
-        
-        return self.format_output()
+            return {
+                'success': False,
+                'errors': self.errors
+            }
+    
+    def run(self, **kwargs):
+        """Run phishing server deployment - alias for execute"""
+        return self.execute(**kwargs)
 
 
 class NgrokFlaskPhishing:

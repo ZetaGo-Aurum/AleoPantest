@@ -229,7 +229,10 @@ class AdvancedDorking(BaseTool):
     def execute(self, **kwargs) -> Dict[str, Any]:
         """Execute dorking search"""
         if not self.validate_input(**kwargs):
-            return self.format_output()
+            return {
+                'success': False,
+                'errors': self.errors
+            }
         
         try:
             engine = kwargs.get('engine', 'google')
@@ -244,17 +247,17 @@ class AdvancedDorking(BaseTool):
             # Build queries
             if template and domain:
                 queries_to_run = self.build_dork_queries(domain, template)
-                self.add_success(f"Built {len(queries_to_run)} dork queries from template")
+                self.add_result(f"Built {len(queries_to_run)} dork queries from template")
             elif custom_query:
                 queries_to_run = [custom_query]
-                self.add_success(f"Using custom query")
+                self.add_result(f"Using custom query")
             elif domain:
                 # Default queries
                 queries_to_run = [f"site:{domain}"]
             
             # Execute searches
             for query in queries_to_run:
-                self.add_output("Searching", {"Query": query, "Engine": engine})
+                self.add_result(f"Searching with {engine}: {query}")
                 
                 if engine == 'google':
                     results = self.search_google(query, num_results)
@@ -286,7 +289,7 @@ class AdvancedDorking(BaseTool):
                     'results': all_results
                 }, f, indent=2)
             
-            self.add_output("Search Results", {
+            self.add_result({
                 "Engine": engine,
                 "Domain": domain,
                 "Template": template,
@@ -295,33 +298,20 @@ class AdvancedDorking(BaseTool):
                 "Sample Results": all_results[:3] if all_results else []
             })
             
-            self.add_recommendation(
-                "Available Engines",
-                [
-                    "• google - Google search with site: operator",
-                    "• duckduckgo - Privacy-focused search",
-                    "• github - Source code and repo discovery",
-                    "• shodan - IoT and server discovery (requires API key)",
-                    "• bing - Microsoft search engine"
-                ]
-            )
-            
-            self.add_recommendation(
-                "Available Templates",
-                [
-                    "• exposed_configs - Find configuration files",
-                    "• admin_panels - Discover admin interfaces",
-                    "• backup_files - Locate backup files",
-                    "• source_code - Find source code exposure",
-                    "• user_data - Discover user data leaks",
-                    "• ssl_certs - Find SSL certificates",
-                    "• logs - Discover log files"
-                ]
-            )
-            
-            self.success = True
+            return {
+                'success': True,
+                'results': self.results,
+                'total_results': len(all_results),
+                'output_file': str(output_file)
+            }
             
         except Exception as e:
             self.add_error(f"Execution failed: {str(e)}")
-        
-        return self.format_output()
+            return {
+                'success': False,
+                'errors': self.errors
+            }
+    
+    def run(self, **kwargs):
+        """Run dorking search - alias for execute"""
+        return self.execute(**kwargs)

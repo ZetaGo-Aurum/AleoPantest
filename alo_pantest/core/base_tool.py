@@ -35,6 +35,8 @@ class ToolMetadata:
     usage: str
     requirements: list
     tags: list
+    risk_level: str = "LOW"  # LOW, MEDIUM, HIGH, CRITICAL
+    legal_disclaimer: str = ""
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -46,6 +48,8 @@ class ToolMetadata:
             'usage': self.usage,
             'requirements': self.requirements,
             'tags': self.tags,
+            'risk_level': self.risk_level,
+            'legal_disclaimer': self.legal_disclaimer,
         }
 
 
