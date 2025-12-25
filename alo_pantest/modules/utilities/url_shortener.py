@@ -25,7 +25,75 @@ class URLShortener(BaseTool):
             version="2.0.0",
             author="AloPantest Team",
             description="Create short URLs with custom aliases for tracking and redirection",
-            usage="aleopantest run url-shorten --url https://example.com --alias mylink",
+            usage="""
+URL SHORTENER - Create short URLs with custom aliases and click tracking
+
+USAGE:
+  aleopantest run url-shorten --url <target_url> [--alias <name>] [--tracking] [--base-url <base>]
+
+PARAMETERS:
+  --url TEXT              Target URL to shorten (required)
+                         Example: https://example.com/very/long/path
+  --alias TEXT            Custom alias for short URL (optional)
+                         Example: mylink, secret-link, campaign-2024
+                         If not provided, random 6-char code is generated
+  --tracking TEXT         Enable click tracking (default: true)
+                         Options: true, false
+  --base-url TEXT        Base URL for shortened links (default: https://short.test)
+                         Example: https://myshort.com
+
+OUTPUT:
+  - Database: ./output/url_shortener/urls.json
+  - Tracking HTML: ./output/url_shortener/track_[alias].html
+  - Database stores: URL, alias, created date, click count, referrer, IP, timestamp
+
+FEATURES:
+  - Generate short 6-character codes or use custom aliases
+  - Click tracking with referrer, IP address, and timestamp
+  - JSON database persistence for analytics
+  - Supports custom base URL for branded short links
+  - Real-time click statistics and visitor information
+
+EXAMPLES:
+  # Basic shortening with auto-generated code
+  aleopantest run url-shorten --url https://example.com
+
+  # Custom alias with tracking
+  aleopantest run url-shorten --url https://phishing-site.com --alias secret-link --tracking true
+
+  # Custom alias without tracking
+  aleopantest run url-shorten --url https://example.com/campaign --alias campaign-2024 --tracking false
+
+  # Custom base URL for branded links
+  aleopantest run url-shorten --url https://example.com --alias mylink --base-url https://go.mycompany.com
+
+DATABASE SCHEMA (./output/url_shortener/urls.json):
+  {
+    "mylink": {
+      "original_url": "https://example.com",
+      "short_url": "https://short.test/mylink",
+      "alias": "mylink",
+      "created": "2024-12-25T10:30:00.000Z",
+      "click_count": 5,
+      "clicks": [
+        {
+          "timestamp": "2024-12-25T10:30:15.000Z",
+          "referrer": "https://google.com",
+          "ip": "192.168.1.1"
+        }
+      ],
+      "tracking_enabled": true
+    }
+  }
+
+ANALYTICS:
+  - View clicks.json to see click statistics
+  - Each click records: timestamp, referrer URL, visitor IP
+  - Use for campaign tracking and phishing simulation metrics
+  - Monitor visitor behavior and engagement
+
+RISK LEVEL: MEDIUM - Can be used for legitimate or malicious purposes
+            """,
             requirements=['requests', 'validators'],
             tags=['url-shortening', 'tracking', 'phishing', 'education']
         )

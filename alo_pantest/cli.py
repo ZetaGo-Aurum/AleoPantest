@@ -221,13 +221,21 @@ def list_tools():
 @click.option('--threads', type=int, default=5, help='Number of threads')
 @click.option('--output', help='Output file path')
 @click.option('--framework', help='Framework (for code generation)')
+@click.option('--alias', help='Alias (for URL tools)')
+@click.option('--fake-domain', help='Fake domain (for URL masking)')
+@click.option('--method', help='Method type')
+@click.option('--base-url', help='Base URL (for URL shortener)')
+@click.option('--generate-qr', is_flag=True, help='Generate QR code')
+@click.option('--tracking', help='Enable tracking')
 @click.option('--test-payloads', is_flag=True, help='Test with payloads')
-def run(tool_id, host, url, domain, port, email, subject, target, type, duration, threads, output, framework, test_payloads):
+def run(tool_id, host, url, domain, port, email, subject, target, type, duration, threads, output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads):
     """Run a specific tool
     
 Examples:
   aleopantest run dns --domain target.com
   aleopantest run web-phishing --url http://example.com
+  aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
+  aleopantest run url-shorten --url https://example.com --alias mylink
   aleopantest run ddos-sim --target target.com --type http --duration 30
   aleopantest run anti-clickjacking --framework nginx --output config.conf
 """
@@ -241,39 +249,78 @@ Examples:
             console.print(f"  [cyan]{category}:[/cyan] {', '.join(tools)}")
         return
     
+    # Display tool metadata/help first
+    tool_class = TOOLS_REGISTRY[tool_id]
+    tool = tool_class()
+    metadata = tool.metadata
+    
+    console.print(f"\n[bold cyan]{'='*70}[/bold cyan]")
+    console.print(f"[bold cyan]🛠️  {metadata.name} (v{metadata.version})[/bold cyan]")
+    console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
+    
+    console.print(f"[yellow]📝 Description:[/yellow] {metadata.description}\n")
+    
+    console.print(f"[yellow]📚 Usage:[/yellow]")
+    console.print(metadata.usage)
+    
+    if metadata.risk_level and metadata.risk_level != "LOW":
+        console.print(f"\n[bold red]⚠️  Risk Level: {metadata.risk_level}[/bold red]")
+    
+    if metadata.legal_disclaimer:
+        console.print(f"[bold red]⚖️  Legal: {metadata.legal_disclaimer}[/bold red]")
+    
+    console.print(f"\n[yellow]🏷️  Tags:[/yellow] {', '.join(metadata.tags)}")
+    console.print(f"[yellow]📦 Requirements:[/yellow] {', '.join(metadata.requirements)}\n")
+    
+    console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
+    
+    # Prepare arguments
+    kwargs = {}
+    if host:
+        kwargs['host'] = host
+    if url:
+        kwargs['url'] = url
+    if domain:
+        kwargs['domain'] = domain
+    if port:
+        kwargs['port'] = port
+    if email:
+        kwargs['email'] = email
+    if subject:
+        kwargs['subject'] = subject
+    if target:
+        kwargs['target'] = target
+    if type:
+        kwargs['type'] = type
+    if duration:
+        kwargs['duration'] = duration
+    if threads:
+        kwargs['threads'] = threads
+    if framework:
+        kwargs['framework'] = framework
+    if alias:
+        kwargs['alias'] = alias
+    if fake_domain:
+        kwargs['fake_domain'] = fake_domain
+    if method:
+        kwargs['method'] = method
+    if base_url:
+        kwargs['base_url'] = base_url
+    if generate_qr:
+        kwargs['generate_qr'] = generate_qr
+    if tracking:
+        kwargs['tracking'] = tracking.lower() == 'true'
+    if test_payloads:
+        kwargs['test_payloads'] = test_payloads
+    
+    # If no arguments provided, just show help
+    if not any([host, url, domain, port, email, subject, target, type, duration, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads]):
+        console.print(f"[cyan]💡 Tip: Provide parameters to run this tool, or check help above[/cyan]\n")
+        return
+    
     console.print(f"[bold cyan]🚀 Running: {tool_id}[/bold cyan]\n")
     
     try:
-        tool_class = TOOLS_REGISTRY[tool_id]
-        tool = tool_class()
-        
-        # Prepare arguments
-        kwargs = {}
-        if host:
-            kwargs['host'] = host
-        if url:
-            kwargs['url'] = url
-        if domain:
-            kwargs['domain'] = domain
-        if port:
-            kwargs['port'] = port
-        if email:
-            kwargs['email'] = email
-        if subject:
-            kwargs['subject'] = subject
-        if target:
-            kwargs['target'] = target
-        if type:
-            kwargs['type'] = type
-        if duration:
-            kwargs['duration'] = duration
-        if threads:
-            kwargs['threads'] = threads
-        if framework:
-            kwargs['framework'] = framework
-        if test_payloads:
-            kwargs['test_payloads'] = test_payloads
-        
         # Run tool
         result = tool.run(**kwargs)
         

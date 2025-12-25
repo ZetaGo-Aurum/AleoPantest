@@ -21,27 +21,74 @@ class URLMasking(BaseTool):
             version="2.0.0",
             author="AloPantest Team",
             description="Mask real URLs behind fake domain names for phishing and social engineering tests",
-            usage="aleopantest run url-mask --real-url https://malware.com --fake-domain google.com",
-            requirements=['requests', 'validators'],
+            usage="""
+URL MASKING - Hide real URLs behind fake domain names
+
+USAGE:
+  aleopantest run url-mask --url <real_url> --fake-domain <domain> [--method <method>] [--generate-qr]
+
+PARAMETERS:
+  --url TEXT              Real/malicious URL to hide (required)
+                         Example: https://attacker.com
+  --fake-domain TEXT      Domain to display to user (required)
+                         Example: google.com, youtube.com, facebook.com
+  --method TEXT          Masking method (default: redirect)
+                         Options: redirect, iframe, obfuscation, encoding
+  --generate-qr          Generate QR code for masked URL (optional)
+
+METHODS EXPLAINED:
+  redirect      - Auto-redirect to real URL after 1 second delay
+                 Best for quick redirects, user may notice
+  iframe        - Embed real website in iframe with fake domain shown
+                 More deceptive, real site loads inside frame
+  obfuscation   - Base64 encode + JavaScript obfuscation
+                 Hides intent, harder to detect
+  encoding      - Multi-layer encoding for masked URL
+                 Maximum obfuscation, works with short URLs
+
+EXAMPLES:
+  # Redirect google.com traffic to attacker.com
+  aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
+
+  # Iframe method - embed YouTube inside fake Facebook
+  aleopantest run url-mask --url https://youtube.com --fake-domain facebook.com --method iframe
+
+  # Obfuscated version with QR code
+  aleopantest run url-mask --url https://phishing-site.com --fake-domain twitter.com --method obfuscation --generate-qr
+
+  # Multi-layer encoding
+  aleopantest run url-mask --url https://malware.com --fake-domain github.com --method encoding
+
+OUTPUT:
+  - HTML file: ./output/url_masking/mask_[method]_[hash].html
+  - Open HTML in browser to see masked URL
+  - If --generate-qr: QR code saved as PNG
+
+RISK LEVEL: HIGH - Illegal without authorization
+            """,
+            requirements=['requests', 'validators', 'qrcode'],
             tags=['url-masking', 'phishing', 'social-engineering', 'education'],
             risk_level="HIGH",
             legal_disclaimer="EDUCATIONAL USE ONLY - Unauthorized URL masking for phishing is illegal"
         )
         super().__init__(metadata)
     
-    def validate_input(self, real_url: str = None, fake_domain: str = None, 
+    def validate_input(self, real_url: str = None, url: str = None, fake_domain: str = None, 
                       method: str = None, **kwargs) -> bool:
         """Validate input parameters"""
-        if not real_url:
-            self.add_error("real_url is required")
+        # Support both --real-url and --url parameters
+        final_url = url or real_url
+        
+        if not final_url:
+            self.add_error("--url parameter is required (e.g., https://attacker.com)")
             return False
         
         if not fake_domain:
-            self.add_error("fake_domain is required (e.g., youtube.com, facebook.com)")
+            self.add_error("--fake-domain parameter is required (e.g., youtube.com, facebook.com)")
             return False
         
         # Validate URL format
-        if not real_url.startswith(('http://', 'https://')):
+        if not final_url.startswith(('http://', 'https://')):
             self.add_error("URL must start with http:// or https://")
             return False
         
@@ -49,6 +96,9 @@ class URLMasking(BaseTool):
         if method not in ['redirect', 'iframe', 'obfuscation', 'encoding']:
             self.add_error(f"Invalid method: {method}. Must be: redirect, iframe, obfuscation, encoding")
             return False
+        
+        # Store normalized URL for execute method
+        self._normalized_url = final_url
         
         return True
     
@@ -185,7 +235,8 @@ class URLMasking(BaseTool):
             }
         
         try:
-            real_url = kwargs.get('real_url')
+            # Support both --url and --real-url
+            real_url = self._normalized_url
             fake_domain = kwargs.get('fake_domain')
             method = kwargs.get('method', 'redirect')
             
