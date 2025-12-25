@@ -58,13 +58,13 @@ python --version
 Create isolated environment:
 ```bash
 # Create virtual environment
-python -m venv alopantest_env
+python -m venv aleopantest_env
 
 # Activate it
 # Windows:
-alopantest_env\Scripts\activate
+aleopantest_env\Scripts\activate
 # Linux/Mac:
-source alopantest_env/bin/activate
+source aleopantest_env/bin/activate
 ```
 
 ### 3. Install Dependencies
@@ -128,12 +128,12 @@ pip install shodan>=1.28.0
 
 ```bash
 # Linux/Mac
-mkdir -p ~/.alopantest
-cp config/default.yml ~/.alopantest/
+mkdir -p ~/.aleopantest
+cp config/default.yml ~/.aleopantest/
 
 # Windows
-mkdir %USERPROFILE%\.alopantest
-copy config\default.yml %USERPROFILE%\.alopantest\
+mkdir %USERPROFILE%\.aleopantest
+copy config\default.yml %USERPROFILE%\.aleopantest\
 ```
 
 ### 2. Set Environment Variables
@@ -153,7 +153,7 @@ OUTPUT_DIR=./output
 
 Edit `config/default.yml`:
 ```yaml
-alopantest:
+aleopantest:
   version: 2.0.0
   log_level: INFO
   output_directory: ./output
@@ -246,10 +246,10 @@ pip install git+https://github.com/ZetaGo-Aurum/AleoPantest.git@v2.0.0
 
 ```bash
 # Download all dependencies
-pip download -d ./wheels alopantest
+pip download -d ./wheels -r requirements.txt
 
 # Install from wheels
-pip install --no-index --find-links ./wheels alopantest
+pip install --no-index --find-links ./wheels -r requirements.txt
 ```
 
 ## 🐳 Docker Installation
@@ -271,15 +271,15 @@ ENTRYPOINT ["aleopantest"]
 
 ```bash
 # Build image
-docker build -t alopantest:2.0.0 .
+docker build -t aleopantest:2.0.0 .
 
 # Run container
-docker run -it --rm alopantest:2.0.0 --help
+docker run -it --rm aleopantest:2.0.0 --help
 
 # Run with volume mount
 docker run -it --rm \
   -v $(pwd)/output:/app/output \
-  alopantest:2.0.0 list-tools
+  aleopantest:2.0.0 list-tools
 ```
 
 ## 🔄 Updating AloPantest
