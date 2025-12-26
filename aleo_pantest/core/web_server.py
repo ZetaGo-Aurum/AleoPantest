@@ -50,36 +50,63 @@ class ToolRunRequest(BaseModel):
     params: Dict[str, Any] = {}
 
 @app.get("/")
+@app.get("/index.html")
 async def read_index():
-    return FileResponse(os.path.join(static_path, "index.html"))
+    path = os.path.join(static_path, "index.html")
+    if os.path.exists(path):
+        return FileResponse(path)
+    return JSONResponse(status_code=404, content={"message": "index.html not found in web_assets"})
+
+@app.get("/favicon.ico")
+async def favicon():
+    icon_path = os.path.join(static_path, "favicon.ico")
+    if os.path.exists(icon_path):
+        return FileResponse(icon_path)
+    # Return empty 204 to avoid 404 in logs
+    return Response(status_code=204)
 
 @app.get("/api/admin")
 async def get_admin():
-    return BaseTool.get_admin_info()
+    try:
+        return BaseTool.get_admin_info()
+    except Exception as e:
+        return {"username": "Hunter", "hostname": "localhost", "status": "online"}
 
 @app.get("/api/tools")
 async def get_tools():
     # Return full metadata for all tools
     result = {}
-    for cat, tools in TOOLS_BY_CATEGORY.items():
-        if not cat: continue
-        result[cat] = []
-        for tool_id in tools:
-            if not tool_id: continue
-            if tool_id in TOOLS_REGISTRY:
-                try:
-                    tool_class = TOOLS_REGISTRY[tool_id]
-                    if not tool_class: continue
-                    instance = tool_class()
-                    if not instance or not hasattr(instance, 'metadata') or not instance.metadata:
-                        continue
-                    tool_data = instance.metadata.to_dict()
-                    tool_data['id'] = tool_id
-                    result[cat].append(tool_data)
-                except Exception as e:
-                    logger.error(f"Error loading tool {tool_id}: {str(e)}", exc_info=True)
-                    # Don't add to result if failed to load
-    return result
+    try:
+        for cat, tools in TOOLS_BY_CATEGORY.items():
+            if not cat: continue
+            result[cat] = []
+            for tool_id in tools:
+                if not tool_id: continue
+                if tool_id in TOOLS_REGISTRY:
+                    try:
+                        tool_class = TOOLS_REGISTRY[tool_id]
+                        if not tool_class: continue
+                        instance = tool_class()
+                        if not instance or not hasattr(instance, 'metadata') or not instance.metadata:
+                            continue
+                        tool_data = instance.metadata.to_dict()
+                        tool_data['id'] = tool_id
+                        result[cat].append(tool_data)
+                    except Exception as e:
+                        from ..core.logger import logger
+                        logger.error(f"Error loading tool {tool_id}: {str(e)}")
+        return result
+    except Exception as e:
+        from ..core.logger import logger
+        logger.error(f"Critical error in get_tools: {str(e)}")
+        return JSONResponse(status_code=500, content={"message": "Failed to load tools", "error": str(e)})
+
+@app.exception_handler(404)
+async def custom_404_handler(request, exc):
+    return JSONResponse(
+        status_code=404,
+        content={"message": "Resource not found", "path": request.url.path}
+    )
 
 @app.post("/api/run")
 async def run_tool(request: ToolRunRequest):
