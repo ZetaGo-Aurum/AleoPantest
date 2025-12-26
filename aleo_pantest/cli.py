@@ -22,19 +22,25 @@ from aleo_pantest.core.platform import PlatformDetector
 # Import all tools
 from aleo_pantest.modules.network import (
     PortScanner, PacketSniffer, PingTool, DNSLookup,
-    TraceRoute, WhoisLookup, SSLChecker, IPScanner, DDoSSimulator
+    TraceRoute, WhoisLookup, SSLChecker, IPScanner, DDoSSimulator,
+    MACLookup, NetSpeed, SubnetCalc, ArpScanner, VLANScanner
 )
 from aleo_pantest.modules.web import (
     SQLInjector, XSSDetector, CSRFDetector, WebCrawler,
-    VulnerabilityScanner, SubdomainFinder
+    VulnerabilityScanner, SubdomainFinder, TechStack,
+    DirBrute, LinkExtractor, AdminFinder, HeadersAnalyzer, ProxyFinder,
+    APIAnalyzer
 )
 from aleo_pantest.modules.osint import (
     EmailFinder, DomainInfo, IPGeolocation,
-    MetadataExtractor, SearchEngineDorking
+    MetadataExtractor, SearchEngineDorking, UserSearch,
+    GitRecon, WhoisHistory, ShodanSearch, PhoneLookup,
+    MetadataExif, SocialAnalyzer, BreachChecker
 )
 from aleo_pantest.modules.utilities import (
     PasswordGenerator, HashTools, ProxyManager,
-    URLEncoder, ReverseShellGenerator, URLMasking, URLShortener
+    URLEncoder, ReverseShellGenerator, URLMasking, URLShortener,
+    Base64Tool, JSONFormatter, JWTDecoder, IPInfo, CronGen
 )
 from aleo_pantest.modules.phishing import (
     WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation, NgrokPhishing
@@ -43,7 +49,16 @@ from aleo_pantest.modules.clickjacking import (
     ClickjackingChecker, ClickjackingMaker, AntiClickjackingGenerator
 )
 from aleo_pantest.modules.security import (
-    AntiDDoS, WAFDetector
+    AntiDDoS, WAFDetector, VulnDB, FirewallBypass, IDSEvasionHelper
+)
+from aleo_pantest.modules.crypto import (
+    HashCracker, SteganoTool, RSAGen, VigenereCipher, HashGenerator, XORCipher
+)
+from aleo_pantest.modules.wireless import (
+    BeaconFlood, DeauthTool, WifiScanner
+)
+from aleo_pantest.modules.database import (
+    SQLBruteForcer, MongoDBAuditor
 )
 from aleo_pantest.modules.web import AdvancedDorking
 
@@ -61,6 +76,11 @@ TOOLS_REGISTRY = {
     'ip-scan': IPScanner,
     'sniffer': PacketSniffer,
     'ddos-sim': DDoSSimulator,
+    'mac-lookup': MACLookup,
+    'net-speed': NetSpeed,
+    'subnet-calc': SubnetCalc,
+    'arp-scan': ArpScanner,
+    'vlan-scan': VLANScanner,
     
     # Web Tools
     'sql-inject': SQLInjector,
@@ -70,6 +90,13 @@ TOOLS_REGISTRY = {
     'vuln-scan': VulnerabilityScanner,
     'subdomain': SubdomainFinder,
     'advanced-dorking': AdvancedDorking,
+    'tech-stack': TechStack,
+    'dir-brute': DirBrute,
+    'link-extract': LinkExtractor,
+    'admin-finder': AdminFinder,
+    'headers-analyzer': HeadersAnalyzer,
+    'proxy-finder': ProxyFinder,
+    'api-analyzer': APIAnalyzer,
     
     # Phishing Tools
     'web-phishing': WebPhishing,
@@ -86,6 +113,9 @@ TOOLS_REGISTRY = {
     # Security Tools
     'anti-ddos': AntiDDoS,
     'waf-detect': WAFDetector,
+    'vuln-db': VulnDB,
+    'firewall-bypass': FirewallBypass,
+    'ids-evasion': IDSEvasionHelper,
     
     # OSINT Tools
     'email-find': EmailFinder,
@@ -93,6 +123,14 @@ TOOLS_REGISTRY = {
     'ip-geo': IPGeolocation,
     'metadata': MetadataExtractor,
     'dorking': SearchEngineDorking,
+    'user-search': UserSearch,
+    'git-recon': GitRecon,
+    'whois-history': WhoisHistory,
+    'shodan-search': ShodanSearch,
+    'phone-lookup': PhoneLookup,
+    'metadata-exif': MetadataExif,
+    'social-analyzer': SocialAnalyzer,
+    'breach-check': BreachChecker,
     
     # Utilities
     'passgen': PasswordGenerator,
@@ -102,17 +140,42 @@ TOOLS_REGISTRY = {
     'revshell': ReverseShellGenerator,
     'url-mask': URLMasking,
     'url-shorten': URLShortener,
+    'base64': Base64Tool,
+    'json-format': JSONFormatter,
+    'jwt-decoder': JWTDecoder,
+    'ip-info': IPInfo,
+    'cron-gen': CronGen,
+
+    # Crypto Tools
+    'hash-cracker': HashCracker,
+    'stegano': SteganoTool,
+    'rsa-gen': RSAGen,
+    'vigenere': VigenereCipher,
+    'hash-gen': HashGenerator,
+    'xor-cipher': XORCipher,
+
+    # Wireless Tools
+    'beacon-flood': BeaconFlood,
+    'deauth': DeauthTool,
+    'wifi-scan': WifiScanner,
+
+    # Database Tools
+    'sql-brute': SQLBruteForcer,
+    'mongodb-audit': MongoDBAuditor,
 }
 
 # Organize tools by category
 TOOLS_BY_CATEGORY = {
-    'Network': ['port-scan', 'ping', 'dns', 'traceroute', 'whois', 'ssl-check', 'ip-scan', 'sniffer', 'ddos-sim'],
-    'Web': ['sql-inject', 'xss-detect', 'csrf-detect', 'crawler', 'vuln-scan', 'subdomain', 'advanced-dorking'],
+    'Network': ['port-scan', 'ping', 'dns', 'traceroute', 'whois', 'ssl-check', 'ip-scan', 'sniffer', 'ddos-sim', 'mac-lookup', 'net-speed', 'subnet-calc', 'arp-scan', 'vlan-scan'],
+    'Web': ['sql-inject', 'xss-detect', 'csrf-detect', 'crawler', 'vuln-scan', 'subdomain', 'advanced-dorking', 'tech-stack', 'dir-brute', 'link-extract', 'admin-finder', 'headers-analyzer', 'proxy-finder', 'api-analyzer'],
     'Phishing': ['web-phishing', 'email-phishing', 'phishing-locator', 'phishing-impersonation', 'ngrok-phishing'],
     'Clickjacking': ['clickjacking-check', 'clickjacking-make', 'anti-clickjacking'],
-    'Security': ['anti-ddos', 'waf-detect'],
-    'OSINT': ['email-find', 'domain-info', 'ip-geo', 'metadata', 'dorking'],
-    'Utilities': ['passgen', 'hash', 'proxy', 'encode', 'revshell', 'url-mask', 'url-shorten'],
+    'Security': ['anti-ddos', 'waf-detect', 'vuln-db', 'firewall-bypass', 'ids-evasion'],
+    'OSINT': ['email-find', 'domain-info', 'ip-geo', 'metadata', 'dorking', 'user-search', 'git-recon', 'whois-history', 'shodan-search', 'phone-lookup', 'metadata-exif', 'social-analyzer', 'breach-check'],
+    'Utilities': ['passgen', 'hash', 'proxy', 'encode', 'revshell', 'url-mask', 'url-shorten', 'base64', 'json-format', 'jwt-decoder', 'ip-info', 'cron-gen'],
+    'Crypto': ['hash-cracker', 'stegano', 'rsa-gen', 'vigenere', 'hash-gen', 'xor-cipher'],
+    'Wireless': ['beacon-flood', 'deauth', 'wifi-scan'],
+    'Database': ['sql-brute', 'mongodb-audit'],
 }
 
 
@@ -126,7 +189,7 @@ def print_banner():
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║       400+ Tools • Multi-Platform • Modern TUI • V3.0 PRO     ║
+║       400+ Tools • Multi-Platform • Modern TUI • V3.2 PRO     ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
     Platform: {platform_name}
@@ -157,7 +220,7 @@ def print_tools_table():
 
 @click.group()
 def cli():
-    """AleoPantest v3.0 - Comprehensive Penetration Testing Framework
+    """AleoPantest v3.1 - Comprehensive Penetration Testing Framework
     
 Usage Examples:
   aleopantest --help              Show all commands
@@ -173,7 +236,7 @@ Usage Examples:
 def info():
     """Show tool information and statistics"""
     print_banner()
-    console.print("\n[bold cyan]📊 AleoPantest v3.0 Statistics[/bold cyan]\n")
+    console.print("\n[bold cyan]📊 AleoPantest v3.1 Statistics[/bold cyan]\n")
     
     categories = {}
     for tool_id, tool_class in TOOLS_REGISTRY.items():
@@ -218,6 +281,15 @@ def tui():
     from .tui import AleoPantestTUI
     app = AleoPantestTUI()
     app.run()
+
+
+@cli.command()
+@click.option('--host', default='127.0.0.1', help='Host to bind the web server')
+@click.option('--port', default=8000, help='Port to bind the web server')
+def web(host, port):
+    """Launch the modern Web Dashboard"""
+    from .core.web_server import start_web_server
+    start_web_server(host=host, port=port)
 
 
 @cli.command()

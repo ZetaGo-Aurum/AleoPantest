@@ -1,5 +1,86 @@
 # AleoPantest Changelog
 
+## [3.3.0] - 2025-12-26
+
+### Real Implementation & Safety Update 🛡️
+
+#### Full Tool Implementation 🛠️
+- **Functionalized Wireless Tools**: Converted simulated tools to real implementations using `scapy`:
+  - `BeaconFlood`: Real WiFi beacon frame injection.
+  - `DeauthTool`: Real WiFi deauthentication attack simulation.
+  - `WifiScanner`: Real WiFi network scanning and signal analysis.
+- **Functionalized Database Tools**: Added real database connection and audit logic:
+  - `SQLBrute`: Real MySQL/PostgreSQL/MSSQL brute-force with `mysql-connector` and `psycopg2`.
+  - `MongoDBAudit`: Real MongoDB security auditing using `pymongo`.
+- **Functionalized OSINT Tools**:
+  - `SocialAnalyzer`: Real social media presence check across 20+ platforms with concurrent requests.
+  - `MetadataExif`: Real EXIF extraction from images using `Pillow`.
+  - `PhoneLookup`: Real phone number validation and carrier lookup using `phonenumbers`.
+  - `WhoisHistory`: Real WHOIS data retrieval using `python-whois`.
+  - `EmailFinder`: Real email scraping from websites and search engines using `duckduckgo-search`.
+  - `SearchEngineDorking`: Updated to v3.3.0 with DuckDuckGo and Google support.
+- **Functionalized Web Tools**:
+  - `AdminFinder`: Multi-threaded admin panel detector with 100+ common paths.
+  - `DirBrute`: Multi-threaded directory brute-forcer.
+  - `SQLInjector`: Real time-based SQL injection testing.
+  - `ProxyFinder`: Real proxy scraper and validator.
+  - `APIAnalyzer`: Real REST API security headers and endpoint analysis.
+
+#### High-Risk Safety Guards ⚠️
+- **Safety Build-in**: Implemented `check_safety` in `BaseTool` to enforce un-bypassable limits.
+- **Max Duration Limit**: High-risk tools (DDoS, WiFi Flood) are strictly limited to **1 hour (3600s)**.
+- **Audit Logging**: Comprehensive audit logging for all high-risk actions, capturing:
+  - Admin identity (Username, Hostname, OS).
+  - Tool name and execution parameters.
+  - Precise timestamp and action details.
+- **Abuse Protection**: Automated blocks for execution parameters exceeding safety thresholds.
+
+#### Web UI Enhancements ✨
+- **Toast Notifications**: Added real-time success/error/warning/info toast notifications.
+- **Admin Identification**: UI now displays "Admin: [User]@[Hostname] ([OS])" for better session awareness.
+- **Skeleton Loading**: Implemented skeleton layouts during tool category loading for smoother UX.
+- **Form Consistency**: Standardized `form_schema` across all tools for consistent web/TUI/CLI parameters.
+
+#### Core & Stability ⚙️
+- Updated all modules to **v3.3.0**.
+- Centralized admin identification in `BaseTool`.
+- Improved multi-threading stability for brute-force tools.
+- Added detailed error messages for missing dependencies (scapy, pymongo, etc.).
+
+## [3.2.0] - 2025-12-26
+
+### Major Features Added 🚀
+
+#### Dynamic Web Interface ✨
+- **Tool-Specific Forms**: Every tool now has a unique web form rendered dynamically from `form_schema`.
+- **Responsive Design**: Completely rebuilt web UI using modern CSS (Flexbox/Grid) with full mobile support.
+- **Mobile Sidebar**: Improved navigation for mobile devices with an overlay-based sidebar.
+- **Export & Download**: New API endpoints and UI buttons to download results in **UTF-8 TXT** and **Valid JSON** formats.
+
+#### Tool Functionalization 🛠️
+- **Functionalized Placeholder Tools**: Previously empty tools now have full implementation:
+  - `VulnDB`: Search public vulnerability databases with custom parameters.
+  - `ShodanSearch`: Integrated Shodan API search with API key support.
+  - `SteganoTool`: LSB and Metadata analysis for images (Pillow integration).
+  - `PhishingImpersonation`: Enhanced template generation with custom URLs.
+  - `NgrokPhishing`: Automated ngrok tunneling for educational phishing simulations.
+- **7 New Tools Integrated**:
+  - `SQLBruteForcer`, `MongoDBAuditor` (Database Security)
+  - `VigenereCipher`, `HashGenerator`, `XORCipher` (Cryptography)
+  - `VLANScanner` (Network Analysis)
+  - `APIAnalyzer` (Web Security)
+
+#### Core & Stability ⚙️
+- **Standardized BaseTool**: Improved abstraction for parameter handling and result management.
+- **Common Form Schema**: Global parameters (Timeout, Headers, Auth, Proxy) now available across all tools.
+- **Stability Fixes**: Resolved TUI crashes during category switching and fixed port 8000 conflicts.
+- **Error Handling**: Robust input validation and clearer error messages in CLI, TUI, and Web.
+
+### Core Changes 🔧
+- Semantic versioning update to **V3.2.0 PRO**.
+- Updated `TOOLS_REGISTRY` with 400+ tool mappings.
+- Refined `AutomationEngine` for better parameter auto-filling in new tools.
+
 ## [3.0.0] - 2025-12-26
 
 ### Major Features Added 🚀

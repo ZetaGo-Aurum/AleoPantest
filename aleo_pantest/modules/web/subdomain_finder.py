@@ -14,12 +14,28 @@ class SubdomainFinder(BaseTool):
         metadata = ToolMetadata(
             name="Subdomain Finder",
             category=ToolCategory.WEB,
-            version="1.0.0",
+            version="3.3.0",
             author="AleoPantest",
             description="Subdomain finder dengan brute force dan DNS enumeration",
             usage="finder = SubdomainFinder(); finder.run(domain='target.com')",
             requirements=["requests", "socket"],
-            tags=["web", "subdomain", "enumeration", "reconnaissance"]
+            tags=["web", "subdomain", "enumeration", "reconnaissance"],
+            form_schema=[
+                {
+                    "name": "domain",
+                    "label": "Domain",
+                    "type": "text",
+                    "placeholder": "example.com",
+                    "required": True
+                },
+                {
+                    "name": "threads",
+                    "label": "Threads",
+                    "type": "number",
+                    "default": 50,
+                    "required": False
+                }
+            ]
         )
         super().__init__(metadata)
         

@@ -14,28 +14,65 @@ class SearchEngineDorking(BaseTool):
         metadata = ToolMetadata(
             name="Search Engine Dorking",
             category=ToolCategory.OSINT,
-            version="1.0.0",
+            version="3.3.0",
             author="AleoPantest",
-            description="Search engine dorking untuk advanced search queries dan OSINT",
-            usage="dorking = SearchEngineDorking(); dorking.run(query='site:target.com filetype:pdf')",
-            requirements=["requests"],
-            tags=["osint", "dorking", "search", "reconnaissance"]
+            description="Search engine dorking untuk advanced search queries dan OSINT menggunakan Google dan DuckDuckGo",
+            usage="aleopantest run search-engine-dorking --query 'site:target.com filetype:pdf' --engine duckduckgo",
+            requirements=["requests", "beautifulsoup4", "duckduckgo-search"],
+            tags=["osint", "dorking", "search", "reconnaissance"],
+            risk_level="MEDIUM",
+            form_schema=[
+                {
+                    "name": "query",
+                    "label": "Search Query / Dork",
+                    "type": "textarea",
+                    "placeholder": "e.g. site:example.com filetype:php",
+                    "required": False
+                },
+                {
+                    "name": "domain",
+                    "label": "Target Domain (Optional)",
+                    "type": "text",
+                    "placeholder": "e.g. example.com",
+                    "required": False
+                },
+                {
+                    "name": "dork_type",
+                    "label": "Dork Template",
+                    "type": "select",
+                    "options": ["none", "exposed_admin", "exposed_backup", "exposed_config", "exposed_doc", "exposed_credentials", "exposed_git", "exposed_db", "wordpress_admin", "joomla_admin"],
+                    "default": "none"
+                },
+                {
+                    "name": "engine",
+                    "label": "Search Engine",
+                    "type": "select",
+                    "options": ["google", "duckduckgo"],
+                    "default": "duckduckgo"
+                },
+                {
+                    "name": "num_results",
+                    "label": "Number of Results",
+                    "type": "number",
+                    "default": 10,
+                    "min": 1,
+                    "max": 50
+                }
+            ] + BaseTool.get_common_form_schema()
         )
         super().__init__(metadata)
         
         # Common dork patterns
         self.dork_templates = {
             'exposed_admin': 'site:{domain} inurl:admin',
-            'exposed_backup': 'site:{domain} filetype:sql OR filetype:bak',
-            'exposed_config': 'site:{domain} filetype:conf OR filetype:config',
-            'exposed_doc': 'site:{domain} filetype:pdf OR filetype:doc OR filetype:docx',
-            'exposed_credentials': 'site:{domain} password OR username',
-            'exposed_git': 'site:{domain} .git OR .gitconfig',
-            'exposed_db': 'site:{domain} database OR db_config',
-            'wordpress_admin': 'site:{domain} /wp-admin',
-            'joomla_admin': 'site:{domain} /administrator',
-            'cache_pages': 'cache:{domain}',
-            'similar_sites': 'related:{domain}',
+            'exposed_backup': 'site:{domain} filetype:sql OR filetype:bak OR filetype:old',
+            'exposed_config': 'site:{domain} filetype:conf OR filetype:config OR filetype:env OR filetype:ini',
+            'exposed_doc': 'site:{domain} filetype:pdf OR filetype:doc OR filetype:docx OR filetype:xls OR filetype:xlsx',
+            'exposed_credentials': 'site:{domain} "password" OR "username" OR "login" OR "credentials"',
+            'exposed_git': 'site:{domain} inurl:".git" OR inurl:".gitconfig"',
+            'exposed_db': 'site:{domain} "database" OR "db_config" OR "sql dump"',
+            'wordpress_admin': 'site:{domain} inurl:/wp-admin OR inurl:/wp-login.php',
+            'joomla_admin': 'site:{domain} inurl:/administrator',
         }
     
     def validate_input(self, query: str = None, domain: str = None, **kwargs) -> bool:
@@ -51,133 +88,120 @@ class SearchEngineDorking(BaseTool):
             return self.dork_templates[dork_type].format(domain=domain)
         return f"site:{domain}"
     
-    def search_google(self, query: str) -> List[Dict[str, Any]]:
+    def search_duckduckgo(self, query: str, num_results: int = 10) -> List[Dict[str, Any]]:
+        """Search using DuckDuckGo (More reliable for automation)"""
+        results = []
+        try:
+            from duckduckgo_search import DDGS
+            with DDGS() as ddgs:
+                ddgs_gen = ddgs.text(query, max_results=num_results)
+                for r in ddgs_gen:
+                    results.append({
+                        'title': r.get('title', 'No Title'),
+                        'url': r.get('href', ''),
+                        'description': r.get('body', ''),
+                        'source': 'DuckDuckGo'
+                    })
+        except Exception as e:
+            self.add_warning(f"DuckDuckGo search failed: {e}")
+        return results
+
+    def search_google(self, query: str, num_results: int = 10) -> List[Dict[str, Any]]:
         """Search using Google - with fallback strategy"""
         results = []
         
         try:
-            # Try googlesearch library first (more reliable)
+            # Try googlesearch library first
             try:
                 from googlesearch import search
-                
-                logger.info(f"Attempting Google search using googlesearch library...")
-                results = []
-                for url in search(query, num_results=5, sleep_interval=1):
+                for url in search(query, num_results=num_results, sleep_interval=2):
                     results.append({
                         'title': url,
                         'url': url,
                         'source': 'Google (googlesearch)'
                     })
-                    if len(results) >= 5:
+                    if len(results) >= num_results:
                         break
-                
                 if results:
                     return results
-                    
             except ImportError:
-                logger.warning("googlesearch library not installed")
+                pass
             except Exception as e:
-                logger.warning(f"googlesearch failed: {e}")
+                logger.debug(f"googlesearch failed: {e}")
             
             # Fallback: Try requests with headers
             url = "https://www.google.com/search"
-            params = {'q': query, 'num': 10}
-            
+            params = {'q': query, 'num': num_results}
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
             }
             
-            logger.info("Attempting Google search using requests...")
             response = requests.get(url, params=params, headers=headers, timeout=10)
-            
             if response.status_code == 200:
-                try:
-                    from bs4 import BeautifulSoup
-                    soup = BeautifulSoup(response.text, 'html.parser')
-                    
-                    # Parse search results - Google's HTML structure
-                    for g in soup.find_all('div', class_='g'):
-                        try:
-                            title_element = g.find('h3')
-                            link_element = g.find('a', href=True)
-                            
-                            if title_element and link_element:
-                                title = title_element.text
-                                link = link_element['href']
-                                
-                                # Filter out Google's redirect links
-                                if '/url?q=' in link:
-                                    link = link.split('/url?q=')[1].split('&')[0]
-                                
-                                if link and title:
-                                    results.append({
-                                        'title': title,
-                                        'url': link,
-                                        'source': 'Google (requests)'
-                                    })
-                        except:
-                            pass
-                except ImportError:
-                    logger.warning("BeautifulSoup not installed for parsing")
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(response.text, 'html.parser')
+                for g in soup.find_all('div', class_='g'):
+                    try:
+                        title_element = g.find('h3')
+                        link_element = g.find('a', href=True)
+                        if title_element and link_element:
+                            link = link_element['href']
+                            if '/url?q=' in link:
+                                link = link.split('/url?q=')[1].split('&')[0]
+                            results.append({
+                                'title': title_element.text,
+                                'url': link,
+                                'source': 'Google (requests)'
+                            })
+                    except:
+                        pass
             else:
-                logger.warning(f"Google returned status {response.status_code} - likely rate limited")
-                # Return informational result
-                results.append({
-                    'title': 'Google Search Rate Limited',
-                    'url': f'https://www.google.com/search?q={requests.utils.quote(query)}',
-                    'source': 'Google (Direct URL)',
-                    'note': 'Google blocks automated requests. Use the URL directly or try --engine duckduckgo'
-                })
+                self.add_warning(f"Google rate limited (Status {response.status_code}). Try DuckDuckGo engine.")
         
         except Exception as e:
-            logger.warning(f"Google search error: {e}")
-            results.append({
-                'title': 'Search Error - Try Alternative',
-                'url': f'https://www.google.com/search?q={requests.utils.quote(query)}',
-                'source': 'Manual Search',
-                'note': f'Automated search failed: {e}. Use duckduckgo engine instead: --engine duckduckgo'
-            })
+            self.add_error(f"Google search error: {e}")
         
         return results
     
-    def run(self, query: str = None, domain: str = None, dork_type: str = None, **kwargs):
+    def run(self, query: str = None, domain: str = None, dork_type: str = "none", engine: str = "duckduckgo", num_results: int = 10, **kwargs):
         """Perform search engine dorking"""
+        self.set_core_params(**kwargs)
         if not self.validate_input(query, domain, **kwargs):
-            return
+            return self.get_results()
         
         self.is_running = True
         self.clear_results()
+        self.audit_log(f"Starting Search Engine Dorking: Engine={engine}, Domain={domain}, Type={dork_type}")
         
         try:
             # Build query
-            if domain and dork_type:
+            if domain and dork_type != "none":
                 search_query = self.build_dork_query(domain, dork_type)
-                logger.info(f"Using dork query: {search_query}")
             elif domain:
                 search_query = f"site:{domain}"
             else:
                 search_query = query
             
-            logger.info(f"Performing search: {search_query}")
-            logger.info(f"📌 Note: Google blocks automated requests. For better results, use: --engine duckduckgo")
+            self.add_result(f"[*] Melakukan pencarian ({engine}): {search_query}")
             
-            results = self.search_google(search_query)
+            if engine.lower() == "google":
+                results = self.search_google(search_query, num_results)
+            else:
+                results = self.search_duckduckgo(search_query, num_results)
             
-            result = {
-                'query': search_query,
-                'results_found': len(results),
-                'results': results,
-                'note': 'Google search may be rate-limited. For better results, use advanced-dorking tool with --engine duckduckgo or --engine github'
-            }
+            if not results:
+                self.add_result("[-] Tidak ada hasil yang ditemukan.")
+            else:
+                for res in results:
+                    self.add_result(f"[+] {res['title']}")
+                    self.add_result(f"    URL: {res['url']}")
+                    if res.get('description'):
+                        self.add_result(f"    Desc: {res['description'][:100]}...")
             
-            for res in results:
-                self.add_result(res)
-                logger.info(f"[+] {res.get('title', 'N/A')[:60]}")
-            
-            logger.info(f"Search completed. Found {len(results)} results")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Search dorking failed: {e}")
+            return self.get_results()
         finally:
             self.is_running = False

@@ -8,6 +8,11 @@ from .whois_lookup import WhoisLookup
 from .ssl_checker import SSLChecker
 from .ip_scanner import IPScanner
 from .ddos_simulator import DDoSSimulator
+from .mac_lookup import MACLookup
+from .net_speed import NetSpeed
+from .subnet_calc import SubnetCalc
+from .arp_scan import ArpScanner
+from .vlan_scanner import VLANScanner
 
 __all__ = [
     'PortScanner',
@@ -19,4 +24,9 @@ __all__ = [
     'SSLChecker',
     'IPScanner',
     'DDoSSimulator',
+    'MACLookup',
+    'NetSpeed',
+    'SubnetCalc',
+    'ArpScanner',
+    'VLANScanner'
 ]

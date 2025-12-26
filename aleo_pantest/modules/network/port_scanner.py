@@ -17,12 +17,36 @@ class PortScanner(BaseTool):
         metadata = ToolMetadata(
             name="Port Scanner",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
+            version="3.3.0",
             author="AleoPantest",
             description="Fast port scanner dengan multi-threading untuk deteksi service yang berjalan",
             usage="scanner = PortScanner(); scanner.run(host='192.168.1.1', ports='1-65535')",
             requirements=["socket", "threading"],
-            tags=["network", "scanner", "port", "reconnaissance"]
+            tags=["network", "scanner", "port", "reconnaissance"],
+            form_schema=[
+                {
+                    "name": "host",
+                    "label": "Target Host/IP",
+                    "type": "text",
+                    "placeholder": "127.0.0.1",
+                    "required": True
+                },
+                {
+                    "name": "ports",
+                    "label": "Port Range",
+                    "type": "text",
+                    "default": "1-1024",
+                    "placeholder": "21,22,80,443 or 1-1000",
+                    "required": True
+                },
+                {
+                    "name": "threads",
+                    "label": "Threads",
+                    "type": "number",
+                    "default": 50,
+                    "required": False
+                }
+            ]
         )
         super().__init__(metadata)
         self.common_ports = {

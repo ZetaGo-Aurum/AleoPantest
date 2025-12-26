@@ -80,34 +80,99 @@ class AdvancedDorking(BaseTool):
         metadata = ToolMetadata(
             name="Advanced Search Engine Dorking",
             category=ToolCategory.OSINT,
-            version="2.0.0",
+            version="3.3.0",
             author="AleoPantest Team",
-            description="Multi-engine search dorking with templates and custom queries",
+            description="Multi-engine search dorking with templates and custom queries for advanced reconnaissance.",
             usage="aleopantest run advanced-dorking --engine google --domain target.com --template exposed_configs",
             requirements=['requests', 'beautifulsoup4', 'duckduckgo-search'],
             tags=['dorking', 'osint', 'reconnaissance', 'google-dork'],
-            risk_level="MEDIUM"
+            risk_level="MEDIUM",
+            form_schema=[
+                {
+                    "name": "engine",
+                    "label": "Search Engine",
+                    "type": "select",
+                    "options": ["google", "bing", "duckduckgo", "github", "shodan"],
+                    "default": "google"
+                },
+                {
+                    "name": "domain",
+                    "label": "Target Domain",
+                    "type": "text",
+                    "placeholder": "e.g. example.com",
+                    "required": False
+                },
+                {
+                    "name": "template",
+                    "label": "Dork Template",
+                    "type": "select",
+                    "options": ["none", "exposed_configs", "admin_panels", "backup_files", "source_code", "user_data", "ssl_certs", "logs"],
+                    "default": "none"
+                },
+                {
+                    "name": "query",
+                    "label": "Custom Dork Query",
+                    "type": "textarea",
+                    "placeholder": "Enter custom dork query...",
+                    "required": False
+                },
+                {
+                    "name": "api_key",
+                    "label": "API Key (Optional)",
+                    "type": "text",
+                    "placeholder": "Shodan/GitHub API Key",
+                    "required": False
+                },
+                {
+                    "name": "num_results",
+                    "label": "Number of Results",
+                    "type": "number",
+                    "default": 10,
+                    "min": 1,
+                    "max": 100
+                }
+            ] + BaseTool.get_common_form_schema()
         )
         super().__init__(metadata)
-    
-    def validate_input(self, engine: str = None, domain: str = None, template: str = None, 
-                      query: str = None, **kwargs) -> bool:
-        """Validate input parameters"""
+
+    def run(self, engine: str = "google", domain: str = None, template: str = "none", 
+            query: str = None, api_key: str = None, num_results: int = 10, **kwargs):
         if not domain and not query:
             self.add_error("Either domain or query is required")
-            return False
-        
-        engine = engine or 'google'
-        if engine not in self.SEARCH_ENGINES:
-            self.add_error(f"Invalid engine. Available: {list(self.SEARCH_ENGINES.keys())}")
-            return False
-        
-        if template and template not in self.DORK_TEMPLATES:
-            self.add_error(f"Invalid template. Available: {list(self.DORK_TEMPLATES.keys())}")
-            return False
-        
-        return True
-    
+            return self.get_results()
+
+        self.audit_log(f"Starting Advanced Dorking: Engine={engine}, Domain={domain}, Template={template}")
+        self.add_result(f"[*] Memulai dorking menggunakan engine: {engine.upper()}")
+
+        queries = []
+        if query:
+            queries.append(query)
+        elif domain and template != "none":
+            queries = self.build_dork_queries(domain, template)
+        elif domain:
+            queries.append(f"site:{domain}")
+
+        for q in queries:
+            self.add_result(f"[*] Menjalankan query: {q}")
+            results = []
+            if engine == "google":
+                results = self.search_google(q, num_results)
+            elif engine == "duckduckgo":
+                results = self.search_duckduckgo(q, num_results)
+            elif engine == "github":
+                results = self.search_github(q)
+            elif engine == "shodan":
+                results = self.search_shodan(q, api_key)
+            
+            if results:
+                for res in results:
+                    self.add_result(f"[+] Found: {res.get('url') or res.get('name')}")
+                    if res.get('title'): self.add_result(f"    Title: {res.get('title')}")
+            else:
+                self.add_result("[-] Tidak ada hasil yang ditemukan untuk query ini.")
+
+        return self.get_results()
+
     def build_dork_queries(self, domain: str, template: str) -> List[str]:
         """Build dork queries from templates"""
         queries = []
@@ -144,7 +209,7 @@ class AdvancedDorking(BaseTool):
             with DDGS() as ddgs:
                 for result in ddgs.text(query, max_results=num_results):
                     results.append({
-                        'engine': 'duckduckgo',
+                        'engine': 'duckduckgo', 
                         'url': result.get('href', ''),
                         'title': result.get('title', ''),
                         'body': result.get('body', ''),
@@ -162,7 +227,7 @@ class AdvancedDorking(BaseTool):
             import requests
             
             headers = {
-                'Accept': 'application/vnd.github.v3+json',
+                'Accept': 'application/vnd.github.v3+json', 
                 'User-Agent': 'AleoPantest'
             }
             
@@ -212,7 +277,7 @@ class AdvancedDorking(BaseTool):
             results = []
             for host in data.get('matches', []):
                 results.append({
-                    'engine': 'shodan',
+                    'engine': 'shodan', 
                     'ip': host['ip_str'],
                     'port': host['port'],
                     'org': host.get('org', 'N/A'),
@@ -225,93 +290,57 @@ class AdvancedDorking(BaseTool):
         except Exception as e:
             self.add_error(f"Shodan search failed: {str(e)}")
             return []
-    
-    def execute(self, **kwargs) -> Dict[str, Any]:
+
+    def run(self, engine: str = "google", domain: str = "", template: str = "", query: str = "", **kwargs):
         """Execute dorking search"""
-        if not self.validate_input(**kwargs):
-            return {
-                'success': False,
-                'errors': self.errors
-            }
+        self.set_core_params(**kwargs)
+        self.clear_results()
+        
+        if not self.validate_input(engine=engine, domain=domain, template=template, query=query, **kwargs):
+            return self.get_results()
         
         try:
-            engine = kwargs.get('engine', 'google')
-            domain = kwargs.get('domain', '')
-            template = kwargs.get('template', '')
-            custom_query = kwargs.get('query', '')
-            num_results = kwargs.get('num_results', 10)
-            
+            num_results = int(kwargs.get('num_results', 10))
             all_results = []
             queries_to_run = []
             
             # Build queries
             if template and domain:
                 queries_to_run = self.build_dork_queries(domain, template)
-                self.add_result(f"Built {len(queries_to_run)} dork queries from template")
-            elif custom_query:
-                queries_to_run = [custom_query]
-                self.add_result(f"Using custom query")
+                self.log(f"Built {len(queries_to_run)} dork queries from template")
+            elif query:
+                queries_to_run = [query]
+                self.log(f"Using custom query")
             elif domain:
                 # Default queries
                 queries_to_run = [f"site:{domain}"]
             
             # Execute searches
-            for query in queries_to_run:
-                self.add_result(f"Searching with {engine}: {query}")
+            for q in queries_to_run:
+                self.log(f"Searching with {engine}: {q}")
                 
+                results = []
                 if engine == 'google':
-                    results = self.search_google(query, num_results)
+                    results = self.search_google(q, num_results)
                 elif engine == 'duckduckgo':
-                    results = self.search_duckduckgo(query, num_results)
+                    results = self.search_duckduckgo(q, num_results)
                 elif engine == 'github':
-                    results = self.search_github(query)
+                    results = self.search_github(q)
                 elif engine == 'shodan':
-                    api_key = kwargs.get('shodan_api_key')
-                    results = self.search_shodan(query, api_key)
-                else:
-                    results = self.search_google(query, num_results)
+                    api_key = kwargs.get('shodan_api_key') or kwargs.get('api_key')
+                    results = self.search_shodan(q, api_key)
                 
                 all_results.extend(results)
                 time.sleep(1)  # Rate limiting between queries
             
-            # Save results
-            output_dir = Path('./output/dorking')
-            output_dir.mkdir(parents=True, exist_ok=True)
-            
-            output_file = output_dir / f'dork_{engine}_{int(time.time())}.json'
-            with open(output_file, 'w') as f:
-                json.dump({
-                    'timestamp': datetime.now().isoformat(),
-                    'engine': engine,
-                    'domain': domain,
-                    'template': template,
-                    'results_count': len(all_results),
-                    'results': all_results
-                }, f, indent=2)
-            
-            self.add_result({
-                "Engine": engine,
-                "Domain": domain,
-                "Template": template,
-                "Total Results": len(all_results),
-                "Saved to": str(output_file),
-                "Sample Results": all_results[:3] if all_results else []
-            })
-            
-            return {
-                'success': True,
-                'results': self.results,
-                'total_results': len(all_results),
-                'output_file': str(output_file)
-            }
-            
+            for res in all_results:
+                self.add_result(res)
+
+            return self.get_results()
         except Exception as e:
-            self.add_error(f"Execution failed: {str(e)}")
-            return {
-                'success': False,
-                'errors': self.errors
-            }
-    
-    def run(self, **kwargs):
-        """Run dorking search - alias for execute"""
-        return self.execute(**kwargs)
+            self.add_error(f"Dorking failed: {str(e)}")
+            return self.get_results()
+
+    def execute(self, **kwargs) -> Dict[str, Any]:
+        """Legacy execute method for backward compatibility"""
+        return self.run(**kwargs)

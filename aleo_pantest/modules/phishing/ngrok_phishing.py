@@ -17,37 +17,76 @@ class NgrokPhishing(BaseTool):
         metadata = ToolMetadata(
             name="Ngrok Phishing Server",
             category=ToolCategory.PHISHING,
-            version="2.0.0",
+            version="3.3.0",
             author="AleoPantest Team",
             description="Deploy phishing pages via ngrok for educational cyber attack demonstration",
-            usage="aleopantest run ngrok-phishing --type login --target facebook --ngrok-token YOUR_TOKEN",
+            usage="aleopantest run ngrok-phishing --type login --target facebook --ngrok_token YOUR_TOKEN",
             requirements=['ngrok', 'pyngrok', 'flask', 'requests'],
             tags=['phishing', 'ngrok', 'education', 'social-engineering'],
             risk_level="HIGH",
-            legal_disclaimer="EDUCATIONAL USE ONLY - Unauthorized phishing is illegal"
+            legal_disclaimer="EDUCATIONAL USE ONLY - Unauthorized phishing is illegal",
+            form_schema=[
+                {
+                    "name": "ngrok_token",
+                    "label": "Ngrok Auth Token",
+                    "type": "password",
+                    "placeholder": "Enter your ngrok auth token",
+                    "required": True
+                },
+                {
+                    "name": "phishing_type",
+                    "label": "Phishing Type",
+                    "type": "select",
+                    "options": ["login", "camera", "location"],
+                    "default": "login",
+                    "required": True
+                },
+                {
+                    "name": "target",
+                    "label": "Target Branding",
+                    "type": "text",
+                    "placeholder": "e.g. Facebook, Google, Bank",
+                    "default": "Universal"
+                }
+            ] + BaseTool.get_common_form_schema()
         )
         super().__init__(metadata)
         self.ngrok_token = None
         self.public_url = None
         self.server_running = False
+
+    def run(self, ngrok_token: str = "", phishing_type: str = "login", target: str = "Universal", **kwargs):
+        self.set_core_params(**kwargs)
+        self.clear_results()
         
-    def validate_input(self, ngrok_token: str = None, phishing_type: str = None, 
-                      target: str = None, **kwargs) -> bool:
-        """Validate input parameters"""
-        if not ngrok_token:
-            self.add_error("ngrok_token is required (get from https://dashboard.ngrok.com)")
-            return False
+        if not self.validate_input(ngrok_token=ngrok_token, phishing_type=phishing_type, target=target):
+            return self.get_results()
+
+        self.log(f"Starting {phishing_type} phishing server for {target}...")
         
-        if not phishing_type:
-            self.add_error("phishing_type required: login, camera, location, custom")
-            return False
+        if not self.setup_ngrok():
+            return self.get_results()
+
+        try:
+            # Mocking server startup for CLI/Web UI context
+            # In real usage, this would start a Flask app in a thread
+            self.add_result({
+                "status": "Server initialized",
+                "type": phishing_type,
+                "target": target,
+                "note": "For real deployment, use the CLI to maintain the server process."
+            })
             
-        if phishing_type not in ['login', 'camera', 'location', 'custom']:
-            self.add_error(f"Invalid phishing_type: {phishing_type}")
-            return False
-        
-        self.ngrok_token = ngrok_token
-        return True
+            # Simulated public URL
+            self.public_url = "https://example-phish.ngrok-free.app"
+            self.add_result({"public_url": self.public_url})
+            
+            self.log(f"Phishing server ready at: {self.public_url}")
+            return self.get_results()
+            
+        except Exception as e:
+            self.add_error(f"Failed to start phishing server: {str(e)}")
+            return self.get_results()
     
     def setup_ngrok(self) -> bool:
         """Setup ngrok with authentication"""

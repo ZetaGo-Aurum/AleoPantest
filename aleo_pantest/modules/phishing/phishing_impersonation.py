@@ -16,12 +16,38 @@ class PhishingImpersonation(BaseTool):
         metadata = ToolMetadata(
             name="Phishing Impersonation Generator",
             category=ToolCategory.PHISHING,
-            version="2.0.0",
+            version="3.3.0",
             author="AleoPantest Team",
             description="Generates phishing template examples for educational security testing and awareness training",
             usage="aleopantest run phishing-impersonation --type email --target bank",
             requirements=['python'],
-            tags=['phishing', 'template', 'education', 'security-training']
+            tags=['phishing', 'template', 'education', 'security-training'],
+            risk_level="MEDIUM",
+            form_schema=[
+                {
+                    "name": "type",
+                    "label": "Template Type",
+                    "type": "select",
+                    "options": ["email", "website", "sms"],
+                    "default": "email",
+                    "required": True
+                },
+                {
+                    "name": "target",
+                    "label": "Target Organization",
+                    "type": "select",
+                    "options": ["bank", "social", "ecommerce", "paypal"],
+                    "default": "bank",
+                    "required": True
+                },
+                {
+                    "name": "phishing_url",
+                    "label": "Phishing URL (Placeholder)",
+                    "type": "text",
+                    "placeholder": "http://evil-site.com",
+                    "default": "http://secure-login-verify.com"
+                }
+            ] + BaseTool.get_common_form_schema()
         )
         super().__init__(metadata)
         self.output_dir = Path('output/phishing_templates')
@@ -215,33 +241,38 @@ PayPal Security'''
         
         return indicators
     
-    def run(self, type: str = None, target: str = None, **kwargs) -> Dict[str, Any]:
-        """Run phishing impersonation template generator"""
-        if not self.validate_input(type, target, **kwargs):
-            return None
-        
+    def run(self, type: str = "email", target: str = "bank", phishing_url: str = "http://secure-login-verify.com", **kwargs):
+        self.set_core_params(**kwargs)
         self.clear_results()
-        logger.info(f"Generating phishing template: {type} - {target}")
+        
+        if not self.validate_input(type=type, target=target):
+            return self.get_results()
+
+        self.log(f"Generating {type} phishing template for {target}")
         
         try:
-            template = None
-            
-            if type.lower() == 'email':
-                template = self.create_phishing_email_template(target)
-            elif type.lower() == 'website':
-                template = self.create_phishing_website_template(target)
-            elif type.lower() == 'sms':
-                template = self.create_phishing_sms_template(target)
+            template_data = {}
+            if type == 'email':
+                template_data = self.create_phishing_email_template(target)
+                template_data['body'] = template_data['body'].replace('[PHISHING_LINK]', phishing_url)
+            elif type == 'website':
+                template_data = {
+                    'target': target,
+                    'html': f"<html><body><h1>{target.capitalize()} Login</h1><form action='{phishing_url}/login'><input type='text' name='user'><input type='password' name='pass'><input type='submit'></form></body></html>"
+                }
+            elif type == 'sms':
+                template_data = self.create_phishing_sms_template(target)
+                template_data['message'] = template_data['message'].replace('[PHISHING_LINK]', phishing_url)
             
             # Add indicators and recommendations
-            indicators = self.generate_phishing_indicators(template)
+            indicators = self.generate_phishing_indicators(template_data)
             
             result = {
                 'tool': 'Phishing Impersonation Generator',
                 'timestamp': datetime.now().isoformat(),
                 'purpose': 'EDUCATIONAL SECURITY TESTING ONLY',
                 'disclaimer': 'This template is for authorized security awareness training and testing only. Unauthorized use is illegal.',
-                'template': template,
+                'template': template_data,
                 'phishing_indicators': indicators,
                 'how_to_recognize': {
                     'red_flags': indicators,
@@ -266,18 +297,16 @@ PayPal Security'''
                 ]
             }
             
-            # Save to file
-            output_file = self.output_dir / f'{type}_{target}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
-            with open(output_file, 'w') as f:
-                json.dump(result, f, indent=2)
-            
-            result['saved_to'] = str(output_file)
-            
             self.add_result(result)
-            logger.info(f"Template saved to {output_file}")
-            return result
             
+            # Save to file
+            filename = f"{target}_{type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            filepath = self.output_dir / filename
+            with open(filepath, 'w') as f:
+                json.dump(result, f, indent=4)
+            
+            self.add_result({"file_saved": str(filepath)})
+            return self.get_results()
         except Exception as e:
-            logger.exception("Template generation failed")
-            self.add_error(f"Generation failed: {e}")
-            return None
+            self.add_error(f"Generation failed: {str(e)}")
+            return self.get_results()

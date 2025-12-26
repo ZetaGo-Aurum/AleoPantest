@@ -14,6 +14,7 @@ from typing import Dict, Any, List, Optional
 from .core.platform import PlatformDetector
 from .core.session import SessionManager
 from .core.automation import AutomationEngine, ContextDetector
+from .core.base_tool import BaseTool
 from .cli import TOOLS_BY_CATEGORY, TOOLS_REGISTRY
 
 class ToolExecutionScreen(Screen):
@@ -26,28 +27,62 @@ class ToolExecutionScreen(Screen):
         self.automation_engine = AutomationEngine()
         
     def compose(self) -> ComposeResult:
+        admin = BaseTool.get_admin_info()
         yield Header()
-        with Vertical(id="execution-container"):
-            yield Label(f"[bold cyan]Tool:[/bold cyan] {self.tool_instance.metadata.name}", id="tool-title")
-            yield Label(f"[dim]{self.tool_instance.metadata.description}[/dim]", id="tool-desc")
+        with Horizontal():
+            with Vertical(id="execution-container"):
+                yield Label(f"[bold cyan]Tool:[/bold cyan] {self.tool_instance.metadata.name}", id="tool-title")
+                yield Label(f"[dim]{self.tool_instance.metadata.description}[/dim]", id="tool-desc")
+                yield Label(f"[bold green]Admin:[/bold green] {admin['username']}@{admin['hostname']} ([dim]{admin['os']}[/dim])", id="admin-info-label")
+                
+                with Container(id="input-area"):
+                    yield Label("Target (URL/IP/Domain/Text):", id="input-label")
+                    yield Input(placeholder="e.g., example.com, 8.8.8.8, or payload text", id="target-input")
+                    with Horizontal(id="action-buttons"):
+                        yield Button("Launch Auto", variant="primary", id="launch-btn")
+                        yield Button("Clear Results", variant="error", id="clear-btn")
+                
+                yield Static("Results will appear below...", id="results-display")
             
-            with Container(id="input-area"):
-                yield Label("Target (URL/IP/Domain):", id="input-label")
-                yield Input(placeholder="e.g., example.com or 8.8.8.8", id="target-input")
-                yield Button("Launch Automatically", variant="primary", id="launch-btn")
-            
-            yield Static("Results will appear below...", id="results-display")
+            with Vertical(id="tool-info-panel"):
+                yield Label("[bold cyan]Tool Information[/bold cyan]", id="info-title")
+                
+                yield Label("[yellow]Description:[/yellow]")
+                yield Label(f"{self.tool_instance.metadata.description}", id="tool-desc-full")
+                
+                yield Label("\n[yellow]Usage Guide:[/yellow]")
+                yield Label(f"{self.tool_instance.metadata.usage}", id="usage-info")
+                
+                if self.tool_instance.metadata.example:
+                    yield Label("\n[yellow]Example:[/yellow]")
+                    yield Label(f"{self.tool_instance.metadata.example}", id="example-info")
+                
+                if self.tool_instance.metadata.parameters:
+                    yield Label("\n[yellow]Available Parameters:[/yellow]")
+                    params_text = ""
+                    for k, v in self.tool_instance.metadata.parameters.items():
+                        params_text += f"• [b]{k}[/b]: {v}\n"
+                    yield Label(params_text.strip(), id="params-info")
+                
+                yield Label(f"\n[yellow]Risk Level:[/yellow] {self.tool_instance.metadata.risk_level}")
+                yield Label(f"[yellow]Category:[/yellow] {self.tool_instance.metadata.category.value}")
+                yield Label(f"[yellow]Author:[/yellow] {self.tool_instance.metadata.author}")
         yield Footer()
 
     @on(Button.Pressed, "#launch-btn")
     def handle_launch(self) -> None:
         target = self.query_one("#target-input", Input).value
         if not target:
-            self.query_one("#results-display", Static).update("[red]Please enter a target![/red]")
+            self.query_one("#results-display", Static).update("[bold red]Error: Please enter a target![/bold red]")
             return
             
         params = self.automation_engine.auto_fill_params(self.tool_id, target)
-        self.query_one("#results-display", Static).update(f"[yellow]Launching {self.tool_id} against {target}...[/yellow]\n[dim]Params: {params}[/dim]")
+        self.query_one("#results-display", Static).update(f"[bold yellow]🚀 Launching {self.tool_id}...[/bold yellow]\n[dim]Target: {target}[/dim]\n[dim]Detected Params: {params}[/dim]\n\n[cyan]Executing tool logic...[/cyan]")
+        
+        # Disable button during execution
+        btn = self.query_one("#launch-btn", Button)
+        btn.disabled = True
+        btn.label = "Running..."
         
         # Run tool in background
         def run_tool():
@@ -59,10 +94,23 @@ class ToolExecutionScreen(Screen):
 
         threading.Thread(target=run_tool, daemon=True).start()
 
+    @on(Button.Pressed, "#clear-btn")
+    def handle_clear(self) -> None:
+        self.query_one("#results-display", Static).update("Results will appear below...")
+        self.query_one("#target-input", Input).value = ""
+
     def update_results(self, result: Any) -> None:
+        from rich.markup import escape
         import json
+        
+        # Re-enable button
+        btn = self.query_one("#launch-btn", Button)
+        btn.disabled = False
+        btn.label = "Launch Auto"
+        
         formatted = json.dumps(result, indent=2) if isinstance(result, (dict, list)) else str(result)
-        self.query_one("#results-display", Static).update(f"[green]✓ Execution Complete[/green]\n\n{formatted}")
+        # Escape the output to prevent markup parsing errors
+        self.query_one("#results-display", Static).update(f"[bold green]✓ Execution Complete[/bold green]\n\n{escape(formatted)}")
 
 class Dashboard(Screen):
     """Main Dashboard with animations and navigation"""
@@ -105,17 +153,38 @@ class Dashboard(Screen):
 
     @on(ListView.Selected, "#category-list")
     def change_category(self, event: ListView.Selected) -> None:
-        cat_id = event.item.id.replace("cat-", "").capitalize()
-        tools = TOOLS_BY_CATEGORY.get(cat_id, [])
-        
-        tool_list = self.query_one("#tool-list", ListView)
-        tool_list.clear()
-        
-        new_items = [ListItem(Label(tool_id), id=f"tool-{tool_id}") for tool_id in tools]
-        if new_items:
-            tool_list.mount(*new_items)
-        
-        self.query_one("#instruction", Label).update(f"Tools in [cyan]{cat_id}[/cyan]:")
+        try:
+            # Match category name case-insensitively
+            if not event.item or not event.item.id:
+                return
+                
+            cat_id_raw = event.item.id.replace("cat-", "")
+            cat_id = next((k for k in TOOLS_BY_CATEGORY.keys() if k.lower() == cat_id_raw), cat_id_raw)
+            
+            tools = TOOLS_BY_CATEGORY.get(cat_id, [])
+            
+            tool_list = self.query_one("#tool-list", ListView)
+            tool_list.clear()
+            
+            new_items = []
+            for tool_id in tools:
+                if tool_id in TOOLS_REGISTRY:
+                    try:
+                        instance = TOOLS_REGISTRY[tool_id]()
+                        name = instance.metadata.name
+                        new_items.append(ListItem(Label(f"{name} ({tool_id})"), id=f"tool-{tool_id}"))
+                    except Exception as e:
+                        # Log or handle broken tool initialization
+                        new_items.append(ListItem(Label(f"Error: {tool_id}"), id=f"tool-{tool_id}"))
+            
+            if new_items:
+                tool_list.mount(*new_items)
+            else:
+                tool_list.mount(ListItem(Label("[yellow]No tools found in this category[/yellow]")))
+            
+            self.query_one("#instruction", Label).update(f"Tools in [cyan]{cat_id}[/cyan]:")
+        except Exception as e:
+            self.app.notify(f"Error changing category: {str(e)}", severity="error")
 
     @on(ListView.Selected, "#tool-list")
     def select_tool(self, event: ListView.Selected) -> None:
@@ -123,7 +192,9 @@ class Dashboard(Screen):
         self.app.push_screen(ToolExecutionScreen(tool_id))
 
 class AleoPantestTUI(App):
-    """Main Textual Application for AleoPantest V3.0"""
+    """Main Textual Application for AleoPantest V3.1"""
+    TITLE = "AleoPantest v3.1 PRO"
+    SUB_TITLE = "Advanced Cyber Security Tool Suite"
     
     CSS = """
     Screen {
@@ -220,7 +291,29 @@ class AleoPantestTUI(App):
 
     /* Tool Execution Screen */
     #execution-container {
+        width: 65%;
         padding: 1 2;
+    }
+
+    #tool-info-panel {
+        width: 35%;
+        background: #121212;
+        border-left: solid #333;
+        padding: 1 2;
+    }
+
+    #info-title {
+        color: #00ffff;
+        margin-bottom: 1;
+        border-bottom: solid #333;
+    }
+
+    #usage-info, #example-info, #params-info {
+        background: #0a0a0a;
+        padding: 1;
+        border: solid #333;
+        margin-bottom: 1;
+        color: #ccc;
     }
 
     #tool-title {
@@ -249,12 +342,21 @@ class AleoPantestTUI(App):
         border: solid #00ffff;
     }
 
-    #launch-btn {
+    #action-buttons {
+        height: auto;
         margin-top: 1;
-        width: 100%;
+    }
+
+    #launch-btn {
+        width: 1fr;
         background: #00ffff 20%;
         color: #00ffff;
         border: tall #00ffff;
+    }
+
+    #clear-btn {
+        width: 1fr;
+        margin-left: 1;
     }
 
     #launch-btn:hover {

@@ -11,7 +11,7 @@ from .logger import logger
 class Config:
     """Global configuration manager"""
     
-    VERSION = "3.0.0"
+    VERSION = "3.2.0"
     
     # Default configuration
     DEFAULTS = {
