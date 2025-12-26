@@ -1,4 +1,5 @@
 """Interactive CLI handler for user-friendly tool interaction"""
+from __future__ import annotations
 import sys
 from typing import Dict, Any, Optional, List, Callable, Tuple
 from pathlib import Path
@@ -220,28 +221,35 @@ class SafeParameterHandler:
         Returns:
             (is_valid, error_message)
         """
+        if not param_name:
+            return False, "Parameter name cannot be empty"
+
         if not param_value:
             return False, f"{param_name} cannot be empty"
         
-        param_lower = param_name.lower()
-        
-        if 'ip' in param_lower or 'host' in param_lower:
-            if not SafeParameterHandler.validate_ip(param_value):
-                return False, f"Invalid IP address format: {param_value}"
-        
-        elif 'url' in param_lower or 'website' in param_lower:
-            if not SafeParameterHandler.validate_url(param_value):
-                return False, f"Invalid URL format. Must start with http:// or https://"
-        
-        elif 'domain' in param_lower or 'site' in param_lower:
-            if not SafeParameterHandler.validate_domain(param_value):
-                return False, f"Invalid domain format: {param_value}"
-        
-        elif 'port' in param_lower:
-            if not SafeParameterHandler.validate_port(param_value):
-                return False, f"Invalid port number. Must be between 1-65535"
-        
-        return True, None
+        try:
+            param_lower = param_name.lower()
+            
+            if 'ip' in param_lower or 'host' in param_lower:
+                if not SafeParameterHandler.validate_ip(param_value):
+                    return False, f"Invalid IP address format: {param_value}"
+            
+            elif 'url' in param_lower or 'website' in param_lower:
+                if not SafeParameterHandler.validate_url(param_value):
+                    return False, f"Invalid URL format. Must start with http:// or https://"
+            
+            elif 'domain' in param_lower or 'site' in param_lower:
+                if not SafeParameterHandler.validate_domain(param_value):
+                    return False, f"Invalid domain format: {param_value}"
+            
+            elif 'port' in param_lower:
+                if not SafeParameterHandler.validate_port(param_value):
+                    return False, f"Invalid port number. Must be between 1-65535"
+            
+            return True, None
+        except Exception as e:
+            logger.error(f"Error validating parameter {param_name}: {e}")
+            return False, f"Validation error: {str(e)}"
 
 
 class InteractiveCliBuilder:
