@@ -390,21 +390,25 @@ SAFETY FEATURES:
         console.print(f"\n[bold cyan]{'='*70}[/bold cyan]")
         console.print(f"[bold cyan]🛠️  {metadata.name} (v{metadata.version})[/bold cyan]")
         console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
-    
-    console.print(f"[yellow]📝 Description:[/yellow]\n{metadata.description}\n")
-    
-    console.print(f"[yellow]📚 Usage:[/yellow]\n{metadata.usage}\n")
-    
-    if metadata.risk_level and metadata.risk_level != "LOW":
-        console.print(f"[bold red]⚠️  Risk Level: {metadata.risk_level}[/bold red]\n")
-    
-    if metadata.legal_disclaimer:
-        console.print(f"[bold red]⚖️  Legal Disclaimer:[/bold red]\n{metadata.legal_disclaimer}\n")
-    
-    console.print(f"[yellow]🏷️  Tags:[/yellow] {', '.join(metadata.tags)}")
-    console.print(f"[yellow]📦 Requirements:[/yellow] {', '.join(metadata.requirements)}\n")
-    
-    console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
+        
+        console.print(f"[yellow]📝 Description:[/yellow]\n{metadata.description}\n")
+        
+        console.print(f"[yellow]📚 Usage:[/yellow]\n{metadata.usage}\n")
+        
+        if metadata.risk_level and metadata.risk_level != "LOW":
+            console.print(f"[bold red]⚠️  Risk Level: {metadata.risk_level}[/bold red]\n")
+        
+        if metadata.legal_disclaimer:
+            console.print(f"[bold red]⚖️  Legal Disclaimer:[/bold red]\n{metadata.legal_disclaimer}\n")
+        
+        console.print(f"[yellow]🏷️  Tags:[/yellow] {', '.join(metadata.tags)}")
+        console.print(f"[yellow]📦 Requirements:[/yellow] {', '.join(metadata.requirements)}\n")
+        
+        console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
+        
+    except Exception as e:
+        console.print(f"[red]❌ Error loading metadata for tool '{tool_id}': {e}[/red]")
+        return
     
     # Prepare arguments with parameter mapping
     kwargs = {}
