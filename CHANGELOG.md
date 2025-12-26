@@ -1,5 +1,24 @@
 # AleoPantest Changelog
 
+## [3.3.1] - 2025-12-26
+
+### Robustness & Error Handling Update 🛡️
+
+#### Core & API Stability ⚙️
+- **Null/Undefined Checking**: Implemented comprehensive null and undefined checks across API server, CLI, TUI, and Web Interface to prevent "undefined" errors.
+- **Robust API Endpoints**: Updated `/api/tools` and `/api/run` in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/web_server.py) with stricter validation for tool IDs and instances.
+- **Improved Result Export**: Enhanced `export_json` and `export_txt` in [base_tool.py](file:///c%3A/Users/rayhan/Documents/PantestTool\AloPantest/aleo_pantest/core/base_tool.py) to handle cases with missing metadata or results safely.
+- **Dependency Isolation**: Fixed `ModuleNotFoundError` for `uvicorn` and `fastapi` by implementing a fallback `DummyApp` and better import handling in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/web_server.py).
+
+#### Web UI & TUI Improvements ✨
+- **Frontend Defenses**: Added null-checks for `adminInfo` and `activeTool` in [index.html](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/web_assets/index.html) to prevent UI crashes.
+- **Safe Execution UI**: Updated `openExecution` and `runTool` functions in web interface with better error reporting and default values for missing metadata.
+- **TUI Resilience**: Hardened `update_results` in [tui.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/tui.py) to handle `None` results and potential UI element lookup failures.
+
+#### CLI Enhancements 🛠️
+- **Safe Instantiation**: CLI now validates tool metadata and instance creation before execution in [cli.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/cli.py).
+- **Clearer Error Messages**: Improved error reporting when tools fail to load due to syntax errors or missing dependencies.
+
 ## [3.3.0] - 2025-12-26
 
 ### Real Implementation & Safety Update 🛡️

@@ -413,13 +413,15 @@
         function updateAdminUI() {
             if (!adminInfo) return;
             const adminBadges = document.querySelectorAll('.admin-name');
-            adminBadges.forEach(b => b.innerText = adminInfo.username);
+            adminBadges.forEach(b => {
+                if (b) b.innerText = adminInfo.username || 'admin';
+            });
             
             const adminHost = document.getElementById('admin-host');
-            if (adminHost) adminHost.innerText = `${adminInfo.username}@${adminInfo.hostname}`;
+            if (adminHost) adminHost.innerText = `${adminInfo.username || 'admin'}@${adminInfo.hostname || 'localhost'}`;
             
             const welcomeHunter = document.querySelector('#dashboard-home h3');
-            if (welcomeHunter) welcomeHunter.innerHTML = `Welcome back, <span class="text-primary">${adminInfo.username}</span>`;
+            if (welcomeHunter) welcomeHunter.innerHTML = `Welcome back, <span class="text-primary">${adminInfo.username || 'Hunter'}</span>`;
         }
 
         function showToast(message, type = 'info') {
@@ -594,19 +596,28 @@
         }
 
         function openExecution(tool) {
+            if (!tool) {
+                showToast("Error: Tool not found", "error");
+                return;
+            }
             activeTool = tool;
             document.getElementById('dashboard-home').classList.add('hidden');
             document.getElementById('tool-grid-container').classList.add('hidden');
             document.getElementById('execution-panel').classList.remove('hidden');
             
-            document.getElementById('exec-tool-name').innerText = tool.name;
-            document.getElementById('exec-tool-desc').innerText = tool.description;
-            document.getElementById('exec-tool-cat').innerText = tool.category;
-            document.getElementById('exec-tool-ver').innerText = `VERSION ${tool.version}`;
+            document.getElementById('exec-tool-name').innerText = tool.name || "Unknown Tool";
+            document.getElementById('exec-tool-desc').innerText = tool.description || "No description available.";
+            document.getElementById('exec-tool-cat').innerText = tool.category || "General";
+            document.getElementById('exec-tool-ver').innerText = tool.version ? `VERSION ${tool.version}` : "VERSION 1.0.0";
             
-            document.getElementById('meta-risk').innerText = tool.risk_level;
-            document.getElementById('meta-risk').className = `font-semibold ${getRiskColor(tool.risk_level)}`;
-            document.getElementById('meta-author').innerText = tool.author;
+            const riskEl = document.getElementById('meta-risk');
+            if (riskEl) {
+                riskEl.innerText = tool.risk_level || "LOW";
+                riskEl.className = `font-semibold ${getRiskColor(tool.risk_level || "LOW")}`;
+            }
+            
+            const authorEl = document.getElementById('meta-author');
+            if (authorEl) authorEl.innerText = tool.author || "AleoPantest Team";
 
             document.getElementById('tool-results').innerText = '';
             document.getElementById('results-container').classList.add('hidden');

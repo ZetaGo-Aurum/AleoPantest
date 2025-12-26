@@ -231,13 +231,16 @@ class BaseTool(ABC):
     def export_json(self, filepath: str):
         """Export results to JSON"""
         try:
+            name = self.metadata.name if self.metadata else "Unknown"
+            version = self.metadata.version if self.metadata else "1.0.0"
+            
             data = {
-                'tool': self.metadata.name,
-                'version': self.metadata.version,
-                'timestamp': Path(filepath).stat().st_mtime if Path(filepath).exists() else None,
-                'results': self.results,
-                'errors': self.errors,
-                'warnings': self.warnings
+                'tool': name,
+                'version': version,
+                'timestamp': str(datetime.datetime.now()),
+                'results': self.results or [],
+                'errors': self.errors or [],
+                'warnings': self.warnings or []
             }
             Path(filepath).parent.mkdir(parents=True, exist_ok=True)
             with open(filepath, 'w', encoding='utf-8') as f:
@@ -249,10 +252,14 @@ class BaseTool(ABC):
     def export_txt(self, filepath: str):
         """Export results to plain text"""
         try:
+            name = self.metadata.name if self.metadata else "Unknown"
+            version = self.metadata.version if self.metadata else "1.0.0"
+            description = self.metadata.description if self.metadata else "No description"
+            
             Path(filepath).parent.mkdir(parents=True, exist_ok=True)
             with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(f"=== {self.metadata.name} v{self.metadata.version} Report ===\n")
-                f.write(f"Description: {self.metadata.description}\n\n")
+                f.write(f"=== {name} v{version} Report ===\n")
+                f.write(f"Description: {description}\n\n")
                 
                 if self.results:
                     f.write("--- RESULTS ---\n")

@@ -104,13 +104,29 @@ class ToolExecutionScreen(Screen):
         import json
         
         # Re-enable button
-        btn = self.query_one("#launch-btn", Button)
-        btn.disabled = False
-        btn.label = "Launch Auto"
+        try:
+            btn = self.query_one("#launch-btn", Button)
+            btn.disabled = False
+            btn.label = "Launch Auto"
+        except:
+            pass
         
-        formatted = json.dumps(result, indent=2) if isinstance(result, (dict, list)) else str(result)
+        if result is None:
+            formatted = "No results returned from tool."
+        elif isinstance(result, (dict, list)):
+            try:
+                formatted = json.dumps(result, indent=2)
+            except:
+                formatted = str(result)
+        else:
+            formatted = str(result)
+            
         # Escape the output to prevent markup parsing errors
-        self.query_one("#results-display", Static).update(f"[bold green]✓ Execution Complete[/bold green]\n\n{escape(formatted)}")
+        try:
+            display = self.query_one("#results-display", Static)
+            display.update(f"[bold green]✓ Execution Complete[/bold green]\n\n{escape(formatted)}")
+        except:
+            pass
 
 class Dashboard(Screen):
     """Main Dashboard with animations and navigation"""

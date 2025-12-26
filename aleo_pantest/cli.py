@@ -375,13 +375,21 @@ SAFETY FEATURES:
         console.print(f"[red]❌ Tool '{tool_id}' exists but failed to load due to an internal error.[/red]")
         console.print(f"[yellow]💡 Tip: Check for syntax errors or missing dependencies in the tool module.[/yellow]")
         return
-        
-    tool = tool_class()
-    metadata = tool.metadata
-    
-    console.print(f"\n[bold cyan]{'='*70}[/bold cyan]")
-    console.print(f"[bold cyan]🛠️  {metadata.name} (v{metadata.version})[/bold cyan]")
-    console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
+
+    try:
+        tool = tool_class()
+        if not tool:
+            console.print(f"[red]❌ Error: Failed to instantiate tool '{tool_id}'.[/red]")
+            return
+            
+        metadata = tool.metadata
+        if not metadata:
+            console.print(f"[red]❌ Error: Tool '{tool_id}' is missing metadata.[/red]")
+            return
+            
+        console.print(f"\n[bold cyan]{'='*70}[/bold cyan]")
+        console.print(f"[bold cyan]🛠️  {metadata.name} (v{metadata.version})[/bold cyan]")
+        console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
     
     console.print(f"[yellow]📝 Description:[/yellow]\n{metadata.description}\n")
     

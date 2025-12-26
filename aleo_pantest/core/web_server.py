@@ -62,11 +62,17 @@ async def get_tools():
     # Return full metadata for all tools
     result = {}
     for cat, tools in TOOLS_BY_CATEGORY.items():
+        if not cat: continue
         result[cat] = []
         for tool_id in tools:
+            if not tool_id: continue
             if tool_id in TOOLS_REGISTRY:
                 try:
-                    instance = TOOLS_REGISTRY[tool_id]()
+                    tool_class = TOOLS_REGISTRY[tool_id]
+                    if not tool_class: continue
+                    instance = tool_class()
+                    if not instance or not hasattr(instance, 'metadata') or not instance.metadata:
+                        continue
                     tool_data = instance.metadata.to_dict()
                     tool_data['id'] = tool_id
                     result[cat].append(tool_data)
@@ -76,24 +82,39 @@ async def get_tools():
 
 @app.post("/api/run")
 async def run_tool(request: ToolRunRequest):
+    if not request or not request.tool_id:
+        raise HTTPException(status_code=400, detail="Invalid request: missing tool_id")
+        
     if request.tool_id not in TOOLS_REGISTRY:
         raise HTTPException(status_code=404, detail="Tool not found")
     
     try:
         # Get tool instance
         tool_class = TOOLS_REGISTRY[request.tool_id]
+        if not tool_class:
+            raise HTTPException(status_code=500, detail="Tool class not registered correctly")
+            
         tool_instance = tool_class()
+        if not tool_instance:
+            raise HTTPException(status_code=500, detail="Failed to instantiate tool")
         
         # Merge provided params with auto-filled ones
         final_params = {}
-        if request.target:
-            final_params = automation_engine.auto_fill_params(request.tool_id, request.target)
+        if request.target and automation_engine:
+            try:
+                final_params = automation_engine.auto_fill_params(request.tool_id, request.target)
+            except Exception as e:
+                print(f"Automation engine error: {e}")
         
         # Override with specific params from form
-        final_params.update(request.params)
+        if request.params:
+            final_params.update(request.params)
         
         # Run tool
         result = tool_instance.run(**final_params)
+        
+        if result is None:
+            result = {"status": "success", "output": "Tool executed but returned no results.", "results": []}
         
         # Store results for potential download (in-memory simple cache)
         if not hasattr(app, 'last_results'):
@@ -101,11 +122,13 @@ async def run_tool(request: ToolRunRequest):
         app.last_results[request.tool_id] = {
             'instance': tool_instance,
             'results': result,
-            'timestamp': os.times()[4]
+            'timestamp': datetime.now().timestamp()
         }
         
         return result
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/download/{tool_id}/{format}")
