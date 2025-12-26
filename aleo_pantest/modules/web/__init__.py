@@ -1,18 +1,20 @@
-"""Web module initialization"""
-from .sql_injector import SQLInjector
-from .xss_detector import XSSDetector
-from .csrf_detector import CSRFDetector
-from .web_crawler import WebCrawler
-from .vulnerability_scanner import VulnerabilityScanner
-from .subdomain_finder import SubdomainFinder
-from .advanced_dorking import AdvancedDorking
-from .tech_stack import TechStack
-from .dir_brute import DirBrute
-from .link_extract import LinkExtractor
-from .admin_finder import AdminFinder
-from .headers_analyzer import HeadersAnalyzer
-from .proxy_finder import ProxyFinder
-from .api_analyzer import APIAnalyzer
+"""Web module initialization with robust error handling"""
+from aleo_pantest.core.tool_helper import robust_import
+
+SQLInjector = robust_import("aleo_pantest.modules.web.sql_injector", "SQLInjector")
+XSSDetector = robust_import("aleo_pantest.modules.web.xss_detector", "XSSDetector")
+CSRFDetector = robust_import("aleo_pantest.modules.web.csrf_detector", "CSRFDetector")
+WebCrawler = robust_import("aleo_pantest.modules.web.web_crawler", "WebCrawler")
+VulnerabilityScanner = robust_import("aleo_pantest.modules.web.vulnerability_scanner", "VulnerabilityScanner")
+SubdomainFinder = robust_import("aleo_pantest.modules.web.subdomain_finder", "SubdomainFinder")
+AdvancedDorking = robust_import("aleo_pantest.modules.web.advanced_dorking", "AdvancedDorking")
+TechStack = robust_import("aleo_pantest.modules.web.tech_stack", "TechStack")
+DirBrute = robust_import("aleo_pantest.modules.web.dir_brute", "DirBrute")
+LinkExtractor = robust_import("aleo_pantest.modules.web.link_extract", "LinkExtractor")
+AdminFinder = robust_import("aleo_pantest.modules.web.admin_finder", "AdminFinder")
+HeadersAnalyzer = robust_import("aleo_pantest.modules.web.headers_analyzer", "HeadersAnalyzer")
+ProxyFinder = robust_import("aleo_pantest.modules.web.proxy_finder", "ProxyFinder")
+APIAnalyzer = robust_import("aleo_pantest.modules.web.api_analyzer", "APIAnalyzer")
 
 __all__ = [
     'SQLInjector',

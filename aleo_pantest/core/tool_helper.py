@@ -166,134 +166,17 @@ class ToolParameterValidator:
         elif 'port' in param_lower:
             return ToolParameterValidator.validate_port(param_value)
         
-        # Default: accept if not empty
         return True, None
 
 
-class ToolParameterHelper:
-    """Helper for tool parameter handling"""
-    
-    # Define required parameters for common tools
-    TOOL_REQUIRED_PARAMS = {
-        'ip-geo': ['ip', 'host'],  # Either one required
-        'dns': ['domain'],
-        'port-scan': ['host'],
-        'web-phishing': ['url'],
-        'email-phishing': ['email', 'subject'],
-        'ddos-sim': ['target', 'type'],
-        'url-mask': ['url', 'fake_domain', 'method'],
-        'url-shorten': ['url'],
-        'sql-inject': ['url'],
-        'xss-detect': ['url'],
-    }
-    
-    TOOL_PARAM_HINTS = {
-        'ip-geo': {
-            'ip': 'Enter IP address (e.g., 8.8.8.8)',
-            'host': 'Enter IP address (e.g., 1.1.1.1)',
-        },
-        'dns': {
-            'domain': 'Enter domain name (e.g., google.com)',
-        },
-        'port-scan': {
-            'host': 'Enter host/domain (e.g., target.com or 192.168.1.1)',
-            'port': 'Enter port or range (e.g., 80 or 80-443)',
-        },
-        'web-phishing': {
-            'url': 'Enter URL to test (e.g., http://example.com)',
-        },
-        'ddos-sim': {
-            'target': 'Enter target domain/IP (authorized only)',
-            'type': 'Enter attack type: http, dns, slowloris, syn, udp',
-            'duration': 'Enter duration in seconds (1-120)',
-            'threads': 'Enter number of threads (1-50)',
-        },
-        'url-mask': {
-            'url': 'Enter original URL (e.g., https://attacker.com)',
-            'fake_domain': 'Enter fake domain (e.g., google.com)',
-            'method': 'Enter method: redirect, iframe, meta',
-        },
-    }
-    
-    @staticmethod
-    def get_required_params(tool_id: str) -> List[str]:
-        """Get required parameters for a tool"""
-        return ToolParameterHelper.TOOL_REQUIRED_PARAMS.get(tool_id, [])
-    
-    @staticmethod
-    def get_param_hints(tool_id: str) -> Dict[str, str]:
-        """Get parameter hints for a tool"""
-        return ToolParameterHelper.TOOL_PARAM_HINTS.get(tool_id, {})
-    
-    @staticmethod
-    def get_param_hint(tool_id: str, param_name: str) -> str:
-        """Get hint for a specific parameter"""
-        hints = ToolParameterHelper.get_param_hints(tool_id)
-        return hints.get(param_name, "")
-    
-    @staticmethod
-    def filter_none_values(params: Dict[str, Any]) -> Dict[str, Any]:
-        """Remove None values from parameters"""
-        return {k: v for k, v in params.items() if v is not None}
-    
-    @staticmethod
-    def prepare_tool_kwargs(provided_params: Dict[str, Any], 
-                           allowed_params: Optional[List[str]] = None) -> Dict[str, Any]:
-        """
-        Prepare kwargs for tool.run()
-        
-        Args:
-            provided_params: Raw parameters from CLI
-            allowed_params: List of allowed parameters (if None, all accepted)
-        
-        Returns:
-            Cleaned parameters ready for tool.run()
-        """
-        # Filter None values
-        filtered = ToolParameterHelper.filter_none_values(provided_params)
-        
-        # Filter by allowed params if specified
-        if allowed_params:
-            filtered = {k: v for k, v in filtered.items() if k in allowed_params}
-        
-        return filtered
-
-
-class ToolOutputFormatter:
-    """Format and export tool output"""
-    
-    @staticmethod
-    def format_json(data: Dict[str, Any]) -> str:
-        """Format data as JSON"""
-        import json
-        return json.dumps(data, indent=2, default=str)
-    
-    @staticmethod
-    def export_to_file(data: Dict[str, Any], filepath: str, format: str = 'json') -> bool:
-        """
-        Export data to file
-        
-        Args:
-            data: Data to export
-            filepath: Output file path
-            format: Output format (json, txt)
-        
-        Returns:
-            True if successful
-        """
-        try:
-            Path(filepath).parent.mkdir(parents=True, exist_ok=True)
-            
-            if format == 'json':
-                import json
-                with open(filepath, 'w') as f:
-                    json.dump(data, f, indent=2, default=str)
-            elif format == 'txt':
-                with open(filepath, 'w') as f:
-                    f.write(str(data))
-            
-            logger.info(f"Results exported to {filepath}")
-            return True
-        except Exception as e:
-            logger.error(f"Failed to export results: {e}")
-            return False
+def robust_import(module_path: str, class_name: str):
+    """
+    Robustly import a tool class from a module.
+    Prevents one bad module from crashing the entire system.
+    """
+    try:
+        module = __import__(module_path, fromlist=[class_name])
+        return getattr(module, class_name)
+    except Exception as e:
+        logger.error(f"FATAL: System Error while loading {class_name} from {module_path}: {str(e)}")
+        return None

@@ -363,6 +363,12 @@ SAFETY FEATURES:
     
     # Display tool metadata/help first
     tool_class = TOOLS_REGISTRY[tool_id]
+    
+    if tool_class is None:
+        console.print(f"[red]❌ Tool '{tool_id}' exists but failed to load due to an internal error.[/red]")
+        console.print(f"[yellow]💡 Tip: Check for syntax errors or missing dependencies in the tool module.[/yellow]")
+        return
+        
     tool = tool_class()
     metadata = tool.metadata
     
