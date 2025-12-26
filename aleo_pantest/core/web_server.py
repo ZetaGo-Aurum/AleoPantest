@@ -213,7 +213,7 @@ async def download_results(tool_id: str, format: str):
     
     raise HTTPException(status_code=400, detail="Invalid format. Use 'json' or 'txt'.")
 
-def start_web_server(host: str = "127.0.0.1", port: int = 8000):
+def start_web_server(host: str = "127.0.0.1", port: int = 8002):
     if not HAS_WEB_DEPS:
         print("❌ Error: Web dependencies (fastapi, uvicorn) are not installed.")
         print("💡 Run: pip install fastapi uvicorn")

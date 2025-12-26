@@ -23,11 +23,18 @@ class ToolExecutionScreen(Screen):
     def __init__(self, tool_id: str):
         super().__init__()
         self.tool_id = tool_id
-        self.tool_instance = TOOLS_REGISTRY[tool_id]()
+        if tool_id in TOOLS_REGISTRY:
+            self.tool_instance = TOOLS_REGISTRY[tool_id]()
+        else:
+            raise ValueError(f"Unknown tool ID: {tool_id}")
         self.automation_engine = AutomationEngine()
         
     def compose(self) -> ComposeResult:
-        admin = BaseTool.get_admin_info()
+        try:
+            admin = BaseTool.get_admin_info()
+        except:
+            admin = {"username": "admin", "hostname": "localhost", "os": "unknown"}
+            
         yield Header()
         with Horizontal():
             with Vertical(id="execution-container"):

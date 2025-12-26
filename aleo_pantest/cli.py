@@ -285,7 +285,7 @@ def tui():
 
 @cli.command()
 @click.option('--host', default='127.0.0.1', help='Host to bind the web server')
-@click.option('--port', default=8000, help='Port to bind the web server')
+@click.option('--port', default=8002, help='Port to bind the web server')
 def web(host, port):
     """Launch the modern Web Dashboard"""
     try:
