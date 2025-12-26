@@ -62,7 +62,30 @@ from aleo_pantest.modules.database import (
 )
 from aleo_pantest.modules.web import AdvancedDorking
 
+import json
+import requests
+from datetime import datetime
+
 console = Console()
+
+def send_to_web_dashboard(tool_id, result):
+    """Send tool execution results to the web dashboard if available"""
+    try:
+        # Default web server port is 8002
+        url = "http://127.0.0.1:8002/api/report"
+        data = {
+            "tool_id": tool_id,
+            "results": result,
+            "source": "CLI",
+            "timestamp": datetime.now().isoformat()
+        }
+        response = requests.post(url, json=data, timeout=2)
+        if response.status_code == 200:
+            return True
+    except:
+        # Silently fail if web server is not running
+        pass
+    return False
 
 # Tool registry organized by category
 TOOLS_REGISTRY = {
@@ -502,8 +525,11 @@ SAFETY FEATURES:
             console.print(f"\n[bold cyan]📊 Results:[/bold cyan]")
             
             # Pretty print results
-            import json
             console.print_json(data=result)
+            
+            # Send to web dashboard if available
+            if send_to_web_dashboard(tool_id, result):
+                console.print(f"\n[dim green]ℹ Results also delivered to web dashboard[/dim green]")
             
             # Export if output specified
             if output:

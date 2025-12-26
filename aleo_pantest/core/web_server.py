@@ -1,3 +1,22 @@
+import io
+import json
+import time
+import os
+import traceback
+from datetime import datetime
+from typing import Dict, Any, List
+from pydantic import BaseModel
+
+# Move logger import early and use a more direct path
+try:
+    from .logger import logger
+except (ImportError, ValueError):
+    try:
+        from aleo_pantest.core.logger import logger
+    except ImportError:
+        import logging
+        logger = logging.getLogger("AleoPantest-Fallback")
+
 try:
     import uvicorn
     from fastapi import FastAPI, HTTPException
@@ -17,19 +36,20 @@ except ImportError:
     class DummyApp:
         def get(self, *args, **kwargs): return lambda f: f
         def post(self, *args, **kwargs): return lambda f: f
+        def delete(self, *args, **kwargs): return lambda f: f
         def mount(self, *args, **kwargs): pass
+        def exception_handler(self, *args, **kwargs): return lambda f: f
     app = DummyApp()
 
-import io
-import json
-from pydantic import BaseModel
-import os
-from typing import Dict, Any, List
-from datetime import datetime
-
-from ..cli import TOOLS_BY_CATEGORY, TOOLS_REGISTRY
-from ..core.automation import AutomationEngine
-from ..core.base_tool import BaseTool
+# Use relative imports for other components
+try:
+    from ..cli import TOOLS_BY_CATEGORY, TOOLS_REGISTRY
+    from .automation import AutomationEngine
+    from .base_tool import BaseTool
+except (ImportError, ValueError):
+    from aleo_pantest.cli import TOOLS_BY_CATEGORY, TOOLS_REGISTRY
+    from aleo_pantest.core.automation import AutomationEngine
+    from aleo_pantest.core.base_tool import BaseTool
 
 if HAS_WEB_DEPS:
     app = FastAPI(title="AleoPantest V3 API")
@@ -72,6 +92,42 @@ async def get_admin():
     except Exception as e:
         return {"username": "Hunter", "hostname": "localhost", "status": "online"}
 
+@app.post("/api/report")
+async def report_result(data: Dict[str, Any]):
+    """Endpoint for terminal tools to report results to the web dashboard"""
+    try:
+        if not hasattr(app, 'terminal_reports'):
+            app.terminal_reports = []
+        
+        report = {
+            "id": f"term_{datetime.now().timestamp()}",
+            "timestamp": datetime.now().isoformat(),
+            "data": data
+        }
+        
+        app.terminal_reports.insert(0, report)
+        # Keep last 50 reports
+        app.terminal_reports = app.terminal_reports[:50]
+        
+        logger.info(f"Received terminal report: {data.get('tool_id', 'unknown')}")
+        return {"status": "success", "message": "Report received"}
+    except Exception as e:
+        logger.error(f"Error receiving terminal report: {str(e)}")
+        return JSONResponse(status_code=500, content={"status": "error", "message": str(e)})
+
+@app.get("/api/reports")
+async def get_reports():
+    """Endpoint to retrieve terminal reports for the web dashboard"""
+    if not hasattr(app, 'terminal_reports'):
+        return {"results": []}
+    return {"results": app.terminal_reports}
+
+@app.delete("/api/reports")
+async def clear_reports():
+    """Endpoint to clear terminal reports"""
+    app.terminal_reports = []
+    return {"status": "success", "message": "Reports cleared"}
+
 @app.get("/api/tools")
 async def get_tools():
     # Return full metadata for all tools
@@ -93,11 +149,9 @@ async def get_tools():
                         tool_data['id'] = tool_id
                         result[cat].append(tool_data)
                     except Exception as e:
-                        from ..core.logger import logger
                         logger.error(f"Error loading tool {tool_id}: {str(e)}")
         return result
     except Exception as e:
-        from ..core.logger import logger
         logger.error(f"Critical error in get_tools: {str(e)}")
         return JSONResponse(status_code=500, content={"message": "Failed to load tools", "error": str(e)})
 
@@ -186,7 +240,6 @@ async def run_tool(request: ToolRunRequest):
         
         return response_data
     except Exception as e:
-        import traceback
         traceback.print_exc()
         logger.error(f"Error running tool {request.tool_id}: {str(e)}")
         return JSONResponse(

@@ -223,9 +223,22 @@
         </div>
 
         <nav class="flex-1 space-y-1 overflow-y-auto custom-scrollbar pr-2" id="category-list">
-            <div class="loading-shimmer h-10 w-full rounded-full mb-2"></div>
-            <div class="loading-shimmer h-10 w-full rounded-full mb-2"></div>
-            <div class="loading-shimmer h-10 w-full rounded-full mb-2"></div>
+            <div onclick="showDashboard()" id="nav-dashboard" class="sidebar-item active">
+                <i class="fas fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </div>
+            <div onclick="showTerminalReports()" id="nav-terminal" class="sidebar-item">
+                <i class="fas fa-terminal"></i>
+                <span>Terminal Activity</span>
+                <span id="terminal-count" class="ml-auto bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
+            </div>
+            <div class="h-4"></div>
+            <div class="px-4 py-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">Tool Categories</div>
+            <div id="dynamic-categories">
+                <div class="loading-shimmer h-10 w-full rounded-full mb-2"></div>
+                <div class="loading-shimmer h-10 w-full rounded-full mb-2"></div>
+                <div class="loading-shimmer h-10 w-full rounded-full mb-2"></div>
+            </div>
         </nav>
 
         <div class="mt-auto pt-6 border-t border-white/5">
@@ -311,6 +324,27 @@
                 </div>
             </div>
 
+            <!-- Terminal Activity View -->
+            <div id="terminal-activity-container" class="hidden animate-fade-in">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-2">Terminal Activity</h3>
+                        <p class="text-white/50">Laporan sinkronisasi otomatis dari eksekusi terminal.</p>
+                    </div>
+                    <button onclick="clearTerminalReports()" class="text-xs font-bold text-red-400 hover:text-red-300 transition-colors uppercase tracking-widest bg-red-400/10 px-4 py-2 rounded-full">
+                        <i class="fas fa-trash-alt mr-2"></i> Clear History
+                    </button>
+                </div>
+                
+                <div id="terminal-reports-list" class="space-y-4">
+                    <!-- Terminal reports will be loaded here -->
+                    <div class="material-card p-10 text-center">
+                        <i class="fas fa-terminal text-4xl text-white/10 mb-4"></i>
+                        <p class="text-white/30 font-medium">Belum ada aktivitas terminal yang terdeteksi.</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Execution Panel -->
             <div id="execution-panel" class="hidden animate-fade-in">
                 <button onclick="showGrid()" class="mb-8 flex items-center gap-2 text-primary hover:gap-4 transition-all font-semibold">
@@ -389,6 +423,7 @@
         let currentCategoryId = 'Dashboard';
         let activeTool = null;
         let adminInfo = null;
+        let currentTerminalReports = [];
 
         async function apiFetch(url, options = {}, retries = 3) {
             for (let i = 0; i < retries; i++) {
@@ -445,6 +480,10 @@
                 renderCategories();
                 showDashboard();
                 loadFeaturedTools();
+                
+                // Start polling for terminal reports
+                setInterval(fetchTerminalReports, 5000);
+                fetchTerminalReports(); // Initial fetch
             } catch (err) {
                 console.error("Failed to load tools:", err);
             }
@@ -517,17 +556,133 @@
             document.getElementById('sidebar-overlay').classList.toggle('open');
         }
 
-        function renderCategories() {
-            const list = document.getElementById('category-list');
-            list.innerHTML = '';
-            
-            const dashItem = document.createElement('div');
-            dashItem.className = 'sidebar-item active';
-            dashItem.id = 'side-dashboard';
-            dashItem.innerHTML = `<i class="fas fa-th-large"></i> <span>Dashboard</span>`;
-            dashItem.onclick = () => showDashboard();
-            list.appendChild(dashItem);
+        async function fetchTerminalReports() {
+            try {
+                // Try FastAPI endpoint first
+                let response;
+                try {
+                    response = await fetch('/api/reports');
+                } catch (e) {
+                    // Fallback to PHP bridge if FastAPI is unavailable
+                    response = await fetch('api.php');
+                }
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const reports = data.reports || data.results || [];
+                    updateTerminalBadge(reports.length);
+                    if (document.getElementById('terminal-activity-container').classList.contains('hidden') === false) {
+                        renderTerminalReports(reports);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching terminal reports:', error);
+            }
+        }
 
+        function updateTerminalBadge(count) {
+            const badge = document.getElementById('terminal-count');
+            if (count > 0) {
+                badge.innerText = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function renderTerminalReports(reports) {
+            const list = document.getElementById('terminal-reports-list');
+            if (!list) return;
+            
+            currentTerminalReports = reports;
+            
+            if (!reports || reports.length === 0) {
+                list.innerHTML = `
+                    <div class="material-card p-10 text-center">
+                        <i class="fas fa-terminal text-4xl text-white/10 mb-4"></i>
+                        <p class="text-white/30 font-medium">Belum ada aktivitas terminal yang terdeteksi.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = reports.map((report, index) => {
+                const toolId = report.data?.tool_id || report.tool_id || 'Unknown Tool';
+                const timestamp = new Date(report.timestamp || report.received_at).toLocaleString();
+                const results = report.data?.results || report.results || {};
+                const source = report.data?.source || report.source || 'Terminal';
+                
+                return `
+                    <div class="material-card p-6 border-l-4 border-primary/50 hover:border-primary transition-all">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-primary">
+                                    <i class="fas fa-terminal text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">${toolId.toUpperCase()}</h4>
+                                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-widest">${source} • ${timestamp}</p>
+                                </div>
+                            </div>
+                            <button onclick="copyTerminalResult(${index})" class="text-white/20 hover:text-primary transition-colors">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                        <pre class="bg-black/30 p-4 rounded-xl text-xs font-mono text-white/60 overflow-x-auto max-h-40 custom-scrollbar">${JSON.stringify(results, null, 2)}</pre>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function copyTerminalResult(index) {
+            const report = currentTerminalReports[index];
+            const results = report.data?.results || report.results || {};
+            const text = JSON.stringify(results, null, 2);
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Result copied to clipboard", "success");
+            });
+        }
+
+        function showTerminalReports() {
+            document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('nav-terminal').classList.add('active');
+            
+            document.getElementById('dashboard-home').classList.add('hidden');
+            document.getElementById('tool-grid-container').classList.add('hidden');
+            document.getElementById('execution-panel').classList.add('hidden');
+            document.getElementById('terminal-activity-container').classList.remove('hidden');
+            
+            document.getElementById('current-category').innerText = "Terminal Activity";
+            document.getElementById('tool-count').innerText = "LIVE SYNC";
+            
+            fetchTerminalReports();
+        }
+
+        async function clearTerminalReports() {
+            if (!confirm("Are you sure you want to clear all terminal reports?")) return;
+            
+            try {
+                // Try FastAPI endpoint first
+                let response = await fetch('/api/reports', { method: 'DELETE' });
+                
+                // Fallback to PHP bridge if FastAPI fails or doesn't support DELETE
+                if (!response.ok) {
+                    await fetch('api.php?clear=true');
+                }
+                
+                showToast("Terminal reports cleared", "success");
+                fetchTerminalReports();
+            } catch (error) {
+                console.error('Error clearing reports:', error);
+                showToast("Failed to clear reports", "error");
+            }
+        }
+
+        function renderCategories() {
+            const dynamicList = document.getElementById('dynamic-categories');
+            if (!dynamicList) return;
+            dynamicList.innerHTML = '';
+            
             Object.keys(allTools).forEach(cat => {
                 const item = document.createElement('div');
                 item.className = 'sidebar-item';
@@ -538,7 +693,7 @@
                     showCategory(cat);
                     if (window.innerWidth < 1024) toggleSidebar();
                 };
-                list.appendChild(item);
+                dynamicList.appendChild(item);
             });
         }
 
@@ -560,22 +715,16 @@
         }
 
         function showDashboard() {
-            const sideDash = document.getElementById('side-dashboard');
             document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-            if (sideDash) sideDash.classList.add('active');
+            document.getElementById('nav-dashboard').classList.add('active');
             
-            const dashHome = document.getElementById('dashboard-home');
-            const gridCont = document.getElementById('tool-grid-container');
-            const execPanel = document.getElementById('execution-panel');
+            document.getElementById('dashboard-home').classList.remove('hidden');
+            document.getElementById('tool-grid-container').classList.add('hidden');
+            document.getElementById('execution-panel').classList.add('hidden');
+            document.getElementById('terminal-activity-container').classList.add('hidden');
             
-            if (dashHome) dashHome.classList.remove('hidden');
-            if (gridCont) gridCont.classList.add('hidden');
-            if (execPanel) execPanel.classList.add('hidden');
-            
-            const currCat = document.getElementById('current-category');
-            const toolCount = document.getElementById('tool-count');
-            if (currCat) currCat.innerText = "Dashboard";
-            if (toolCount) toolCount.innerText = "V3.1.0 PRO";
+            document.getElementById('current-category').innerText = "Dashboard";
+            document.getElementById('tool-count').innerText = "V3.1.0 PRO";
         }
 
         function loadFeaturedTools() {
