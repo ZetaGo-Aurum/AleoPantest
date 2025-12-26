@@ -77,7 +77,8 @@ async def get_tools():
                     tool_data['id'] = tool_id
                     result[cat].append(tool_data)
                 except Exception as e:
-                    print(f"Error loading tool {tool_id}: {e}")
+                    logger.error(f"Error loading tool {tool_id}: {str(e)}", exc_info=True)
+                    # Don't add to result if failed to load
     return result
 
 @app.post("/api/run")

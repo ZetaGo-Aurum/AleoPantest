@@ -1,5 +1,18 @@
 # AleoPantest Changelog
 
+## [3.3.2] - 2025-12-26
+
+### Admin Detection & Environment Adapter Update 🛡️
+
+#### Admin Identification ⚙️
+- **Improved Admin Info Detection**: Updated `BaseTool.get_admin_info()` in [base_tool.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/base_tool.py) with accurate local device reading from terminal and multiple fallback mechanisms (env vars, getpass, socket).
+- **Environment Adapter**: Implemented `EnvironmentAdapter` in [platform.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/platform.py) to handle development, staging, and production environments with specific configuration overrides.
+- **Admin Context Logging**: Added structured logging for admin detection failures and fallback usage.
+
+#### Bug Fixes & Stability 🛠️
+- **Unknown Tool Debugging**: Added structured logging to `/api/tools` endpoint in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/web_server.py) to identify and debug tool loading failures.
+- **Cross-Platform Normalization**: Verified and enhanced parameter normalization for Windows/macOS/Linux compatibility.
+
 ## [3.3.1] - 2025-12-26
 
 ### Robustness & Error Handling Update 🛡️

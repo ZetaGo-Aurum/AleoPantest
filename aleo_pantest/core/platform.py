@@ -98,3 +98,50 @@ class PlatformOptimizer:
             except (subprocess.CalledProcessError, FileNotFoundError):
                 results[dep] = False
         return results
+
+class EnvironmentAdapter:
+    """Adapter for various environments (dev, staging, production)"""
+    
+    @staticmethod
+    def get_env() -> str:
+        """Get current environment from ALEO_ENV variable"""
+        return os.environ.get("ALEO_ENV", "development").lower()
+
+    @staticmethod
+    def is_dev() -> bool:
+        return EnvironmentAdapter.get_env() == "development"
+
+    @staticmethod
+    def is_staging() -> bool:
+        return EnvironmentAdapter.get_env() == "staging"
+
+    @staticmethod
+    def is_prod() -> bool:
+        return EnvironmentAdapter.get_env() == "production"
+
+    @staticmethod
+    def get_config_overrides() -> Dict[str, Any]:
+        """Get configuration overrides based on environment"""
+        env = EnvironmentAdapter.get_env()
+        overrides = {}
+        
+        if env == "production":
+            overrides = {
+                "DEBUG": False,
+                "LOG_LEVEL": "WARNING",
+                "SECURITY_LIMITS": "STRICT"
+            }
+        elif env == "staging":
+            overrides = {
+                "DEBUG": True,
+                "LOG_LEVEL": "INFO",
+                "SECURITY_LIMITS": "MODERATE"
+            }
+        else: # development
+            overrides = {
+                "DEBUG": True,
+                "LOG_LEVEL": "DEBUG",
+                "SECURITY_LIMITS": "RELAXED"
+            }
+            
+        return overrides

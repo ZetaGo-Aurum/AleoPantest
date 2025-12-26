@@ -39,6 +39,7 @@ Explore the full documentation to get the most out of AleoPantest.
 *   [**Changelog**](CHANGELOG.md) - History of changes and updates.
 *   [**Build Report**](BUILD_REPORT.md) - Build status and verification.
 *   [**Python 3.9+ Fix Report**](PYTHON39_FIX_REPORT.md) - Details on compatibility fixes.
+*   **v3.3.2 Admin Update**: Enhanced admin detection and environment adapter for multi-stage deployment.
 *   **v3.3.1 Stability Update**: Robustness fixes for undefined/null errors across API, Web, TUI, and CLI.
 
 ---

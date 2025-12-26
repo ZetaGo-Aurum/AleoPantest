@@ -12,6 +12,7 @@ import datetime
 from pathlib import Path
 
 from ..core.logger import logger
+from ..core.platform import EnvironmentAdapter
 
 
 class ToolCategory(Enum):
@@ -87,17 +88,47 @@ class BaseTool(ABC):
 
     @staticmethod
     def get_admin_info() -> Dict[str, str]:
-        """Returns identification of the current admin/user"""
+        """Returns identification of the current admin/user with environment-aware detection"""
+        admin_data = {
+            "username": "admin",
+            "hostname": "localhost",
+            "os": platform.system(),
+            "os_release": platform.release(),
+            "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "env": EnvironmentAdapter.get_env()
+        }
+        
         try:
-            return {
-                "username": getpass.getuser(),
-                "hostname": socket.gethostname(),
-                "os": platform.system(),
-                "os_release": platform.release(),
-                "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
-        except:
-            return {"username": "unknown", "hostname": "unknown", "os": "unknown"}
+            # 1. Try environment variables first (most reliable for staging/prod)
+            env_user = os.environ.get("ALEO_ADMIN_USER") or os.environ.get("USER") or os.environ.get("USERNAME")
+            env_host = os.environ.get("ALEO_ADMIN_HOST") or os.environ.get("HOSTNAME") or os.environ.get("COMPUTERNAME")
+            
+            if env_user:
+                admin_data["username"] = env_user
+            else:
+                # 2. Try getpass as fallback
+                try:
+                    admin_data["username"] = getpass.getuser()
+                except:
+                    pass
+            
+            if env_host:
+                admin_data["hostname"] = env_host
+            else:
+                # 3. Try socket as fallback
+                try:
+                    admin_data["hostname"] = socket.gethostname()
+                except:
+                    pass
+                    
+            # 4. Final safety check - if still empty, use defaults
+            if not admin_data["username"]: admin_data["username"] = "admin"
+            if not admin_data["hostname"]: admin_data["hostname"] = "localhost"
+            
+        except Exception as e:
+            logger.warning(f"Admin detection failed, using defaults: {e}")
+            
+        return admin_data
 
     def check_safety(self, duration_seconds: int = 0) -> bool:
         """
