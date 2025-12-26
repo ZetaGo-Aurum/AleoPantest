@@ -39,6 +39,7 @@ Explore the full documentation to get the most out of AleoPantest.
 *   [**Changelog**](CHANGELOG.md) - History of changes and updates.
 *   [**Build Report**](BUILD_REPORT.md) - Build status and verification.
 *   [**Python 3.9+ Fix Report**](PYTHON39_FIX_REPORT.md) - Details on compatibility fixes.
+*   **v3.3.3 API Standardization**: Fixed string-integer comparison errors and standardized JSON output format for all modules.
 *   **v3.3.2 Admin Update**: Enhanced admin detection and environment adapter for multi-stage deployment.
 *   **v3.3.1 Stability Update**: Robustness fixes for undefined/null errors across API, Web, TUI, and CLI.
 
@@ -89,6 +90,43 @@ More examples in [QUICKSTART_GUIDE.md](QUICKSTART_GUIDE.md).
 *   **Interactive CLI**: User-friendly interface with auto-completion and rich output.
 *   **Cross-Platform**: Works on Windows, Linux, and macOS.
 *   **Comprehensive Toolset**: Covering Network, Web, OSINT, Phishing, and more.
+
+## 🛠️ Standardization & Safety (v3.3+)
+
+Starting from v3.3, AleoPantest implements strict parameter validation and standardized output across all modules.
+
+### Parameter Validation
+All high-risk tools now perform automatic type conversion and safety checks for duration parameters.
+- **Duration**: Must be a positive integer (string inputs like `"60"` are automatically converted).
+- **Safety Limit**: Intensive tasks are limited to a maximum of 3600 seconds (1 hour).
+
+### Standardized JSON Output
+Every module now returns a consistent JSON structure, making it easier for automation and web integration:
+
+```json
+{
+  "status": "completed",
+  "tool_metadata": {
+    "name": "Beacon Flood",
+    "risk_level": "HIGH",
+    "version": "3.3.0"
+  },
+  "results": [...],
+  "error_message": null,
+  "execution_details": {
+    "duration_seconds": 12.34,
+    "results_count": 5,
+    "errors_count": 0,
+    "warnings_count": 0,
+    "timestamp": "2025-12-27T00:33:54",
+    "admin_info": {
+      "username": "admin",
+      "hostname": "localhost",
+      "env": "local"
+    }
+  }
+}
+```
 
 ## 🤝 Contributing
 

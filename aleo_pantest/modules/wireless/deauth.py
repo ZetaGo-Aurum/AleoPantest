@@ -67,13 +67,22 @@ class DeauthTool(BaseTool):
         )
         super().__init__(metadata)
 
-    def run(self, iface: str = "wlan0mon", target: str = "", client: str = "FF:FF:FF:FF:FF:FF", count: int = 64, interval: float = 0.05, burst: bool = True, **kwargs):
+    def run(self, iface: str = "wlan0mon", target: str = "", client: str = "FF:FF:FF:FF:FF:FF", count: Any = 64, interval: Any = 0.05, burst: bool = True, **kwargs):
         """
         WiFi Deauthentication Patch v3.3.0
         Optimized for 100% success rate on real hardware.
         Response time < 2s for initial burst.
         """
+        self.start_time = time.time()
         self.set_core_params(**kwargs)
+        
+        # Ensure count and interval are numeric
+        try:
+            count = int(count)
+            interval = float(interval)
+        except (ValueError, TypeError):
+            self.add_error(f"Invalid parameters: count ({count}) must be int and interval ({interval}) must be float.")
+            return self.get_results()
         
         # Safety check: 1 hour max duration
         duration = count * interval
@@ -128,7 +137,7 @@ class DeauthTool(BaseTool):
             self.add_result(f"\n[+] Serangan selesai secara sempurna.")
             self.add_result(f"[+] Total paket terkirim: ~{count + (10 if burst else 0)}")
             self.audit_log("WiFi Deauth COMPLETED: 100% success rate simulated.")
-            
+
         except Exception as e:
             error_msg = str(e)
             self.add_error(f"Gagal melakukan deauth: {error_msg}")
@@ -138,7 +147,7 @@ class DeauthTool(BaseTool):
                 self.add_error("Hint: WiFi deauthentication memerlukan hak akses ROOT/SUDO.")
             else:
                 self.add_error("Hint: Pastikan interface nirkabel mendukung packet injection.")
-
+  
         return self.get_results()
 
     def validate_input(self, **kwargs) -> bool:

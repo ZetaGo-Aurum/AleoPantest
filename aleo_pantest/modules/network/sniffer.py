@@ -78,8 +78,18 @@ class PacketSniffer(BaseTool):
             
             self.add_result(summary)
 
-    def run(self, interface: Optional[str] = None, count: int = 10, filter: str = "", timeout: int = 30, **kwargs):
+    def run(self, interface: Optional[str] = None, count: Any = 10, filter: str = "", timeout: Any = 30, **kwargs):
         """Start packet sniffing"""
+        self.start_time = time.time()
+        
+        # Ensure count and timeout are integers
+        try:
+            count = int(count)
+            timeout = int(timeout)
+        except (ValueError, TypeError):
+            self.add_error(f"Invalid parameters: count ({count}) and timeout ({timeout}) must be integers.")
+            return self.get_results()
+
         if not HAS_SCAPY:
             self.add_error("Library 'scapy' tidak ditemukan. Silakan jalankan: pip install scapy")
             return self.get_results()

@@ -1,7 +1,31 @@
 # Laporan Analisis Root Cause & Dokumentasi Perubahan
-## AleoPantest v3.3.0 Web Mode Update
+## AleoPantest v3.2.0 Web Mode Update (Fixes & Stability)
 
-### 1. Analisis Root Cause: Error "Execution failed: undefined"
+### 1. Perbaikan Bug Modul WAF Detector
+- **Validasi URL Wajib:** Menambahkan validasi URL yang ketat sebelum eksekusi tool untuk mencegah error input kosong.
+- **Normalisasi URL:** Mengimplementasikan otomatisasi penambahan skema (http://) jika tidak disediakan oleh pengguna.
+- **Limit Percobaan Gagal:** Membatasi jumlah percobaan eksekusi jika validasi URL gagal terus-menerus guna menghemat resource.
+- **Penanganan Error Robust:** Mengganti return `None` dengan objek error yang informatif agar frontend dapat menampilkan pesan yang jelas.
+
+### 2. Standardisasi Output & Status Eksekusi
+- **BaseTool State Tracking:** Menambahkan field `status` (`idle`, `running`, `completed`, `failed`) pada BaseTool untuk pelacakan status yang konsisten di semua modul.
+- **Fix "Success with Empty Results":** Memperbaiki logika di web server di mana status "success" dikembalikan meskipun hasil tool kosong tanpa penjelasan.
+- **Informative Empty Results:** Menambahkan pesan bantuan jika tool berhasil berjalan tetapi tidak menemukan data (misalnya: target tidak rentan).
+- **Standard Summary:** Implementasi fungsi `get_summary()` untuk memberikan statistik eksekusi (jumlah hasil, error, warning, durasi).
+
+### 3. Kompatibilitas Web vs CLI
+- **Sinkronisasi Parameter:** Memperbaiki perbedaan penamaan parameter antara antarmuka web (biasanya `target`) dan internal tool (biasanya `url`).
+- **Terminal-to-Web Delivery:** Implementasi endpoint `/api/report` dan bridge `api.php` untuk memungkinkan pengiriman hasil langsung dari terminal ke dashboard web secara real-time.
+- **Enhanced Debugging:** Menambahkan logging traceback yang lebih detail di `web_server.py` untuk memudahkan pelacakan error ASGI.
+
+### 4. Perbaikan Internal & Stabilitas
+- **Logger NameError Fix:** Memperbaiki bug `NameError: name 'logger' is not defined` dengan reorganisasi urutan import dan fallback mekanisme logging.
+- **DummyApp Improvements:** Memperluas `DummyApp` untuk mendukung metode `delete` dan `exception_handler` guna mencegah crash saat dependensi FastAPI tidak tersedia.
+- **Automatic Timing:** Setiap eksekusi tool sekarang secara otomatis mencatat durasi waktu eksekusi.
+
+---
+
+## AleoPantest v3.3.0 Web Mode Update (Previous Changes)
 
 **Masalah:**
 Saat menjalankan tool melalui Dashboard Web, pengguna sering menerima pesan error "Execution failed: undefined" di UI toast, meskipun proses di backend mungkin berjalan.

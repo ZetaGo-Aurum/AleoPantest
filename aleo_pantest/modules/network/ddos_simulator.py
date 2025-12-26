@@ -67,7 +67,17 @@ class DDoSSimulator(BaseTool):
         super().__init__(metadata)
         self.attack_running = False
 
-    def run(self, target: str = "", type: str = "http", duration: int = 30, threads: int = 10, **kwargs):
+    def run(self, target: str = "", type: str = "http", duration: Any = 30, threads: Any = 10, **kwargs):
+        self.start_time = time.time()
+        
+        # Ensure duration and threads are integers
+        try:
+            duration = int(duration)
+            threads = int(threads)
+        except (ValueError, TypeError):
+            self.add_error(f"Invalid parameters: duration ({duration}) and threads ({threads}) must be integers.")
+            return self.get_results()
+
         if not target:
             self.add_error("Target is required")
             return self.get_results()

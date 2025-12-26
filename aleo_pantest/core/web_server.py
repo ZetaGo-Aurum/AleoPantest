@@ -198,36 +198,147 @@ async def run_tool(request: ToolRunRequest):
         result = None
         last_error = None
         
+        # Start timing
+        tool_instance.start_time = time.time()
+        
+        # Log to console/file but not to the web output capture yet
+        logger.info(f"🚀 Running tool: {request.tool_id}")
+        
+        # Start log capturing for the response output
+        log_capture = io.StringIO()
+        capture_handler = logging.StreamHandler(log_capture)
+        capture_handler.setLevel(logging.INFO)
+        # Standard formatter without colors for web output
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+        capture_handler.setFormatter(formatter)
+        logger.addHandler(capture_handler)
+        
         for attempt in range(max_retries):
             try:
-                logger.info(f"Executing tool {request.tool_id} (Attempt {attempt + 1}/{max_retries})")
+                # Reset tool state for each attempt
+                tool_instance.clear_results()
+                tool_instance.status = "running"
+                
+                if attempt > 0:
+                    logger.info(f"Retrying execution... (Attempt {attempt + 1}/{max_retries})")
+                
+                # Check if tool needs specific parameter normalization for web
+                # Some tools might expect 'url' instead of 'target'
+                if 'url' not in final_params and 'target' in final_params:
+                    # Look at tool metadata to see if it expects 'url'
+                    params_desc = tool_instance.metadata.parameters or {}
+                    if 'url' in params_desc:
+                        final_params['url'] = final_params.pop('target')
+                elif 'target' not in final_params and 'url' in final_params:
+                     params_desc = tool_instance.metadata.parameters or {}
+                     if 'target' in params_desc:
+                        final_params['target'] = final_params.pop('url')
+
                 result = tool_instance.run(**final_params)
-                if result is not None:
+                
+                # Use standard BaseTool state tracking
+                if tool_instance.status == "failed" or tool_instance.errors:
+                    # If it's a validation error (no results yet), don't retry
+                    if not tool_instance.results and not result:
+                        logger.warning(f"Validation failed for {request.tool_id}")
+                        break
+                    
+                    if not result and not tool_instance.results:
+                        logger.warning(f"Attempt {attempt + 1} failed for {request.tool_id}: No results returned")
+                        if attempt < max_retries - 1:
+                            time.sleep(retry_delay)
+                            continue
+                
+                if result is not None or tool_instance.results:
+                    tool_instance.status = "completed"
                     break
             except Exception as e:
                 last_error = e
-                logger.warning(f"Attempt {attempt + 1} failed for {request.tool_id}: {str(e)}")
+                tool_instance.status = "failed"
+                logger.error(f"Execution error on attempt {attempt + 1}: {str(e)}")
                 if attempt < max_retries - 1:
                     time.sleep(retry_delay)
         
-        if result is None:
-            if last_error:
-                raise last_error
-            result = {"status": "success", "output": "Tool executed but returned no results.", "results": []}
+        # Remove capture handler
+        logger.removeHandler(capture_handler)
+        captured_logs = log_capture.getvalue()
         
-        # Ensure result is a dictionary and has standard web fields
-        if not isinstance(result, dict):
-            result = {"results": result}
+        # Get standardized summary
+        summary = tool_instance.get_summary()
+        
+        # Format the final output string exactly as requested
+        status_icon = "✓" if summary['status'] == "completed" else "❌"
+        status_text = "Execution completed successfully" if summary['status'] == "completed" else f"Execution failed: {tool_instance.errors[0] if tool_instance.errors else 'Unknown error'}"
+        
+        # Consolidate results for display
+        final_results = tool_instance.get_results()
+        display_results = []
+        
+        if isinstance(final_results, dict):
+            if "results" in final_results:
+                display_results = final_results["results"]
+            else:
+                display_results = final_results
+        else:
+            display_results = final_results if final_results else (result if isinstance(result, list) else [result] if result else [])
+
+        # If it's a list with one object, show just the object for cleaner output
+        if isinstance(display_results, list) and len(display_results) == 1:
+            display_results = display_results[0]
+
+        # Construct visual output
+        visual_output = f"🚀 Running: {request.tool_id}\n"
+        visual_output += captured_logs.rstrip() + "\n" if captured_logs.strip() else ""
+        visual_output += f"\n{status_icon} {status_text}\n\n"
+        visual_output += "📊 Results:\n"
+        
+        if display_results:
+            visual_output += json.dumps(display_results, indent=2)
+        else:
+            visual_output += "{}"
+        
+        # Check if we have a valid result or if the tool failed
+        if summary['status'] == "failed" and not tool_instance.results:
+            status = "error"
+            message = tool_instance.errors[0] if tool_instance.errors else "Tool execution failed"
+            
+            response_data = {
+                "status": "error",
+                "message": message,
+                "tool_id": request.tool_id,
+                "timestamp": datetime.now().isoformat(),
+                "results": {
+                    "results": [], 
+                    "errors": tool_instance.errors,
+                    "warnings": tool_instance.warnings,
+                    "summary": summary
+                },
+                "output": visual_output
+            }
+            return response_data
+        
+        # Consolidate results for API response
+        api_results = tool_instance.get_results()
             
         # Add metadata for web consistency
         response_data = {
             "status": "success",
-            "message": "Execution completed successfully",
+            "message": f"Execution completed with {summary['results_count']} results" if summary['results_count'] > 0 else "Execution completed (no results)",
             "tool_id": request.tool_id,
             "timestamp": datetime.now().isoformat(),
-            "results": result,
-            "output": json.dumps(result, indent=2) if isinstance(result, (dict, list)) else str(result)
+            "results": {
+                "results": api_results,
+                "errors": tool_instance.errors,
+                "warnings": tool_instance.warnings,
+                "summary": summary
+            },
+            "output": visual_output
         }
+        
+        # If results are empty but status is success, add a helpful message
+        if summary['results_count'] == 0 and summary['status'] != "failed":
+            response_data["message"] = "Execution completed successfully, but no vulnerabilities or data were found."
+            # Visual output already handled above
         
         # Store results for potential download (in-memory simple cache)
         if not hasattr(app, 'last_results'):

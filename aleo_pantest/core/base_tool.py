@@ -74,6 +74,7 @@ class BaseTool(ABC):
         self.results = []
         self.errors = []
         self.warnings = []
+        self.status = "idle" # idle, running, completed, failed
         self.is_running = False
         self.start_time = None
         
@@ -131,19 +132,41 @@ class BaseTool(ABC):
             
         return admin_data
 
-    def check_safety(self, duration_seconds: int = 0) -> bool:
+    def check_safety(self, duration_seconds: Any = 0) -> bool:
         """
         Safety check for high-risk tools.
         Enforces 1-hour limit for intensive tasks.
+        
+        Args:
+            duration_seconds (int/str): Duration in seconds to check against safety limits.
+            
+        Returns:
+            bool: True if safety check passes, False otherwise.
         """
+        try:
+            # Type validation and conversion
+            if duration_seconds is None:
+                duration = 0
+            else:
+                duration = int(duration_seconds)
+                
+            if duration < 0:
+                self.add_error(f"Invalid Duration: Nilai durasi ({duration}s) tidak boleh negatif.")
+                return False
+                
+        except (ValueError, TypeError):
+            self.add_error(f"Type Error: Format durasi '{duration_seconds}' tidak valid. Harus berupa angka (integer).")
+            return False
+
         if self.metadata and self.metadata.risk_level in ["HIGH", "CRITICAL"]:
             MAX_DURATION = 3600  # 1 hour
-            if duration_seconds > MAX_DURATION:
-                self.add_error(f"Safety Limit: Durasi eksekusi {duration_seconds}s melebihi batas maksimal 1 jam.")
+            if duration > MAX_DURATION:
+                self.add_error(f"Safety Limit: Durasi eksekusi {duration}s melebihi batas maksimal 1 jam.")
                 return False
             
             # Additional safety logic can be added here
-            self.audit_log("Safety check passed for high-risk execution.")
+            self.audit_log(f"Safety check passed for high-risk execution (Duration: {duration}s).")
+            
         return True
 
     def audit_log(self, action: str):
@@ -168,21 +191,67 @@ class BaseTool(ABC):
     
     def add_result(self, result: Any):
         """Add result"""
-        self.results.append(result)
-    
+        if result is not None:
+            # If the result is a string, it's often a progress message, log it
+            if isinstance(result, str):
+                logger.info(f"[{self.metadata.name if self.metadata else 'Unknown'}] {result}")
+            
+            self.results.append(result)
+            # If we have at least one valid result, status can be completed
+            # even if there were some minor errors/warnings
+            if self.status != "failed":
+                self.status = "completed"
+
     def add_error(self, error: str):
         """Add error"""
         self.errors.append(error)
-        logger.error(f"[{self.metadata.name}] {error}")
-    
+        # Only set to failed if we don't have results yet
+        # If we have results, it might be a partial failure
+        if not self.results:
+            self.status = "failed"
+        logger.error(f"[{self.metadata.name if self.metadata else 'Unknown'}] {error}")
+
     def add_warning(self, warning: str):
         """Add warning"""
         self.warnings.append(warning)
-        logger.warning(f"[{self.metadata.name}] {warning}")
+        logger.warning(f"[{self.metadata.name if self.metadata else 'Unknown'}] {warning}")
+
+    def get_summary(self) -> Dict[str, Any]:
+        """Get execution summary"""
+        return {
+            "status": self.status,
+            "results_count": len(self.results),
+            "errors_count": len(self.errors),
+            "warnings_count": len(self.warnings),
+            "duration": (time.time() - self.start_time) if self.start_time else 0
+        }
     
-    def get_results(self) -> list:
-        """Get all results"""
-        return self.results
+    def get_json_output(self) -> Dict[str, Any]:
+        """
+        Returns a standardized JSON output for all modules.
+        Includes status, error messages, and detailed execution info.
+        """
+        summary = self.get_summary()
+        return {
+            "status": summary["status"],
+            "tool_metadata": self.metadata.to_dict() if self.metadata else {},
+            "results": self.results,
+            "error_message": self.errors[0] if self.errors else None,
+            "errors": self.errors,
+            "warnings": self.warnings,
+            "execution_details": {
+                "duration_seconds": round(summary["duration"], 2),
+                "results_count": summary["results_count"],
+                "errors_count": summary["errors_count"],
+                "warnings_count": summary["warnings_count"],
+                "timestamp": datetime.datetime.now().isoformat(),
+                "admin_info": self.get_admin_info()
+            }
+        }
+
+    def get_results(self) -> Any:
+        """Get all results - defaults to returning standardized JSON output"""
+        return self.get_json_output()
     
     def clear_results(self):
         """Clear results"""

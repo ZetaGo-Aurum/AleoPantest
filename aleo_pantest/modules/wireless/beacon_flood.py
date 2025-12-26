@@ -55,7 +55,17 @@ class BeaconFlood(BaseTool):
         )
         super().__init__(metadata)
 
-    def run(self, iface: str = "wlan0mon", prefix: str = "ALEO_GHOST_", count: int = 50, duration: int = 60, **kwargs):
+    def run(self, iface: str = "wlan0mon", prefix: str = "ALEO_GHOST_", count: Any = 50, duration: Any = 60, **kwargs):
+        self.start_time = time.time()
+        
+        # Ensure count and duration are integers
+        try:
+            count = int(count)
+            duration = int(duration)
+        except (ValueError, TypeError):
+            self.add_error(f"Invalid parameters: count ({count}) and duration ({duration}) must be integers.")
+            return self.get_results()
+
         # 1. Safety Check
         if not self.check_safety(duration):
             return self.get_results()

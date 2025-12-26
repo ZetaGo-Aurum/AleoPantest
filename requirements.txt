@@ -1,141 +1,100 @@
-# AleoPantest v2.0 - Comprehensive Penetration Testing Framework
-# Python 3.8+
-# Installation: pip install -r requirements.txt
+# AleoPantest v3.3.3 - Requirements File
+# Environment: Python 3.8+ (Target: Windows, Linux, macOS)
+# Encoding: UTF-8
+# Standards: PEP 440 versioning, UTF-8 documentation
 
-# Core Framework
-click==8.1.7
-rich==13.7.0
-pydantic==2.5.0
-python-dotenv==1.0.0
-pyyaml==6.0.1
+# --- Core Framework ---
+click==8.1.7               # Penanganan Command Line Interface (CLI) dan argument parsing.
+rich==13.7.0                # Output terminal yang berwarna, tabel, dan progress bar untuk TUI modern.
+pydantic==2.5.0             # Validasi data dan pengaturan menggunakan model Python.
+python-dotenv==1.0.0        # Memuat variabel lingkungan dari file .env.
+pyyaml==6.0.1               # Parsing dan dumping file konfigurasi YAML (default.yml).
 
-# CLI & TUI
-textual==0.48.0
-typer==0.9.0
-colorama==0.4.6
-termcolor==2.4.0
-tabulate==0.9.0
-prettytable==3.10.0
+# --- CLI & TUI ---
+textual==0.48.0             # Framework TUI (Terminal User Interface) interaktif untuk dashboard.
+typer==0.9.0                # Membangun aplikasi CLI berbasis type-hints untuk kemudahan penggunaan.
+colorama==0.4.6             # Dukungan warna terminal lintas platform (khususnya Windows).
+termcolor==2.4.0            # Pewarnaan teks sederhana untuk output log.
+tabulate==0.9.0             # Memformat data list/dict menjadi tabel teks yang rapi.
+prettytable==3.10.0         # Library alternatif untuk pembuatan tabel ASCII yang kompleks.
 
-# Network Tools
-scapy==2.5.0
-python-nmap==0.7.1
-paramiko==3.4.0
-pycryptodome==3.19.0
-requests==2.31.0
-urllib3==2.1.0
-httpx==0.25.2
-aiohttp==3.9.1
-websockets==12.0
-dnspython==2.4.2
-whois==0.9.1
-python-whois==0.7.3
+# --- Network Tools ---
+scapy==2.5.0                # Manipulasi paket jaringan tingkat rendah (Sniffing, Injection, Scanning).
+python-nmap==0.7.1          # Interface Python untuk pemindaian port menggunakan Nmap.
+paramiko==3.4.0             # Implementasi protokol SSHv2 untuk remote command execution.
+pycryptodome==3.19.0        # Operasi kriptografi tingkat rendah untuk protokol jaringan.
+requests==2.31.0            # Library HTTP client utama untuk interaksi API dan Web.
+urllib3==2.1.0              # Library HTTP client tingkat rendah, dependensi untuk requests.
+httpx==0.25.2               # Client HTTP modern dengan dukungan async/await.
+aiohttp==3.9.1              # Client/Server HTTP asinkron untuk performa tinggi.
+websockets==12.0            # Implementasi protokol WebSocket untuk komunikasi real-time.
+dnspython==2.4.2            # Manipulasi dan lookup DNS tingkat lanjut.
+whois==0.9.1                # Pengambilan data pendaftaran domain (WHOIS).
+python-whois==0.7.3         # Library alternatif untuk parsing data WHOIS.
 
-# Web Scraping & Crawling
-beautifulsoup4==4.12.2
-selenium==4.15.2
-scrapy==2.11.0
-httplib2==0.22.0
-fake-useragent==1.4.0
-lxml==4.9.3
+# --- Web Scraping & Crawling ---
+beautifulsoup4==4.12.2      # Parsing dokumen HTML/XML untuk ekstraksi data web.
+selenium==4.15.2            # Otomatisasi browser untuk pengujian aplikasi web dinamis.
+scrapy==2.11.0              # Framework crawling web tingkat tinggi dan ekstraksi data.
+httplib2==0.22.0            # Library client HTTP yang komprehensif.
+fake-useragent==1.4.0       # Pembuatan User-Agent acak untuk bypass deteksi bot.
+lxml==4.9.3                 # Parser XML dan HTML yang cepat dan efisien.
 
-# SQL & Database
-sqlalchemy==2.0.23
-pymysql==1.1.0
-psycopg2-binary==2.9.9
-pymongo==4.6.0
+# --- SQL & Database ---
+sqlalchemy==2.0.23          # Toolkit SQL dan Object Relational Mapper (ORM) untuk database.
+pymysql==1.1.0              # Driver murni Python untuk koneksi database MySQL.
+psycopg2-binary==2.9.9      # Adaptor database PostgreSQL untuk Python.
+pymongo==4.6.0              # Driver Python untuk interaksi dengan database MongoDB.
 
-# OSINT & Data Collection
-shodan==1.28.2
-googlesearch-python==1.2.3
-requests-html==0.10.0
-instagrapi==2.0.0
-tweepy==4.14.0
-selenium-wire==5.1.0
-browser-cookie3==0.19.1
-duckduckgo-search==3.9.5
-bing-image-downloader==1.3.3
-geoip2==4.7.0
-maxminddb==2.2.0
+# --- OSINT & Data Collection ---
+shodan==1.28.2              # Integrasi API Shodan untuk pencarian perangkat terhubung internet.
+googlesearch-python==1.2.3  # Pencarian Google secara otomatis melalui script.
+requests-html==0.10.0       # Parsing HTML dengan dukungan JavaScript (Render).
+instagrapi==2.0.0           # Library untuk interaksi dengan API Instagram (OSINT).
+tweepy==4.14.0              # Library untuk akses API Twitter/X (OSINT).
+selenium-wire==5.1.0        # Ekstensi Selenium untuk inspeksi request HTTP/HTTPS.
+browser-cookie3==0.19.1     # Pengambilan cookie dari browser lokal untuk bypass login.
+duckduckgo-search==3.9.5    # Pencarian DuckDuckGo tanpa API key.
+bing-image-downloader==1.3.3 # Pengunduhan gambar dari Bing secara massal.
+geoip2==4.7.0               # Geolokasi alamat IP menggunakan database MaxMind.
+maxminddb==2.2.0            # Library pembaca database MaxMind (.mmdb).
 
-# Cryptography & Encoding
-cryptography==41.0.7
-base58==2.1.1
-base91==1.0.1
-jwt==1.3.1
-pyaes==1.6.1
+# --- Cryptography & Encoding ---
+cryptography==41.0.7        # Library kriptografi modern (AES, RSA, ECC, dll.).
+base58==2.1.1               # Encoding/Decoding Base58 (umum digunakan di Blockchain).
+base91==1.0.1               # Encoding/Decoding Base91 untuk kompresi data tekstual.
+jwt==1.3.1                  # Penanganan JSON Web Token untuk pengujian keamanan API.
+pyaes==1.6.1                # Implementasi AES murni Python (tanpa dependensi C).
 
-# Password Tools
-passlib==1.7.4
-bcrypt==4.1.1
-argon2-cffi==23.1.0
+# --- Password Tools ---
+passlib==1.7.4              # Hashing password dengan dukungan berbagai algoritma (BCrypt, SHA).
+bcrypt==4.1.1               # Library khusus untuk algoritma hashing BCrypt.
+argon2-cffi==23.1.0         # Hashing password menggunakan algoritma Argon2 (pemenang PHC).
 
-# WiFi & Wireless
-scapy-radio==0.3
-pywifi==1.1.1
+# --- WiFi & Wireless ---
+scapy-radio==0.3            # Ekstensi Scapy untuk protokol radio (ZigBee, 802.15.4).
+pywifi==1.1.1               # Manipulasi interface WiFi (Connect, Disconnect, Scan).
 
-# API & Web Testing
-requests-auth==6.0.0
-graphene==3.3
-fastapi==0.109.0
-flask==3.0.0
-uvicorn==0.24.0
+# --- API & Web Testing ---
+requests-auth==6.0.0        # Berbagai metode autentikasi untuk library requests.
+graphene==3.3               # Library untuk membangun API GraphQL di Python.
+fastapi==0.109.0            # Framework web modern dan cepat untuk membangun API.
+flask==3.0.0                # Micro-framework web untuk prototyping cepat.
+uvicorn==0.24.0             # Server ASGI yang cepat untuk menjalankan FastAPI/Flask.
 
-# Proxy & Tunneling
-pysocks==1.7.1
-requests-socks==0.7.1
-pexpect==4.9.0
-ngrok==6.1.1
-pyngrok==7.0.1
+# --- Proxy & Tunneling ---
+pysocks==1.7.1              # Client SOCKS proxy untuk Python.
+requests-socks==0.7.1       # Dukungan SOCKS proxy untuk library requests.
+pexpect==4.9.0              # Otomatisasi interaksi dengan aplikasi terminal/shell.
+ngrok==6.1.1                # Client API resmi untuk layanan tunneling Ngrok.
+pyngrok==7.0.1              # Wrapper Python untuk instalasi dan penggunaan Ngrok.
 
-# File Analysis
-magic-python==0.4.24
-exifread==3.0.0
-pillow==10.1.0
-pdf2image==1.16.3
+# --- File Analysis ---
+magic-python==0.4.24        # Deteksi tipe file berdasarkan magic bytes (libmagic).
+exifread==3.0.0             # Ekstraksi metadata EXIF dari file gambar (OSINT).
+pillow==10.1.0              # Library pengolahan gambar (PIL Fork).
+pdf2image==1.16.3           # Konversi halaman PDF menjadi objek gambar.
 
-# QR Code
-qrcode==7.4.2
-pycqrcode==1.2.1
-
-# Reverse Engineering
-capstone==5.0.0
-keystone-engine==0.9.2
-
-# Vulnerability Scanning
-bandit==1.7.5
-safety==2.3.5
-semgrep==1.45.0
-
-# Logging & Monitoring
-loguru==0.7.2
-sentry-sdk==1.38.0
-prometheus-client==0.19.0
-
-# Data Processing
-pandas==2.1.3
-numpy==1.26.2
-scipy==1.11.4
-
-# Testing
-pytest==7.4.3
-pytest-asyncio==0.23.2
-mock==5.1.0
-
-# Development Tools
-black==23.12.0
-flake8==6.1.0
-isort==5.13.2
-mypy==1.7.1
-
-# Async & Concurrency
-aiofiles==23.2.1
-
-# Utilities
-tqdm==4.66.1
-pytz==2023.3
-arrow==1.3.0
-validators==0.22.0
-shortuuid==1.0.11
-qrcode==7.4.2
-pycqrcode==1.2.1
+# --- QR Code ---
+qrcode==7.4.2               # Pembuatan kode QR untuk berbagai keperluan.
+pycqrcode==1.2.1            # Library alternatif pembuatan kode QR dengan fitur tambahan.

@@ -87,11 +87,30 @@ class WAFDetector(BaseTool):
     def validate_input(self, url: str = None, **kwargs) -> bool:
         """Validate input URL"""
         if not url:
+            # Check if url is in kwargs (sometimes passed this way from web/cli)
+            url = kwargs.get('url')
+            
+        if not url:
             self.add_error("URL is required")
             return False
         
+        # Normalize URL
+        url = str(url).strip()
+        if not url:
+            self.add_error("URL cannot be empty")
+            return False
+            
         if not url.startswith(('http://', 'https://')):
-            self.add_error("URL must start with http:// or https://")
+            url = 'http://' + url
+            
+        try:
+            import urllib.parse
+            parsed = urllib.parse.urlparse(url)
+            if not parsed.netloc:
+                self.add_error(f"Invalid URL format: {url}")
+                return False
+        except Exception as e:
+            self.add_error(f"Failed to parse URL: {str(e)}")
             return False
         
         return True
@@ -244,15 +263,39 @@ class WAFDetector(BaseTool):
     
     def run(self, url: str = None, test_payloads: bool = False, **kwargs) -> Dict[str, Any]:
         """Run WAF detection"""
-        if not self.validate_input(url, **kwargs):
-            return None
+        # Get URL from either positional or keyword arguments
+        target_url = url or kwargs.get('url')
         
+        # Ensure we don't keep running if validation fails repeatedly
+        if not hasattr(self, '_fail_count'):
+            self._fail_count = 0
+            
+        if not self.validate_input(target_url, **kwargs):
+            self._fail_count += 1
+            if self._fail_count > 3:
+                logger.error(f"WAF Detector: Too many failed validation attempts ({self._fail_count})")
+            
+            # Return a clear error result instead of None to help with output consistency
+            return {
+                'tool': 'WAF Detector',
+                'status': 'error',
+                'message': self.errors[-1] if self.errors else "Validation failed",
+                'results': None
+            }
+        
+        # Reset fail count on success
+        self._fail_count = 0
+        
+        # Use normalized URL
+        if target_url and not target_url.startswith(('http://', 'https://')):
+            target_url = 'http://' + target_url
+            
         self.clear_results()
-        logger.info(f"Starting WAF detection for {url}")
+        logger.info(f"Starting WAF detection for {target_url}")
         
         try:
             headers = {'User-Agent': 'Mozilla/5.0'}
-            response = requests.get(url, headers=headers, timeout=10)
+            response = requests.get(target_url, headers=headers, timeout=10)
             
             # Detect WAF by headers
             header_detection = self.detect_waf_by_headers(response)
@@ -260,39 +303,45 @@ class WAFDetector(BaseTool):
             # Optional: Test with payloads
             payload_detection = {}
             if test_payloads:
-                payload_detection = self.detect_waf_by_response_code(url)
+                payload_detection = self.detect_waf_by_response_code(target_url)
             
             # Analyze rules
-            rule_analysis = self.analyze_waf_rules(url)
+            rule_analysis = self.analyze_waf_rules(target_url)
             
             result = {
                 'tool': 'WAF Detector',
                 'timestamp': datetime.now().isoformat(),
-                'url': url,
+                'url': target_url,
                 'status_code': response.status_code,
                 'header_analysis': header_detection,
                 'payload_analysis': payload_detection if test_payloads else None,
                 'rule_analysis': rule_analysis,
-                'summary': {
-                    'waf_detected': len(header_detection['detected_waf']) > 0 or 
-                                   (payload_detection.get('waf_detected', False) if test_payloads else False),
-                    'detected_firewalls': [waf['waf'] for waf in header_detection['detected_waf']],
-                    'protection_level': rule_analysis['protection_level']
-                },
-                'recommendations': self._get_recommendations(header_detection, rule_analysis)
+                'waf_detected': header_detection['confidence'] > 0 or (test_payloads and payload_detection.get('waf_detected', False))
             }
             
-            self.add_result(result)
+            self.results = [result]
             return result
             
         except requests.exceptions.RequestException as e:
-            logger.error(f"Failed to fetch URL: {e}")
-            self.add_error(f"Failed to fetch URL: {e}")
-            return None
+            error_msg = f"Network error connecting to {target_url}: {str(e)}"
+            self.add_error(error_msg)
+            return {
+                'tool': 'WAF Detector',
+                'status': 'error',
+                'message': error_msg,
+                'results': None
+            }
         except Exception as e:
-            logger.exception("WAF detection failed")
-            self.add_error(f"Detection failed: {e}")
-            return None
+            error_msg = f"Unexpected error during WAF detection: {str(e)}"
+            self.add_error(error_msg)
+            import traceback
+            logger.error(f"WAF Detector Error: {traceback.format_exc()}")
+            return {
+                'tool': 'WAF Detector',
+                'status': 'error',
+                'message': error_msg,
+                'results': None
+            }
     
     def _get_recommendations(self, header_detection: Dict, rule_analysis: Dict) -> List[str]:
         """Get WAF recommendations"""
