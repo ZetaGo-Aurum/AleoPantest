@@ -177,5 +177,4 @@ class DDoSSimulator(BaseTool):
             pass
         finally:
             for s in sockets:
-                s.close()"}]}</p>
-```
+                s.close()
