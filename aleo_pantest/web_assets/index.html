@@ -378,6 +378,93 @@
                     <pre id="tool-results" class="custom-scrollbar text-sm font-mono text-primary/90 leading-relaxed overflow-x-auto"></pre>
                 </div>
             </div>
+
+            <!-- Help View -->
+            <div id="help-view" class="hidden animate-fade-in">
+                <div class="mb-12">
+                    <h3 class="text-3xl lg:text-4xl font-bold mb-4">Help <span class="text-primary">Center</span></h3>
+                    <p class="text-white/50 max-w-2xl text-base lg:text-lg">Panduan lengkap, template, dan solusi untuk masalah umum saat menggunakan AleoPantest.</p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                    <!-- Guides -->
+                    <div class="xl:col-span-2 space-y-8">
+                        <div class="material-card p-8">
+                            <h4 class="text-xl font-bold mb-6 flex items-center gap-3">
+                                <i class="fas fa-book text-primary"></i>
+                                Panduan Penggunaan Tools
+                            </h4>
+                            <div class="space-y-6">
+                                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                                    <h5 class="font-bold text-primary mb-2">1. Network Scanning</h5>
+                                    <p class="text-sm text-white/60 leading-relaxed">Gunakan tools kategori Network untuk memetakan infrastruktur target. Pastikan anda memiliki izin untuk melakukan scanning pada target yang ditentukan.</p>
+                                </div>
+                                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                                    <h5 class="font-bold text-primary mb-2">2. Wireless Attacks</h5>
+                                    <p class="text-sm text-white/60 leading-relaxed">Tools Wireless (seperti Deauth) memerlukan adapter wifi yang mendukung mode monitor. Pastikan interface anda sudah dalam mode monitor (contoh: wlan0mon).</p>
+                                </div>
+                                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                                    <h5 class="font-bold text-primary mb-2">3. Web Security</h5>
+                                    <p class="text-sm text-white/60 leading-relaxed">Untuk analisis web, masukkan URL lengkap termasuk protokol (http/https). Beberapa tool mungkin memerlukan waktu lebih lama untuk crawling.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="material-card p-8">
+                            <h4 class="text-xl font-bold mb-6 flex items-center gap-3">
+                                <i class="fas fa-file-code text-accent"></i>
+                                Template & Implementasi
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white/5 p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <i class="fas fa-terminal text-2xl text-accent"></i>
+                                        <i class="fas fa-download text-xs text-white/30"></i>
+                                    </div>
+                                    <h5 class="font-bold mb-1">CLI Command List</h5>
+                                    <p class="text-xs text-white/40">Daftar perintah lengkap untuk penggunaan via terminal.</p>
+                                </div>
+                                <div class="bg-white/5 p-6 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <i class="fas fa-file-csv text-2xl text-green-400"></i>
+                                        <i class="fas fa-download text-xs text-white/30"></i>
+                                    </div>
+                                    <h5 class="font-bold mb-1">Report Template</h5>
+                                    <p class="text-xs text-white/40">Template laporan hasil pentest profesional.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ & Troubleshooting -->
+                    <div class="space-y-8">
+                        <div class="material-card p-8">
+                            <h4 class="text-xl font-bold mb-6 flex items-center gap-3">
+                                <i class="fas fa-bug text-orange-400"></i>
+                                FAQ & Fixes
+                            </h4>
+                            <div class="space-y-6">
+                                <div>
+                                    <h5 class="text-sm font-bold text-white/80 mb-2">Q: System Error: Failed to fetch?</h5>
+                                    <p class="text-xs text-white/40 leading-relaxed">A: Pastikan server AleoPantest berjalan dan anda memiliki koneksi internet. Periksa console log untuk detail error CORS.</p>
+                                </div>
+                                <div>
+                                    <h5 class="text-sm font-bold text-white/80 mb-2">Q: Tool tidak memberikan output?</h5>
+                                    <p class="text-xs text-white/40 leading-relaxed">A: Periksa parameter yang dimasukkan. Beberapa tool memerlukan hak akses root/sudo untuk berjalan di backend.</p>
+                                </div>
+                                <div>
+                                    <h5 class="text-sm font-bold text-white/80 mb-2">Q: Kecepatan Deauth lambat?</h5>
+                                    <p class="text-xs text-white/40 leading-relaxed">A: Gunakan opsi --burst atau naikkan jumlah count paket untuk hasil yang lebih agresif.</p>
+                                </div>
+                            </div>
+                            <button class="btn-primary w-full justify-center mt-8 text-sm">
+                                <i class="fas fa-headset"></i>
+                                Contact Support
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -476,6 +563,13 @@
             dashItem.onclick = () => showDashboard();
             list.appendChild(dashItem);
 
+            const helpItem = document.createElement('div');
+            helpItem.className = 'sidebar-item';
+            helpItem.id = 'side-help';
+            helpItem.innerHTML = `<i class="fas fa-question-circle"></i> <span>Help Center</span>`;
+            helpItem.onclick = () => showHelp();
+            list.appendChild(helpItem);
+
             Object.keys(allTools).forEach(cat => {
                 const item = document.createElement('div');
                 item.className = 'sidebar-item';
@@ -513,8 +607,23 @@
             document.getElementById('dashboard-home').classList.remove('hidden');
             document.getElementById('tool-grid-container').classList.add('hidden');
             document.getElementById('execution-panel').classList.add('hidden');
+            document.getElementById('help-view').classList.add('hidden');
             document.getElementById('current-category').innerText = "Dashboard";
             document.getElementById('tool-count').innerText = "V3.1.0 PRO";
+        }
+
+        function showHelp() {
+            document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('side-help').classList.add('active');
+            
+            document.getElementById('dashboard-home').classList.add('hidden');
+            document.getElementById('tool-grid-container').classList.add('hidden');
+            document.getElementById('execution-panel').classList.add('hidden');
+            document.getElementById('help-view').classList.remove('hidden');
+            document.getElementById('current-category').innerText = "Help Center";
+            document.getElementById('tool-count').innerText = "GUIDES";
+            
+            if (window.innerWidth < 1024) toggleSidebar();
         }
 
         function loadFeaturedTools() {
@@ -540,6 +649,7 @@
             document.getElementById('dashboard-home').classList.add('hidden');
             document.getElementById('tool-grid-container').classList.remove('hidden');
             document.getElementById('execution-panel').classList.add('hidden');
+            document.getElementById('help-view').classList.add('hidden');
             
             document.getElementById('current-category').innerText = cat;
             
@@ -598,6 +708,7 @@
             document.getElementById('dashboard-home').classList.add('hidden');
             document.getElementById('tool-grid-container').classList.add('hidden');
             document.getElementById('execution-panel').classList.remove('hidden');
+            document.getElementById('help-view').classList.add('hidden');
             
             document.getElementById('exec-tool-name').innerText = tool.name;
             document.getElementById('exec-tool-desc').innerText = tool.description;
@@ -749,6 +860,7 @@
             document.getElementById('dashboard-home').classList.add('hidden');
             document.getElementById('tool-grid-container').classList.remove('hidden');
             document.getElementById('execution-panel').classList.add('hidden');
+            document.getElementById('help-view').classList.add('hidden');
             document.getElementById('current-category').innerText = "Search Results";
             
             const grid = document.getElementById('tool-grid');

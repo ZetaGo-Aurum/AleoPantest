@@ -1,5 +1,24 @@
 # AleoPantest Changelog
 
+## [3.3.1] - 2025-12-26
+
+### Web Suite & Connectivity Patch 🌐
+
+#### New Features ✨
+- **Integrated Help Center**: Added a dedicated "Help Center" tab in the web interface featuring:
+  - **Usage Guides**: Step-by-step instructions for Network, Wireless, and Web tools.
+  - **Templates**: Downloadable CLI command lists and professional report templates.
+  - **FAQ & Troubleshooting**: Quick solutions for common issues like "Failed to fetch" and permission errors.
+- **Improved Navigation**: Updated sidebar with categorized navigation and quick-access Help Center.
+
+#### Bug Fixes & Stability 🐛
+- **Fixed "SYSTEM ERROR: Failed to fetch"**: Resolved by implementing proper CORS (Cross-Origin Resource Sharing) middleware in the FastAPI backend.
+- **Network Optimization**: Improved API response handling for faster tool execution feedback.
+- **Robust Error Handling**: Added detailed system error reporting in the web results panel.
+- **UI Responsiveness**: Fixed sidebar behavior on mobile devices and improved layout consistency.
+
+---
+
 ## [3.3.0] - 2025-12-26
 
 ### Real Implementation & Safety Update 🛡️
