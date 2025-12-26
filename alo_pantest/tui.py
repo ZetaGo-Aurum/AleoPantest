@@ -143,7 +143,7 @@ class AloPantestTUI(App):
         padding: 2;
     }
     #welcome-msg {
-        font-size: 150%;
+        text-style: bold;
         margin-bottom: 1;
     }
     #status-bar {
@@ -157,7 +157,7 @@ class AloPantestTUI(App):
         padding: 2;
     }
     #tool-title {
-        font-size: 200%;
+        text-style: bold;
         color: $accent;
     }
     #input-area {
