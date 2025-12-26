@@ -1,7 +1,25 @@
-import uvicorn
-from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse, Response
+try:
+    import uvicorn
+    from fastapi import FastAPI, HTTPException
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import FileResponse, JSONResponse, Response
+    HAS_WEB_DEPS = True
+except ImportError:
+    HAS_WEB_DEPS = False
+    # Define dummy classes for type hinting if needed
+    class FastAPI: pass
+    class HTTPException(Exception): pass
+    class StaticFiles: pass
+    class FileResponse: pass
+    class JSONResponse: pass
+    class Response: pass
+    
+    class DummyApp:
+        def get(self, *args, **kwargs): return lambda f: f
+        def post(self, *args, **kwargs): return lambda f: f
+        def mount(self, *args, **kwargs): pass
+    app = DummyApp()
+
 import io
 import json
 from pydantic import BaseModel
@@ -13,12 +31,18 @@ from ..cli import TOOLS_BY_CATEGORY, TOOLS_REGISTRY
 from ..core.automation import AutomationEngine
 from ..core.base_tool import BaseTool
 
-app = FastAPI(title="AleoPantest V3 API")
-automation_engine = AutomationEngine()
+if HAS_WEB_DEPS:
+    app = FastAPI(title="AleoPantest V3 API")
+    automation_engine = AutomationEngine()
 
-# Serve static files
-static_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "web_assets")
-app.mount("/assets", StaticFiles(directory=static_path), name="assets")
+    # Serve static files
+    static_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "web_assets")
+    if os.path.exists(static_path):
+        app.mount("/assets", StaticFiles(directory=static_path), name="assets")
+else:
+    # app is already a DummyApp from the try-except block
+    automation_engine = None
+    static_path = ""
 
 class ToolRunRequest(BaseModel):
     tool_id: str
@@ -139,6 +163,11 @@ async def download_results(tool_id: str, format: str):
     raise HTTPException(status_code=400, detail="Invalid format. Use 'json' or 'txt'.")
 
 def start_web_server(host: str = "127.0.0.1", port: int = 8000):
+    if not HAS_WEB_DEPS:
+        print("❌ Error: Web dependencies (fastapi, uvicorn) are not installed.")
+        print("💡 Run: pip install fastapi uvicorn")
+        return
+
     print(f"🚀 AleoPantest Web Server starting at http://{host}:{port}")
     uvicorn.run(app, host=host, port=port)
 

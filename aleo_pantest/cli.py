@@ -288,8 +288,15 @@ def tui():
 @click.option('--port', default=8000, help='Port to bind the web server')
 def web(host, port):
     """Launch the modern Web Dashboard"""
-    from .core.web_server import start_web_server
-    start_web_server(host=host, port=port)
+    try:
+        from .core.web_server import start_web_server
+        start_web_server(host=host, port=port)
+    except (ImportError, ModuleNotFoundError) as e:
+        console.print(f"[red]❌ Fatal Error: Missing dependency for Web Dashboard: {str(e)}[/red]")
+        console.print("[yellow]💡 Tip: Run 'pip install -r requirements.txt' or 'pip install fastapi uvicorn' to fix this.[/yellow]")
+    except Exception as e:
+        console.print(f"[red]❌ Fatal Error while starting Web Server: {str(e)}[/red]")
+        logger.error(f"Fatal error in web command: {str(e)}", exc_info=True)
 
 
 @cli.command()

@@ -34,6 +34,10 @@ setup(
         'pydantic>=2.0',
         'pyyaml>=6.0',
         'textual>=0.48.0',
+        'fastapi>=0.100.0',
+        'uvicorn>=0.20.0',
+        'python-multipart>=0.0.6',
+        'jinja2>=3.0.0',
     ],
     entry_points={
         'console_scripts': [
