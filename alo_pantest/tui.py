@@ -110,8 +110,10 @@ class Dashboard(Screen):
         
         tool_list = self.query_one("#tool-list", ListView)
         tool_list.clear()
-        for tool_id in tools:
-            tool_list.append(ListItem(Label(tool_id), id=f"tool-{tool_id}"))
+        
+        new_items = [ListItem(Label(tool_id), id=f"tool-{tool_id}") for tool_id in tools]
+        if new_items:
+            tool_list.mount(*new_items)
         
         self.query_one("#instruction", Label).update(f"Tools in [cyan]{cat_id}[/cyan]:")
 
@@ -125,54 +127,148 @@ class AloPantestTUI(App):
     
     CSS = """
     Screen {
-        background: #121212;
+        background: #0a0a0a;
+        color: #e0e0e0;
     }
+
+    Header {
+        background: #1a1a1a;
+        color: #00ffff;
+        text-style: bold;
+        border-bottom: double #00ffff;
+    }
+
+    Footer {
+        background: #1a1a1a;
+        color: #888888;
+    }
+
     #sidebar {
-        width: 25%;
-        border-right: solid $accent;
-        padding: 1;
+        width: 30;
+        background: #121212;
+        border-right: vertical #333;
+        margin: 1 0;
     }
+
     #sidebar-title {
         text-align: center;
         padding: 1;
-        background: $accent;
-        color: white;
+        background: #1a1a1a;
+        color: #00ffff;
+        text-style: bold;
+        border-bottom: solid #333;
     }
+
+    ListView {
+        background: transparent;
+        border: none;
+    }
+
+    ListItem {
+        padding: 0 1;
+        color: #aaaaaa;
+    }
+
+    ListItem:hover {
+        background: #1e1e1e;
+        color: #00ffff;
+    }
+
+    ListItem.--highlight {
+        background: #00ffff 20%;
+        color: #00ffff;
+        text-style: bold;
+    }
+
     #main-content {
-        width: 75%;
-        padding: 2;
+        width: 1fr;
+        padding: 1 2;
     }
+
     #welcome-msg {
         text-style: bold;
+        color: #00ffff;
+        margin-bottom: 1;
+        content-align: center middle;
+    }
+
+    #platform-info {
+        background: #1a1a1a;
+        padding: 0 1;
+        border: thin #333;
         margin-bottom: 1;
     }
+
+    #instruction {
+        color: #888;
+        margin-bottom: 1;
+    }
+
+    #tool-list {
+        border: tall #333;
+        height: 1fr;
+    }
+
     #status-bar {
         dock: bottom;
         height: 1;
-        background: $surface;
-        color: $text;
+        background: #1a1a1a;
+        color: #00ffff;
         text-align: center;
+        border-top: thin #333;
     }
+
+    /* Tool Execution Screen */
     #execution-container {
-        padding: 2;
+        padding: 1 2;
     }
+
     #tool-title {
         text-style: bold;
-        color: $accent;
+        color: #00ffff;
+        border-bottom: solid #00ffff;
+        margin-bottom: 1;
     }
+
     #input-area {
-        margin: 2 0;
-        border: tall $accent;
+        margin: 1 0;
+        border: tall #333;
         padding: 1;
         height: auto;
+        background: #121212;
     }
+
+    Input {
+        background: #0a0a0a;
+        border: thin #333;
+        color: #00ffff;
+        margin-top: 1;
+    }
+
+    Input:focus {
+        border: thin #00ffff;
+    }
+
+    #launch-btn {
+        margin-top: 1;
+        width: 100%;
+        background: #00ffff 20%;
+        color: #00ffff;
+        border: tall #00ffff;
+    }
+
+    #launch-btn:hover {
+        background: #00ffff 40%;
+    }
+
     #results-display {
-        background: #000;
-        color: #0f0;
+        background: #050505;
+        color: #00ff00;
         padding: 1;
         border: solid #333;
         height: 1fr;
         overflow-y: scroll;
+        font-family: monospace;
     }
     """
     
