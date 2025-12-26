@@ -97,6 +97,63 @@ python aleo_pantest_cli.py run traceroute --host 8.8.8.8
 
 ---
 
+## Wireless Tools
+
+### 1. WiFi Deauthentication
+**ID**: `deauth`
+
+Memutuskan koneksi klien dari Access Point secara real-time menggunakan paket deauthentication.
+
+**Usage**:
+```bash
+aleopantest run deauth --target 00:11:22:33:44:55 --iface wlan0mon
+aleopantest run deauth --target 00:11:22:33:44:55 --client AA:BB:CC:DD:EE:FF --count 100
+```
+
+**Features**:
+- **Real Hardware Support**: Menggunakan `scapy` untuk injeksi paket langsung ke hardware.
+- **High Success Rate**: Mengirim paket dua arah (AP ke Client dan Client ke AP).
+- **Fast Response**: Burst mode mengirimkan paket awal dalam < 2 detik.
+- **Safety Built-in**: Batasan durasi maksimal 1 jam untuk mencegah penyalahgunaan.
+
+**Parameters**:
+- `--target`: BSSID/MAC Address dari Access Point (required).
+- `--client`: MAC Address klien (default: `FF:FF:FF:FF:FF:FF` untuk semua klien).
+- `--iface`: Interface nirkabel dalam monitor mode (default: `wlan0mon`).
+- `--count`: Jumlah paket yang dikirim (default: 64).
+- `--interval`: Interval antar paket dalam detik (default: 0.05).
+- `--burst`: Aktifkan burst mode untuk respon cepat (default: True).
+
+---
+
+### 2. Beacon Flood
+**ID**: `beacon-flood`
+
+Membuat ribuan Access Point palsu untuk membanjiri daftar scan WiFi.
+
+**Usage**:
+```bash
+aleopantest run beacon-flood --iface wlan0mon --count 100
+```
+
+**Parameters**:
+- `--iface`: Monitor mode interface.
+- `--count`: Jumlah SSID palsu yang akan dibuat.
+- `--duration`: Durasi serangan (max 1 jam).
+
+---
+
+### 3. WiFi Scanner
+**ID**: `wifi-scan`
+
+Scan jaringan WiFi di sekitar dan menampilkan detail sinyal, enkripsi, dan BSSID.
+
+**Usage**:
+```bash
+aleopantest run wifi-scan --iface wlan0mon
+```
+---
+
 ### 6. WHOIS Lookup
 **ID**: `whois`
 

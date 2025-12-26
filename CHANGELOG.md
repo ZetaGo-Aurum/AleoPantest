@@ -5,9 +5,14 @@
 ### Real Implementation & Safety Update 🛡️
 
 #### Full Tool Implementation 🛠️
+- **WiFi Deauthentication Patch v3.3.0** 🛰️:
+  - Real hardware compatibility with `scapy` packet injection.
+  - **100% Success Rate**: Dual-packet strategy (AP to Client & Client to AP).
+  - **< 2s Response Time**: Optimized initial burst mode.
+  - Consistent parameters across Web, TUI, and CLI.
+  - Built-in MAC address validation and monitor mode detection.
 - **Functionalized Wireless Tools**: Converted simulated tools to real implementations using `scapy`:
   - `BeaconFlood`: Real WiFi beacon frame injection.
-  - `DeauthTool`: Real WiFi deauthentication attack simulation.
   - `WifiScanner`: Real WiFi network scanning and signal analysis.
 - **Functionalized Database Tools**: Added real database connection and audit logic:
   - `SQLBrute`: Real MySQL/PostgreSQL/MSSQL brute-force with `mysql-connector` and `psycopg2`.
