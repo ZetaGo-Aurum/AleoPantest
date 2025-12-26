@@ -1,6 +1,6 @@
-# INSTALLATION GUIDE - AleoPantest
+# INSTALLATION GUIDE - Aleocrophic
 
-Panduan lengkap instalasi AleoPantest di berbagai platform.
+Panduan lengkap instalasi Aleocrophic di berbagai platform.
 
 ## 📋 Table of Contents
 - [Prerequisites](#prerequisites)
@@ -44,21 +44,21 @@ Jika Python belum terinstall, download dari [python.org](https://www.python.org/
 4. **PENTING**: Centang "Add Python to PATH"
 5. Click "Install Now"
 
-#### Step 2: Download AleoPantest
+#### Step 2: Download Aleocrophic
 ```powershell
 # Option A: Using Git
-git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AleoPantest
+git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
+cd Aleocrophic
 
 # Option B: Manual Download
 # Download dari GitHub dan extract ke folder
-cd C:\Users\YourUsername\AleoPantest
+cd C:\Users\YourUsername\Aleocrophic
 ```
 
 #### Step 3: Install Dependencies
 ```powershell
 # Buka PowerShell atau Command Prompt
-cd C:\Users\YourUsername\AleoPantest
+cd C:\Users\YourUsername\Aleocrophic
 
 # Install requirements
 pip install -r requirements.txt
@@ -119,14 +119,14 @@ sudo apt-get install python3 python3-pip python3-dev -y
 sudo apt-get install git build-essential libssl-dev -y
 ```
 
-### Step 3: Download AleoPantest
+### Step 3: Download Aleocrophic
 ```bash
 # Clone repository
-git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AleoPantest
+git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
+cd Aleocrophic
 
 # Atau manual download dan extract
-# cd ~/AleoPantest
+# cd ~/Aleocrophic
 ```
 
 ### Step 4: Install Python Requirements
@@ -155,7 +155,7 @@ python3 aleo_pantest_cli.py info
 sudo pip3 install -e .
 
 # Then run dari anywhere
-aleopantest info
+Aleocrophic info
 ```
 
 ---
@@ -175,11 +175,11 @@ brew install python@3.11
 python3 --version
 ```
 
-### Step 3: Download AleoPantest
+### Step 3: Download Aleocrophic
 ```bash
 # Clone atau download
-git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AleoPantest
+git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
+cd Aleocrophic
 ```
 
 ### Step 4: Install Dependencies
@@ -201,20 +201,20 @@ python3 aleo_pantest_cli.py info
 ### Step 7: Optional - Create Alias
 ```bash
 # Edit ~/.zshrc atau ~/.bash_profile
-echo "alias aleopantest='python3 ~/AleoPantest/aleo_pantest_cli.py'" >> ~/.zshrc
+echo "alias Aleocrophic='python3 ~/Aleocrophic/aleo_pantest_cli.py'" >> ~/.zshrc
 
 # Apply
 source ~/.zshrc
 
 # Usage
-aleopantest info
+Aleocrophic info
 ```
 
 ---
 
 ## Termux Installation (Android)
 
-Termux memungkinkan Anda menjalankan AleoPantest di Android phone/tablet.
+Termux memungkinkan Anda menjalankan Aleocrophic di Android phone/tablet.
 
 ### Step 1: Install Termux
 1. Download Termux dari [F-Droid](https://f-droid.org/packages/com.termux/)
@@ -235,14 +235,14 @@ pkg install python3 python3-pip git
 python3 --version
 ```
 
-### Step 4: Download AleoPantest
+### Step 4: Download Aleocrophic
 ```bash
 # Clone atau download
-git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AleoPantest
+git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
+cd Aleocrophic
 
 # Atau manual
-# Download dan extract ke ~/AleoPantest
+# Download dan extract ke ~/Aleocrophic
 ```
 
 ### Step 5: Install Requirements
@@ -250,7 +250,7 @@ cd AleoPantest
 pip install -r requirements.txt
 ```
 
-### Step 6: Run AleoPantest
+### Step 6: Run Aleocrophic
 ```bash
 python3 aleo_pantest_cli.py info
 
@@ -302,17 +302,17 @@ sudo apt-get upgrade -y
 sudo apt-get install python3 python3-pip git -y
 ```
 
-### Step 5: Install AleoPantest
+### Step 5: Install Aleocrophic
 ```bash
-git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AleoPantest
+git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
+cd Aleocrophic
 pip3 install -r requirements.txt
 ```
 
 ### Step 6: Run dari Windows PowerShell
 ```powershell
 # Run WSL tool dari Windows
-wsl python3 ~/AleoPantest/aleo_pantest_cli.py info
+wsl python3 ~/Aleocrophic/aleo_pantest_cli.py info
 ```
 
 ---
@@ -340,19 +340,19 @@ ENTRYPOINT ["python", "aleo_pantest_cli.py"]
 
 ### Step 3: Build Docker Image
 ```bash
-docker build -t aleopantest:latest .
+docker build -t Aleocrophic:latest .
 ```
 
 ### Step 4: Run Container
 ```bash
 # Interactive mode
-docker run -it aleopantest:latest info
+docker run -it Aleocrophic:latest info
 
 # Run specific tool
-docker run -it aleopantest:latest run port-scan --host 192.168.1.1
+docker run -it Aleocrophic:latest run port-scan --host 192.168.1.1
 
 # With volume mount
-docker run -it -v /home/user/output:/app/output aleopantest:latest run port-scan --host 192.168.1.1 --output /app/output/results.json
+docker run -it -v /home/user/output:/app/output Aleocrophic:latest run port-scan --host 192.168.1.1 --output /app/output/results.json
 ```
 
 ---
@@ -367,7 +367,7 @@ python3 --version
 # Check pip packages
 pip3 list | grep -E 'click|rich|requests'
 
-# Check AleoPantest
+# Check Aleocrophic
 python3 aleo_pantest_cli.py info
 ```
 
@@ -410,9 +410,9 @@ chmod +x aleo_pantest_cli.py
 ```
 
 ### Error: "ModuleNotFoundError: No module named 'aleo_pantest'"
-**Solution**: Run dari directory AleoPantest
+**Solution**: Run dari directory Aleocrophic
 ```bash
-cd AleoPantest
+cd Aleocrophic
 python3 aleo_pantest_cli.py info
 ```
 
@@ -513,9 +513,9 @@ python3 aleo_pantest_cli.py run hash --text "password" --algorithm sha256
 ## Support
 
 - **Issues**: Open GitHub issue
-- **Questions**: Email support@aleopantest.com
+- **Questions**: Email support@Aleocrophic.com
 - **Community**: Join Discord server
-- **Docs**: [AleoPantest Documentation](https://docs.aleopantest.com)
+- **Docs**: [Aleocrophic Documentation](https://docs.Aleocrophic.com)
 
 ---
 

@@ -7,10 +7,10 @@ class PasswordStrength(BaseTool):
             name="Password Strength Analyzer",
             category=ToolCategory.SECURITY,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Menganalisis kekuatan password berdasarkan berbagai kriteria",
-            usage="aleopantest run pass-strength --password <pwd>",
-            example="aleopantest run pass-strength --password 'P@ssw0rd123'",
+            usage="Aleocrophic run pass-strength --password <pwd>",
+            example="Aleocrophic run pass-strength --password 'P@ssw0rd123'",
             parameters={"password": "Password yang akan dianalisis"},
             requirements=[],
             tags=["security", "password", "audit"]

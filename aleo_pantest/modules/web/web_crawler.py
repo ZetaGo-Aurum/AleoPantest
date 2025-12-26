@@ -16,7 +16,7 @@ class WebCrawler(BaseTool):
             name="Web Crawler",
             category=ToolCategory.WEB,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Web crawler untuk mapping struktur website dan discovery URL",
             usage="crawler = WebCrawler(); crawler.run(url='http://target.com', depth=2)",
             requirements=["requests", "beautifulsoup4"],

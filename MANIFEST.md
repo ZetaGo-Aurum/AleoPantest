@@ -1,4 +1,4 @@
-# AleoPantest v2.0 - MANIFEST & INVENTORY
+# Aleocrophic v2.0 - MANIFEST & INVENTORY
 
 **Document Created:** December 25, 2025  
 **Version:** 2.0.0  
@@ -82,7 +82,7 @@
 
 1. **setup.py**
    - Updated version from 1.0.0 to 2.0.0
-   - Changed entry point from aleopantest to aleopantest
+   - Changed entry point from Aleocrophic to Aleocrophic
    - Updated description to "400+ penetration testing tools"
    - Updated install_requires with new tools
 
@@ -115,7 +115,7 @@
 ### Documentation Files (9 Files)
 
 1. **README_v2.md** (600+ lines)
-   - AleoPantest v2.0 feature overview
+   - Aleocrophic v2.0 feature overview
    - Installation instructions
    - Quick start section
    - Tool descriptions by category
@@ -272,7 +272,7 @@
 ## 🗂️ DIRECTORY STRUCTURE
 
 ```
-AleoPantest/
+Aleocrophic/
 ├── aleo_pantest/
 │   ├── core/
 │   │   ├── base_tool.py (MODIFIED - Added categories)
@@ -346,7 +346,7 @@ AleoPantest/
 │   └── default.yml
 ├── logs/ (Directory)
 ├── output/ (Directory)
-├── AleoPantest.egg-info/
+├── Aleocrophic.egg-info/
 │
 ├── setup.py (MODIFIED - v2.0.0)
 ├── requirements.txt (MODIFIED)
@@ -443,10 +443,10 @@ AleoPantest/
 
 ### Quick Start
 ```bash
-aleopantest --help              # Show help
-aleopantest list-tools          # List all tools
-aleopantest help-tool <tool-id> # Tool help
-aleopantest run <tool> [opts]   # Run tool
+Aleocrophic --help              # Show help
+Aleocrophic list-tools          # List all tools
+Aleocrophic help-tool <tool-id> # Tool help
+Aleocrophic run <tool> [opts]   # Run tool
 ```
 
 ### Documentation Access
@@ -464,7 +464,7 @@ aleopantest run <tool> [opts]   # Run tool
 
 ## 🎊 FINAL STATUS
 
-**Project:** AleoPantest v2.0  
+**Project:** Aleocrophic v2.0  
 **Status:** ✅ **COMPLETE**  
 **Date:** December 25, 2025  
 **Version:** 2.0.0
@@ -473,4 +473,4 @@ aleopantest run <tool> [opts]   # Run tool
 
 ---
 
-*This manifest documents all files created, modified, and delivered in the AleoPantest v2.0 project.*
+*This manifest documents all files created, modified, and delivered in the Aleocrophic v2.0 project.*

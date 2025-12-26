@@ -7,10 +7,10 @@ class HashCracker(BaseTool):
             name="Simple MD5 Hash Cracker",
             category=ToolCategory.CRYPTO,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mencoba memecahkan hash MD5 menggunakan wordlist internal terbatas",
-            usage="aleopantest run hash-cracker --hash <md5_hash>",
-            example="aleopantest run hash-cracker --hash 5d41402abc4b2a76b9719d911017c592",
+            usage="Aleocrophic run hash-cracker --hash <md5_hash>",
+            example="Aleocrophic run hash-cracker --hash 5d41402abc4b2a76b9719d911017c592",
             parameters={"hash": "MD5 hash yang akan dipecahkan"},
             requirements=[],
             tags=["crypto", "hash", "cracker"]

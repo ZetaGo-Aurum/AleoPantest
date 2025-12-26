@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script untuk AleoPantest
+Test script untuk Aleocrophic
 Untuk verify semua tools berfungsi dengan baik
 """
 
@@ -100,7 +100,7 @@ def run_all_tests():
     """Run semua tests"""
     print("\n")
     print("╔" + "="*48 + "╗")
-    print("║" + " AleoPantest - Tool Test Suite ".center(48) + "║")
+    print("║" + " Aleocrophic - Tool Test Suite ".center(48) + "║")
     print("╚" + "="*48 + "╝")
     
     tests = [
@@ -131,7 +131,7 @@ def run_all_tests():
     print(f"[*] Total: {passed + failed}")
     
     if failed == 0:
-        print("\n✓ All tests passed! AleoPantest is ready to use.")
+        print("\n✓ All tests passed! Aleocrophic is ready to use.")
         return 0
     else:
         print(f"\n✗ {failed} test(s) failed. Please check your installation.")

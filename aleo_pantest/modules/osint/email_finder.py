@@ -15,9 +15,9 @@ class EmailFinder(BaseTool):
             name="Email Finder",
             category=ToolCategory.OSINT,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Email finder untuk mencari email addresses yang terkait dengan domain menggunakan crawler dan search engine",
-            usage="aleopantest run email-finder --domain target.com",
+            usage="Aleocrophic run email-finder --domain target.com",
             requirements=["requests", "beautifulsoup4"],
             tags=["osint", "email", "reconnaissance", "information-gathering"],
             risk_level="MEDIUM",
@@ -130,7 +130,7 @@ class EmailFinder(BaseTool):
             
             for url in urls_to_check:
                 try:
-                    response = requests.get(url, timeout=timeout, headers={'User-Agent': 'AleoPantest/3.3.0'})
+                    response = requests.get(url, timeout=timeout, headers={'User-Agent': 'Aleocrophic/3.3.0'})
                     if response.status_code == 200:
                         emails = self.extract_emails_from_html(response.text, domain)
                         found_emails.update(emails)

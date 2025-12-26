@@ -1,4 +1,4 @@
-# AleoPantest Quick Start Guide
+# Aleocrophic Quick Start Guide
 
 ## Installation & Setup
 
@@ -7,13 +7,13 @@
 pip install -r requirements.txt
 
 # View main help
-aleopantest --help
+Aleocrophic --help
 
 # View all tools
-aleopantest list-tools
+Aleocrophic list-tools
 
 # Get statistics
-aleopantest info
+Aleocrophic info
 ```
 
 ## Common Commands
@@ -23,20 +23,20 @@ aleopantest info
 #### IP Geolocation
 ```bash
 # Get IP location (geolocation & ISP info)
-aleopantest run ip-geo --ip 8.8.8.8
-aleopantest run ip-geo --host 1.1.1.1
+Aleocrophic run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --host 1.1.1.1
 ```
 
 #### Domain Information
 ```bash
 # Get domain information
-aleopantest run domain-info --domain google.com
+Aleocrophic run domain-info --domain google.com
 ```
 
 #### Email Finder
 ```bash
 # Find email addresses from domain
-aleopantest run email-find --domain example.com
+Aleocrophic run email-find --domain example.com
 ```
 
 ### Network Tools
@@ -44,38 +44,38 @@ aleopantest run email-find --domain example.com
 #### DNS Lookup
 ```bash
 # Perform DNS lookup
-aleopantest run dns --domain target.com
+Aleocrophic run dns --domain target.com
 ```
 
 #### Port Scanning
 ```bash
 # Scan for open ports
-aleopantest run port-scan --host 192.168.1.1
-aleopantest run port-scan --host target.com
+Aleocrophic run port-scan --host 192.168.1.1
+Aleocrophic run port-scan --host target.com
 ```
 
 #### SSL Certificate Check
 ```bash
 # Check SSL certificate
-aleopantest run ssl-check --domain https://example.com
+Aleocrophic run ssl-check --domain https://example.com
 ```
 
 #### Ping
 ```bash
 # Ping a host
-aleopantest run ping --host 8.8.8.8
+Aleocrophic run ping --host 8.8.8.8
 ```
 
 #### Traceroute
 ```bash
 # Trace route to host
-aleopantest run traceroute --host 8.8.8.8
+Aleocrophic run traceroute --host 8.8.8.8
 ```
 
 #### WHOIS Lookup
 ```bash
 # Get WHOIS information
-aleopantest run whois --domain example.com
+Aleocrophic run whois --domain example.com
 ```
 
 ### Web Vulnerability Tools
@@ -83,37 +83,37 @@ aleopantest run whois --domain example.com
 #### SQL Injection Detection
 ```bash
 # Test for SQL injection vulnerabilities
-aleopantest run sql-inject --url http://example.com
+Aleocrophic run sql-inject --url http://example.com
 ```
 
 #### XSS Detection
 ```bash
 # Test for cross-site scripting
-aleopantest run xss-detect --url http://example.com
+Aleocrophic run xss-detect --url http://example.com
 ```
 
 #### CSRF Detection
 ```bash
 # Test for CSRF vulnerabilities
-aleopantest run csrf-detect --url http://example.com
+Aleocrophic run csrf-detect --url http://example.com
 ```
 
 #### Web Crawler
 ```bash
 # Crawl website structure
-aleopantest run crawler --url http://example.com
+Aleocrophic run crawler --url http://example.com
 ```
 
 #### Vulnerability Scanner
 ```bash
 # Scan for vulnerabilities
-aleopantest run vuln-scan --url http://example.com
+Aleocrophic run vuln-scan --url http://example.com
 ```
 
 #### Subdomain Finder
 ```bash
 # Find subdomains
-aleopantest run subdomain --domain example.com
+Aleocrophic run subdomain --domain example.com
 ```
 
 ### Security Tools
@@ -121,19 +121,19 @@ aleopantest run subdomain --domain example.com
 #### WAF Detection
 ```bash
 # Detect Web Application Firewall
-aleopantest run waf-detect --url http://example.com
+Aleocrophic run waf-detect --url http://example.com
 ```
 
 #### Anti-DDoS Check
 ```bash
 # Check anti-DDoS protection
-aleopantest run anti-ddos --url http://example.com
+Aleocrophic run anti-ddos --url http://example.com
 ```
 
 #### Clickjacking Check
 ```bash
 # Test for clickjacking vulnerability
-aleopantest run clickjacking-check --url http://example.com
+Aleocrophic run clickjacking-check --url http://example.com
 ```
 
 ### Phishing Tools
@@ -141,19 +141,19 @@ aleopantest run clickjacking-check --url http://example.com
 #### Web Phishing Detection
 ```bash
 # Detect phishing websites
-aleopantest run web-phishing --url http://suspicious-site.com
+Aleocrophic run web-phishing --url http://suspicious-site.com
 ```
 
 #### Email Phishing
 ```bash
 # Simulate email phishing (authorized only)
-aleopantest run email-phishing --email target@example.com --subject "Important Update"
+Aleocrophic run email-phishing --email target@example.com --subject "Important Update"
 ```
 
 #### Phishing Locator
 ```bash
 # Find phishing variants of domain
-aleopantest run phishing-locator --domain example.com
+Aleocrophic run phishing-locator --domain example.com
 ```
 
 ### Clickjacking Tools
@@ -161,16 +161,16 @@ aleopantest run phishing-locator --domain example.com
 #### Generate Anti-Clickjacking Config
 ```bash
 # Generate anti-clickjacking headers (nginx)
-aleopantest run anti-clickjacking --framework nginx --output config.conf
+Aleocrophic run anti-clickjacking --framework nginx --output config.conf
 
 # Generate anti-clickjacking headers (apache)
-aleopantest run anti-clickjacking --framework apache --output config.conf
+Aleocrophic run anti-clickjacking --framework apache --output config.conf
 ```
 
 #### Clickjacking Maker
 ```bash
 # Create clickjacking test page
-aleopantest run clickjacking-make --url http://example.com
+Aleocrophic run clickjacking-make --url http://example.com
 ```
 
 ### Utility Tools
@@ -178,37 +178,37 @@ aleopantest run clickjacking-make --url http://example.com
 #### Password Generator
 ```bash
 # Generate random password
-aleopantest run passgen
+Aleocrophic run passgen
 ```
 
 #### Hash Tools
 ```bash
 # Hash generation and cracking
-aleopantest run hash --type md5 --input "password"
+Aleocrophic run hash --type md5 --input "password"
 ```
 
 #### URL Encoder
 ```bash
 # Encode URLs
-aleopantest run encode --url "http://example.com?param=value"
+Aleocrophic run encode --url "http://example.com?param=value"
 ```
 
 #### URL Masking
 ```bash
 # Mask URL appearance
-aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
+Aleocrophic run url-mask --url https://attacker.com --fake-domain google.com --method redirect
 ```
 
 #### URL Shortener
 ```bash
 # Create short URL
-aleopantest run url-shorten --url https://very-long-url.example.com --alias mylink
+Aleocrophic run url-shorten --url https://very-long-url.example.com --alias mylink
 ```
 
 #### Reverse Shell Generator
 ```bash
 # Generate reverse shell code
-aleopantest run revshell --type bash
+Aleocrophic run revshell --type bash
 ```
 
 ### Advanced Tools
@@ -216,32 +216,32 @@ aleopantest run revshell --type bash
 #### DDoS Simulator (AUTHORIZED TESTING ONLY)
 ```bash
 # Light DDoS simulation (10s, 5 threads)
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # Medium DDoS simulation (30s, 10 threads)
-aleopantest run ddos-sim --target example.com --type http --preset medium --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset medium --authorized
 
 # Heavy DDoS simulation (60s, 20 threads)
-aleopantest run ddos-sim --target example.com --type http --preset heavy --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset heavy --authorized
 
 # Custom duration and threads
-aleopantest run ddos-sim --target example.com --type dns --duration 45 --threads 15 --authorized
+Aleocrophic run ddos-sim --target example.com --type dns --duration 45 --threads 15 --authorized
 
 # Different attack types
-aleopantest run ddos-sim --target example.com --type slowloris --preset light --authorized
-aleopantest run ddos-sim --target example.com --type syn --preset medium --authorized
+Aleocrophic run ddos-sim --target example.com --type slowloris --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type syn --preset medium --authorized
 ```
 
 #### Metadata Extractor
 ```bash
 # Extract metadata from files
-aleopantest run metadata --file document.pdf
+Aleocrophic run metadata --file document.pdf
 ```
 
 #### Search Engine Dorking
 ```bash
 # Perform Google dorking
-aleopantest run dorking --domain example.com
+Aleocrophic run dorking --domain example.com
 ```
 
 ## Output Options
@@ -249,39 +249,39 @@ aleopantest run dorking --domain example.com
 ### Save Results to JSON
 ```bash
 # Export results to JSON file
-aleopantest run dns --domain example.com --output results.json
-aleopantest run ip-geo --ip 8.8.8.8 --output location.json
+Aleocrophic run dns --domain example.com --output results.json
+Aleocrophic run ip-geo --ip 8.8.8.8 --output location.json
 ```
 
 ### Generate Reports
 ```bash
 # Tools support exporting to various formats
-aleopantest run port-scan --host target.com --output scan_results.json
-aleopantest run vuln-scan --url http://example.com --output vulnerabilities.json
+Aleocrophic run port-scan --host target.com --output scan_results.json
+Aleocrophic run vuln-scan --url http://example.com --output vulnerabilities.json
 ```
 
 ## Help & Documentation
 
 ```bash
 # Get general help
-aleopantest --help
+Aleocrophic --help
 
 # Get command-specific help
-aleopantest run --help
+Aleocrophic run --help
 
 # Get tool-specific help
-aleopantest help-tool dns
-aleopantest help-tool ip-geo
-aleopantest help-tool ddos-sim
+Aleocrophic help-tool dns
+Aleocrophic help-tool ip-geo
+Aleocrophic help-tool ddos-sim
 
 # List tools by category
-aleopantest list-by-category network
-aleopantest list-by-category osint
-aleopantest list-by-category web
-aleopantest list-by-category phishing
+Aleocrophic list-by-category network
+Aleocrophic list-by-category osint
+Aleocrophic list-by-category web
+Aleocrophic list-by-category phishing
 
 # View current configuration
-aleopantest config-show
+Aleocrophic config-show
 ```
 
 ## Advanced Usage
@@ -289,24 +289,24 @@ aleopantest config-show
 ### Interactive Mode
 ```bash
 # Launch interactive parameter entry (future feature)
-aleopantest run dns --interactive
-aleopantest run ip-geo --interactive
+Aleocrophic run dns --interactive
+Aleocrophic run ip-geo --interactive
 ```
 
 ### Batch Operations
 ```bash
 # Test multiple domains
-aleopantest run dns --domain example.com --output example.json
-aleopantest run dns --domain google.com --output google.json
+Aleocrophic run dns --domain example.com --output example.json
+Aleocrophic run dns --domain google.com --output google.json
 ```
 
 ### Chaining Tools
 ```bash
 # Find subdomains then scan them
-aleopantest run subdomain --domain example.com --output subdomains.json
+Aleocrophic run subdomain --domain example.com --output subdomains.json
 # Then use those subdomains in other tools
-aleopantest run port-scan --host sub1.example.com
-aleopantest run port-scan --host sub2.example.com
+Aleocrophic run port-scan --host sub1.example.com
+Aleocrophic run port-scan --host sub2.example.com
 ```
 
 ## Parameter Aliases
@@ -314,9 +314,9 @@ aleopantest run port-scan --host sub2.example.com
 ### IP/Host Parameters
 ```bash
 # All these are equivalent:
-aleopantest run ip-geo --ip 8.8.8.8
-aleopantest run ip-geo --host 8.8.8.8
-aleopantest run ip-geo --address 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --host 8.8.8.8
+Aleocrophic run ip-geo --address 8.8.8.8
 ```
 
 ### URL Parameters
@@ -333,7 +333,7 @@ aleopantest run ip-geo --address 8.8.8.8
 Some tools require explicit authorization:
 ```bash
 # DDoS Simulator MUST include --authorized flag
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 ```
 
 ### Legal Disclaimer
@@ -352,45 +352,45 @@ aleopantest run ddos-sim --target example.com --type http --preset light --autho
 ### "Tool not found"
 ```bash
 # Check available tools
-aleopantest list-tools
+Aleocrophic list-tools
 
 # Or check by category
-aleopantest list-by-category network
+Aleocrophic list-by-category network
 ```
 
 ### "Missing required parameter"
 ```bash
 # Check what parameters are needed
-aleopantest help-tool <tool-id>
+Aleocrophic help-tool <tool-id>
 ```
 
 ### "Invalid parameter format"
 ```bash
 # Example: For IP geolocation
-# ❌ aleopantest run ip-geo --ip invalid
-# ✅ aleopantest run ip-geo --ip 8.8.8.8
+# ❌ Aleocrophic run ip-geo --ip invalid
+# ✅ Aleocrophic run ip-geo --ip 8.8.8.8
 
 # Example: For URLs
-# ❌ aleopantest run web-phishing --url example.com
-# ✅ aleopantest run web-phishing --url http://example.com
+# ❌ Aleocrophic run web-phishing --url example.com
+# ✅ Aleocrophic run web-phishing --url http://example.com
 ```
 
 ## Tips & Tricks
 
 1. **Use JSON export** for automated processing
    ```bash
-   aleopantest run dns --domain example.com --output results.json
+   Aleocrophic run dns --domain example.com --output results.json
    ```
 
 2. **Combine with external tools**
    ```bash
    # Export to JSON and process with jq
-   aleopantest run port-scan --host target.com --output scan.json | jq '.open_ports'
+   Aleocrophic run port-scan --host target.com --output scan.json | jq '.open_ports'
    ```
 
 3. **Check tool version**
    ```bash
-   aleopantest run dns  # Shows version in help output
+   Aleocrophic run dns  # Shows version in help output
    ```
 
 4. **View latest results**
@@ -410,17 +410,17 @@ aleopantest help-tool <tool-id>
 
 1. Check tool help:
    ```bash
-   aleopantest help-tool <tool-id>
+   Aleocrophic help-tool <tool-id>
    ```
 
 2. View tool list:
    ```bash
-   aleopantest list-tools
+   Aleocrophic list-tools
    ```
 
 3. Check specific command:
    ```bash
-   aleopantest run --help
+   Aleocrophic run --help
    ```
 
 4. View project documentation:
@@ -430,11 +430,11 @@ aleopantest help-tool <tool-id>
 
 ## Version Information
 
-- **AleoPantest**: v2.0+
+- **Aleocrophic**: v2.0+
 - **Python**: 3.7+
 - **Key Dependencies**: click, requests, rich
 
 ---
 
 **Last Updated**: December 2025
-**Framework**: AleoPantest Penetration Testing Suite
+**Framework**: Aleocrophic Penetration Testing Suite

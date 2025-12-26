@@ -81,9 +81,9 @@ class AdvancedDorking(BaseTool):
             name="Advanced Search Engine Dorking",
             category=ToolCategory.OSINT,
             version="3.3.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Multi-engine search dorking with templates and custom queries for advanced reconnaissance.",
-            usage="aleopantest run advanced-dorking --engine google --domain target.com --template exposed_configs",
+            usage="Aleocrophic run advanced-dorking --engine google --domain target.com --template exposed_configs",
             requirements=['requests', 'beautifulsoup4', 'duckduckgo-search'],
             tags=['dorking', 'osint', 'reconnaissance', 'google-dork'],
             risk_level="MEDIUM",
@@ -228,7 +228,7 @@ class AdvancedDorking(BaseTool):
             
             headers = {
                 'Accept': 'application/vnd.github.v3+json', 
-                'User-Agent': 'AleoPantest'
+                'User-Agent': 'Aleocrophic'
             }
             
             results = []

@@ -12,10 +12,10 @@ class ArpScanner(BaseTool):
             name="ARP Scanner",
             category=ToolCategory.NETWORK,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Melakukan ARP scanning untuk menemukan perangkat di jaringan lokal",
-            usage="aleopantest run arp-scan --range 192.168.1.0/24",
-            example="aleopantest run arp-scan --range 192.168.1.0/24",
+            usage="Aleocrophic run arp-scan --range 192.168.1.0/24",
+            example="Aleocrophic run arp-scan --range 192.168.1.0/24",
             requirements=["scapy"],
             tags=["network", "arp", "recon", "local"],
             form_schema=[

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AleoPantest - Comprehensive Penetration Testing Framework
+Aleocrophic - Comprehensive Penetration Testing Framework
 Entry point untuk aplikasi CLI
 """
 

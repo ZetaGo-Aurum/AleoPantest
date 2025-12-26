@@ -8,10 +8,10 @@ class TechStack(BaseTool):
             name="Technology Stack Detector",
             category=ToolCategory.WEB,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mendeteksi teknologi yang digunakan oleh sebuah website (Header & Content analysis)",
-            usage="aleopantest run tech-stack --url <target_url>",
-            example="aleopantest run tech-stack --url https://google.com",
+            usage="Aleocrophic run tech-stack --url <target_url>",
+            example="Aleocrophic run tech-stack --url https://google.com",
             parameters={
                 "url": "Target URL untuk dianalisis"
             },

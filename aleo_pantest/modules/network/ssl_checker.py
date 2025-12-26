@@ -16,7 +16,7 @@ class SSLChecker(BaseTool):
             name="SSL Checker",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="SSL certificate checker untuk analisis sertifikat SSL/TLS dan keamanan",
             usage="ssl = SSLChecker(); ssl.run(host='google.com', port=443)",
             requirements=["socket", "ssl"],

@@ -1,5 +1,5 @@
 # Laporan Analisis Root Cause & Dokumentasi Perubahan
-## AleoPantest v3.2.0 Web Mode Update (Fixes & Stability)
+## Aleocrophic v3.2.0 Web Mode Update (Fixes & Stability)
 
 ### 1. Perbaikan Bug Modul WAF Detector
 - **Validasi URL Wajib:** Menambahkan validasi URL yang ketat sebelum eksekusi tool untuk mencegah error input kosong.
@@ -25,7 +25,7 @@
 
 ---
 
-## AleoPantest v3.3.0 Web Mode Update (Previous Changes)
+## Aleocrophic v3.3.0 Web Mode Update (Previous Changes)
 
 **Masalah:**
 Saat menjalankan tool melalui Dashboard Web, pengguna sering menerima pesan error "Execution failed: undefined" di UI toast, meskipun proses di backend mungkin berjalan.
@@ -77,5 +77,5 @@ Saat menjalankan tool melalui Dashboard Web, pengguna sering menerima pesan erro
 ### 3. Hasil Pengujian
 
 - **Unit Test (`tests/test_dns_lookup.py`):** LULUS. Memverifikasi struktur data DNS (A, MX, TXT, NS) sudah lengkap dan sesuai spesifikasi.
-- **Konsistensi CLI vs Web:** Terverifikasi identik. Data JSON yang ditampilkan di web sekarang sama persis dengan yang dihasilkan oleh perintah `aleopantest run dns`.
+- **Konsistensi CLI vs Web:** Terverifikasi identik. Data JSON yang ditampilkan di web sekarang sama persis dengan yang dihasilkan oleh perintah `Aleocrophic run dns`.
 - **Stabilitas:** Mekanisme retry berhasil menangani gangguan jaringan sementara selama pengujian simulasi.

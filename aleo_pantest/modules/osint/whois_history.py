@@ -11,10 +11,10 @@ class WhoisHistory(BaseTool):
             name="WHOIS Analyzer",
             category=ToolCategory.OSINT,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mendapatkan informasi detail WHOIS domain (Registrar, Expiry, Name Servers)",
-            usage="aleopantest run whois-history --domain <domain>",
-            example="aleopantest run whois-history --domain google.com",
+            usage="Aleocrophic run whois-history --domain <domain>",
+            example="Aleocrophic run whois-history --domain google.com",
             requirements=["python-whois"],
             tags=["osint", "whois", "domain", "recon"],
             form_schema=[

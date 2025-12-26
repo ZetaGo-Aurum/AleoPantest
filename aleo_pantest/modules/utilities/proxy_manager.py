@@ -14,7 +14,7 @@ class ProxyManager(BaseTool):
             name="Proxy Manager",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Proxy manager untuk manage, test, dan rotate proxy servers",
             usage="pm = ProxyManager(); pm.run(test_url='http://httpbin.org/ip')",
             requirements=["requests"],

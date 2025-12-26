@@ -81,7 +81,7 @@ class BaseTool(ABC):
         # Core Parameters for v3.3
         self.timeout = 30
         self.headers = {
-            "User-Agent": "AleoPantest/3.3.0",
+            "User-Agent": "Aleocrophic/3.3.4",
             "Accept": "*/*"
         }
         self.auth = None

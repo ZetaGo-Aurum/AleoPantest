@@ -1,5 +1,5 @@
 #!/bin/bash
-# AleoPantest Module Auto-Update & Maintenance Script
+# Aleocrophic Module Auto-Update & Maintenance Script
 # Version: 1.0.0
 # Description: Otomatisasi pembaruan module, verifikasi integritas, dan backup harian.
 
@@ -36,14 +36,14 @@ DAY_OF_WEEK=$(date +%u) # 1-7 (Senin-Minggu)
 if [ "$DAY_OF_WEEK" -eq 1 ]; then # Cek setiap hari Senin
     echo "[$(date)] Menjalankan pengecekan versi mingguan..." >> "$LOG_FILE"
     # Di sini bisa ditambahkan perintah curl/wget untuk menarik data terbaru dari server
-    # Contoh: curl -s https://api.aleopantest.com/v3/modules/check-updates -o "$MODULES_DIR/latest_versions.json"
+    # Contoh: curl -s https://api.Aleocrophic.com/v3/modules/check-updates -o "$MODULES_DIR/latest_versions.json"
     echo "[$(date)] Pengecekan versi mingguan selesai." >> "$LOG_FILE"
 fi
 
 # 4. Sinkronisasi Module Library
 echo "[$(date)] Menyingkronkan module_library.txt dan module_library.json..." >> "$LOG_FILE"
 # Di sini bisa ditambahkan perintah curl/wget untuk menarik data terbaru dari server
-# Contoh: curl -s https://api.aleopantest.com/v3/modules/library.json -o "$MODULES_DIR/module_library.json"
+# Contoh: curl -s https://api.Aleocrophic.com/v3/modules/library.json -o "$MODULES_DIR/module_library.json"
 
 # 3. Verifikasi Integritas (Checksum)
 echo "[$(date)] Memverifikasi integritas file..." >> "$LOG_FILE"

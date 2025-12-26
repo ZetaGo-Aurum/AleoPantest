@@ -1,4 +1,4 @@
-"""Unit tests for AleoPantest V3.2 release features"""
+"""Unit tests for Aleocrophic V3.2 release features"""
 import unittest
 import sys
 import os

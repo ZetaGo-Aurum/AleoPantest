@@ -15,7 +15,7 @@ class XSSDetector(BaseTool):
             name="XSS Detector",
             category=ToolCategory.WEB,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="XSS vulnerability detection dengan berbagai payload testing",
             usage="xss = XSSDetector(); xss.run(url='http://target.com')",
             requirements=["requests"],

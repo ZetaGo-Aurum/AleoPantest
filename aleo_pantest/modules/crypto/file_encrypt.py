@@ -7,10 +7,10 @@ class FileEncryptor(BaseTool):
             name="Simple File Hash Encryptor",
             category=ToolCategory.CRYPTO,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Menghasilkan berbagai hash untuk sebuah string atau data",
-            usage="aleopantest run file-encrypt --data <string>",
-            example="aleopantest run file-encrypt --data 'secret message'",
+            usage="Aleocrophic run file-encrypt --data <string>",
+            example="Aleocrophic run file-encrypt --data 'secret message'",
             parameters={"data": "Data yang akan di-hash"},
             requirements=[],
             tags=["crypto", "hash", "utility"]

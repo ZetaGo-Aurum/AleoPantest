@@ -7,10 +7,10 @@ class RSAGen(BaseTool):
             name="RSA Key Pair Generator (Simple)",
             category=ToolCategory.CRYPTO,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Membuat pasangan kunci RSA sederhana (untuk demonstrasi)",
-            usage="aleopantest run rsa-gen",
-            example="aleopantest run rsa-gen",
+            usage="Aleocrophic run rsa-gen",
+            example="Aleocrophic run rsa-gen",
             parameters={},
             requirements=[],
             tags=["crypto", "rsa", "generator"]

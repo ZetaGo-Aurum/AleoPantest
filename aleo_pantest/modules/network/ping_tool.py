@@ -16,7 +16,7 @@ class PingTool(BaseTool):
             name="Ping Tool",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Ping tool untuk deteksi apakah host aktif atau tidak",
             usage="ping = PingTool(); ping.run(host='8.8.8.8', count=4)",
             requirements=["subprocess", "platform"],

@@ -78,7 +78,7 @@ def prompt_for_parameters(tool_id: str, metadata: Any) -> Dict[str, Any]:
     
     # Show common examples
     if "Example:" in metadata.usage:
-        examples = [line.strip() for line in metadata.usage.split('\n') if line.strip().startswith('aleopantest')]
+        examples = [line.strip() for line in metadata.usage.split('\n') if line.strip().startswith('Aleocrophic')]
         if examples:
             console.print("[yellow]💡 Common Usage Examples:[/yellow]")
             for i, example in enumerate(examples[:3], 1):
@@ -173,7 +173,7 @@ def prompt_for_parameters(tool_id: str, metadata: Any) -> Dict[str, Any]:
         # Generic parameter prompting
         console.print("[yellow]⚠️  Interactive mode not fully configured for this tool[/yellow]")
         console.print("[cyan]Please provide parameters directly:[/cyan]")
-        console.print("[cyan]  Example: aleopantest run {tool_id} --param value[/cyan]\n")
+        console.print("[cyan]  Example: Aleocrophic run {tool_id} --param value[/cyan]\n")
         return {}
     
     return params
@@ -183,7 +183,7 @@ def show_tool_menu() -> Optional[str]:
     from aleo_pantest.cli import TOOLS_BY_CATEGORY
     
     console.clear()
-    console.print("[bold cyan]🛡️  AleoPantest - Interactive Tool Selector[/bold cyan]\n")
+    console.print("[bold cyan]🛡️  Aleocrophic - Interactive Tool Selector[/bold cyan]\n")
     
     all_tools = []
     option_num = 1

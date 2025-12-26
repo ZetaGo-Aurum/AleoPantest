@@ -16,9 +16,9 @@ class AntiClickjackingGenerator(BaseTool):
             name="Anti-Clickjacking Generator",
             category=ToolCategory.WEB,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Generates anti-clickjacking security headers and JavaScript code for protection",
-            usage="aleopantest run anti-clickjacking --framework nginx --output security.conf",
+            usage="Aleocrophic run anti-clickjacking --framework nginx --output security.conf",
             requirements=['python'],
             tags=['clickjacking', 'security', 'headers', 'protection']
         )
@@ -445,8 +445,8 @@ window.addEventListener('load', function() {
             ]
             
             result['testing_recommendations'] = [
-                "Use aleopantest run clickjacking-check --url YOUR_URL to verify",
-                "Test with the aleopantest run clickjacking-make tool",
+                "Use Aleocrophic run clickjacking-check --url YOUR_URL to verify",
+                "Test with the Aleocrophic run clickjacking-make tool",
                 "Verify headers with curl: curl -I YOUR_URL",
                 "Use online header checkers like securityheaders.com"
             ]

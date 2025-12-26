@@ -16,7 +16,7 @@ class TraceRoute(BaseTool):
             name="Traceroute",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Traceroute untuk melacak jalur paket melalui berbagai hop ke host tujuan",
             usage="trace = TraceRoute(); trace.run(host='8.8.8.8', max_hops=30)",
             requirements=["subprocess", "platform"],

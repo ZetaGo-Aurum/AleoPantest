@@ -15,7 +15,7 @@ class DomainInfo(BaseTool):
             name="Domain Information Gatherer",
             category=ToolCategory.OSINT,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Gather informasi komprehensif tentang domain termasuk DNS, IP, dan metadata",
             usage="info = DomainInfo(); info.run(domain='target.com')",
             requirements=["requests", "socket"],

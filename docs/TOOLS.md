@@ -106,8 +106,8 @@ Memutuskan koneksi klien dari Access Point secara real-time menggunakan paket de
 
 **Usage**:
 ```bash
-aleopantest run deauth --target 00:11:22:33:44:55 --iface wlan0mon
-aleopantest run deauth --target 00:11:22:33:44:55 --client AA:BB:CC:DD:EE:FF --count 100
+Aleocrophic run deauth --target 00:11:22:33:44:55 --iface wlan0mon
+Aleocrophic run deauth --target 00:11:22:33:44:55 --client AA:BB:CC:DD:EE:FF --count 100
 ```
 
 **Features**:
@@ -133,7 +133,7 @@ Membuat ribuan Access Point palsu untuk membanjiri daftar scan WiFi.
 
 **Usage**:
 ```bash
-aleopantest run beacon-flood --iface wlan0mon --count 100
+Aleocrophic run beacon-flood --iface wlan0mon --count 100
 ```
 
 **Parameters**:
@@ -150,7 +150,7 @@ Scan jaringan WiFi di sekitar dan menampilkan detail sinyal, enkripsi, dan BSSID
 
 **Usage**:
 ```bash
-aleopantest run wifi-scan --iface wlan0mon
+Aleocrophic run wifi-scan --iface wlan0mon
 ```
 ---
 

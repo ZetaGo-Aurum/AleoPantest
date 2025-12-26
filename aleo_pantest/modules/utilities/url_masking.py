@@ -20,13 +20,13 @@ class URLMasking(BaseTool):
             name="URL Masking",
             category=ToolCategory.UTILITIES,
             version="2.1.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Mask real URLs behind fake domain names for phishing and social engineering tests",
             usage="""
 URL MASKING - Hide real URLs behind fake domain names
 
 USAGE:
-  aleopantest run url-mask --url <real_url> --fake-domain <domain> [--serve] [--port <port>]
+  Aleocrophic run url-mask --url <real_url> --fake-domain <domain> [--serve] [--port <port>]
 
 PARAMETERS:
   --url TEXT              Real/malicious URL to hide (required)
@@ -37,10 +37,10 @@ PARAMETERS:
 
 EXAMPLES:
   # Start server to redirect /google to attacker.com
-  aleopantest run url-mask --url https://attacker.com --fake-domain google --serve
+  Aleocrophic run url-mask --url https://attacker.com --fake-domain google --serve
 
   # Legacy file generation
-  aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
+  Aleocrophic run url-mask --url https://attacker.com --fake-domain google.com --method redirect
             """,
             requirements=['requests', 'validators', 'qrcode'],
             tags=['url-masking', 'phishing', 'social-engineering', 'education'],

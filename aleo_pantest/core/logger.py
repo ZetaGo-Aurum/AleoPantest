@@ -1,4 +1,4 @@
-"""Advanced logging system for AleoPantest"""
+"""Advanced logging system for Aleocrophic"""
 import logging
 import sys
 from pathlib import Path
@@ -78,4 +78,4 @@ def setup_logger(name: str, level: str = "INFO", log_file: Optional[str] = None)
 
 
 # Global logger instance
-logger = setup_logger("AleoPantest", log_file="logs/aleo_pantest.log")
+logger = setup_logger("Aleocrophic", log_file="logs/aleocrophic.log")

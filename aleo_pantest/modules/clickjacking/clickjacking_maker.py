@@ -16,9 +16,9 @@ class ClickjackingMaker(BaseTool):
             name="Clickjacking PoC Maker",
             category=ToolCategory.WEB,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Generates clickjacking proof of concept HTML for authorized security testing",
-            usage="aleopantest run clickjacking-make --url https://example.com --output poc.html",
+            usage="Aleocrophic run clickjacking-make --url https://example.com --output poc.html",
             requirements=['python'],
             tags=['clickjacking', 'poc', 'web', 'testing']
         )

@@ -16,9 +16,9 @@ class AntiDDoS(BaseTool):
             name="Anti-DDoS Detector",
             category=ToolCategory.SECURITY,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Detects and analyzes DDoS protection mechanisms like Cloudflare, Akamai, AWS Shield",
-            usage="aleopantest run anti-ddos --url https://example.com",
+            usage="Aleocrophic run anti-ddos --url https://example.com",
             requirements=['requests'],
             tags=['ddos', 'protection', 'security', 'detection']
         )

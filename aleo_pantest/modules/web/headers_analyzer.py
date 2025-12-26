@@ -7,10 +7,10 @@ class HeadersAnalyzer(BaseTool):
             name="HTTP Headers Analyzer",
             category=ToolCategory.WEB,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Menganalisis HTTP security headers dari sebuah URL untuk menilai postur keamanan",
-            usage="aleopantest run headers-analyzer --url <url>",
-            example="aleopantest run headers-analyzer --url https://google.com",
+            usage="Aleocrophic run headers-analyzer --url <url>",
+            example="Aleocrophic run headers-analyzer --url https://google.com",
             requirements=["requests"],
             tags=["web", "security", "headers", "recon"],
             form_schema=[
@@ -25,7 +25,7 @@ class HeadersAnalyzer(BaseTool):
                     "name": "user_agent",
                     "label": "User-Agent",
                     "type": "text",
-                    "default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AleoPantest/3.3"
+                    "default": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Aleocrophic/3.3"
                 }
             ]
         )

@@ -24,13 +24,13 @@ class URLShortener(BaseTool):
             name="URL Shortener",
             category=ToolCategory.UTILITIES,
             version="2.1.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Create short URLs with custom aliases for tracking and redirection",
             usage="""
 URL SHORTENER - Create short URLs with custom aliases and click tracking
 
 USAGE:
-  aleopantest run url-shorten --url <target_url> [--alias <name>] [--serve] [--port <port>]
+  Aleocrophic run url-shorten --url <target_url> [--alias <name>] [--serve] [--port <port>]
 
 PARAMETERS:
   --url TEXT              Target URL to shorten (required)
@@ -52,10 +52,10 @@ FEATURES:
 
 EXAMPLES:
   # Create short link and start server
-  aleopantest run url-shorten --url https://example.com --serve
+  Aleocrophic run url-shorten --url https://example.com --serve
 
   # Custom alias with server
-  aleopantest run url-shorten --url https://example.com --alias mylink --serve --port 9000
+  Aleocrophic run url-shorten --url https://example.com --alias mylink --serve --port 9000
             """,
             requirements=['requests', 'validators'],
             tags=['url-shortening', 'tracking', 'phishing', 'education']

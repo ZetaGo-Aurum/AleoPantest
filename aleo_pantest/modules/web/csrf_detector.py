@@ -15,7 +15,7 @@ class CSRFDetector(BaseTool):
             name="CSRF Detector",
             category=ToolCategory.WEB,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="CSRF vulnerability detection dengan analisis form token",
             usage="csrf = CSRFDetector(); csrf.run(url='http://target.com/form')",
             requirements=["requests", "beautifulsoup4"],

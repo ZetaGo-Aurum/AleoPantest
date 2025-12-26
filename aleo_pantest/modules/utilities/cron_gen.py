@@ -6,10 +6,10 @@ class CronGen(BaseTool):
             name="Cron Expression Generator",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Membuat ekspresi cron untuk jadwal tugas otomatis",
-            usage="aleopantest run cron-gen --minute <m> --hour <h>",
-            example="aleopantest run cron-gen --minute 0 --hour 12",
+            usage="Aleocrophic run cron-gen --minute <m> --hour <h>",
+            example="Aleocrophic run cron-gen --minute 0 --hour 12",
             parameters={
                 "minute": "Menit (0-59)",
                 "hour": "Jam (0-23)",

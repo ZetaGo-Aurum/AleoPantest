@@ -7,10 +7,10 @@ class GitRecon(BaseTool):
             name="GitHub Recon",
             category=ToolCategory.OSINT,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mencari informasi publik tentang user atau organisasi di GitHub",
-            usage="aleopantest run git-recon --org <name>",
-            example="aleopantest run git-recon --org google",
+            usage="Aleocrophic run git-recon --org <name>",
+            example="Aleocrophic run git-recon --org google",
             parameters={"org": "Nama user atau organisasi GitHub"},
             requirements=["requests"],
             tags=["osint", "github", "recon"]

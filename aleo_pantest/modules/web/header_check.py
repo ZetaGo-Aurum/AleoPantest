@@ -7,10 +7,10 @@ class HeaderChecker(BaseTool):
             name="Security Header Checker",
             category=ToolCategory.WEB,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Menganalisis HTTP security headers pada target website",
-            usage="aleopantest run header-check --url <url>",
-            example="aleopantest run header-check --url https://google.com",
+            usage="Aleocrophic run header-check --url <url>",
+            example="Aleocrophic run header-check --url https://google.com",
             parameters={"url": "Target URL"},
             requirements=["requests"],
             tags=["web", "security", "headers"]

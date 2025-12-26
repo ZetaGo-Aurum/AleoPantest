@@ -16,7 +16,7 @@ class IPScanner(BaseTool):
             name="IP Scanner",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="IP scanner untuk scanning subnet dan deteksi host yang aktif",
             usage="scanner = IPScanner(); scanner.run(network='192.168.1.0/24')",
             requirements=["socket", "ipaddress"],

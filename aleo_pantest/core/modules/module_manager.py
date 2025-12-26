@@ -7,7 +7,7 @@ from typing import List, Dict, Optional
 
 class ModuleManager:
     """
-    Manager untuk menangani dependensi module AleoPantest.
+    Manager untuk menangani dependensi module Aleocrophic.
     Mendukung pencarian, verifikasi integritas, dan manajemen pustaka.
     """
     

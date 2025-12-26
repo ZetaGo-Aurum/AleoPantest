@@ -8,10 +8,10 @@ class JWTDecoder(BaseTool):
             name="JWT Decoder",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Men-decode header dan payload dari JWT token tanpa verifikasi signature",
-            usage="aleopantest run jwt-decoder --token <jwt>",
-            example="aleopantest run jwt-decoder --token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
+            usage="Aleocrophic run jwt-decoder --token <jwt>",
+            example="Aleocrophic run jwt-decoder --token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
             parameters={"token": "JWT token string"},
             requirements=[],
             tags=["utility", "jwt", "crypto"]

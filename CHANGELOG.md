@@ -1,16 +1,31 @@
-# AleoPantest Changelog
+# Aleocrophic Changelog
+
+## [3.3.4] - 2025-12-27
+
+### Branding & Stability Update 🛡️
+
+#### Branding Implementation ✨
+- **Full Rebranding**: Renamed project from **Aleocrophic** to **Aleocrophic** across all core components (CLI, TUI, Web UI, Setup, and Documentation).
+- **Metadata Update**: Updated author email to `deltaastra24@gmail.com` and established consistent branding in `ToolMetadata`.
+- **UI Refresh**: Updated banners, headers, and version displays in CLI (`cli.py`), TUI (`tui.py`), and Web Dashboard (`index.html`).
+
+#### Core & API Stability ⚙️
+- **Wireless Module Fix**: Resolved `NameError: name 'Any' is not defined` in `beacon_flood.py` and `deauth.py` by adding proper typing imports.
+- **Enhanced API Fetch**: Improved `apiFetch` in `index.html` with exponential backoff retry logic, jitter, and better error reporting for connection failures.
+- **API Robustness**: Fixed 500 Internal Server Error in `/api/run` endpoint by improving logger initialization and adding JSON serialization error handling.
+- **BaseTool Enhancement**: Updated default `User-Agent` to `Aleocrophic/3.3.4` and improved metadata handling.
 
 ## [3.3.2] - 2025-12-26
 
 ### Admin Detection & Environment Adapter Update 🛡️
 
 #### Admin Identification ⚙️
-- **Improved Admin Info Detection**: Updated `BaseTool.get_admin_info()` in [base_tool.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/base_tool.py) with accurate local device reading from terminal and multiple fallback mechanisms (env vars, getpass, socket).
-- **Environment Adapter**: Implemented `EnvironmentAdapter` in [platform.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/platform.py) to handle development, staging, and production environments with specific configuration overrides.
+- **Improved Admin Info Detection**: Updated `BaseTool.get_admin_info()` in [base_tool.py](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/core/base_tool.py) with accurate local device reading from terminal and multiple fallback mechanisms (env vars, getpass, socket).
+- **Environment Adapter**: Implemented `EnvironmentAdapter` in [platform.py](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/core/platform.py) to handle development, staging, and production environments with specific configuration overrides.
 - **Admin Context Logging**: Added structured logging for admin detection failures and fallback usage.
 
 #### Bug Fixes & Stability 🛠️
-- **Unknown Tool Debugging**: Added structured logging to `/api/tools` endpoint in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/web_server.py) to identify and debug tool loading failures.
+- **Unknown Tool Debugging**: Added structured logging to `/api/tools` endpoint in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/core/web_server.py) to identify and debug tool loading failures.
 - **Cross-Platform Normalization**: Verified and enhanced parameter normalization for Windows/macOS/Linux compatibility.
 
 ## [3.3.1] - 2025-12-26
@@ -19,17 +34,17 @@
 
 #### Core & API Stability ⚙️
 - **Null/Undefined Checking**: Implemented comprehensive null and undefined checks across API server, CLI, TUI, and Web Interface to prevent "undefined" errors.
-- **Robust API Endpoints**: Updated `/api/tools` and `/api/run` in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/web_server.py) with stricter validation for tool IDs and instances.
-- **Improved Result Export**: Enhanced `export_json` and `export_txt` in [base_tool.py](file:///c%3A/Users/rayhan/Documents/PantestTool\AloPantest/aleo_pantest/core/base_tool.py) to handle cases with missing metadata or results safely.
-- **Dependency Isolation**: Fixed `ModuleNotFoundError` for `uvicorn` and `fastapi` by implementing a fallback `DummyApp` and better import handling in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/core/web_server.py).
+- **Robust API Endpoints**: Updated `/api/tools` and `/api/run` in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/core/web_server.py) with stricter validation for tool IDs and instances.
+- **Improved Result Export**: Enhanced `export_json` and `export_txt` in [base_tool.py](file:///c%3A/Users/rayhan/Documents/PantestTool\Aleocrophic/aleo_pantest/core/base_tool.py) to handle cases with missing metadata or results safely.
+- **Dependency Isolation**: Fixed `ModuleNotFoundError` for `uvicorn` and `fastapi` by implementing a fallback `DummyApp` and better import handling in [web_server.py](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/core/web_server.py).
 
 #### Web UI & TUI Improvements ✨
-- **Frontend Defenses**: Added null-checks for `adminInfo` and `activeTool` in [index.html](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/web_assets/index.html) to prevent UI crashes.
+- **Frontend Defenses**: Added null-checks for `adminInfo` and `activeTool` in [index.html](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/web_assets/index.html) to prevent UI crashes.
 - **Safe Execution UI**: Updated `openExecution` and `runTool` functions in web interface with better error reporting and default values for missing metadata.
-- **TUI Resilience**: Hardened `update_results` in [tui.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/tui.py) to handle `None` results and potential UI element lookup failures.
+- **TUI Resilience**: Hardened `update_results` in [tui.py](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/tui.py) to handle `None` results and potential UI element lookup failures.
 
 #### CLI Enhancements 🛠️
-- **Safe Instantiation**: CLI now validates tool metadata and instance creation before execution in [cli.py](file:///c%3A/Users/rayhan/Documents/PantestTool/AloPantest/aleo_pantest/cli.py).
+- **Safe Instantiation**: CLI now validates tool metadata and instance creation before execution in [cli.py](file:///c%3A/Users/rayhan/Documents/PantestTool/Aleocrophic/aleo_pantest/cli.py).
 - **Clearer Error Messages**: Improved error reporting when tools fail to load due to syntax errors or missing dependencies.
 
 ## [3.3.0] - 2025-12-26
@@ -123,7 +138,7 @@
 ### Major Features Added 🚀
 
 #### Modern TUI Dashboard ✨
-- New `aleopantest tui` command to launch the Textual-based dashboard.
+- New `Aleocrophic tui` command to launch the Textual-based dashboard.
 - Interactive category-based navigation.
 - Real-time session monitoring and animations.
 - Dark mode support and sleek professional layout.
@@ -232,8 +247,8 @@
   - Legal disclaimer system
 
 ### CLI Improvements 🎨
-- Restructured entry point: `aleopantest` (changed from `aleopantest`)
-- New command: `aleopantest list-by-category [category]`
+- Restructured entry point: `Aleocrophic` (changed from `Aleocrophic`)
+- New command: `Aleocrophic list-by-category [category]`
 - Enhanced `run` command with 14 new parameters:
   - `--email` - Email address for phishing tools
   - `--subject` - Email subject for analysis
@@ -282,9 +297,9 @@
 **No breaking changes!** All v1.0 tools work as before.
 
 1. Update installation: `pip install -e .`
-2. New entry point: Use `aleopantest` instead of `python -m`
-3. New tools available: Try `aleopantest list-tools`
-4. Check help: `aleopantest --help`
+2. New entry point: Use `Aleocrophic` instead of `python -m`
+3. New tools available: Try `Aleocrophic list-tools`
+4. Check help: `Aleocrophic --help`
 
 ### Performance Metrics
 
@@ -314,7 +329,7 @@
 - Legacy tools: Require re-testing with new CLI
 
 ### Contributors 👥
-- Main Development: AleoPantest Team
+- Main Development: Aleocrophic Team
 - Security Research: Information Security Community
 - Testing & Feedback: Beta users and community
 
@@ -351,7 +366,7 @@ All tools include:
 
 - Documentation: `/docs` folder
 - Quick Start: `QUICKSTART_v2.md`
-- Tool Help: `aleopantest help-tool <tool-id>`
+- Tool Help: `Aleocrophic help-tool <tool-id>`
 - Issues: GitHub Issues
 - Community: GitHub Discussions
 
@@ -369,4 +384,4 @@ See git history for v1.x changelog details.
 
 **Last Updated:** December 25, 2025
 **Current Version:** 2.0.0
-**Maintainer:** AleoPantest Team
+**Maintainer:** Aleocrophic Team

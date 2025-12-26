@@ -14,7 +14,7 @@ class HashTools(BaseTool):
             name="Hash Tools",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Hash tools untuk generate MD5, SHA1, SHA256, SHA512 dan hash lainnya",
             usage="hasher = HashTools(); hasher.run(text='hello world', algorithm='sha256')",
             requirements=["hashlib"],

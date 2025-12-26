@@ -7,10 +7,10 @@ class Base64Tool(BaseTool):
             name="Base64 Encoder/Decoder",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Encode atau decode string menggunakan format Base64",
-            usage="aleopantest run base64 --action <encode|decode> --data <string>",
-            example="aleopantest run base64 --action encode --data 'hello world'",
+            usage="Aleocrophic run base64 --action <encode|decode> --data <string>",
+            example="Aleocrophic run base64 --action encode --data 'hello world'",
             parameters={
                 "action": "Tindakan yang dilakukan (encode atau decode)",
                 "data": "String yang akan diproses"

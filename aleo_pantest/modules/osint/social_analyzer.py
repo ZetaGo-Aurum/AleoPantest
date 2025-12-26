@@ -8,10 +8,10 @@ class SocialAnalyzer(BaseTool):
             name="Social Analyzer",
             category=ToolCategory.OSINT,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mencari keberadaan username di berbagai platform media sosial secara real-time",
-            usage="aleopantest run social-analyzer --username <user>",
-            example="aleopantest run social-analyzer --username john_doe",
+            usage="Aleocrophic run social-analyzer --username <user>",
+            example="Aleocrophic run social-analyzer --username john_doe",
             requirements=["requests"],
             tags=["osint", "username", "social", "recon"],
             form_schema=[
@@ -36,7 +36,7 @@ class SocialAnalyzer(BaseTool):
         url = url_template.format(username)
         try:
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AleoPantest/3.3'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Aleocrophic/3.3'
             }
             response = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
             

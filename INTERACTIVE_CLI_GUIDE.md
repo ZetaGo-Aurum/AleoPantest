@@ -1,8 +1,8 @@
-# AleoPantest Interactive CLI System - Implementation Guide
+# Aleocrophic Interactive CLI System - Implementation Guide
 
 ## Overview
 
-This document describes the comprehensive improvements made to the AleoPantest penetration testing framework to provide an interactive CLI system for beginners while maintaining professional functionality.
+This document describes the comprehensive improvements made to the Aleocrophic penetration testing framework to provide an interactive CLI system for beginners while maintaining professional functionality.
 
 ## What's Been Improved
 
@@ -17,8 +17,8 @@ The new `ParameterMapper` class allows tools to accept multiple parameter names 
 **Example:**
 ```bash
 # Both work the same way:
-aleopantest run ip-geo --ip 8.8.8.8
-aleopantest run ip-geo --host 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --host 8.8.8.8
 ```
 
 ### 2. **Fixed IP Geolocation Tool**
@@ -34,8 +34,8 @@ aleopantest run ip-geo --host 8.8.8.8
 
 **Example:**
 ```bash
-aleopantest run ip-geo --ip 8.8.8.8
-aleopantest run ip-geo --host 1.1.1.1
+Aleocrophic run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --host 1.1.1.1
 ```
 
 ### 3. **Enhanced DDoS Simulator**
@@ -51,10 +51,10 @@ aleopantest run ip-geo --host 1.1.1.1
 **Example:**
 ```bash
 # Using presets (safe configurations)
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # Custom configuration
-aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 10 --authorized
+Aleocrophic run ddos-sim --target example.com --type http --duration 30 --threads 10 --authorized
 ```
 
 ### 4. **Interactive Help System**
@@ -75,8 +75,8 @@ Examples:
   geo = IPGeolocation(); geo.run(host='1.1.1.1')
   
 CLI Usage:
-  aleopantest run ip-geo --ip 8.8.8.8
-  aleopantest run ip-geo --host 1.1.1.1
+  Aleocrophic run ip-geo --ip 8.8.8.8
+  Aleocrophic run ip-geo --host 1.1.1.1
 
 🏷️  Tags: osint, geolocation, ip, reconnaissance, location-lookup
 📦 Requirements: requests
@@ -146,40 +146,40 @@ Automatic validation for:
 
 ```bash
 # Basic usage
-aleopantest run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
 
 # Using alias
-aleopantest run ip-geo --host 1.1.1.1
+Aleocrophic run ip-geo --host 1.1.1.1
 
 # View help
-aleopantest help-tool ip-geo
+Aleocrophic help-tool ip-geo
 ```
 
 ### DDoS Simulator (Authorized Testing Only)
 
 ```bash
 # Light testing (10 seconds, 5 threads)
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # Medium testing (30 seconds, 10 threads)
-aleopantest run ddos-sim --target example.com --type http --preset medium --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset medium --authorized
 
 # Custom configuration
-aleopantest run ddos-sim --target example.com --type dns --duration 60 --threads 20 --authorized
+Aleocrophic run ddos-sim --target example.com --type dns --duration 60 --threads 20 --authorized
 ```
 
 ### DNS Lookup
 
 ```bash
-aleopantest run dns --domain google.com
-aleopantest run dns --domain example.org
+Aleocrophic run dns --domain google.com
+Aleocrophic run dns --domain example.org
 ```
 
 ### Web Phishing
 
 ```bash
-aleopantest run web-phishing --url http://example.com
-aleopantest run web-phishing --url https://suspicious-site.com
+Aleocrophic run web-phishing --url http://example.com
+Aleocrophic run web-phishing --url https://suspicious-site.com
 ```
 
 ## File Structure
@@ -309,7 +309,7 @@ Potential improvements for future versions:
 **Problem:** "IP address is required"
 **Solution:** Use either `--ip` or `--host` parameter
 ```bash
-aleopantest run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
 ```
 
 ### DDoS Simulator Rejected
@@ -317,7 +317,7 @@ aleopantest run ip-geo --ip 8.8.8.8
 **Problem:** "Requires --authorized flag"
 **Solution:** Add `--authorized` flag for legal compliance
 ```bash
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 ```
 
 ### Invalid Parameter Error
@@ -325,7 +325,7 @@ aleopantest run ddos-sim --target example.com --type http --preset light --autho
 **Problem:** Parameter not recognized
 **Solution:** Check documentation or help for that tool
 ```bash
-aleopantest help-tool <tool-id>
+Aleocrophic help-tool <tool-id>
 ```
 
 ## Development Guidelines
@@ -342,7 +342,7 @@ When creating new tools, follow these patterns:
 
 ## Conclusion
 
-These improvements make AleoPantest more user-friendly for beginners while maintaining professional functionality for advanced users. The system provides:
+These improvements make Aleocrophic more user-friendly for beginners while maintaining professional functionality for advanced users. The system provides:
 
 - ✅ Flexible parameter naming
 - ✅ Comprehensive validation

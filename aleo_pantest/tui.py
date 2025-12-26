@@ -1,4 +1,4 @@
-"""Modern TUI for AleoPantest V3.0 using Textual"""
+"""Modern TUI for Aleocrophic V3.3.4 using Textual"""
 from textual.app import App, ComposeResult
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Header, Footer, Static, Button, ListItem, ListView, Label, Input, DataTable
@@ -148,7 +148,7 @@ class Dashboard(Screen):
                         yield ListItem(Label(category), id=f"cat-{category.lower()}")
             
             with Vertical(id="main-content"):
-                yield Label("[bold cyan]Welcome to AleoPantest V3.0[/bold cyan]", id="welcome-msg")
+                yield Label("[bold cyan]Welcome to Aleocrophic V3.3.4[/bold cyan]", id="welcome-msg")
                 yield Label(f"Platform: [green]{PlatformDetector.get_platform_name()}[/green]", id="platform-info")
                 yield Label("Select a category to view tools", id="instruction")
                 with ListView(id="tool-list"):
@@ -214,9 +214,9 @@ class Dashboard(Screen):
         tool_id = event.item.id.replace("tool-", "")
         self.app.push_screen(ToolExecutionScreen(tool_id))
 
-class AleoPantestTUI(App):
-    """Main Textual Application for AleoPantest V3.1"""
-    TITLE = "AleoPantest v3.1 PRO"
+class AleocrophicTUI(App):
+    """Main Textual Application for Aleocrophic V3.3.4"""
+    TITLE = "Aleocrophic v3.3.4 PRO"
     SUB_TITLE = "Advanced Cyber Security Tool Suite"
     
     CSS = """
@@ -414,5 +414,5 @@ class AleoPantestTUI(App):
             self.pop_screen()
 
 if __name__ == "__main__":
-    app = AleoPantestTUI()
+    app = AleocrophicTUI()
     app.run()

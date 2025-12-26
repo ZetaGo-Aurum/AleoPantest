@@ -15,7 +15,7 @@ class WhoisLookup(BaseTool):
             name="WHOIS Lookup",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="WHOIS lookup untuk mendapatkan informasi registrasi domain dan IP ownership",
             usage="whois = WhoisLookup(); whois.run(domain='google.com')",
             requirements=["socket", "subprocess"],

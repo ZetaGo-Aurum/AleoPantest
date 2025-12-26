@@ -1,8 +1,8 @@
-# AleoPantest v2.0 - Advanced Features Documentation
+# Aleocrophic v2.0 - Advanced Features Documentation
 
 ## 🎯 New Features Overview
 
-This document outlines the advanced features added in the latest update to AleoPantest v2.0.
+This document outlines the advanced features added in the latest update to Aleocrophic v2.0.
 
 ---
 
@@ -20,7 +20,7 @@ Educational tool for demonstrating sophisticated phishing attacks with real inte
 ### Usage Example
 ```bash
 # Get ngrok token from https://dashboard.ngrok.com
-aleopantest run ngrok-phishing \
+Aleocrophic run ngrok-phishing \
   --ngrok-token YOUR_NGROK_TOKEN \
   --phishing-type login \
   --target facebook
@@ -61,23 +61,23 @@ Multi-engine search dorking with pre-built templates for discovering exposed inf
 ### Usage Examples
 ```bash
 # Using built-in template
-aleopantest run advanced-dorking \
+Aleocrophic run advanced-dorking \
   --engine google \
   --domain target.com \
   --template exposed_configs
 
 # Custom query
-aleopantest run advanced-dorking \
+Aleocrophic run advanced-dorking \
   --engine duckduckgo \
   --query "site:github.com password config"
 
 # GitHub source code search
-aleopantest run advanced-dorking \
+Aleocrophic run advanced-dorking \
   --engine github \
   --query "api_key secret database"
 
 # Shodan IoT discovery (requires API key)
-aleopantest run advanced-dorking \
+Aleocrophic run advanced-dorking \
   --engine shodan \
   --shodan-api-key YOUR_API_KEY \
   --query "port:3389 os:windows"
@@ -111,7 +111,7 @@ Rate limit trigger:   Pauses if > 1,000 req/sec
 ### Usage Example
 ```bash
 # HTTP flood attack (requires authorization)
-aleopantest run ddos-sim \
+Aleocrophic run ddos-sim \
   --target example.com \
   --type http \
   --duration 30 \
@@ -163,19 +163,19 @@ pip install --upgrade -r requirements.txt
 
 ### List All Tools
 ```bash
-aleopantest list-tools
+Aleocrophic list-tools
 ```
 
 ### Get Help for Specific Tool
 ```bash
-aleopantest help-tool ngrok-phishing
-aleopantest help-tool advanced-dorking
-aleopantest help-tool ddos-sim
+Aleocrophic help-tool ngrok-phishing
+Aleocrophic help-tool advanced-dorking
+Aleocrophic help-tool ddos-sim
 ```
 
 ### Run with Output
 ```bash
-aleopantest run advanced-dorking \
+Aleocrophic run advanced-dorking \
   --engine google \
   --domain target.com \
   --template exposed_configs \
@@ -186,7 +186,7 @@ aleopantest run advanced-dorking \
 
 ## ⚖️ Legal Disclaimer
 
-**AleoPantest is provided for educational and authorized security testing purposes only.**
+**Aleocrophic is provided for educational and authorized security testing purposes only.**
 
 ### Important Notes
 1. **Authorization Required**: Always obtain written permission before testing
@@ -247,7 +247,7 @@ DORK_TEMPLATES = {
 Set ngrok token via environment variable:
 ```bash
 export NGROK_AUTHTOKEN=your_token_here
-aleopantest run ngrok-phishing --phishing-type login
+Aleocrophic run ngrok-phishing --phishing-type login
 ```
 
 ### DDoS Custom Attack
@@ -265,7 +265,7 @@ SAFETY_LIMITS = {
 
 ## 📞 Support & Issues
 
-- **GitHub Issues**: https://github.com/ZetaGo-Aurum/AleoPantest/issues
+- **GitHub Issues**: https://github.com/ZetaGo-Aurum/Aleocrophic/issues
 - **Documentation**: See other .md files in root directory
 - **Quick Start**: Start with `QUICKSTART.md`
 
@@ -273,7 +273,7 @@ SAFETY_LIMITS = {
 
 **Version**: 2.0.0  
 **Last Updated**: December 25, 2025  
-**Maintained By**: AleoPantest Team
+**Maintained By**: Aleocrophic Team
 
 ---
 

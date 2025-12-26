@@ -1,8 +1,6 @@
-# LICENSE
+MIT License
 
-## MIT License - Educational Use
-
-Copyright (c) 2024 AleoPantest Team
+Copyright (c) 2024 Aleocrophic Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,182 +22,55 @@ SOFTWARE.
 
 ---
 
-## ⚠️ IMPORTANT LEGAL NOTICE
+**DISCLAIMER / PERINGATAN HUKUM (INDONESIA)**
 
-**AleoPantest adalah TOOLS UNTUK KEPERLUAN EDUKASI DAN PEMBELAJARAN CYBERSECURITY SEMATA.**
+**Aleocrophic adalah TOOLS UNTUK KEPERLUAN EDUKASI DAN PEMBELAJARAN CYBERSECURITY SEMATA.**
 
-### ✅ PENGGUNAAN YANG DIIZINKAN:
-- Testing pada sistem Anda sendiri
-- Testing dengan izin eksplisit dari pemilik sistem
-- Keperluan pendidikan dan pembelajaran
-- Research dan pengembangan cybersecurity
-- Bug bounty programs yang terautentikasi
-- Authorized penetration testing
+Pengembang dan kontributor **Aleocrophic** tidak bertanggung jawab atas penyalahgunaan alat ini untuk aktivitas ilegal, tidak etis, atau tanpa izin. Pengguna bertanggung jawab sepenuhnya atas segala konsekuensi hukum yang timbul dari penggunaan alat ini.
 
-### ❌ PENGGUNAAN YANG DILARANG:
-- Unauthorized access ke sistem orang lain (ILLEGAL)
-- Hacking atau cyber crimes
-- Disruption of services
-- Data theft atau privacy violation
-- Illegal financial transactions
-- Defacement atau sabotage
-- Violasi undang-undang cybercrime
+**Aleocrophic Team TIDAK bertanggung jawab atas:**
+1. Kerusakan sistem atau kehilangan data.
+2. Pelanggaran hukum yang dilakukan oleh pengguna.
+3. Kerugian finansial atau reputasi.
+4. Penggunaan pada jaringan/sistem tanpa izin eksplisit dari pemiliknya.
 
-### 📋 TANGGUNG JAWAB PENGGUNA:
-1. **Legal Compliance**: Anda bertanggung jawab memastikan penggunaan sesuai hukum
-2. **Authorization**: Selalu dapatkan izin sebelum testing sistem orang lain
-3. **Ethics**: Gunakan secara etis dan responsible
-4. **Consequences**: Anda bertanggung jawab atas konsekuensi penggunaan
+Dengan menggunakan Aleocrophic, Anda setuju untuk:
+1. Menggunakan alat ini hanya di lingkungan lab yang terisolasi atau pada sistem yang Anda miliki secara sah.
+2. Mematuhi hukum siber yang berlaku di wilayah Anda (seperti UU ITE di Indonesia).
+3. Tidak mendistribusikan ulang hasil scan atau eksploitasi tanpa izin.
 
-### ⚖️ LIABILITY DISCLAIMER:
-**AleoPantest Team TIDAK bertanggung jawab atas:**
-- Penyalahgunaan tools untuk tujuan ilegal
-- Damage atau kerugian finansial yang ditimbulkan
-- Legal consequences dari penggunaan yang tidak authorized
-- System failures atau data loss
-- Violation of laws atau regulations
-- Misuse atau abuse dari tools ini
-
-### 🔐 CODE OF ETHICS:
-Dengan menggunakan AleoPantest, Anda setuju untuk:
-1. Hanya test sistem yang Anda miliki atau dengan izin
-2. Respect privacy dan confidentiality
-3. Disclose vulnerabilities secara responsible
-4. Follow semua applicable laws dan regulations
-5. Tidak menggunakan tools untuk purpose yang illegal
-6. Share knowledge dengan community secara ethical
-
-### 📚 EDUCATIONAL PURPOSE:
-AleoPantest dikembangkan untuk:
-- Cybersecurity education
-- Security awareness training
-- Professional development
-- Research purposes
-- Learning dan skill development
-
-### 🚫 VIOLATION CONSEQUENCES:
-Violation dari license terms atau legal restrictions dapat mengakibatkan:
-- Legal action
-- Criminal charges (jika applicable)
-- Civil liability
-- Monetary damages
-- Removal dari repository
+Aleocrophic dikembangkan untuk:
+- Membantu Administrator Jaringan mengamankan sistem mereka.
+- Sebagai alat bantu pembelajaran bagi mahasiswa dan praktisi Cybersecurity.
+- Automasi tugas-tugas audit keamanan yang repetitif secara legal.
 
 ---
 
-## COUNTRY-SPECIFIC LAWS
+**AUTHOR INFORMATION**
 
-Peraturan hacking dan cybersecurity berbeda di setiap negara. Pastikan Anda familiar dengan:
-
-### 🇮🇩 Indonesia
-- **Law**: UU No. 19 Tahun 2016 tentang ITE
-- **Penalties**: Penjara hingga 12 tahun dan/atau denda miliaran rupiah
-- **Note**: Unauthorized access adalah ILLEGAL
-
-### 🇺🇸 United States
-- **Law**: Computer Fraud and Abuse Act (CFAA)
-- **Penalties**: Hingga 10 tahun penjara
-- **Note**: Federal crime dengan penalties berat
-
-### 🇬🇧 United Kingdom
-- **Law**: Computer Misuse Act 1990
-- **Penalties**: Penjara hingga 10 tahun
-- **Note**: Strict liability untuk unauthorized access
-
-### 🇩🇪 Germany
-- **Law**: StGB §202a-c
-- **Penalties**: Penjara hingga 5 tahun
-- **Note**: Strong data protection laws
-
-### 🇦🇺 Australia
-- **Law**: Criminal Code Act 1995
-- **Penalties**: Penjara hingga 12 tahun
-- **Note**: Serious cybercrime penalties
-
-### 🇨🇦 Canada
-- **Law**: Criminal Code (Section 342.1)
-- **Penalties**: Penjara hingga 10 tahun
-- **Note**: Federal cybercrime legislation
+Project Name: Aleocrophic
+Author: Aleocrophic Team
+Contact: deltaastra24@gmail.com
+Version: 3.3.4
+License: MIT License
 
 ---
 
-## RESPONSIBLE DISCLOSURE
+**CONTRIBUTION & USAGE**
 
-Jika Anda menemukan vulnerability menggunakan tools ini:
-
-1. **Identify**: Dokumentasikan vulnerability dengan detail
-2. **Verify**: Pastikan vulnerability real dan reproducible
-3. **Report**: Hubungi vendor/owner secara private
-4. **Disclosure Timeline**: Berikan reasonable time untuk fix (typically 90 days)
-5. **Publish**: Publish setelah fixed atau jika tidak ada response
-
-### Responsible Disclosure Platforms:
-- HackerOne
-- Bugcrowd
-- Intigriti
-- Vendor-specific programs
+Aleocrophic menggunakan berbagai third-party libraries dengan licenses mereka sendiri:
+- Click (BSD-3-Clause)
+- Rich (MIT)
+- Requests (Apache-2.0)
+- Scapy (GPL-2.0)
+- Textual (MIT)
+- FastAPI (MIT)
 
 ---
 
-## WARRANTY DISCLAIMER
+**FINAL ACKNOWLEDGMENT**
 
-**THE SOFTWARE IS PROVIDED "AS IS"**
-
-AleoPantest Team:
-- Makes NO warranty atau guarantee tentang functionality
-- Does NOT guarantee accuracy dari results
-- Is NOT liable untuk any issues atau damages
-- Tidak memberikan technical support atau liability coverage
-
----
-
-## MODIFICATION AND DISTRIBUTION
-
-Anda dapat:
-- ✅ Modify source code untuk kebutuhan personal
-- ✅ Distribute modified versions dengan proper credit
-- ✅ Use dalam commercial projects (dengan proper licensing)
-
-Tetapi Anda HARUS:
-- ✅ Include original license
-- ✅ State changes yang dibuat
-- ✅ Maintain same license (MIT)
-
----
-
-## THIRD-PARTY LIBRARIES
-
-AleoPantest menggunakan berbagai third-party libraries dengan licenses mereka sendiri:
-
-- requests: Apache 2.0
-- beautifulsoup4: MIT
-- click: BSD
-- rich: MIT
-
-Lihat masing-masing library untuk terms lengkap.
-
----
-
-## CONTACT & LEGAL INQUIRIES
-
-Untuk pertanyaan legal:
-- Email: legal@aleopantest.com
-- Formal Notice: Send to registered address
-- Disputes: Will be handled per applicable law
-
----
-
-**PERSETUJUAN:**
-
-Dengan mengunduh, menginstall, atau menggunakan AleoPantest, Anda:
-1. **MENERIMA** semua terms dan conditions dalam license ini
-2. **SETUJU** untuk menggunakan secara legal dan ethical
-3. **MEMAHAMI** risks dan consequences
-4. **ACKNOWLEDGE** disclaimer dan limitation of liability
-5. **WAIVE** any claims terhadap developers/team
-
----
-
-**Last Updated**: Desember 2024
-**License Type**: MIT (Educational)
-**Status**: Active
+Dengan mengunduh, menginstall, atau menggunakan Aleocrophic, Anda:
+1. Menyatakan telah membaca dan memahami seluruh isi License dan Disclaimer ini.
+2. Menyetujui untuk membebaskan tim pengembang dari segala tuntutan hukum.
+3. Berjanji untuk menjadi White-Hat hacker yang bertanggung jawab.

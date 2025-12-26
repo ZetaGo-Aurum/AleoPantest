@@ -1,4 +1,4 @@
-"""Intelligent automation and context detection for AleoPantest"""
+"""Intelligent automation and context detection for Aleocrophic"""
 import re
 import socket
 from typing import Dict, Any, Optional, List

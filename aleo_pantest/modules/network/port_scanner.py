@@ -18,7 +18,7 @@ class PortScanner(BaseTool):
             name="Port Scanner",
             category=ToolCategory.NETWORK,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Fast port scanner dengan multi-threading untuk deteksi service yang berjalan",
             usage="scanner = PortScanner(); scanner.run(host='192.168.1.1', ports='1-65535')",
             requirements=["socket", "threading"],

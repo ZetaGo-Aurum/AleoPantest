@@ -18,9 +18,9 @@ class WebPhishing(BaseTool):
             name="Web Phishing Detector",
             category=ToolCategory.PHISHING,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Detects and analyzes phishing websites by checking suspicious characteristics",
-            usage="aleopantest run web-phishing --url https://example.com",
+            usage="Aleocrophic run web-phishing --url https://example.com",
             requirements=['requests', 'beautifulsoup4'],
             tags=['phishing', 'web', 'security', 'detection']
         )

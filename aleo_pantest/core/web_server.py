@@ -3,19 +3,25 @@ import json
 import time
 import os
 import traceback
+import logging
 from datetime import datetime
 from typing import Dict, Any, List
 from pydantic import BaseModel
 
-# Move logger import early and use a more direct path
+# Initialize logger
 try:
     from .logger import logger
 except (ImportError, ValueError):
     try:
         from aleo_pantest.core.logger import logger
     except ImportError:
-        import logging
-        logger = logging.getLogger("AleoPantest-Fallback")
+        logger = logging.getLogger("Aleocrophic-Fallback")
+        if not logger.handlers:
+            handler = logging.StreamHandler()
+            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            handler.setFormatter(formatter)
+            logger.addHandler(handler)
+            logger.setLevel(logging.INFO)
 
 try:
     import uvicorn
@@ -52,7 +58,7 @@ except (ImportError, ValueError):
     from aleo_pantest.core.base_tool import BaseTool
 
 if HAS_WEB_DEPS:
-    app = FastAPI(title="AleoPantest V3 API")
+    app = FastAPI(title="Aleocrophic V3 API")
     automation_engine = AutomationEngine()
 
     # Serve static files
@@ -293,7 +299,10 @@ async def run_tool(request: ToolRunRequest):
         visual_output += "📊 Results:\n"
         
         if display_results:
-            visual_output += json.dumps(display_results, indent=2)
+            try:
+                visual_output += json.dumps(display_results, indent=2)
+            except (TypeError, ValueError):
+                visual_output += str(display_results)
         else:
             visual_output += "{}"
         
@@ -351,13 +360,21 @@ async def run_tool(request: ToolRunRequest):
         
         return response_data
     except Exception as e:
+        # Ensure capture handler is removed even if error occurs
+        if 'logger' in locals() and 'capture_handler' in locals():
+            logger.removeHandler(capture_handler)
+            
         traceback.print_exc()
-        logger.error(f"Error running tool {request.tool_id}: {str(e)}")
+        error_msg = f"Unexpected error running tool {request.tool_id}: {str(e)}"
+        logger.error(error_msg)
+        
         return JSONResponse(
             status_code=500,
             content={
                 "status": "error",
-                "message": str(e),
+                "message": error_msg,
+                "tool_id": request.tool_id,
+                "timestamp": datetime.now().isoformat(),
                 "traceback": traceback.format_exc() if os.environ.get("DEBUG") else None
             }
         )
@@ -422,7 +439,7 @@ def start_web_server(host: str = "127.0.0.1", port: int = 8002):
         print("💡 Run: pip install fastapi uvicorn")
         return
 
-    print(f"🚀 AleoPantest Web Server starting at http://{host}:{port}")
+    print(f"🚀 Aleocrophic Web Server starting at http://{host}:{port}")
     uvicorn.run(app, host=host, port=port)
 
 if __name__ == "__main__":

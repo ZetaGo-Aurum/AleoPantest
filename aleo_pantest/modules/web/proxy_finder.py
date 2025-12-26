@@ -7,10 +7,10 @@ class ProxyFinder(BaseTool):
             name="Proxy Finder",
             category=ToolCategory.WEB,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mencari daftar public proxy yang tersedia secara online",
-            usage="aleopantest run proxy-finder --type http",
-            example="aleopantest run proxy-finder --type https",
+            usage="Aleocrophic run proxy-finder --type http",
+            example="Aleocrophic run proxy-finder --type https",
             requirements=[],
             tags=["web", "proxy", "anonymity", "utility"],
             form_schema=[

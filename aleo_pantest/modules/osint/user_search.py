@@ -7,10 +7,10 @@ class UserSearch(BaseTool):
             name="Username Searcher",
             category=ToolCategory.OSINT,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mencari keberadaan username di berbagai platform media sosial",
-            usage="aleopantest run user-search --username <target_username>",
-            example="aleopantest run user-search --username zeta_go",
+            usage="Aleocrophic run user-search --username <target_username>",
+            example="Aleocrophic run user-search --username zeta_go",
             parameters={
                 "username": "Username yang ingin dicari"
             },

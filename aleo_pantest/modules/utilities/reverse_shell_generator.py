@@ -13,7 +13,7 @@ class ReverseShellGenerator(BaseTool):
             name="Reverse Shell Generator",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Reverse shell generator untuk generate berbagai reverse shell payloads",
             usage="gen = ReverseShellGenerator(); gen.run(host='10.0.0.1', port=4444, language='bash')",
             requirements=[],

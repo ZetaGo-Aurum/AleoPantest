@@ -1,46 +1,46 @@
-"""Custom exceptions for AleoPantest"""
+"""Custom exceptions for Aleocrophic"""
 
 
-class AleoPantestException(Exception):
-    """Base exception for AleoPantest"""
+class AleocrophicException(Exception):
+    """Base exception for Aleocrophic"""
     pass
 
 
-class ToolException(AleoPantestException):
+class ToolException(AleocrophicException):
     """Exception for tool execution"""
     pass
 
 
-class NetworkException(AleoPantestException):
+class NetworkException(AleocrophicException):
     """Exception for network operations"""
     pass
 
 
-class WebException(AleoPantestException):
+class WebException(AleocrophicException):
     """Exception for web operations"""
     pass
 
 
-class OsintException(AleoPantestException):
+class OsintException(AleocrophicException):
     """Exception for OSINT operations"""
     pass
 
 
-class DatabaseException(AleoPantestException):
+class DatabaseException(AleocrophicException):
     """Exception for database operations"""
     pass
 
 
-class AuthenticationException(AleoPantestException):
+class AuthenticationException(AleocrophicException):
     """Exception for authentication"""
     pass
 
 
-class ValidationException(AleoPantestException):
+class ValidationException(AleocrophicException):
     """Exception for validation"""
     pass
 
 
-class ConfigException(AleoPantestException):
+class ConfigException(AleocrophicException):
     """Exception for configuration"""
     pass

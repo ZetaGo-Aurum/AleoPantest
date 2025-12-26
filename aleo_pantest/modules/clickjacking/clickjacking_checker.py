@@ -16,9 +16,9 @@ class ClickjackingChecker(BaseTool):
             name="Clickjacking Checker",
             category=ToolCategory.WEB,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Checks if a website is vulnerable to clickjacking attacks by analyzing security headers",
-            usage="aleopantest run clickjacking-check --url https://example.com",
+            usage="Aleocrophic run clickjacking-check --url https://example.com",
             requirements=['requests', 'beautifulsoup4'],
             tags=['clickjacking', 'web', 'security', 'headers']
         )

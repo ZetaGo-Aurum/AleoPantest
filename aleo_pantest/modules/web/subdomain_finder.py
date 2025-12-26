@@ -15,7 +15,7 @@ class SubdomainFinder(BaseTool):
             name="Subdomain Finder",
             category=ToolCategory.WEB,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Subdomain finder dengan brute force dan DNS enumeration",
             usage="finder = SubdomainFinder(); finder.run(domain='target.com')",
             requirements=["requests", "socket"],

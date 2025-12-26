@@ -8,16 +8,16 @@ class XORCipher(BaseTool):
             name="XOR Cipher",
             description="Simple XOR encryption/decryption tool",
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             category=ToolCategory.CRYPTO,
-            usage="aleopantest run xor-cipher --text <string> --key <string>",
+            usage="Aleocrophic run xor-cipher --text <string> --key <string>",
             requirements=[],
             tags=["crypto", "xor", "encryption", "decryption"],
             parameters={
                 "text": "Text to encrypt or decrypt",
                 "key": "XOR key string"
             },
-            example="aleopantest run xor-cipher --text 'secret' --key 'aleo'",
+            example="Aleocrophic run xor-cipher --text 'secret' --key 'aleo'",
             risk_level="LOW"
         )
 

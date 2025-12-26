@@ -1,4 +1,4 @@
-# 🎉 AleoPantest v2.0 - Complete!
+# 🎉 Aleocrophic v2.0 - Complete!
 
 **Status:** ✅ **COMPLETE & TESTED**  
 **Version:** 2.0.0  
@@ -14,7 +14,7 @@ A **complete, production-ready penetration testing framework** with:
 - ✅ **9 Organized Categories** (Phishing, Clickjacking, Security, Network, Web, OSINT, Utilities, Crypto, Database)
 - ✅ **4,000+ Lines of New Code** (13 new tools fully implemented)
 - ✅ **6 Comprehensive Guides** (README_v2, QUICKSTART_v2, RELEASE_NOTES_v2, CHANGELOG, INSTALLATION, INSTALL_GUIDE)
-- ✅ **Professional CLI** (Entry point: `aleopantest`)
+- ✅ **Professional CLI** (Entry point: `Aleocrophic`)
 - ✅ **100% Tested Critical Path** (Core features verified working)
 
 ---
@@ -24,7 +24,7 @@ A **complete, production-ready penetration testing framework** with:
 ### 1. Install
 ```bash
 # Navigate to project directory
-cd c:\Users\rayhan\Documents\PantestTool\AleoPantest
+cd c:\Users\rayhan\Documents\PantestTool\Aleocrophic
 
 # Create virtual environment
 python -m venv .venv
@@ -32,32 +32,32 @@ python -m venv .venv
 # Activate it (Windows)
 .venv\Scripts\activate
 
-# Install AleoPantest
+# Install Aleocrophic
 pip install -e .
 ```
 
 ### 2. Verify
 ```bash
 # Should show help and all commands
-aleopantest --help
+Aleocrophic --help
 
 # Should list 39 tools
-aleopantest list-tools
+Aleocrophic list-tools
 
 # Should show statistics
-aleopantest info
+Aleocrophic info
 ```
 
 ### 3. Try a Tool
 ```bash
 # Test email phishing detection
-aleopantest run email-phishing --email test@example.com --subject "Verify Account"
+Aleocrophic run email-phishing --email test@example.com --subject "Verify Account"
 
 # Test web phishing detection
-aleopantest run web-phishing --url http://suspicious-site.com
+Aleocrophic run web-phishing --url http://suspicious-site.com
 
 # Test clickjacking detection
-aleopantest run clickjacking-check --url http://target.com
+Aleocrophic run clickjacking-check --url http://target.com
 ```
 
 ---
@@ -80,15 +80,15 @@ aleopantest run clickjacking-check --url http://target.com
 
 ```bash
 # General help
-aleopantest --help
+Aleocrophic --help
 
 # Tool-specific help
-aleopantest help-tool <tool-id>
+Aleocrophic help-tool <tool-id>
 
 # Tools by category
-aleopantest list-by-category phishing
-aleopantest list-by-category clickjacking
-aleopantest list-by-category security
+Aleocrophic list-by-category phishing
+Aleocrophic list-by-category clickjacking
+Aleocrophic list-by-category security
 ```
 
 ---
@@ -99,34 +99,34 @@ aleopantest list-by-category security
 
 Detect and analyze phishing attacks:
 ```bash
-aleopantest run web-phishing --url http://example.com
-aleopantest run email-phishing --email sender@example.com --subject "Subject"
-aleopantest run phishing-locator --domain example.com
-aleopantest run phishing-impersonation --email
+Aleocrophic run web-phishing --url http://example.com
+Aleocrophic run email-phishing --email sender@example.com --subject "Subject"
+Aleocrophic run phishing-locator --domain example.com
+Aleocrophic run phishing-impersonation --email
 ```
 
 ### 🎯 Clickjacking Testing (3 Tools)
 
 Assess and protect against clickjacking:
 ```bash
-aleopantest run clickjacking-check --url http://example.com
-aleopantest run clickjacking-make --url http://example.com
-aleopantest run anti-clickjacking --framework nginx
+Aleocrophic run clickjacking-check --url http://example.com
+Aleocrophic run clickjacking-make --url http://example.com
+Aleocrophic run anti-clickjacking --framework nginx
 ```
 
 ### 🎯 Security Analysis (2 Tools)
 
 Identify protection mechanisms:
 ```bash
-aleopantest run anti-ddos --url http://example.com
-aleopantest run waf-detect --url http://example.com
+Aleocrophic run anti-ddos --url http://example.com
+Aleocrophic run waf-detect --url http://example.com
 ```
 
 ### 🎯 DDoS Simulation
 
 Test DDoS defenses:
 ```bash
-aleopantest run ddos-sim --target example.com --type http --duration 30
+Aleocrophic run ddos-sim --target example.com --type http --duration 30
 ```
 
 ---
@@ -162,9 +162,9 @@ Total Tools: 39
 All core features have been tested and verified:
 
 ```
-✅ aleopantest --help        Works - Shows all commands
-✅ aleopantest info          Works - Shows tool statistics
-✅ aleopantest list-tools    Works - Shows all tools
+✅ Aleocrophic --help        Works - Shows all commands
+✅ Aleocrophic info          Works - Shows tool statistics
+✅ Aleocrophic list-tools    Works - Shows all tools
 ✅ Email phishing tool       Works - Full analysis with risk score
 ✅ CLI help system           Works - Tool-specific documentation
 ✅ Error handling            Works - Graceful error messages
@@ -179,20 +179,20 @@ All core features have been tested and verified:
 ### Main Commands
 
 ```bash
-aleopantest --help              # Show help
-aleopantest --version           # Show version
-aleopantest info                # Tool statistics
-aleopantest list-tools          # List all tools
-aleopantest list-by-category    # List by category
-aleopantest help-tool <id>      # Tool help
-aleopantest run <tool> [opts]   # Run a tool
+Aleocrophic --help              # Show help
+Aleocrophic --version           # Show version
+Aleocrophic info                # Tool statistics
+Aleocrophic list-tools          # List all tools
+Aleocrophic list-by-category    # List by category
+Aleocrophic help-tool <id>      # Tool help
+Aleocrophic run <tool> [opts]   # Run a tool
 ```
 
 ### Tool Syntax
 
 ```bash
 # Common options
-aleopantest run <tool-id> \
+Aleocrophic run <tool-id> \
   --host <host>           # Target host/IP
   --url <url>             # Target URL
   --domain <domain>       # Target domain
@@ -237,7 +237,7 @@ aleopantest run <tool-id> \
 
 ## 🔐 Security
 
-AleoPantest includes:
+Aleocrophic includes:
 
 - ✅ **Authorization Checks** - Requires permission before testing
 - ✅ **Legal Disclaimers** - CFAA and other compliance notices
@@ -256,26 +256,26 @@ AleoPantest includes:
 
 1. **Check Documentation** - Start with README_v2.md
 2. **Read QUICKSTART** - QUICKSTART_v2.md has examples
-3. **Use Help Command** - `aleopantest help-tool <tool-id>`
+3. **Use Help Command** - `Aleocrophic help-tool <tool-id>`
 4. **Review FAQ** - See README_v2.md FAQ section
 5. **Check Troubleshooting** - INSTALL_GUIDE.md has solutions
 
 ### Common Issues
 
-**Issue:** "aleopantest: command not found"  
+**Issue:** "Aleocrophic: command not found"  
 **Solution:** Make sure virtual environment is activated and you ran `pip install -e .`
 
 **Issue:** Import errors  
 **Solution:** Run `pip install -e . --force-reinstall` to ensure all packages installed
 
 **Issue:** Permission denied  
-**Solution:** On Linux/Mac, run `chmod +x ~/.venv/bin/aleopantest`
+**Solution:** On Linux/Mac, run `chmod +x ~/.venv/bin/Aleocrophic`
 
 ---
 
 ## 🎓 Learning Resources
 
-AleoPantest teaches:
+Aleocrophic teaches:
 
 - 🧑‍💻 **Security Concepts** - How different attacks work
 - 🔬 **Defensive Techniques** - How to protect systems
@@ -294,7 +294,7 @@ AleoPantest teaches:
 
 ## 🚀 Next Steps
 
-1. ✅ Install AleoPantest (pip install -e .)
+1. ✅ Install Aleocrophic (pip install -e .)
 2. ✅ Read QUICKSTART_v2.md
 3. ✅ Try sample commands
 4. ✅ Explore different tool categories
@@ -308,9 +308,9 @@ AleoPantest teaches:
 
 - [ ] Python 3.8+ installed
 - [ ] Virtual environment created
-- [ ] AleoPantest installed
-- [ ] `aleopantest --help` works
-- [ ] `aleopantest list-tools` shows tools
+- [ ] Aleocrophic installed
+- [ ] `Aleocrophic --help` works
+- [ ] `Aleocrophic list-tools` shows tools
 - [ ] Sample tool executed successfully
 - [ ] Authorization obtained for testing
 - [ ] Understanding of ethical guidelines
@@ -410,7 +410,7 @@ You now have a professional-grade penetration testing framework with 39 tools!
 
 ## 📞 Contact & Resources
 
-- **GitHub:** https://github.com/ZetaGo-Aurum/AleoPantest
+- **GitHub:** https://github.com/ZetaGo-Aurum/Aleocrophic
 - **Documentation:** See markdown files in project root
 - **License:** MIT (see LICENSE file)
 
@@ -418,7 +418,7 @@ You now have a professional-grade penetration testing framework with 39 tools!
 
 ## ✨ Thank You!
 
-Thank you for using **AleoPantest v2.0**. We're excited to support your security journey!
+Thank you for using **Aleocrophic v2.0**. We're excited to support your security journey!
 
 **Stay Ethical. Stay Secure.** 🛡️
 
@@ -428,4 +428,4 @@ Thank you for using **AleoPantest v2.0**. We're excited to support your security
 **Date:** December 25, 2025  
 **Ready to Use:** YES! 🎉
 
-Start with: `aleopantest --help`
+Start with: `Aleocrophic --help`

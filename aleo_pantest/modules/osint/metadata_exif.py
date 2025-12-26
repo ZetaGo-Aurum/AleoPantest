@@ -13,10 +13,10 @@ class MetadataExif(BaseTool):
             name="Metadata Exif Extractor",
             category=ToolCategory.OSINT,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mengekstrak metadata EXIF (GPS, Camera, Date) dari file gambar secara nyata",
-            usage="aleopantest run metadata-exif --file <path>",
-            example="aleopantest run metadata-exif --file target.jpg",
+            usage="Aleocrophic run metadata-exif --file <path>",
+            example="Aleocrophic run metadata-exif --file target.jpg",
             requirements=["Pillow"],
             tags=["osint", "metadata", "exif", "forensics"],
             form_schema=[

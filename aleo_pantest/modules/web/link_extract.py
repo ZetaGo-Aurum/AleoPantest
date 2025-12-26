@@ -8,10 +8,10 @@ class LinkExtractor(BaseTool):
             name="Web Link Extractor",
             category=ToolCategory.WEB,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mengekstrak semua link (href) dari sebuah halaman web",
-            usage="aleopantest run link-extract --url <url>",
-            example="aleopantest run link-extract --url https://example.com",
+            usage="Aleocrophic run link-extract --url <url>",
+            example="Aleocrophic run link-extract --url https://example.com",
             parameters={"url": "Target URL"},
             requirements=["requests"],
             tags=["web", "recon", "crawler"]

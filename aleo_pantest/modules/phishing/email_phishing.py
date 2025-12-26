@@ -15,9 +15,9 @@ class EmailPhishing(BaseTool):
             name="Email Phishing Detector",
             category=ToolCategory.PHISHING,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Detects phishing emails by analyzing headers, content, and suspicious patterns",
-            usage="aleopantest run email-phishing --email 'sender@example.com' --subject 'Verify Account'",
+            usage="Aleocrophic run email-phishing --email 'sender@example.com' --subject 'Verify Account'",
             requirements=['python'],
             tags=['phishing', 'email', 'security', 'detection']
         )

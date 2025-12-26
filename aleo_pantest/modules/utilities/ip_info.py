@@ -7,10 +7,10 @@ class IPInfo(BaseTool):
             name="IP Info Lookup",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mendapatkan informasi detail tentang sebuah IP address",
-            usage="aleopantest run ip-info --ip <ip>",
-            example="aleopantest run ip-info --ip 8.8.8.8",
+            usage="Aleocrophic run ip-info --ip <ip>",
+            example="Aleocrophic run ip-info --ip 8.8.8.8",
             parameters={"ip": "Target IP Address"},
             requirements=["requests"],
             tags=["utility", "ip", "recon"]

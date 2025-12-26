@@ -1,4 +1,4 @@
-"""Session and security management for AleoPantest V3.0"""
+"""Session and security management for Aleocrophic V3.0"""
 import time
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any

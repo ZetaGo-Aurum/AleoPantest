@@ -6,10 +6,10 @@ class VigenereCipher(BaseTool):
             name="Vigenere Cipher Tool",
             category=ToolCategory.CRYPTO,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Melakukan enkripsi dan dekripsi menggunakan algoritma Vigenere Cipher",
-            usage="aleopantest run vigenere --text <msg> --key <key> --action [encrypt|decrypt]",
-            example="aleopantest run vigenere --text HELLO --key KEY --action encrypt",
+            usage="Aleocrophic run vigenere --text <msg> --key <key> --action [encrypt|decrypt]",
+            example="Aleocrophic run vigenere --text HELLO --key KEY --action encrypt",
             parameters={
                 "text": "Teks yang akan diproses",
                 "key": "Kunci untuk enkripsi/dekripsi",

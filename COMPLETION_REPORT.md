@@ -1,8 +1,8 @@
-# ✅ AleoPantest v2.0 - COMPLETE BUILD SUMMARY
+# ✅ Aleocrophic v2.0 - COMPLETE BUILD SUMMARY
 
 ## 🎉 PROJECT SUCCESSFULLY COMPLETED!
 
-**AleoPantest v2.0** - A comprehensive penetration testing framework with **39 fully functional tools** across **9 categories**, featuring new Phishing Detection, Clickjacking Assessment, Security Analysis, and DDoS Simulation capabilities.
+**Aleocrophic v2.0** - A comprehensive penetration testing framework with **39 fully functional tools** across **9 categories**, featuring new Phishing Detection, Clickjacking Assessment, Security Analysis, and DDoS Simulation capabilities.
 
 **Status:** ✅ **PRODUCTION READY** (Core Features)  
 **Version:** 2.0.0  
@@ -12,9 +12,9 @@
 
 ## 📦 WHAT HAS BEEN BUILT
 
-### ✨ AleoPantest v2.0.0
+### ✨ Aleocrophic v2.0.0
 - **39 Fully Functional Tools** (10 new in v2.0)
-- **Enhanced CLI with "aleopantest" Entry Point**
+- **Enhanced CLI with "Aleocrophic" Entry Point**
 - **Modular Architecture** (9 organized categories)
 - **Comprehensive Documentation** (6 guides)
 - **Professional Code Generation** (Framework-specific)
@@ -28,7 +28,7 @@
 ## 📂 PROJECT STRUCTURE V2.0
 
 ```
-AleoPantest/
+Aleocrophic/
 ├── aleo_pantest/                    # Main Python package
 │   ├── core/                       # Framework core (logger, config, base_tool)
 │   ├── modules/                    # Tool modules (9 categories)
@@ -111,7 +111,7 @@ AleoPantest/
 ### Installation (3 steps)
 ```bash
 # 1. Navigate to project
-cd AleoPantest
+cd Aleocrophic
 
 # 2. Install dependencies
 pip install -r requirements.txt
@@ -267,7 +267,7 @@ class NewTool(BaseTool):
 - ✅ Country-specific law references
 
 ### Important Notice
-**AleoPantest is for EDUCATIONAL and AUTHORIZED TESTING ONLY**
+**Aleocrophic is for EDUCATIONAL and AUTHORIZED TESTING ONLY**
 
 - Only test systems you own or have permission to test
 - Unauthorized access is ILLEGAL
@@ -301,7 +301,7 @@ class NewTool(BaseTool):
 
 The complete project is located at:
 ```
-c:\Users\rayhan\Documents\PantestTool\AleoPantest\
+c:\Users\rayhan\Documents\PantestTool\Aleocrophic\
 ```
 
 All files are organized and ready for use.
@@ -335,7 +335,7 @@ All files are organized and ready for use.
 
 ## 📞 PROJECT INFO
 
-- **Project Name**: AleoPantest
+- **Project Name**: Aleocrophic
 - **Version**: 1.0.0
 - **License**: MIT (Educational)
 - **Platform**: Cross-platform (Windows, Linux, macOS, Termux)
@@ -380,7 +380,7 @@ All files are organized and ready for use.
 
 ## 🏆 WHAT YOU GET
 
-When you use AleoPantest, you get:
+When you use Aleocrophic, you get:
 
 1. **Professional Tools**
    - 24+ ready-to-use security tools
@@ -477,7 +477,7 @@ python aleo_pantest_cli.py help-tool port-scan
 
 ## ✨ CONCLUSION
 
-**AleoPantest** adalah project lengkap yang siap untuk:
+**Aleocrophic** adalah project lengkap yang siap untuk:
 - ✅ Educational use
 - ✅ Professional training
 - ✅ Research purposes
@@ -503,4 +503,4 @@ Semua komponen telah diimplementasikan, didokumentasikan dengan baik, dan ditest
 
 ---
 
-**Thank you for using AleoPantest!** 🚀
+**Thank you for using Aleocrophic!** 🚀

@@ -1,12 +1,12 @@
-# AleoPantest Interactive CLI System - Implementation Summary
+# Aleocrophic Interactive CLI System - Implementation Summary
 
 **Date:** December 25, 2025  
 **Version:** 2.1.0  
-**Framework:** AleoPantest Penetration Testing Suite
+**Framework:** Aleocrophic Penetration Testing Suite
 
 ## Executive Summary
 
-A comprehensive interactive CLI system has been implemented for the AleoPantest penetration testing framework. The system makes ALL tools user-friendly for beginners while maintaining professional functionality for advanced users.
+A comprehensive interactive CLI system has been implemented for the Aleocrophic penetration testing framework. The system makes ALL tools user-friendly for beginners while maintaining professional functionality for advanced users.
 
 **Key Achievements:**
 - ✅ Fixed IP geolocation tool (host/ip parameter aliasing)
@@ -92,14 +92,14 @@ if not is_valid:
 
 **Before:**
 ```bash
-aleopantest run ip-geo --ip 8.8.8.8  # Works
-aleopantest run ip-geo --host 8.8.8.8  # Failed
+Aleocrophic run ip-geo --ip 8.8.8.8  # Works
+Aleocrophic run ip-geo --host 8.8.8.8  # Failed
 ```
 
 **After:**
 ```bash
-aleopantest run ip-geo --ip 8.8.8.8  # Works
-aleopantest run ip-geo --host 8.8.8.8  # Works!
+Aleocrophic run ip-geo --ip 8.8.8.8  # Works
+Aleocrophic run ip-geo --host 8.8.8.8  # Works!
 ```
 
 ### 3. `modules/network/ddos_simulator.py` (Major enhancement)
@@ -124,13 +124,13 @@ aleopantest run ip-geo --host 8.8.8.8  # Works!
 **New Presets:**
 ```bash
 # Light: 10s, 5 threads (safe for testing)
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # Medium: 30s, 10 threads (moderate load)
-aleopantest run ddos-sim --target example.com --type http --preset medium --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset medium --authorized
 
 # Heavy: 60s, 20 threads (heavy load)
-aleopantest run ddos-sim --target example.com --type http --preset heavy --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset heavy --authorized
 ```
 
 ### 4. `cli.py` (Major enhancement)
@@ -260,28 +260,28 @@ Input: "ex" ✗ Invalid (too short)
 ### IP Geolocation (Fixed)
 ```bash
 # Now both work!
-aleopantest run ip-geo --ip 8.8.8.8
-aleopantest run ip-geo --host 1.1.1.1
-aleopantest run ip-geo --address 1.0.0.1
+Aleocrophic run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --host 1.1.1.1
+Aleocrophic run ip-geo --address 1.0.0.1
 ```
 
 ### DDoS Simulator (Enhanced)
 ```bash
 # Light testing
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # Custom configuration
-aleopantest run ddos-sim --target example.com --type dns --duration 45 --threads 15 --authorized
+Aleocrophic run ddos-sim --target example.com --type dns --duration 45 --threads 15 --authorized
 ```
 
 ### DNS Lookup
 ```bash
-aleopantest run dns --domain example.com
+Aleocrophic run dns --domain example.com
 ```
 
 ### Web Phishing Detection
 ```bash
-aleopantest run web-phishing --url http://suspicious-site.com
+Aleocrophic run web-phishing --url http://suspicious-site.com
 ```
 
 ## Testing Recommendations
@@ -410,7 +410,7 @@ All changes are **fully backward compatible**:
 
 ## Conclusion
 
-The AleoPantest interactive CLI system is now production-ready with:
+The Aleocrophic interactive CLI system is now production-ready with:
 
 1. **User-Friendly Features**
    - Flexible parameter naming

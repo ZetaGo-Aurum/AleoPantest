@@ -14,7 +14,7 @@ class DNSLookup(BaseTool):
             name="DNS Lookup",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="DNS lookup untuk mendapatkan IP address dari domain name",
             usage="dns = DNSLookup(); dns.run(domain='google.com')",
             requirements=["socket"],

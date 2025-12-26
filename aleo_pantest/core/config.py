@@ -1,4 +1,4 @@
-"""Configuration management for AleoPantest"""
+"""Configuration management for Aleocrophic"""
 import os
 from pathlib import Path
 from typing import Dict, Any, Optional
@@ -11,7 +11,7 @@ from .logger import logger
 class Config:
     """Global configuration manager"""
     
-    VERSION = "3.2.0"
+    VERSION = "3.3.4"
     
     # Default configuration
     DEFAULTS = {

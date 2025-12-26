@@ -7,10 +7,10 @@ class HashGenerator(BaseTool):
             name="Multi Hash Generator",
             category=ToolCategory.CRYPTO,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Menghasilkan berbagai tipe hash dari sebuah input teks",
-            usage="aleopantest run hash-gen --text <msg>",
-            example="aleopantest run hash-gen --text secret123",
+            usage="Aleocrophic run hash-gen --text <msg>",
+            example="Aleocrophic run hash-gen --text secret123",
             parameters={"text": "Teks yang akan di-hash"},
             requirements=[],
             tags=["crypto", "hash", "md5", "sha256", "utility"]

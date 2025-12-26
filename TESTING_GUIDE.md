@@ -1,10 +1,10 @@
-# AleoPantest Interactive CLI - Testing Guide
+# Aleocrophic Interactive CLI - Testing Guide
 
 ## Test Environment Setup
 
 ```bash
 # Navigate to project directory
-cd AleoPantest
+cd Aleocrophic
 
 # Ensure dependencies are installed
 pip install -r requirements.txt
@@ -20,13 +20,13 @@ python --version
 #### Test 1.1: Parameter Alias Support (host → ip)
 ```bash
 # Test using --ip parameter
-aleopantest run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
 
 # Test using --host parameter (FIXED)
-aleopantest run ip-geo --host 1.1.1.1
+Aleocrophic run ip-geo --host 1.1.1.1
 
 # Test using --address parameter
-aleopantest run ip-geo --address 1.0.0.1
+Aleocrophic run ip-geo --address 1.0.0.1
 ```
 
 **Expected Result:** All three commands should work identically
@@ -42,19 +42,19 @@ aleopantest run ip-geo --address 1.0.0.1
 #### Test 1.2: IP Validation
 ```bash
 # Valid IP
-aleopantest run ip-geo --ip 8.8.8.8  # Should work
+Aleocrophic run ip-geo --ip 8.8.8.8  # Should work
 
 # Invalid IP - too many octets
-aleopantest run ip-geo --ip 8.8.8.8.8  # Should fail
+Aleocrophic run ip-geo --ip 8.8.8.8.8  # Should fail
 
 # Invalid IP - octet > 255
-aleopantest run ip-geo --ip 256.0.0.1  # Should fail
+Aleocrophic run ip-geo --ip 256.0.0.1  # Should fail
 
 # Invalid IP - non-numeric
-aleopantest run ip-geo --ip 8.8.8.a  # Should fail
+Aleocrophic run ip-geo --ip 8.8.8.a  # Should fail
 
 # Empty IP
-aleopantest run ip-geo --ip ""  # Should fail
+Aleocrophic run ip-geo --ip ""  # Should fail
 ```
 
 **Expected Result:** Only valid IPs accepted, clear error messages for invalid ones
@@ -63,7 +63,7 @@ aleopantest run ip-geo --ip ""  # Should fail
 
 #### Test 1.3: Output Format
 ```bash
-aleopantest run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
 
 # Check that output contains:
 # - success: true
@@ -78,7 +78,7 @@ aleopantest run ip-geo --ip 8.8.8.8
 
 #### Test 1.4: Export to JSON
 ```bash
-aleopantest run ip-geo --ip 8.8.8.8 --output results.json
+Aleocrophic run ip-geo --ip 8.8.8.8 --output results.json
 
 # Verify file created
 ls -l results.json
@@ -96,10 +96,10 @@ cat results.json | python -m json.tool
 #### Test 2.1: Authorization Flag Requirement
 ```bash
 # Without --authorized (should fail)
-aleopantest run ddos-sim --target example.com --type http --preset light
+Aleocrophic run ddos-sim --target example.com --type http --preset light
 
 # With --authorized (should work)
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 ```
 
 **Expected Result:**
@@ -111,13 +111,13 @@ aleopantest run ddos-sim --target example.com --type http --preset light --autho
 #### Test 2.2: Preset Configurations
 ```bash
 # Light preset (10s, 5 threads)
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # Medium preset (30s, 10 threads)
-aleopantest run ddos-sim --target example.com --type http --preset medium --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset medium --authorized
 
 # Heavy preset (60s, 20 threads)
-aleopantest run ddos-sim --target example.com --type http --preset heavy --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset heavy --authorized
 ```
 
 **Expected Result:**
@@ -130,13 +130,13 @@ aleopantest run ddos-sim --target example.com --type http --preset heavy --autho
 #### Test 2.3: Safety Limits
 ```bash
 # Attempt duration > 120s (should be capped)
-aleopantest run ddos-sim --target example.com --type http --duration 200 --authorized
+Aleocrophic run ddos-sim --target example.com --type http --duration 200 --authorized
 
 # Attempt threads > 50 (should be capped)
-aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 100 --authorized
+Aleocrophic run ddos-sim --target example.com --type http --duration 30 --threads 100 --authorized
 
 # Valid duration and threads
-aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 20 --authorized
+Aleocrophic run ddos-sim --target example.com --type http --duration 30 --threads 20 --authorized
 ```
 
 **Expected Result:**
@@ -148,22 +148,22 @@ aleopantest run ddos-sim --target example.com --type http --duration 30 --thread
 #### Test 2.4: Attack Types
 ```bash
 # HTTP flood
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # DNS flood
-aleopantest run ddos-sim --target example.com --type dns --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type dns --preset light --authorized
 
 # Slowloris
-aleopantest run ddos-sim --target example.com --type slowloris --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type slowloris --preset light --authorized
 
 # SYN flood
-aleopantest run ddos-sim --target example.com --type syn --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type syn --preset light --authorized
 
 # UDP flood
-aleopantest run ddos-sim --target example.com --type udp --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type udp --preset light --authorized
 
 # Invalid type
-aleopantest run ddos-sim --target example.com --type invalid --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type invalid --preset light --authorized
 ```
 
 **Expected Result:**
@@ -327,9 +327,9 @@ assert is_valid == False
 #### Test 5.1: Tool Help Display
 ```bash
 # View tool help
-aleopantest help-tool ip-geo
-aleopantest help-tool dns
-aleopantest help-tool ddos-sim
+Aleocrophic help-tool ip-geo
+Aleocrophic help-tool dns
+Aleocrophic help-tool ddos-sim
 
 # Check output contains:
 # - Tool name
@@ -347,12 +347,12 @@ aleopantest help-tool ddos-sim
 #### Test 5.2: List Tools
 ```bash
 # List all tools
-aleopantest list-tools
+Aleocrophic list-tools
 
 # List by category
-aleopantest list-by-category network
-aleopantest list-by-category osint
-aleopantest list-by-category web
+Aleocrophic list-by-category network
+Aleocrophic list-by-category osint
+Aleocrophic list-by-category web
 ```
 
 **Expected Result:** Tools organized and displayed correctly
@@ -361,7 +361,7 @@ aleopantest list-by-category web
 
 #### Test 5.3: Run Command Help
 ```bash
-aleopantest run --help
+Aleocrophic run --help
 
 # Check output contains usage examples
 ```
@@ -375,7 +375,7 @@ aleopantest run --help
 #### Test 6.1: End-to-End IP Geolocation
 ```bash
 # Run IP geolocation with output
-aleopantest run ip-geo --ip 8.8.8.8 --output geo_results.json
+Aleocrophic run ip-geo --ip 8.8.8.8 --output geo_results.json
 
 # Verify results
 cat geo_results.json | python -m json.tool
@@ -402,7 +402,7 @@ cat geo_results.json | python -m json.tool
 #### Test 6.2: End-to-End DNS Lookup
 ```bash
 # Run DNS lookup
-aleopantest run dns --domain google.com
+Aleocrophic run dns --domain google.com
 
 # Expected output structure
 # Shows DNS records for google.com
@@ -415,10 +415,10 @@ aleopantest run dns --domain google.com
 #### Test 6.3: Help Then Run
 ```bash
 # View help
-aleopantest help-tool ip-geo
+Aleocrophic help-tool ip-geo
 
 # Then run with proper parameters
-aleopantest run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
 ```
 
 **Expected Result:** Help shown correctly, then tool runs
@@ -429,33 +429,33 @@ aleopantest run ip-geo --ip 8.8.8.8
 
 ```bash
 #!/bin/bash
-# test_aleopantest.sh
+# test_Aleocrophic.sh
 
-echo "Testing AleoPantest Interactive CLI"
+echo "Testing Aleocrophic Interactive CLI"
 echo "===================================="
 
 # Test 1: IP Geolocation
 echo -e "\nTest 1: IP Geolocation with --ip"
-aleopantest run ip-geo --ip 8.8.8.8
+Aleocrophic run ip-geo --ip 8.8.8.8
 
 echo -e "\nTest 2: IP Geolocation with --host"
-aleopantest run ip-geo --host 1.1.1.1
+Aleocrophic run ip-geo --host 1.1.1.1
 
 # Test 2: DDoS Simulator (authorized)
 echo -e "\nTest 3: DDoS Simulator with light preset"
-aleopantest run ddos-sim --target example.com --type http --preset light --authorized
+Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
 
 # Test 3: Help system
 echo -e "\nTest 4: Help for ip-geo"
-aleopantest help-tool ip-geo
+Aleocrophic help-tool ip-geo
 
 # Test 4: List tools
 echo -e "\nTest 5: List all tools"
-aleopantest list-tools
+Aleocrophic list-tools
 
 # Test 5: DNS lookup
 echo -e "\nTest 6: DNS lookup"
-aleopantest run dns --domain google.com
+Aleocrophic run dns --domain google.com
 
 echo -e "\n===================================="
 echo "Testing complete!"
@@ -506,7 +506,7 @@ print(f"1000 IP validations took {end-start:.3f}s")
 ### Test 1: Many Parameters
 ```bash
 # Create command with many parameters
-aleopantest run ip-geo --ip 8.8.8.8 \
+Aleocrophic run ip-geo --ip 8.8.8.8 \
   --output results.json \
   --extra-param-1 value1 \
   --extra-param-2 value2
@@ -520,7 +520,7 @@ aleopantest run ip-geo --ip 8.8.8.8 \
 ```bash
 # Many invalid inputs, should fail gracefully
 for invalid in "" " " "invalid" "xxx"; do
-  aleopantest run ip-geo --ip "$invalid" 2>&1
+  Aleocrophic run ip-geo --ip "$invalid" 2>&1
 done
 
 # All should show clear error messages
@@ -564,7 +564,7 @@ python -m aleo_pantest.cli --help
 ```bash
 chmod 755 output/
 # Or use different output directory
-aleopantest run ip-geo --ip 8.8.8.8 --output ./my_results.json
+Aleocrophic run ip-geo --ip 8.8.8.8 --output ./my_results.json
 ```
 
 ---

@@ -8,16 +8,16 @@ class IDSEvasionHelper(BaseTool):
             name="IDS Evasion Helper",
             description="Generate payload variations to bypass Intrusion Detection Systems (IDS/IPS)",
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             category=ToolCategory.SECURITY,
-            usage="aleopantest run ids-evasion --payload <string> --method <hex/base64/charcode>",
+            usage="Aleocrophic run ids-evasion --payload <string> --method <hex/base64/charcode>",
             requirements=[],
             tags=["ids", "evasion", "obfuscation", "payload"],
             parameters={
                 "payload": "The payload string to encode/obfuscate",
                 "method": "Evasion method (hex, base64, charcode, unicode)"
             },
-            example="aleopantest run ids-evasion --payload '<script>alert(1)</script>' --method hex",
+            example="Aleocrophic run ids-evasion --payload '<script>alert(1)</script>' --method hex",
             risk_level="MEDIUM"
         )
 

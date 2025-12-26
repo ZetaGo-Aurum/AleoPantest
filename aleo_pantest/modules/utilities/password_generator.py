@@ -15,7 +15,7 @@ class PasswordGenerator(BaseTool):
             name="Password Generator",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Password generator untuk generate secure dan random passwords",
             usage="gen = PasswordGenerator(); gen.run(length=16, count=5)",
             requirements=["random", "string"],

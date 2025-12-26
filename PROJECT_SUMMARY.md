@@ -1,4 +1,4 @@
-# PROJECT SUMMARY - AleoPantest v1.0.0
+# PROJECT SUMMARY - Aleocrophic v1.0.0
 
 ## 📊 Project Status: ✅ COMPLETE
 
@@ -85,7 +85,7 @@ Sebuah comprehensive penetration testing framework dengan **30+ fully functional
 ## 📂 Project Structure
 
 ```
-AleoPantest/
+Aleocrophic/
 ├── aleo_pantest/                      # Main package
 │   ├── __init__.py                   # Package initialization
 │   ├── cli.py                        # CLI interface
@@ -231,7 +231,7 @@ AleoPantest/
 
 ### Quick Install
 ```bash
-cd AleoPantest
+cd Aleocrophic
 pip install -r requirements.txt
 python aleo_pantest_cli.py info
 ```
@@ -496,7 +496,7 @@ class CustomTool(BaseTool):
 
 ## 📜 Final Notes
 
-**AleoPantest** adalah project lengkap yang siap untuk:
+**Aleocrophic** adalah project lengkap yang siap untuk:
 - Educational use di institusi pendidikan
 - Professional training di perusahaan keamanan
 - Research purposes untuk security researchers
@@ -512,7 +512,7 @@ Semua komponen telah ditest dan didokumentasikan dengan baik.
 
 **Last Updated**: Desember 2024
 **Version**: 1.0.0
-**Maintained By**: AleoPantest Team
+**Maintained By**: Aleocrophic Team
 
 ---
 

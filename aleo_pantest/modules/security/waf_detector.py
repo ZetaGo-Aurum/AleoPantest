@@ -15,9 +15,9 @@ class WAFDetector(BaseTool):
             name="WAF Detector",
             category=ToolCategory.SECURITY,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Detects Web Application Firewalls (WAF) and analyzes their configuration and effectiveness",
-            usage="aleopantest run waf-detect --url https://example.com",
+            usage="Aleocrophic run waf-detect --url https://example.com",
             requirements=['requests'],
             tags=['waf', 'firewall', 'web', 'security']
         )

@@ -15,7 +15,7 @@ class MetadataExtractor(BaseTool):
             name="Metadata Extractor",
             category=ToolCategory.OSINT,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Metadata extractor untuk ekstrak metadata dari file PDF, images, dan dokumen",
             usage="extractor = MetadataExtractor(); extractor.run(file='document.pdf')",
             requirements=["requests"],

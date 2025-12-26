@@ -1,4 +1,4 @@
-"""Main CLI Application untuk AleoPantest V3"""
+"""Main CLI Application untuk Aleocrophic V3"""
 import sys
 import os
 from pathlib import Path
@@ -203,16 +203,16 @@ TOOLS_BY_CATEGORY = {
 
 
 def print_banner():
-    """Print AleoPantest banner"""
+    """Print Aleocrophic banner"""
     platform_name = PlatformDetector.get_platform_name()
     banner = f"""
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  AleoPantest v{config.VERSION} - Penetration Testing  🛡️        ║
+║         🛡️  Aleocrophic v{config.VERSION} - Penetration Testing  🛡️        ║
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║       400+ Tools • Multi-Platform • Modern TUI • V3.2 PRO     ║
+║       400+ Tools • Multi-Platform • Modern TUI • V3.3.4 PRO   ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
     Platform: {platform_name}
@@ -243,14 +243,14 @@ def print_tools_table():
 
 @click.group()
 def cli():
-    """AleoPantest v3.1 - Comprehensive Penetration Testing Framework
+    """Aleocrophic v3.3.4 - Comprehensive Penetration Testing Framework
     
 Usage Examples:
-  aleopantest --help              Show all commands
-  aleopantest list-tools          List all available tools
-  aleopantest run dns --domain example.com              Run DNS lookup
-  aleopantest run sql-inject --url http://example.com  Run SQL injection detection
-  aleopantest run phishing-locator --domain example.com  Locate phishing variants
+  Aleocrophic --help              Show all commands
+  Aleocrophic list-tools          List all available tools
+  Aleocrophic run dns --domain example.com              Run DNS lookup
+  Aleocrophic run sql-inject --url http://example.com  Run SQL injection detection
+  Aleocrophic run phishing-locator --domain example.com  Locate phishing variants
 """
     pass
 
@@ -259,7 +259,7 @@ Usage Examples:
 def info():
     """Show tool information and statistics"""
     print_banner()
-    console.print("\n[bold cyan]📊 AleoPantest v3.1 Statistics[/bold cyan]\n")
+    console.print("\n[bold cyan]📊 Aleocrophic v3.1 Statistics[/bold cyan]\n")
     
     categories = {}
     for tool_id, tool_class in TOOLS_REGISTRY.items():
@@ -286,12 +286,12 @@ def list_tools():
     
     console.print("\n[bold cyan]💡 Usage Examples:[/bold cyan]")
     examples = [
-        ("DNS Lookup", "aleopantest run dns --domain target.com"),
-        ("SQL Injection Test", "aleopantest run sql-inject --url http://target.com"),
-        ("Phishing Detection", "aleopantest run web-phishing --url http://phishing-site.com"),
-        ("Clickjacking Check", "aleopantest run clickjacking-check --url http://target.com"),
-        ("WAF Detection", "aleopantest run waf-detect --url http://target.com"),
-        ("DDoS Simulation", "aleopantest run ddos-sim --target target.com --type http --duration 30"),
+        ("DNS Lookup", "Aleocrophic run dns --domain target.com"),
+        ("SQL Injection Test", "Aleocrophic run sql-inject --url http://target.com"),
+        ("Phishing Detection", "Aleocrophic run web-phishing --url http://phishing-site.com"),
+        ("Clickjacking Check", "Aleocrophic run clickjacking-check --url http://target.com"),
+        ("WAF Detection", "Aleocrophic run waf-detect --url http://target.com"),
+        ("DDoS Simulation", "Aleocrophic run ddos-sim --target target.com --type http --duration 30"),
     ]
     
     for tool_name, example in examples:
@@ -301,8 +301,8 @@ def list_tools():
 @cli.command()
 def tui():
     """Launch the modern TUI dashboard"""
-    from .tui import AleoPantestTUI
-    app = AleoPantestTUI()
+    from .tui import AleocrophicTUI
+    app = AleocrophicTUI()
     app.run()
 
 
@@ -360,18 +360,18 @@ def run(tool_id, host, ip, url, domain, port, email, subject, target, type, dura
     
 EXAMPLES:
   Basic usage:
-    aleopantest run dns --domain target.com
-    aleopantest run ip-geo --ip 8.8.8.8
-    aleopantest run ip-geo --host 1.1.1.1
+    Aleocrophic run dns --domain target.com
+    Aleocrophic run ip-geo --ip 8.8.8.8
+    Aleocrophic run ip-geo --host 1.1.1.1
     
   Interactive mode (prompts for parameters):
-    aleopantest run ip-geo --interactive
-    aleopantest run dns --interactive
+    Aleocrophic run ip-geo --interactive
+    Aleocrophic run dns --interactive
     
   Advanced usage:
-    aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
-    aleopantest run ddos-sim --target target.com --type http --duration 30 --authorized
-    aleopantest run anti-clickjacking --framework nginx --output config.conf
+    Aleocrophic run url-mask --url https://attacker.com --fake-domain google.com --method redirect
+    Aleocrophic run ddos-sim --target target.com --type http --duration 30 --authorized
+    Aleocrophic run anti-clickjacking --framework nginx --output config.conf
     
 PARAMETER ALIASES:
   --host and --ip are interchangeable (both set the target IP)
@@ -559,7 +559,7 @@ def server(port):
         from aleo_pantest.api.server import create_app
         app = create_app()
         
-        console.print(f"\n[bold green]✓ Starting AleoPantest API Server[/bold green]")
+        console.print(f"\n[bold green]✓ Starting Aleocrophic API Server[/bold green]")
         console.print(f"[cyan]http://localhost:{port}[/cyan]\n")
         
         import uvicorn
@@ -574,7 +574,7 @@ def server(port):
 def help_tool(tool_id):
     """Get detailed help for a specific tool
     
-Example: aleopantest help-tool dns
+Example: Aleocrophic help-tool dns
 """
     
     if tool_id not in TOOLS_REGISTRY:
@@ -640,10 +640,10 @@ def main():
     if len(sys.argv) == 1:
         print_banner()
         console.print("\n[bold cyan]Quick Start:[/bold cyan]")
-        console.print("  aleopantest list-tools       List all tools")
-        console.print("  aleopantest info              Show statistics")
-        console.print("  aleopantest run dns --domain example.com")
-        console.print("  aleopantest --help            Show all commands\n")
+        console.print("  Aleocrophic list-tools       List all tools")
+        console.print("  Aleocrophic info              Show statistics")
+        console.print("  Aleocrophic run dns --domain example.com")
+        console.print("  Aleocrophic --help            Show all commands\n")
     
     try:
         # Ensure logs directory exists

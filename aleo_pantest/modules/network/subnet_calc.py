@@ -7,10 +7,10 @@ class SubnetCalc(BaseTool):
             name="Subnet Calculator",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Menghitung detail subnet IP (mask, network, broadcast, host range)",
-            usage="aleopantest run subnet-calc --cidr <ip/prefix>",
-            example="aleopantest run subnet-calc --cidr 192.168.1.0/24",
+            usage="Aleocrophic run subnet-calc --cidr <ip/prefix>",
+            example="Aleocrophic run subnet-calc --cidr 192.168.1.0/24",
             parameters={"cidr": "IP Address dengan prefix CIDR"},
             requirements=[],
             tags=["network", "ip", "subnet"]

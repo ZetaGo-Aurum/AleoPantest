@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>apiFetch Unit Tests</title>
+    <script>
+        // Mock UI elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            ['status-dot', 'status-text'].forEach(id => {
+                const el = document.createElement('div');
+                el.id = id;
+                body.appendChild(el);
+            });
+        });
+
+        // Mock showToast
+        window.showToast = (msg, type) => console.log(`[Toast] ${type}: ${msg}`);
+
+        // The function to test (copied from index.html)
+        async function apiFetch(url, options = {}, retries = 3, baseDelay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        ...options,
+                        headers: {
+                            'Accept': 'application/json',
+                            ...options.headers
+                        }
+                    });
+                    
+                    const statusDot = document.getElementById('status-dot');
+                    const statusText = document.getElementById('status-text');
+                    if (statusDot) {
+                        statusDot.className = 'w-1.5 h-1.5 rounded-full bg-green-500';
+                        statusDot.classList.remove('animate-pulse');
+                    }
+                    if (statusText) {
+                        statusText.innerText = 'Online';
+                        statusText.className = 'text-xs font-semibold text-primary';
+                    }
+
+                    if (!response.ok) {
+                        let errorData = {};
+                        try {
+                            errorData = await response.json();
+                        } catch (e) {
+                            errorData = { message: `HTTP Error ${response.status}: ${response.statusText}` };
+                        }
+                        
+                        if (response.status >= 400 && response.status < 500 && response.status !== 429) {
+                            throw new Error(errorData.message || `Client Error ${response.status}`);
+                        }
+                        throw new Error(errorData.message || `Server Error ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    const delay = Math.pow(2, i) * baseDelay + (Math.random() * 100);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                }
+            }
+        }
+
+        // Test Suite
+        async function runTests() {
+            const results = document.getElementById('results');
+            const log = (msg, pass) => {
+                const el = document.createElement('div');
+                el.innerText = (pass ? '✅ ' : '❌ ') + msg;
+                el.style.color = pass ? 'green' : 'red';
+                results.appendChild(el);
+            };
+
+            // Test 1: Successful fetch
+            try {
+                window.fetch = async () => ({ ok: true, json: async () => ({ success: true }) });
+                await apiFetch('/api/test');
+                log('Successful fetch works', true);
+            } catch (e) { log('Successful fetch failed: ' + e.message, false); }
+
+            // Test 2: Retry on 500
+            let attempts = 0;
+            window.fetch = async () => {
+                attempts++;
+                if (attempts < 2) return { ok: false, status: 500, statusText: 'Server Error', json: async () => ({}) };
+                return { ok: true, json: async () => ({ success: true }) };
+            };
+            try {
+                await apiFetch('/api/retry', {}, 3, 10);
+                log(`Retry on 500 works (attempts: ${attempts})`, attempts === 2);
+            } catch (e) { log('Retry on 500 failed: ' + e.message, false); }
+
+            // Test 3: No retry on 400
+            attempts = 0;
+            window.fetch = async () => {
+                attempts++;
+                return { ok: false, status: 400, statusText: 'Bad Request', json: async () => ({ message: 'Invalid target' }) };
+            };
+            try {
+                await apiFetch('/api/400', {}, 3, 10);
+                log('Should have failed on 400', false);
+            } catch (e) {
+                log(`Correctly failed on 400 without retry (attempts: ${attempts})`, attempts === 1 && e.message === 'Invalid target');
+            }
+
+            // Test 4: Retry on 429 (Rate Limit)
+            attempts = 0;
+            window.fetch = async () => {
+                attempts++;
+                if (attempts < 2) return { ok: false, status: 429, statusText: 'Too Many Requests', json: async () => ({}) };
+                return { ok: true, json: async () => ({ success: true }) };
+            };
+            try {
+                await apiFetch('/api/429', {}, 3, 10);
+                log(`Retry on 429 works (attempts: ${attempts})`, attempts === 2);
+            } catch (e) { log('Retry on 429 failed: ' + e.message, false); }
+        }
+    </script>
+</head>
+<body onload="runTests()">
+    <h1>apiFetch Unit Tests</h1>
+    <div id="results"></div>
+</body>
+</html>

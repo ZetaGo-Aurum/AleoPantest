@@ -7,10 +7,10 @@ class JSONFormatter(BaseTool):
             name="JSON Formatter",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Memformat string JSON yang berantakan menjadi rapi (pretty-print)",
-            usage="aleopantest run json-format --data <json_string>",
-            example="aleopantest run json-format --data '{\"a\":1,\"b\":2}'",
+            usage="Aleocrophic run json-format --data <json_string>",
+            example="Aleocrophic run json-format --data '{\"a\":1,\"b\":2}'",
             parameters={"data": "String JSON yang akan diformat"},
             requirements=[],
             tags=["utility", "json", "formatter"]

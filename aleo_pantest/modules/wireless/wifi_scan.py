@@ -12,10 +12,10 @@ class WifiScanner(BaseTool):
             name="WiFi Scanner",
             category=ToolCategory.WIRELESS,
             version="3.3.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Memindai jaringan WiFi di sekitar untuk mendapatkan SSID, BSSID, Signal, dan Security (Membutuhkan interface monitor mode)",
-            usage="aleopantest run wifi-scan --iface wlan0mon --duration 10",
-            example="aleopantest run wifi-scan --iface wlan0mon",
+            usage="Aleocrophic run wifi-scan --iface wlan0mon --duration 10",
+            example="Aleocrophic run wifi-scan --iface wlan0mon",
             requirements=["scapy", "monitor-mode interface"],
             tags=["wireless", "wifi", "recon"],
             form_schema=[

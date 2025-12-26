@@ -1,4 +1,4 @@
-# Default Configuration untuk AleoPantest
+# Default Configuration untuk Aleocrophic
 # Copy ke settings.yml dan customize sesuai kebutuhan
 
 # Global Settings
@@ -39,7 +39,7 @@ database:
   port: 5432
   username: "user"
   password: "password"
-  database: "aleopantest"
+  database: "Aleocrophic"
 
 # API Settings
 api:

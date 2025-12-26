@@ -1,4 +1,4 @@
-"""Cross-platform compatibility layer for AleoPantest"""
+"""Cross-platform compatibility layer for Aleocrophic"""
 import os
 import sys
 import platform

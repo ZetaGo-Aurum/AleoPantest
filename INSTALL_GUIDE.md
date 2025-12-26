@@ -1,4 +1,4 @@
-# AleoPantest v2.0 Installation Guide
+# Aleocrophic v2.0 Installation Guide
 
 ## 📋 Requirements
 
@@ -14,8 +14,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AleoPantest
+git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
+cd Aleocrophic
 
 # Create virtual environment (recommended)
 python -m venv .venv
@@ -30,17 +30,17 @@ source .venv/bin/activate
 pip install -e .
 
 # Verify installation
-aleopantest --help
+Aleocrophic --help
 ```
 
 ### Option 2: From PyPI (When Available)
 
 ```bash
 # Install from PyPI
-pip install aleopantest
+pip install Aleocrophic
 
 # Verify installation
-aleopantest --help
+Aleocrophic --help
 ```
 
 ## 🔧 Setup Instructions
@@ -58,13 +58,13 @@ python --version
 Create isolated environment:
 ```bash
 # Create virtual environment
-python -m venv aleopantest_env
+python -m venv Aleocrophic_env
 
 # Activate it
 # Windows:
-aleopantest_env\Scripts\activate
+Aleocrophic_env\Scripts\activate
 # Linux/Mac:
-source aleopantest_env/bin/activate
+source Aleocrophic_env/bin/activate
 ```
 
 ### 3. Install Dependencies
@@ -73,7 +73,7 @@ source aleopantest_env/bin/activate
 # Update pip
 pip install --upgrade pip
 
-# Install AleoPantest
+# Install Aleocrophic
 pip install -e .
 # Or with all optional dependencies:
 pip install -e ".[full]"
@@ -83,13 +83,13 @@ pip install -e ".[full]"
 
 ```bash
 # Check CLI accessibility
-aleopantest --version
+Aleocrophic --version
 
 # List all tools
-aleopantest list-tools
+Aleocrophic list-tools
 
 # Show help
-aleopantest --help
+Aleocrophic --help
 ```
 
 ## 📦 Dependency Installation
@@ -128,12 +128,12 @@ pip install shodan>=1.28.0
 
 ```bash
 # Linux/Mac
-mkdir -p ~/.aleopantest
-cp config/default.yml ~/.aleopantest/
+mkdir -p ~/.Aleocrophic
+cp config/default.yml ~/.Aleocrophic/
 
 # Windows
-mkdir %USERPROFILE%\.aleopantest
-copy config\default.yml %USERPROFILE%\.aleopantest\
+mkdir %USERPROFILE%\.Aleocrophic
+copy config\default.yml %USERPROFILE%\.Aleocrophic\
 ```
 
 ### 2. Set Environment Variables
@@ -153,7 +153,7 @@ OUTPUT_DIR=./output
 
 Edit `config/default.yml`:
 ```yaml
-aleopantest:
+Aleocrophic:
   version: 2.0.0
   log_level: INFO
   output_directory: ./output
@@ -167,7 +167,7 @@ tools:
 
 ## 🔍 Troubleshooting
 
-### Issue: "aleopantest: command not found"
+### Issue: "Aleocrophic: command not found"
 
 **Solution:**
 ```bash
@@ -186,7 +186,7 @@ python -m aleo_pantest.cli --help
 **Solution (Linux/Mac):**
 ```bash
 # Make script executable
-chmod +x ~/.venv/bin/aleopantest
+chmod +x ~/.venv/bin/Aleocrophic
 
 # Or run with python
 python -m aleo_pantest.cli
@@ -212,7 +212,7 @@ pip install scapy>=2.5.0
 pip install nmap
 
 # Verify network access
-aleopantest run ping-tool --host 8.8.8.8
+Aleocrophic run ping-tool --host 8.8.8.8
 ```
 
 ### Issue: Web Tools Not Scraping
@@ -233,13 +233,13 @@ playwright install
 
 ```bash
 # Latest development version
-pip install git+https://github.com/ZetaGo-Aurum/AleoPantest.git
+pip install git+https://github.com/ZetaGo-Aurum/Aleocrophic.git
 
 # Specific branch
-pip install git+https://github.com/ZetaGo-Aurum/AleoPantest.git@develop
+pip install git+https://github.com/ZetaGo-Aurum/Aleocrophic.git@develop
 
 # Specific tag/release
-pip install git+https://github.com/ZetaGo-Aurum/AleoPantest.git@v2.0.0
+pip install git+https://github.com/ZetaGo-Aurum/Aleocrophic.git@v2.0.0
 ```
 
 ### From Offline Installation
@@ -264,25 +264,25 @@ COPY . .
 
 RUN pip install -e .
 
-ENTRYPOINT ["aleopantest"]
+ENTRYPOINT ["Aleocrophic"]
 ```
 
 ### Build and Run
 
 ```bash
 # Build image
-docker build -t aleopantest:2.0.0 .
+docker build -t Aleocrophic:2.0.0 .
 
 # Run container
-docker run -it --rm aleopantest:2.0.0 --help
+docker run -it --rm Aleocrophic:2.0.0 --help
 
 # Run with volume mount
 docker run -it --rm \
   -v $(pwd)/output:/app/output \
-  aleopantest:2.0.0 list-tools
+  Aleocrophic:2.0.0 list-tools
 ```
 
-## 🔄 Updating AleoPantest
+## 🔄 Updating Aleocrophic
 
 ### Update from Source
 
@@ -294,17 +294,17 @@ git pull origin main
 pip install -e . --upgrade
 
 # Verify update
-aleopantest --version
+Aleocrophic --version
 ```
 
 ### Update via pip
 
 ```bash
 # Update to latest
-pip install aleopantest --upgrade
+pip install Aleocrophic --upgrade
 
 # Update to specific version
-pip install aleopantest==2.0.0
+pip install Aleocrophic==2.0.0
 ```
 
 ## 🧪 Post-Installation Testing
@@ -313,41 +313,41 @@ pip install aleopantest==2.0.0
 
 ```bash
 # Show banner and help
-aleopantest --help
+Aleocrophic --help
 
 # List available tools
-aleopantest list-tools
+Aleocrophic list-tools
 
 # Get info about tools
-aleopantest info
+Aleocrophic info
 ```
 
 ### 2. Test Specific Categories
 
 ```bash
 # Test phishing tools
-aleopantest list-by-category phishing
+Aleocrophic list-by-category phishing
 
 # Test clickjacking tools
-aleopantest list-by-category clickjacking
+Aleocrophic list-by-category clickjacking
 
 # Test security tools
-aleopantest list-by-category security
+Aleocrophic list-by-category security
 ```
 
 ### 3. Run Sample Tool
 
 ```bash
 # Test info command
-aleopantest info
+Aleocrophic info
 
 # Test a simple tool (email phishing)
-aleopantest run email-phishing \
+Aleocrophic run email-phishing \
   --email test@example.com \
   --subject "Verify Account"
 
 # Test network tool
-aleopantest run ping-tool --host 8.8.8.8
+Aleocrophic run ping-tool --host 8.8.8.8
 ```
 
 ## 🔐 Security Notes
@@ -356,8 +356,8 @@ aleopantest run ping-tool --host 8.8.8.8
 
 1. **Use Virtual Environment**
    ```bash
-   python -m venv aleopantest_env
-   source aleopantest_env/bin/activate  # Linux/Mac
+   python -m venv Aleocrophic_env
+   source Aleocrophic_env/bin/activate  # Linux/Mac
    ```
 
 2. **Keep Secure Config**
@@ -368,13 +368,13 @@ aleopantest run ping-tool --host 8.8.8.8
 
 3. **Restrict File Permissions**
    ```bash
-   chmod 700 ~/.aleopantest
-   chmod 600 ~/.aleopantest/config.yml
+   chmod 700 ~/.Aleocrophic
+   chmod 600 ~/.Aleocrophic/config.yml
    ```
 
 4. **Use Read-Only Installation**
    ```bash
-   pip install --user aleopantest  # Install for current user only
+   pip install --user Aleocrophic  # Install for current user only
    ```
 
 ## 📞 Getting Help
@@ -389,13 +389,13 @@ aleopantest run ping-tool --host 8.8.8.8
 
 ```bash
 # General help
-aleopantest --help
+Aleocrophic --help
 
 # Tool-specific help
-aleopantest help-tool <tool-id>
+Aleocrophic help-tool <tool-id>
 
 # Category help
-aleopantest list-by-category <category>
+Aleocrophic list-by-category <category>
 ```
 
 ### Reporting Issues
@@ -411,38 +411,38 @@ aleopantest list-by-category <category>
 
 ## ✅ Installation Checklist
 
-Before using AleoPantest, verify:
+Before using Aleocrophic, verify:
 
 - [ ] Python 3.8+ installed
 - [ ] pip is up to date
 - [ ] Virtual environment created (optional but recommended)
-- [ ] AleoPantest installed successfully
-- [ ] `aleopantest --help` works
-- [ ] `aleopantest list-tools` shows tools
-- [ ] `aleopantest info` returns tool count
+- [ ] Aleocrophic installed successfully
+- [ ] `Aleocrophic --help` works
+- [ ] `Aleocrophic list-tools` shows tools
+- [ ] `Aleocrophic info` returns tool count
 - [ ] Sample tool execution successful
 - [ ] Configuration files in place
 - [ ] Output directory created
 
 ## 🎉 Ready to Use!
 
-Your AleoPantest v2.0 installation is complete!
+Your Aleocrophic v2.0 installation is complete!
 
 ```bash
 # Quick test
-aleopantest --help
+Aleocrophic --help
 
 # Start exploring
-aleopantest list-tools
+Aleocrophic list-tools
 
 # Try a tool
-aleopantest run email-phishing --email test@example.com --subject "Test"
+Aleocrophic run email-phishing --email test@example.com --subject "Test"
 ```
 
 ## 📚 Next Steps
 
 1. Read [QUICKSTART_v2.md](QUICKSTART_v2.md) for usage examples
-2. Explore tools with `aleopantest help-tool <tool-id>`
+2. Explore tools with `Aleocrophic help-tool <tool-id>`
 3. Check [RELEASE_NOTES_v2.md](RELEASE_NOTES_v2.md) for new features
 4. Review security guidelines in [README.md](README.md)
 
@@ -450,7 +450,7 @@ aleopantest run email-phishing --email test@example.com --subject "Test"
 
 - **Issues**: GitHub Issues
 - **Discussions**: GitHub Discussions
-- **Email**: team@aleopantest.com
+- **Email**: team@Aleocrophic.com
 - **Wiki**: Check project wiki
 
 ---

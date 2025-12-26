@@ -16,7 +16,7 @@ def validate_requirements(file_path):
     # but we can also check for non-ascii if needed)
     
     lines = content.splitlines()
-    if not lines[0].startswith("# AleoPantest"):
+    if not lines[0].startswith("# Aleocrophic"):
         print("Error: Missing header in requirements.txt")
         return False
         

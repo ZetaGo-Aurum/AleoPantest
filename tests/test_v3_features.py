@@ -1,4 +1,4 @@
-"""Unit tests for AleoPantest V3.0 core features"""
+"""Unit tests for Aleocrophic V3.0 core features"""
 import unittest
 import time
 from aleo_pantest.core.platform import PlatformDetector, PlatformOptimizer

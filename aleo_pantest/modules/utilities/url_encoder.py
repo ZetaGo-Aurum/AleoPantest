@@ -15,7 +15,7 @@ class URLEncoder(BaseTool):
             name="URL Encoder/Decoder",
             category=ToolCategory.UTILITIES,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="URL encoder/decoder untuk encoding, decoding, dan transformasi URLs",
             usage="encoder = URLEncoder(); encoder.run(text='hello world', operation='encode')",
             requirements=["urllib", "base64"],

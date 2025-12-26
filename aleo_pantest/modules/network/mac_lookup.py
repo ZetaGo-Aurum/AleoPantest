@@ -7,10 +7,10 @@ class MACLookup(BaseTool):
             name="MAC Vendor Lookup",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mencari informasi vendor berdasarkan MAC address",
-            usage="aleopantest run mac-lookup --mac <mac_address>",
-            example="aleopantest run mac-lookup --mac 00:00:5e:00:53:af",
+            usage="Aleocrophic run mac-lookup --mac <mac_address>",
+            example="Aleocrophic run mac-lookup --mac 00:00:5e:00:53:af",
             parameters={
                 "mac": "MAC Address yang akan dicari (format: XX:XX:XX:XX:XX:XX)"
             },

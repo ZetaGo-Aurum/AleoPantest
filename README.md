@@ -1,24 +1,24 @@
-# AleoPantest v3.0 - Advanced Penetration Testing Framework
+# Aleocrophic v3.3 - Advanced Penetration Testing Framework
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  AleoPantest v3.0 - Penetration Testing  🛡️        ║
+║         🛡️  Aleocrophic v3.3 - Penetration Testing  🛡️        ║
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║       400+ Tools • Multi-Platform • Modern TUI • V3.0 PRO     ║
+║       400+ Tools • Multi-Platform • Modern TUI • V3.3 PRO     ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
-**AleoPantest** is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.0 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
+**Aleocrophic** is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.3 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
 
 ---
 
 ## 📚 Documentation Hub
 
-Explore the full documentation to get the most out of AleoPantest.
+Explore the full documentation to get the most out of Aleocrophic.
 
 ### 🚀 Getting Started
 *   [**Start Here**](00-START-HERE.md) - Overview of v2.0 release and new features.
@@ -49,8 +49,8 @@ Explore the full documentation to get the most out of AleoPantest.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AleoPantest
+git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
+cd Aleocrophic
 
 # Install dependencies
 pip install -r requirements.txt
@@ -65,21 +65,21 @@ For detailed instructions, see [INSTALL_GUIDE.md](INSTALL_GUIDE.md).
 
 ### Basic Commands
 ```bash
-aleopantest --help          # Show help menu
-aleopantest list-tools      # List all available tools
-aleopantest info            # Show system info
+Aleocrophic --help          # Show help menu
+Aleocrophic list-tools      # List all available tools
+Aleocrophic info            # Show system info
 ```
 
 ### Running Tools
 ```bash
 # SQL Injection Scan
-aleopantest run sql-inject --url http://example.com
+Aleocrophic run sql-inject --url http://example.com
 
 # Phishing Detection
-aleopantest run web-phishing --url http://suspicious-site.com
+Aleocrophic run web-phishing --url http://suspicious-site.com
 
 # DNS Lookup
-aleopantest run dns --domain target.com
+Aleocrophic run dns --domain target.com
 ```
 
 More examples in [QUICKSTART_GUIDE.md](QUICKSTART_GUIDE.md).
@@ -93,7 +93,7 @@ More examples in [QUICKSTART_GUIDE.md](QUICKSTART_GUIDE.md).
 
 ## 🛠️ Standardization & Safety (v3.3+)
 
-Starting from v3.3, AleoPantest implements strict parameter validation and standardized output across all modules.
+Starting from v3.3, Aleocrophic implements strict parameter validation and standardized output across all modules.
 
 ### Parameter Validation
 All high-risk tools now perform automatic type conversion and safety checks for duration parameters.

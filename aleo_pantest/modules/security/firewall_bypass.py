@@ -6,10 +6,10 @@ class FirewallBypass(BaseTool):
             name="Firewall Bypass Guide (Informational)",
             category=ToolCategory.SECURITY,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Menyediakan teknik dan referensi umum untuk melewati firewall (WAF/IPS)",
-            usage="aleopantest run firewall-bypass",
-            example="aleopantest run firewall-bypass",
+            usage="Aleocrophic run firewall-bypass",
+            example="Aleocrophic run firewall-bypass",
             parameters={},
             requirements=[],
             tags=["security", "bypass", "waf"]

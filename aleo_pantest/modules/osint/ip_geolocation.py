@@ -14,7 +14,7 @@ class IPGeolocation(BaseTool):
             name="IP Geolocation",
             category=ToolCategory.OSINT,
             version="1.1.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="IP geolocation untuk mendapatkan lokasi geografis dari IP address dengan informasi lengkap",
             usage="""
 Examples:
@@ -22,8 +22,8 @@ Examples:
   geo = IPGeolocation(); geo.run(host='1.1.1.1')  # 'host' alias for 'ip'
   
 CLI Usage:
-  aleopantest run ip-geo --ip 8.8.8.8
-  aleopantest run ip-geo --host 1.1.1.1
+  Aleocrophic run ip-geo --ip 8.8.8.8
+  Aleocrophic run ip-geo --host 1.1.1.1
             """,
             requirements=["requests"],
             tags=["osint", "geolocation", "ip", "reconnaissance", "location-lookup"]

@@ -7,10 +7,10 @@ class PortKnocker(BaseTool):
             name="Port Knocker",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Melakukan port knocking pada urutan port tertentu",
-            usage="aleopantest run port-knocker --host <ip> --ports <port1,port2,port3>",
-            example="aleopantest run port-knocker --host 192.168.1.1 --ports 1000,2000,3000",
+            usage="Aleocrophic run port-knocker --host <ip> --ports <port1,port2,port3>",
+            example="Aleocrophic run port-knocker --host 192.168.1.1 --ports 1000,2000,3000",
             parameters={"host": "Target IP", "ports": "Urutan port (dipisahkan koma)"},
             requirements=[],
             tags=["network", "stealth", "knocking"]

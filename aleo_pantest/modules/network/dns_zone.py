@@ -9,10 +9,10 @@ class DNSZoneTransfer(BaseTool):
             name="DNS Zone Transfer",
             category=ToolCategory.NETWORK,
             version="1.0.0",
-            author="AleoPantest",
+            author="deltaastra24@gmail.com",
             description="Mencoba melakukan DNS zone transfer (AXFR)",
-            usage="aleopantest run dns-zone --domain <domain>",
-            example="aleopantest run dns-zone --domain example.com",
+            usage="Aleocrophic run dns-zone --domain <domain>",
+            example="Aleocrophic run dns-zone --domain example.com",
             parameters={"domain": "Target domain"},
             requirements=["dnspython"],
             tags=["network", "dns", "recon"]

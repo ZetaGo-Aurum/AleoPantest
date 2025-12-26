@@ -4,7 +4,9 @@ import subprocess
 import os
 import sys
 
-os.chdir(r'c:\Users\rayhan\Documents\PantestTool\AleoPantest')
+# Get current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(current_dir)
 
 try:
     # Reset to abort any merge

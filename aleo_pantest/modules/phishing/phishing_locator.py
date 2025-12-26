@@ -16,9 +16,9 @@ class PhishingLocator(BaseTool):
             name="Phishing Locator",
             category=ToolCategory.PHISHING,
             version="2.0.0",
-            author="AleoPantest Team",
+            author="Aleocrophic Team",
             description="Locates phishing sites and domains that mimic legitimate organizations",
-            usage="aleopantest run phishing-locator --domain example.com",
+            usage="Aleocrophic run phishing-locator --domain example.com",
             requirements=['requests', 'beautifulsoup4'],
             tags=['phishing', 'locator', 'domain', 'tracking']
         )
