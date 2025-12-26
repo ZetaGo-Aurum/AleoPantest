@@ -1,4 +1,4 @@
-# AloPantest v2.0 - Comprehensive Penetration Testing Framework
+# AleoPantest v2.0 - Comprehensive Penetration Testing Framework
 # Python 3.8+
 # Installation: pip install -r requirements.txt
 

@@ -1,10 +1,10 @@
-# AloPantest Interactive CLI - Testing Guide
+# AleoPantest Interactive CLI - Testing Guide
 
 ## Test Environment Setup
 
 ```bash
 # Navigate to project directory
-cd AloPantest
+cd AleoPantest
 
 # Ensure dependencies are installed
 pip install -r requirements.txt
@@ -177,7 +177,7 @@ aleopantest run ddos-sim --target example.com --type invalid --preset light --au
 #### Test 3.1: Parameter Normalization
 ```python
 # Test in Python
-from alo_pantest.core.interactive_handler import ParameterMapper
+from aleo_pantest.core.interactive_handler import ParameterMapper
 
 params = {
     'host': '8.8.8.8',
@@ -196,7 +196,7 @@ print(normalized)
 
 #### Test 3.2: Alias Resolution
 ```python
-from alo_pantest.core.interactive_handler import ParameterMapper
+from aleo_pantest.core.interactive_handler import ParameterMapper
 
 aliases = ParameterMapper.get_aliases('ip')
 print(aliases)
@@ -215,7 +215,7 @@ print(aliases)
 
 #### Test 4.1: IP Validation
 ```python
-from alo_pantest.core.tool_helper import ToolParameterValidator
+from aleo_pantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -241,7 +241,7 @@ assert error is not None
 
 #### Test 4.2: URL Validation
 ```python
-from alo_pantest.core.tool_helper import ToolParameterValidator
+from aleo_pantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -268,7 +268,7 @@ assert is_valid == False
 
 #### Test 4.3: Domain Validation
 ```python
-from alo_pantest.core.tool_helper import ToolParameterValidator
+from aleo_pantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -295,7 +295,7 @@ assert is_valid == False
 
 #### Test 4.4: Port Validation
 ```python
-from alo_pantest.core.tool_helper import ToolParameterValidator
+from aleo_pantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -431,7 +431,7 @@ aleopantest run ip-geo --ip 8.8.8.8
 #!/bin/bash
 # test_aleopantest.sh
 
-echo "Testing AloPantest Interactive CLI"
+echo "Testing AleoPantest Interactive CLI"
 echo "===================================="
 
 # Test 1: IP Geolocation
@@ -468,7 +468,7 @@ echo "Testing complete!"
 ### Test 1: Parameter Mapping Performance
 ```python
 import time
-from alo_pantest.core.interactive_handler import ParameterMapper
+from aleo_pantest.core.interactive_handler import ParameterMapper
 
 params = {f'param{i}': f'value{i}' for i in range(100)}
 
@@ -486,7 +486,7 @@ print(f"1000 normalizations took {end-start:.3f}s")
 ### Test 2: Validation Performance
 ```python
 import time
-from alo_pantest.core.tool_helper import ToolParameterValidator
+from aleo_pantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -553,7 +553,7 @@ done
 **Solution:**
 ```bash
 pip install -r requirements.txt
-python -m alo_pantest.cli --help
+python -m aleo_pantest.cli --help
 ```
 
 ### Issue: API connection errors in IP Geo

@@ -2,7 +2,7 @@
 
 ## MIT License - Educational Use
 
-Copyright (c) 2024 AloPantest Team
+Copyright (c) 2024 AleoPantest Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ SOFTWARE.
 
 ## ⚠️ IMPORTANT LEGAL NOTICE
 
-**AloPantest adalah TOOLS UNTUK KEPERLUAN EDUKASI DAN PEMBELAJARAN CYBERSECURITY SEMATA.**
+**AleoPantest adalah TOOLS UNTUK KEPERLUAN EDUKASI DAN PEMBELAJARAN CYBERSECURITY SEMATA.**
 
 ### ✅ PENGGUNAAN YANG DIIZINKAN:
 - Testing pada sistem Anda sendiri
@@ -52,7 +52,7 @@ SOFTWARE.
 4. **Consequences**: Anda bertanggung jawab atas konsekuensi penggunaan
 
 ### ⚖️ LIABILITY DISCLAIMER:
-**AloPantest Team TIDAK bertanggung jawab atas:**
+**AleoPantest Team TIDAK bertanggung jawab atas:**
 - Penyalahgunaan tools untuk tujuan ilegal
 - Damage atau kerugian finansial yang ditimbulkan
 - Legal consequences dari penggunaan yang tidak authorized
@@ -61,7 +61,7 @@ SOFTWARE.
 - Misuse atau abuse dari tools ini
 
 ### 🔐 CODE OF ETHICS:
-Dengan menggunakan AloPantest, Anda setuju untuk:
+Dengan menggunakan AleoPantest, Anda setuju untuk:
 1. Hanya test sistem yang Anda miliki atau dengan izin
 2. Respect privacy dan confidentiality
 3. Disclose vulnerabilities secara responsible
@@ -70,7 +70,7 @@ Dengan menggunakan AloPantest, Anda setuju untuk:
 6. Share knowledge dengan community secara ethical
 
 ### 📚 EDUCATIONAL PURPOSE:
-AloPantest dikembangkan untuk:
+AleoPantest dikembangkan untuk:
 - Cybersecurity education
 - Security awareness training
 - Professional development
@@ -145,7 +145,7 @@ Jika Anda menemukan vulnerability menggunakan tools ini:
 
 **THE SOFTWARE IS PROVIDED "AS IS"**
 
-AloPantest Team:
+AleoPantest Team:
 - Makes NO warranty atau guarantee tentang functionality
 - Does NOT guarantee accuracy dari results
 - Is NOT liable untuk any issues atau damages
@@ -169,7 +169,7 @@ Tetapi Anda HARUS:
 
 ## THIRD-PARTY LIBRARIES
 
-AloPantest menggunakan berbagai third-party libraries dengan licenses mereka sendiri:
+AleoPantest menggunakan berbagai third-party libraries dengan licenses mereka sendiri:
 
 - requests: Apache 2.0
 - beautifulsoup4: MIT
@@ -183,7 +183,7 @@ Lihat masing-masing library untuk terms lengkap.
 ## CONTACT & LEGAL INQUIRIES
 
 Untuk pertanyaan legal:
-- Email: legal@alopantest.com
+- Email: legal@aleopantest.com
 - Formal Notice: Send to registered address
 - Disputes: Will be handled per applicable law
 
@@ -191,7 +191,7 @@ Untuk pertanyaan legal:
 
 **PERSETUJUAN:**
 
-Dengan mengunduh, menginstall, atau menggunakan AloPantest, Anda:
+Dengan mengunduh, menginstall, atau menggunakan AleoPantest, Anda:
 1. **MENERIMA** semua terms dan conditions dalam license ini
 2. **SETUJU** untuk menggunakan secara legal dan ethical
 3. **MEMAHAMI** risks dan consequences

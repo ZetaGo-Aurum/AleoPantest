@@ -4,7 +4,7 @@ import subprocess
 import os
 import sys
 
-os.chdir(r'c:\Users\rayhan\Documents\PantestTool\AloPantest')
+os.chdir(r'c:\Users\rayhan\Documents\PantestTool\AleoPantest')
 
 try:
     # Reset to abort any merge

@@ -1,4 +1,4 @@
-# AloPantest v2.0 - MANIFEST & INVENTORY
+# AleoPantest v2.0 - MANIFEST & INVENTORY
 
 **Document Created:** December 25, 2025  
 **Version:** 2.0.0  
@@ -11,67 +11,67 @@
 ### New Tool Files (13 Files - 4,000+ Lines)
 
 #### Phishing Module
-1. **alo_pantest/modules/phishing/__init__.py**
+1. **aleo_pantest/modules/phishing/__init__.py**
    - Module initialization
    - Exports: WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation
 
-2. **alo_pantest/modules/phishing/web_phishing.py** (350 lines)
+2. **aleo_pantest/modules/phishing/web_phishing.py** (350 lines)
    - Class: WebPhishing
    - Methods: check_url_characteristics(), check_page_content(), validate_input(), run()
    - Features: URL analysis, SSL check, form detection, risk scoring
 
-3. **alo_pantest/modules/phishing/email_phishing.py** (280 lines)
+3. **aleo_pantest/modules/phishing/email_phishing.py** (280 lines)
    - Class: EmailPhishing
    - Methods: analyze_sender(), analyze_subject(), validate_input(), run()
    - Features: Sender analysis, subject analysis, risk scoring
 
-4. **alo_pantest/modules/phishing/phishing_locator.py** (290 lines)
+4. **aleo_pantest/modules/phishing/phishing_locator.py** (290 lines)
    - Class: PhishingLocator
    - Methods: generate_phishing_variants(), check_domain_availability(), validate_input(), run()
    - Features: Variant generation, DNS lookup, availability checking
 
-5. **alo_pantest/modules/phishing/phishing_impersonation.py** (380 lines)
+5. **aleo_pantest/modules/phishing/phishing_impersonation.py** (380 lines)
    - Class: PhishingImpersonation
    - Methods: create_phishing_email_template(), create_phishing_website_template(), create_phishing_sms_template(), run()
    - Features: Template generation, HTML generation, educational content
 
 #### Clickjacking Module
-6. **alo_pantest/modules/clickjacking/__init__.py**
+6. **aleo_pantest/modules/clickjacking/__init__.py**
    - Module initialization
    - Exports: ClickjackingChecker, ClickjackingMaker, AntiClickjackingGenerator
 
-7. **alo_pantest/modules/clickjacking/clickjacking_checker.py** (280 lines)
+7. **aleo_pantest/modules/clickjacking/clickjacking_checker.py** (280 lines)
    - Class: ClickjackingChecker
    - Methods: check_headers(), check_html_content(), validate_input(), run()
    - Features: Header analysis, content analysis, vulnerability scoring
 
-8. **alo_pantest/modules/clickjacking/clickjacking_maker.py** (380 lines)
+8. **aleo_pantest/modules/clickjacking/clickjacking_maker.py** (380 lines)
    - Class: ClickjackingMaker
    - Methods: create_basic_poc(), create_advanced_poc(), validate_input(), run()
    - Features: PoC generation, HTML generation, educational content
 
-9. **alo_pantest/modules/clickjacking/anti_clickjacking_generator.py** (450 lines)
+9. **aleo_pantest/modules/clickjacking/anti_clickjacking_generator.py** (450 lines)
    - Class: AntiClickjackingGenerator
    - Methods: generate_nginx_config(), generate_apache_config(), generate_nodejs_code(), generate_python_code(), generate_javascript_framebuster(), validate_input(), run()
    - Features: Framework-specific code generation for 6 frameworks
 
 #### Security Module
-10. **alo_pantest/modules/security/__init__.py**
+10. **aleo_pantest/modules/security/__init__.py**
     - Module initialization
     - Exports: AntiDDoS, WAFDetector
 
-11. **alo_pantest/modules/security/anti_ddos.py** (350 lines)
+11. **aleo_pantest/modules/security/anti_ddos.py** (350 lines)
     - Class: AntiDDoS
     - Methods: detect_cdnandddos(), _check_dns(), _measure_response_times(), validate_input(), run()
     - Features: CDN detection, DDoS protection detection, DNS analysis
 
-12. **alo_pantest/modules/security/waf_detector.py** (350 lines)
+12. **aleo_pantest/modules/security/waf_detector.py** (350 lines)
     - Class: WAFDetector
     - Methods: detect_waf_by_headers(), detect_waf_by_response_code(), validate_input(), run()
     - Features: WAF detection, payload testing, bypass enumeration
 
 #### Network Enhancement
-13. **alo_pantest/modules/network/ddos_simulator.py** (420 lines)
+13. **aleo_pantest/modules/network/ddos_simulator.py** (420 lines)
     - Class: DDoSSimulator
     - Methods: simulate_http_flood(), simulate_dns_flood(), simulate_slowloris(), simulate_synflood(), simulate_udpflood(), get_attack_analysis(), validate_input(), run()
     - Features: 5 attack types, multi-threading, rate limiting
@@ -82,17 +82,17 @@
 
 1. **setup.py**
    - Updated version from 1.0.0 to 2.0.0
-   - Changed entry point from alopantest to aleopantest
+   - Changed entry point from aleopantest to aleopantest
    - Updated description to "400+ penetration testing tools"
    - Updated install_requires with new tools
 
-2. **alo_pantest/core/base_tool.py**
+2. **aleo_pantest/core/base_tool.py**
    - Added PHISHING to ToolCategory enum
    - Added SECURITY to ToolCategory enum
    - Added CLICKJACKING to ToolCategory enum
    - Expanded from 6 to 9 categories
 
-3. **alo_pantest/cli.py** (Complete Rewrite)
+3. **aleo_pantest/cli.py** (Complete Rewrite)
    - Updated TOOLS_REGISTRY from 24 to 39 tools
    - Added TOOLS_BY_CATEGORY dictionary
    - Added list-by-category command
@@ -101,7 +101,7 @@
    - Updated banner with v2.0 branding
    - Improved help text and examples
 
-4. **alo_pantest/modules/network/__init__.py**
+4. **aleo_pantest/modules/network/__init__.py**
    - Added DDoSSimulator import
    - Added DDoSSimulator to module exports
 
@@ -115,7 +115,7 @@
 ### Documentation Files (9 Files)
 
 1. **README_v2.md** (600+ lines)
-   - AloPantest v2.0 feature overview
+   - AleoPantest v2.0 feature overview
    - Installation instructions
    - Quick start section
    - Tool descriptions by category
@@ -272,8 +272,8 @@
 ## 🗂️ DIRECTORY STRUCTURE
 
 ```
-AloPantest/
-├── alo_pantest/
+AleoPantest/
+├── aleo_pantest/
 │   ├── core/
 │   │   ├── base_tool.py (MODIFIED - Added categories)
 │   │   ├── config.py
@@ -346,7 +346,7 @@ AloPantest/
 │   └── default.yml
 ├── logs/ (Directory)
 ├── output/ (Directory)
-├── AloPantest.egg-info/
+├── AleoPantest.egg-info/
 │
 ├── setup.py (MODIFIED - v2.0.0)
 ├── requirements.txt (MODIFIED)
@@ -367,7 +367,7 @@ AloPantest/
 ├── COMPLETION_REPORT.md (Updated)
 ├── PROJECT_SUMMARY.md (Original)
 ├── test_tools.py
-└── alo_pantest_cli.py
+└── aleo_pantest_cli.py
 ```
 
 ---
@@ -464,7 +464,7 @@ aleopantest run <tool> [opts]   # Run tool
 
 ## 🎊 FINAL STATUS
 
-**Project:** AloPantest v2.0  
+**Project:** AleoPantest v2.0  
 **Status:** ✅ **COMPLETE**  
 **Date:** December 25, 2025  
 **Version:** 2.0.0
@@ -473,4 +473,4 @@ aleopantest run <tool> [opts]   # Run tool
 
 ---
 
-*This manifest documents all files created, modified, and delivered in the AloPantest v2.0 project.*
+*This manifest documents all files created, modified, and delivered in the AleoPantest v2.0 project.*

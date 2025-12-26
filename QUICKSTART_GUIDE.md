@@ -1,4 +1,4 @@
-# AloPantest Quick Start Guide
+# AleoPantest Quick Start Guide
 
 ## Installation & Setup
 
@@ -430,11 +430,11 @@ aleopantest help-tool <tool-id>
 
 ## Version Information
 
-- **AloPantest**: v2.0+
+- **AleoPantest**: v2.0+
 - **Python**: 3.7+
 - **Key Dependencies**: click, requests, rich
 
 ---
 
 **Last Updated**: December 2025
-**Framework**: AloPantest Penetration Testing Suite
+**Framework**: AleoPantest Penetration Testing Suite

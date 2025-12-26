@@ -1,4 +1,4 @@
-# Default Configuration untuk AloPantest
+# Default Configuration untuk AleoPantest
 # Copy ke settings.yml dan customize sesuai kebutuhan
 
 # Global Settings
@@ -39,7 +39,7 @@ database:
   port: 5432
   username: "user"
   password: "password"
-  database: "alopantest"
+  database: "aleopantest"
 
 # API Settings
 api:

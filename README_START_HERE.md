@@ -1,4 +1,4 @@
-# 🎉 AloPantest v2.0 - Complete!
+# 🎉 AleoPantest v2.0 - Complete!
 
 **Status:** ✅ **COMPLETE & TESTED**  
 **Version:** 2.0.0  
@@ -24,7 +24,7 @@ A **complete, production-ready penetration testing framework** with:
 ### 1. Install
 ```bash
 # Navigate to project directory
-cd c:\Users\rayhan\Documents\PantestTool\AloPantest
+cd c:\Users\rayhan\Documents\PantestTool\AleoPantest
 
 # Create virtual environment
 python -m venv .venv
@@ -32,7 +32,7 @@ python -m venv .venv
 # Activate it (Windows)
 .venv\Scripts\activate
 
-# Install AloPantest
+# Install AleoPantest
 pip install -e .
 ```
 
@@ -237,7 +237,7 @@ aleopantest run <tool-id> \
 
 ## 🔐 Security
 
-AloPantest includes:
+AleoPantest includes:
 
 - ✅ **Authorization Checks** - Requires permission before testing
 - ✅ **Legal Disclaimers** - CFAA and other compliance notices
@@ -275,7 +275,7 @@ AloPantest includes:
 
 ## 🎓 Learning Resources
 
-AloPantest teaches:
+AleoPantest teaches:
 
 - 🧑‍💻 **Security Concepts** - How different attacks work
 - 🔬 **Defensive Techniques** - How to protect systems
@@ -294,7 +294,7 @@ AloPantest teaches:
 
 ## 🚀 Next Steps
 
-1. ✅ Install AloPantest (pip install -e .)
+1. ✅ Install AleoPantest (pip install -e .)
 2. ✅ Read QUICKSTART_v2.md
 3. ✅ Try sample commands
 4. ✅ Explore different tool categories
@@ -308,7 +308,7 @@ AloPantest teaches:
 
 - [ ] Python 3.8+ installed
 - [ ] Virtual environment created
-- [ ] AloPantest installed
+- [ ] AleoPantest installed
 - [ ] `aleopantest --help` works
 - [ ] `aleopantest list-tools` shows tools
 - [ ] Sample tool executed successfully
@@ -418,7 +418,7 @@ You now have a professional-grade penetration testing framework with 39 tools!
 
 ## ✨ Thank You!
 
-Thank you for using **AloPantest v2.0**. We're excited to support your security journey!
+Thank you for using **AleoPantest v2.0**. We're excited to support your security journey!
 
 **Stay Ethical. Stay Secure.** 🛡️
 

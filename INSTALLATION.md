@@ -1,6 +1,6 @@
-# INSTALLATION GUIDE - AloPantest
+# INSTALLATION GUIDE - AleoPantest
 
-Panduan lengkap instalasi AloPantest di berbagai platform.
+Panduan lengkap instalasi AleoPantest di berbagai platform.
 
 ## 📋 Table of Contents
 - [Prerequisites](#prerequisites)
@@ -44,21 +44,21 @@ Jika Python belum terinstall, download dari [python.org](https://www.python.org/
 4. **PENTING**: Centang "Add Python to PATH"
 5. Click "Install Now"
 
-#### Step 2: Download AloPantest
+#### Step 2: Download AleoPantest
 ```powershell
 # Option A: Using Git
 git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AloPantest
+cd AleoPantest
 
 # Option B: Manual Download
 # Download dari GitHub dan extract ke folder
-cd C:\Users\YourUsername\AloPantest
+cd C:\Users\YourUsername\AleoPantest
 ```
 
 #### Step 3: Install Dependencies
 ```powershell
 # Buka PowerShell atau Command Prompt
-cd C:\Users\YourUsername\AloPantest
+cd C:\Users\YourUsername\AleoPantest
 
 # Install requirements
 pip install -r requirements.txt
@@ -66,16 +66,16 @@ pip install -r requirements.txt
 
 #### Step 4: Verify Installation
 ```powershell
-python alo_pantest_cli.py info
+python aleo_pantest_cli.py info
 ```
 
 #### Step 5: Run Tools
 ```powershell
 # List all tools
-python alo_pantest_cli.py list-tools
+python aleo_pantest_cli.py list-tools
 
 # Run port scanner
-python alo_pantest_cli.py run port-scan --host 192.168.1.1
+python aleo_pantest_cli.py run port-scan --host 192.168.1.1
 ```
 
 ### Method 2: WSL Installation (Recommended for Advanced Users)
@@ -119,14 +119,14 @@ sudo apt-get install python3 python3-pip python3-dev -y
 sudo apt-get install git build-essential libssl-dev -y
 ```
 
-### Step 3: Download AloPantest
+### Step 3: Download AleoPantest
 ```bash
 # Clone repository
 git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AloPantest
+cd AleoPantest
 
 # Atau manual download dan extract
-# cd ~/AloPantest
+# cd ~/AleoPantest
 ```
 
 ### Step 4: Install Python Requirements
@@ -139,14 +139,14 @@ sudo pip3 install -r requirements.txt
 
 ### Step 5: Make CLI Executable
 ```bash
-chmod +x alo_pantest_cli.py
+chmod +x aleo_pantest_cli.py
 ```
 
 ### Step 6: Verify Installation
 ```bash
-./alo_pantest_cli.py info
+./aleo_pantest_cli.py info
 # atau
-python3 alo_pantest_cli.py info
+python3 aleo_pantest_cli.py info
 ```
 
 ### Step 7: Optional - System-wide Installation
@@ -155,7 +155,7 @@ python3 alo_pantest_cli.py info
 sudo pip3 install -e .
 
 # Then run dari anywhere
-alopantest info
+aleopantest info
 ```
 
 ---
@@ -175,11 +175,11 @@ brew install python@3.11
 python3 --version
 ```
 
-### Step 3: Download AloPantest
+### Step 3: Download AleoPantest
 ```bash
 # Clone atau download
 git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AloPantest
+cd AleoPantest
 ```
 
 ### Step 4: Install Dependencies
@@ -189,32 +189,32 @@ pip3 install -r requirements.txt
 
 ### Step 5: Make Executable
 ```bash
-chmod +x alo_pantest_cli.py
+chmod +x aleo_pantest_cli.py
 ```
 
 ### Step 6: Verify dan Run
 ```bash
-python3 alo_pantest_cli.py info
-./alo_pantest_cli.py list-tools
+python3 aleo_pantest_cli.py info
+./aleo_pantest_cli.py list-tools
 ```
 
 ### Step 7: Optional - Create Alias
 ```bash
 # Edit ~/.zshrc atau ~/.bash_profile
-echo "alias alopantest='python3 ~/AloPantest/alo_pantest_cli.py'" >> ~/.zshrc
+echo "alias aleopantest='python3 ~/AleoPantest/aleo_pantest_cli.py'" >> ~/.zshrc
 
 # Apply
 source ~/.zshrc
 
 # Usage
-alopantest info
+aleopantest info
 ```
 
 ---
 
 ## Termux Installation (Android)
 
-Termux memungkinkan Anda menjalankan AloPantest di Android phone/tablet.
+Termux memungkinkan Anda menjalankan AleoPantest di Android phone/tablet.
 
 ### Step 1: Install Termux
 1. Download Termux dari [F-Droid](https://f-droid.org/packages/com.termux/)
@@ -235,14 +235,14 @@ pkg install python3 python3-pip git
 python3 --version
 ```
 
-### Step 4: Download AloPantest
+### Step 4: Download AleoPantest
 ```bash
 # Clone atau download
 git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AloPantest
+cd AleoPantest
 
 # Atau manual
-# Download dan extract ke ~/AloPantest
+# Download dan extract ke ~/AleoPantest
 ```
 
 ### Step 5: Install Requirements
@@ -250,15 +250,15 @@ cd AloPantest
 pip install -r requirements.txt
 ```
 
-### Step 6: Run AloPantest
+### Step 6: Run AleoPantest
 ```bash
-python3 alo_pantest_cli.py info
+python3 aleo_pantest_cli.py info
 
 # List tools
-python3 alo_pantest_cli.py list-tools
+python3 aleo_pantest_cli.py list-tools
 
 # Run tool
-python3 alo_pantest_cli.py run ping --host 8.8.8.8
+python3 aleo_pantest_cli.py run ping --host 8.8.8.8
 ```
 
 ### Step 7: Optional - Storage Access
@@ -302,17 +302,17 @@ sudo apt-get upgrade -y
 sudo apt-get install python3 python3-pip git -y
 ```
 
-### Step 5: Install AloPantest
+### Step 5: Install AleoPantest
 ```bash
 git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
-cd AloPantest
+cd AleoPantest
 pip3 install -r requirements.txt
 ```
 
 ### Step 6: Run dari Windows PowerShell
 ```powershell
 # Run WSL tool dari Windows
-wsl python3 ~/AloPantest/alo_pantest_cli.py info
+wsl python3 ~/AleoPantest/aleo_pantest_cli.py info
 ```
 
 ---
@@ -335,24 +335,24 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENTRYPOINT ["python", "alo_pantest_cli.py"]
+ENTRYPOINT ["python", "aleo_pantest_cli.py"]
 ```
 
 ### Step 3: Build Docker Image
 ```bash
-docker build -t alopantest:latest .
+docker build -t aleopantest:latest .
 ```
 
 ### Step 4: Run Container
 ```bash
 # Interactive mode
-docker run -it alopantest:latest info
+docker run -it aleopantest:latest info
 
 # Run specific tool
-docker run -it alopantest:latest run port-scan --host 192.168.1.1
+docker run -it aleopantest:latest run port-scan --host 192.168.1.1
 
 # With volume mount
-docker run -it -v /home/user/output:/app/output alopantest:latest run port-scan --host 192.168.1.1 --output /app/output/results.json
+docker run -it -v /home/user/output:/app/output aleopantest:latest run port-scan --host 192.168.1.1 --output /app/output/results.json
 ```
 
 ---
@@ -367,16 +367,16 @@ python3 --version
 # Check pip packages
 pip3 list | grep -E 'click|rich|requests'
 
-# Check AloPantest
-python3 alo_pantest_cli.py info
+# Check AleoPantest
+python3 aleo_pantest_cli.py info
 ```
 
 ### Test Tools
 ```bash
 # Test basic tools
-python3 alo_pantest_cli.py run passgen
-python3 alo_pantest_cli.py run hash --text "test" --algorithm sha256
-python3 alo_pantest_cli.py run encode --text "hello" --operation encode
+python3 aleo_pantest_cli.py run passgen
+python3 aleo_pantest_cli.py run hash --text "test" --algorithm sha256
+python3 aleo_pantest_cli.py run encode --text "hello" --operation encode
 ```
 
 ---
@@ -405,15 +405,15 @@ pip install -r requirements.txt
 ### Error: "Permission denied" (Linux/macOS)
 **Solution**: Make script executable
 ```bash
-chmod +x alo_pantest_cli.py
-./alo_pantest_cli.py info
+chmod +x aleo_pantest_cli.py
+./aleo_pantest_cli.py info
 ```
 
-### Error: "ModuleNotFoundError: No module named 'alo_pantest'"
-**Solution**: Run dari directory AloPantest
+### Error: "ModuleNotFoundError: No module named 'aleo_pantest'"
+**Solution**: Run dari directory AleoPantest
 ```bash
-cd AloPantest
-python3 alo_pantest_cli.py info
+cd AleoPantest
+python3 aleo_pantest_cli.py info
 ```
 
 ### Error: "SSL: CERTIFICATE_VERIFY_FAILED"
@@ -431,7 +431,7 @@ python3 -m pip install --upgrade pip
 ### Error: "Port already in use" (Server)
 **Solution**: Use different port
 ```bash
-python3 alo_pantest_cli.py server --port 8000
+python3 aleo_pantest_cli.py server --port 8000
 ```
 
 ### Network Issues Behind Proxy
@@ -490,13 +490,13 @@ chmod 755 output logs
 ### Test Specific Tool
 ```bash
 # Network tools
-python3 alo_pantest_cli.py run ping --host 8.8.8.8
+python3 aleo_pantest_cli.py run ping --host 8.8.8.8
 
 # Web tools
-python3 alo_pantest_cli.py run dns --domain google.com
+python3 aleo_pantest_cli.py run dns --domain google.com
 
 # Utilities
-python3 alo_pantest_cli.py run hash --text "password" --algorithm sha256
+python3 aleo_pantest_cli.py run hash --text "password" --algorithm sha256
 ```
 
 ---
@@ -504,8 +504,8 @@ python3 alo_pantest_cli.py run hash --text "password" --algorithm sha256
 ## Next Steps
 
 1. **Read Documentation**: Lihat [README.md](README.md)
-2. **List Tools**: `python3 alo_pantest_cli.py list-tools`
-3. **Get Tool Help**: `python3 alo_pantest_cli.py help-tool <tool-id>`
+2. **List Tools**: `python3 aleo_pantest_cli.py list-tools`
+3. **Get Tool Help**: `python3 aleo_pantest_cli.py help-tool <tool-id>`
 4. **Start Testing**: Run tools sesuai kebutuhan
 
 ---
@@ -513,9 +513,9 @@ python3 alo_pantest_cli.py run hash --text "password" --algorithm sha256
 ## Support
 
 - **Issues**: Open GitHub issue
-- **Questions**: Email support@alopantest.com
+- **Questions**: Email support@aleopantest.com
 - **Community**: Join Discord server
-- **Docs**: [AloPantest Documentation](https://docs.alopantest.com)
+- **Docs**: [AleoPantest Documentation](https://docs.aleopantest.com)
 
 ---
 

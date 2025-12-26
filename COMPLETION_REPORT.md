@@ -1,8 +1,8 @@
-# ✅ AloPantest v2.0 - COMPLETE BUILD SUMMARY
+# ✅ AleoPantest v2.0 - COMPLETE BUILD SUMMARY
 
 ## 🎉 PROJECT SUCCESSFULLY COMPLETED!
 
-**AloPantest v2.0** - A comprehensive penetration testing framework with **39 fully functional tools** across **9 categories**, featuring new Phishing Detection, Clickjacking Assessment, Security Analysis, and DDoS Simulation capabilities.
+**AleoPantest v2.0** - A comprehensive penetration testing framework with **39 fully functional tools** across **9 categories**, featuring new Phishing Detection, Clickjacking Assessment, Security Analysis, and DDoS Simulation capabilities.
 
 **Status:** ✅ **PRODUCTION READY** (Core Features)  
 **Version:** 2.0.0  
@@ -12,7 +12,7 @@
 
 ## 📦 WHAT HAS BEEN BUILT
 
-### ✨ AloPantest v2.0.0
+### ✨ AleoPantest v2.0.0
 - **39 Fully Functional Tools** (10 new in v2.0)
 - **Enhanced CLI with "aleopantest" Entry Point**
 - **Modular Architecture** (9 organized categories)
@@ -28,8 +28,8 @@
 ## 📂 PROJECT STRUCTURE V2.0
 
 ```
-AloPantest/
-├── alo_pantest/                    # Main Python package
+AleoPantest/
+├── aleo_pantest/                    # Main Python package
 │   ├── core/                       # Framework core (logger, config, base_tool)
 │   ├── modules/                    # Tool modules (9 categories)
 │   │   ├── network/                # 9 Network tools (+ DDoS simulator)
@@ -111,27 +111,27 @@ AloPantest/
 ### Installation (3 steps)
 ```bash
 # 1. Navigate to project
-cd AloPantest
+cd AleoPantest
 
 # 2. Install dependencies
 pip install -r requirements.txt
 
 # 3. Verify installation
-python alo_pantest_cli.py info
+python aleo_pantest_cli.py info
 ```
 
 ### Run Tools
 ```bash
 # List all tools
-python alo_pantest_cli.py list-tools
+python aleo_pantest_cli.py list-tools
 
 # Run specific tool
-python alo_pantest_cli.py run port-scan --host 192.168.1.1
-python alo_pantest_cli.py run dns --domain google.com
-python alo_pantest_cli.py run passgen --length 16 --count 5
+python aleo_pantest_cli.py run port-scan --host 192.168.1.1
+python aleo_pantest_cli.py run dns --domain google.com
+python aleo_pantest_cli.py run passgen --length 16 --count 5
 
 # Export results
-python alo_pantest_cli.py run port-scan --host 192.168.1.1 --output results.json
+python aleo_pantest_cli.py run port-scan --host 192.168.1.1 --output results.json
 ```
 
 ---
@@ -231,7 +231,7 @@ python alo_pantest_cli.py run port-scan --host 192.168.1.1 --output results.json
 The framework supports adding 360+ tools as planned:
 
 ```python
-from alo_pantest.core.base_tool import BaseTool
+from aleo_pantest.core.base_tool import BaseTool
 
 class NewTool(BaseTool):
     def __init__(self):
@@ -267,7 +267,7 @@ class NewTool(BaseTool):
 - ✅ Country-specific law references
 
 ### Important Notice
-**AloPantest is for EDUCATIONAL and AUTHORIZED TESTING ONLY**
+**AleoPantest is for EDUCATIONAL and AUTHORIZED TESTING ONLY**
 
 - Only test systems you own or have permission to test
 - Unauthorized access is ILLEGAL
@@ -301,7 +301,7 @@ class NewTool(BaseTool):
 
 The complete project is located at:
 ```
-c:\Users\rayhan\Documents\PantestTool\AloPantest\
+c:\Users\rayhan\Documents\PantestTool\AleoPantest\
 ```
 
 All files are organized and ready for use.
@@ -335,7 +335,7 @@ All files are organized and ready for use.
 
 ## 📞 PROJECT INFO
 
-- **Project Name**: AloPantest
+- **Project Name**: AleoPantest
 - **Version**: 1.0.0
 - **License**: MIT (Educational)
 - **Platform**: Cross-platform (Windows, Linux, macOS, Termux)
@@ -380,7 +380,7 @@ All files are organized and ready for use.
 
 ## 🏆 WHAT YOU GET
 
-When you use AloPantest, you get:
+When you use AleoPantest, you get:
 
 1. **Professional Tools**
    - 24+ ready-to-use security tools
@@ -459,25 +459,25 @@ When you use AloPantest, you get:
 pip install -r requirements.txt
 
 # Run
-python alo_pantest_cli.py run <tool-id> [OPTIONS]
+python aleo_pantest_cli.py run <tool-id> [OPTIONS]
 
 # Examples
-python alo_pantest_cli.py info
-python alo_pantest_cli.py list-tools
-python alo_pantest_cli.py run dns --domain google.com
-python alo_pantest_cli.py run port-scan --host 192.168.1.1
-python alo_pantest_cli.py run passgen --length 16
+python aleo_pantest_cli.py info
+python aleo_pantest_cli.py list-tools
+python aleo_pantest_cli.py run dns --domain google.com
+python aleo_pantest_cli.py run port-scan --host 192.168.1.1
+python aleo_pantest_cli.py run passgen --length 16
 
 # Help
-python alo_pantest_cli.py help-tool <tool-id>
-python alo_pantest_cli.py help-tool port-scan
+python aleo_pantest_cli.py help-tool <tool-id>
+python aleo_pantest_cli.py help-tool port-scan
 ```
 
 ---
 
 ## ✨ CONCLUSION
 
-**AloPantest** adalah project lengkap yang siap untuk:
+**AleoPantest** adalah project lengkap yang siap untuk:
 - ✅ Educational use
 - ✅ Professional training
 - ✅ Research purposes
@@ -503,4 +503,4 @@ Semua komponen telah diimplementasikan, didokumentasikan dengan baik, dan ditest
 
 ---
 
-**Thank you for using AloPantest!** 🚀
+**Thank you for using AleoPantest!** 🚀

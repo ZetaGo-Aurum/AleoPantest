@@ -1,4 +1,4 @@
-# PROJECT SUMMARY - AloPantest v1.0.0
+# PROJECT SUMMARY - AleoPantest v1.0.0
 
 ## 📊 Project Status: ✅ COMPLETE
 
@@ -85,8 +85,8 @@ Sebuah comprehensive penetration testing framework dengan **30+ fully functional
 ## 📂 Project Structure
 
 ```
-AloPantest/
-├── alo_pantest/                      # Main package
+AleoPantest/
+├── aleo_pantest/                      # Main package
 │   ├── __init__.py                   # Package initialization
 │   ├── cli.py                        # CLI interface
 │   ├── core/                         # Core framework
@@ -140,7 +140,7 @@ AloPantest/
 ├── output/                           # Output directory
 ├── docs/                             # Documentation
 │   └── TOOLS.md                      # Tools documentation
-├── alo_pantest_cli.py               # CLI entry point
+├── aleo_pantest_cli.py               # CLI entry point
 ├── test_tools.py                     # Test script
 ├── requirements.txt                  # Dependencies
 ├── setup.py                          # Package setup
@@ -231,24 +231,24 @@ AloPantest/
 
 ### Quick Install
 ```bash
-cd AloPantest
+cd AleoPantest
 pip install -r requirements.txt
-python alo_pantest_cli.py info
+python aleo_pantest_cli.py info
 ```
 
 ### Run Tools
 ```bash
 # Network tools
-python alo_pantest_cli.py run port-scan --host 192.168.1.1
+python aleo_pantest_cli.py run port-scan --host 192.168.1.1
 
 # Web tools
-python alo_pantest_cli.py run sql-inject --url http://target.com
+python aleo_pantest_cli.py run sql-inject --url http://target.com
 
 # OSINT tools
-python alo_pantest_cli.py run domain-info --domain example.com
+python aleo_pantest_cli.py run domain-info --domain example.com
 
 # Utilities
-python alo_pantest_cli.py run passgen --length 16
+python aleo_pantest_cli.py run passgen --length 16
 ```
 
 ---
@@ -348,7 +348,7 @@ python alo_pantest_cli.py run passgen --length 16
 ### Adding New Tools
 Framework mendukung menambah tools baru:
 ```python
-from alo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 
 class CustomTool(BaseTool):
     def __init__(self):
@@ -496,7 +496,7 @@ class CustomTool(BaseTool):
 
 ## 📜 Final Notes
 
-**AloPantest** adalah project lengkap yang siap untuk:
+**AleoPantest** adalah project lengkap yang siap untuk:
 - Educational use di institusi pendidikan
 - Professional training di perusahaan keamanan
 - Research purposes untuk security researchers
@@ -512,7 +512,7 @@ Semua komponen telah ditest dan didokumentasikan dengan baik.
 
 **Last Updated**: Desember 2024
 **Version**: 1.0.0
-**Maintained By**: AloPantest Team
+**Maintained By**: AleoPantest Team
 
 ---
 

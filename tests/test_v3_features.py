@@ -1,9 +1,9 @@
-"""Unit tests for AloPantest V3.0 core features"""
+"""Unit tests for AleoPantest V3.0 core features"""
 import unittest
 import time
-from alo_pantest.core.platform import PlatformDetector, PlatformOptimizer
-from alo_pantest.core.session import SessionManager, SecurityGuard
-from alo_pantest.core.automation import ContextDetector, AutomationEngine
+from aleo_pantest.core.platform import PlatformDetector, PlatformOptimizer
+from aleo_pantest.core.session import SessionManager, SecurityGuard
+from aleo_pantest.core.automation import ContextDetector, AutomationEngine
 
 class TestV3Core(unittest.TestCase):
     

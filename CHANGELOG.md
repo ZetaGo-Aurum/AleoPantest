@@ -1,4 +1,4 @@
-# AloPantest Changelog
+# AleoPantest Changelog
 
 ## [3.0.0] - 2025-12-26
 
@@ -114,7 +114,7 @@
   - Legal disclaimer system
 
 ### CLI Improvements 🎨
-- Restructured entry point: `aleopantest` (changed from `alopantest`)
+- Restructured entry point: `aleopantest` (changed from `aleopantest`)
 - New command: `aleopantest list-by-category [category]`
 - Enhanced `run` command with 14 new parameters:
   - `--email` - Email address for phishing tools
@@ -251,4 +251,4 @@ See git history for v1.x changelog details.
 
 **Last Updated:** December 25, 2025
 **Current Version:** 2.0.0
-**Maintainer:** AloPantest Team
+**Maintainer:** AleoPantest Team

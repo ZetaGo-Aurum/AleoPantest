@@ -1,14 +1,14 @@
-"""Setup script untuk AloPantest"""
+"""Setup script untuk AleoPantest"""
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="AloPantest",
+    name="AleoPantest",
     version="3.0.0",
-    author="AloPantest Team",
-    author_email="team@alopantest.com",
+    author="AleoPantest Team",
+    author_email="team@aleopantest.com",
     description="Modern Penetration Testing Framework with TUI and Automation",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -37,7 +37,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'aleopantest=alo_pantest.cli:main',
+            'aleopantest=aleo_pantest.cli:main',
         ],
     },
 )

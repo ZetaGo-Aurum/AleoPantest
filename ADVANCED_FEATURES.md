@@ -1,8 +1,8 @@
-# AloPantest v2.0 - Advanced Features Documentation
+# AleoPantest v2.0 - Advanced Features Documentation
 
 ## 🎯 New Features Overview
 
-This document outlines the advanced features added in the latest update to AloPantest v2.0.
+This document outlines the advanced features added in the latest update to AleoPantest v2.0.
 
 ---
 
@@ -186,7 +186,7 @@ aleopantest run advanced-dorking \
 
 ## ⚖️ Legal Disclaimer
 
-**AloPantest is provided for educational and authorized security testing purposes only.**
+**AleoPantest is provided for educational and authorized security testing purposes only.**
 
 ### Important Notes
 1. **Authorization Required**: Always obtain written permission before testing
@@ -273,7 +273,7 @@ SAFETY_LIMITS = {
 
 **Version**: 2.0.0  
 **Last Updated**: December 25, 2025  
-**Maintained By**: AloPantest Team
+**Maintained By**: AleoPantest Team
 
 ---
 

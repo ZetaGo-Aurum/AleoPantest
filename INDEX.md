@@ -1,4 +1,4 @@
-# 📑 AloPantest v2.0 - Documentation Index
+# 📑 AleoPantest v2.0 - Documentation Index
 
 **Quick Navigation for All Documentation**  
 **Last Updated:** December 25, 2025  
@@ -145,7 +145,7 @@ aleopantest help-tool anti-ddos
 
 ### "I want to..."
 
-#### Install AloPantest
+#### Install AleoPantest
 → [INSTALL_GUIDE.md](INSTALL_GUIDE.md) (detailed) or [QUICKSTART_v2.md](QUICKSTART_v2.md) (fast)
 
 #### Learn what's new in v2.0
@@ -252,10 +252,10 @@ Documentation/
 ### By Directory
 
 ```
-AloPantest/
+AleoPantest/
 ├── Root (Documentation files)
 ├── docs/ (Additional docs)
-├── alo_pantest/ (Source code)
+├── aleo_pantest/ (Source code)
 ├── config/ (Configuration)
 ├── logs/ (Log directory)
 └── output/ (Output directory)
@@ -442,7 +442,7 @@ aleopantest run <tool> [options] # Run tool
 
 ## 🎊 THANK YOU!
 
-Thank you for using AloPantest v2.0. We hope this documentation index helps you navigate our comprehensive guides!
+Thank you for using AleoPantest v2.0. We hope this documentation index helps you navigate our comprehensive guides!
 
 **Start with:** [README_START_HERE.md](README_START_HERE.md)
 

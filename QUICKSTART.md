@@ -1,4 +1,4 @@
-# AloPantest v2.0 - Quick Start Guide
+# AleoPantest v2.0 - Quick Start Guide
 
 ## 🚀 Instalasi Cepat
 

@@ -130,7 +130,7 @@ dmypy.json
 *~
 .DS_Store
 
-# AloPantest specific
+# AleoPantest specific
 output/
 logs/
 *.json

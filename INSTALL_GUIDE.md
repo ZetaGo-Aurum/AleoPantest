@@ -1,4 +1,4 @@
-# AloPantest v2.0 Installation Guide
+# AleoPantest v2.0 Installation Guide
 
 ## 📋 Requirements
 
@@ -37,7 +37,7 @@ aleopantest --help
 
 ```bash
 # Install from PyPI
-pip install alopantest
+pip install aleopantest
 
 # Verify installation
 aleopantest --help
@@ -73,7 +73,7 @@ source aleopantest_env/bin/activate
 # Update pip
 pip install --upgrade pip
 
-# Install AloPantest
+# Install AleoPantest
 pip install -e .
 # Or with all optional dependencies:
 pip install -e ".[full]"
@@ -178,7 +178,7 @@ which python  # Should show path with venv
 pip install -e .
 
 # Try running directly
-python -m alo_pantest.cli --help
+python -m aleo_pantest.cli --help
 ```
 
 ### Issue: Permission Denied
@@ -189,7 +189,7 @@ python -m alo_pantest.cli --help
 chmod +x ~/.venv/bin/aleopantest
 
 # Or run with python
-python -m alo_pantest.cli
+python -m aleo_pantest.cli
 ```
 
 ### Issue: Module Not Found
@@ -200,7 +200,7 @@ python -m alo_pantest.cli
 pip install -e . --force-reinstall
 
 # Check installation
-python -c "import alo_pantest; print(alo_pantest.__version__)"
+python -c "import aleo_pantest; print(aleo_pantest.__version__)"
 ```
 
 ### Issue: Network Tools Not Working
@@ -282,7 +282,7 @@ docker run -it --rm \
   aleopantest:2.0.0 list-tools
 ```
 
-## 🔄 Updating AloPantest
+## 🔄 Updating AleoPantest
 
 ### Update from Source
 
@@ -301,10 +301,10 @@ aleopantest --version
 
 ```bash
 # Update to latest
-pip install alopantest --upgrade
+pip install aleopantest --upgrade
 
 # Update to specific version
-pip install alopantest==2.0.0
+pip install aleopantest==2.0.0
 ```
 
 ## 🧪 Post-Installation Testing
@@ -356,8 +356,8 @@ aleopantest run ping-tool --host 8.8.8.8
 
 1. **Use Virtual Environment**
    ```bash
-   python -m venv alopantest_env
-   source alopantest_env/bin/activate  # Linux/Mac
+   python -m venv aleopantest_env
+   source aleopantest_env/bin/activate  # Linux/Mac
    ```
 
 2. **Keep Secure Config**
@@ -368,13 +368,13 @@ aleopantest run ping-tool --host 8.8.8.8
 
 3. **Restrict File Permissions**
    ```bash
-   chmod 700 ~/.alopantest
-   chmod 600 ~/.alopantest/config.yml
+   chmod 700 ~/.aleopantest
+   chmod 600 ~/.aleopantest/config.yml
    ```
 
 4. **Use Read-Only Installation**
    ```bash
-   pip install --user alopantest  # Install for current user only
+   pip install --user aleopantest  # Install for current user only
    ```
 
 ## 📞 Getting Help
@@ -411,12 +411,12 @@ aleopantest list-by-category <category>
 
 ## ✅ Installation Checklist
 
-Before using AloPantest, verify:
+Before using AleoPantest, verify:
 
 - [ ] Python 3.8+ installed
 - [ ] pip is up to date
 - [ ] Virtual environment created (optional but recommended)
-- [ ] AloPantest installed successfully
+- [ ] AleoPantest installed successfully
 - [ ] `aleopantest --help` works
 - [ ] `aleopantest list-tools` shows tools
 - [ ] `aleopantest info` returns tool count
@@ -426,7 +426,7 @@ Before using AloPantest, verify:
 
 ## 🎉 Ready to Use!
 
-Your AloPantest v2.0 installation is complete!
+Your AleoPantest v2.0 installation is complete!
 
 ```bash
 # Quick test
@@ -450,7 +450,7 @@ aleopantest run email-phishing --email test@example.com --subject "Test"
 
 - **Issues**: GitHub Issues
 - **Discussions**: GitHub Discussions
-- **Email**: team@alopantest.com
+- **Email**: team@aleopantest.com
 - **Wiki**: Check project wiki
 
 ---

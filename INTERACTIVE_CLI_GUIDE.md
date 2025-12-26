@@ -1,8 +1,8 @@
-# AloPantest Interactive CLI System - Implementation Guide
+# AleoPantest Interactive CLI System - Implementation Guide
 
 ## Overview
 
-This document describes the comprehensive improvements made to the AloPantest penetration testing framework to provide an interactive CLI system for beginners while maintaining professional functionality.
+This document describes the comprehensive improvements made to the AleoPantest penetration testing framework to provide an interactive CLI system for beginners while maintaining professional functionality.
 
 ## What's Been Improved
 
@@ -260,17 +260,17 @@ To test the improvements:
 
 ```bash
 # Test IP Geolocation with both parameter names
-python -m alo_pantest.cli run ip-geo --ip 8.8.8.8
-python -m alo_pantest.cli run ip-geo --host 1.1.1.1
+python -m aleo_pantest.cli run ip-geo --ip 8.8.8.8
+python -m aleo_pantest.cli run ip-geo --host 1.1.1.1
 
 # Test DDoS Simulator (AUTHORIZED TESTING ONLY)
-python -m alo_pantest.cli run ddos-sim --target example.com --type http --preset light --authorized
+python -m aleo_pantest.cli run ddos-sim --target example.com --type http --preset light --authorized
 
 # Test DNS
-python -m alo_pantest.cli run dns --domain google.com
+python -m aleo_pantest.cli run dns --domain google.com
 
 # View tool help
-python -m alo_pantest.cli help-tool ip-geo
+python -m aleo_pantest.cli help-tool ip-geo
 ```
 
 ## Security Considerations
@@ -342,7 +342,7 @@ When creating new tools, follow these patterns:
 
 ## Conclusion
 
-These improvements make AloPantest more user-friendly for beginners while maintaining professional functionality for advanced users. The system provides:
+These improvements make AleoPantest more user-friendly for beginners while maintaining professional functionality for advanced users. The system provides:
 
 - ✅ Flexible parameter naming
 - ✅ Comprehensive validation
