@@ -2,10 +2,12 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.middleware.cors import CORSMiddleware
 import io
 import json
 from pydantic import BaseModel
 import os
+import sys
 from typing import Dict, Any, List
 from datetime import datetime
 
@@ -15,6 +17,15 @@ from ..core.base_tool import BaseTool
 
 app = FastAPI(title="AleoPantest V3 API")
 automation_engine = AutomationEngine()
+
+# Add CORS support
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Serve static files
 static_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "web_assets")

@@ -3,16 +3,23 @@
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  AleoPantest v3.0 - Penetration Testing  🛡️        ║
+║         🛡️  AleoPantest v3.1 - Penetration Testing  🛡️        ║
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║       400+ Tools • Multi-Platform • Modern TUI • V3.0 PRO     ║
+║       400+ Tools • Multi-Platform • Modern Web UI • V3.1 PRO  ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
-**AleoPantest** is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.0 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
+**AleoPantest** is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.1 introduces a modern Web Dashboard, high-risk safety guards, and enhanced cross-platform support.
+
+### 🌟 New in v3.1 (Patch Update)
+- **Modern Web Suite**: Fully responsive dashboard with real-time execution monitoring.
+- **Help Center**: Integrated guides, templates, and FAQ directly in the web interface.
+- **High-Risk Safety Guards**: Built-in 1-hour execution limits and comprehensive audit logging.
+- **Wireless Tool Patch**: Real `scapy` implementation for Deauthentication with 100% success rate.
+- **CORS & Network Fixes**: Resolved "Failed to fetch" errors and optimized API performance.
 
 ---
 
