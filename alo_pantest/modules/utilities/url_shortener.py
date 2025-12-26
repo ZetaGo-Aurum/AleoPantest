@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 
 from alo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 from alo_pantest.core.logger import logger
+from .redirect_server import RedirectServer
 
 
 class URLShortener(BaseTool):
@@ -22,77 +23,39 @@ class URLShortener(BaseTool):
         metadata = ToolMetadata(
             name="URL Shortener",
             category=ToolCategory.UTILITIES,
-            version="2.0.0",
+            version="2.1.0",
             author="AloPantest Team",
             description="Create short URLs with custom aliases for tracking and redirection",
             usage="""
 URL SHORTENER - Create short URLs with custom aliases and click tracking
 
 USAGE:
-  aleopantest run url-shorten --url <target_url> [--alias <name>] [--tracking] [--base-url <base>]
+  aleopantest run url-shorten --url <target_url> [--alias <name>] [--serve] [--port <port>]
 
 PARAMETERS:
   --url TEXT              Target URL to shorten (required)
-                         Example: https://example.com/very/long/path
   --alias TEXT            Custom alias for short URL (optional)
-                         Example: mylink, secret-link, campaign-2024
-                         If not provided, random 6-char code is generated
-  --tracking TEXT         Enable click tracking (default: true)
-                         Options: true, false
-  --base-url TEXT        Base URL for shortened links (default: https://short.test)
-                         Example: https://myshort.com
+  --serve                 Start a local server to handle redirects (Recommended)
+  --port INT             Port for the local server (default: 8080)
+  --tracking TEXT         Legacy: Enable click tracking (default: true)
+  --base-url TEXT        Legacy: Base URL for shortened links
 
 OUTPUT:
+  - Server URL: http://localhost:<port>/<alias>
   - Database: ./output/url_shortener/urls.json
-  - Tracking HTML: ./output/url_shortener/track_[alias].html
-  - Database stores: URL, alias, created date, click count, referrer, IP, timestamp
 
 FEATURES:
-  - Generate short 6-character codes or use custom aliases
-  - Click tracking with referrer, IP address, and timestamp
-  - JSON database persistence for analytics
-  - Supports custom base URL for branded short links
-  - Real-time click statistics and visitor information
+  - Real-time redirection with local server
+  - Live click tracking and statistics
+  - Persistent JSON database
+  - Session-based link validity
 
 EXAMPLES:
-  # Basic shortening with auto-generated code
-  aleopantest run url-shorten --url https://example.com
+  # Create short link and start server
+  aleopantest run url-shorten --url https://example.com --serve
 
-  # Custom alias with tracking
-  aleopantest run url-shorten --url https://phishing-site.com --alias secret-link --tracking true
-
-  # Custom alias without tracking
-  aleopantest run url-shorten --url https://example.com/campaign --alias campaign-2024 --tracking false
-
-  # Custom base URL for branded links
-  aleopantest run url-shorten --url https://example.com --alias mylink --base-url https://go.mycompany.com
-
-DATABASE SCHEMA (./output/url_shortener/urls.json):
-  {
-    "mylink": {
-      "original_url": "https://example.com",
-      "short_url": "https://short.test/mylink",
-      "alias": "mylink",
-      "created": "2024-12-25T10:30:00.000Z",
-      "click_count": 5,
-      "clicks": [
-        {
-          "timestamp": "2024-12-25T10:30:15.000Z",
-          "referrer": "https://google.com",
-          "ip": "192.168.1.1"
-        }
-      ],
-      "tracking_enabled": true
-    }
-  }
-
-ANALYTICS:
-  - View clicks.json to see click statistics
-  - Each click records: timestamp, referrer URL, visitor IP
-  - Use for campaign tracking and phishing simulation metrics
-  - Monitor visitor behavior and engagement
-
-RISK LEVEL: MEDIUM - Can be used for legitimate or malicious purposes
+  # Custom alias with server
+  aleopantest run url-shorten --url https://example.com --alias mylink --serve --port 9000
             """,
             requirements=['requests', 'validators'],
             tags=['url-shortening', 'tracking', 'phishing', 'education']
@@ -118,7 +81,7 @@ RISK LEVEL: MEDIUM - Can be used for legitimate or malicious purposes
         with open(self.STORAGE_FILE, 'w') as f:
             json.dump(self.url_database, f, indent=2)
     
-    def validate_input(self, url: str = None, alias: str = None, **kwargs) -> bool:
+    def validate_input(self, url: str = None, alias: str = None, serve: bool = False, **kwargs) -> bool:
         """Validate input parameters"""
         if not url:
             self.add_error("url is required")
@@ -139,7 +102,7 @@ RISK LEVEL: MEDIUM - Can be used for legitimate or malicious purposes
                 self.add_error("Alias must contain only alphanumeric, dash, and underscore")
                 return False
             
-            if alias in self.url_database:
+            if alias in self.url_database and not serve:
                 self.add_error(f"Alias '{alias}' already exists. Use unique alias.")
                 return False
         
@@ -209,20 +172,34 @@ RISK LEVEL: MEDIUM - Can be used for legitimate or malicious purposes
         try:
             url = kwargs.get('url')
             alias = kwargs.get('alias')
-            base_url = kwargs.get('base_url', 'https://short.test')
+            serve = kwargs.get('serve', False)
+            port = int(kwargs.get('port', 8080))
+            
+            # Determine base URL
+            if serve:
+                default_base = f"http://localhost:{port}"
+            else:
+                default_base = "https://short.test"
+                
+            base_url = kwargs.get('base_url', default_base)
             track = kwargs.get('track', True)
             
-            # Create short URL
-            short_url, short_code = self.create_short_url(url, alias, base_url)
+            # Create/Update short URL entry
+            if alias:
+                short_code = alias
+            else:
+                short_code = self.generate_short_code()
+            
+            short_url = f"{base_url}/{short_code}"
             
             # Store in database
             self.url_database[short_code] = {
                 'original_url': url,
                 'short_url': short_url,
-                'alias': alias,
+                'alias': short_code,
                 'created': datetime.now().isoformat(),
-                'click_count': 0,
-                'clicks': [],
+                'click_count': self.url_database.get(short_code, {}).get('click_count', 0),
+                'clicks': self.url_database.get(short_code, {}).get('clicks', []),
                 'tracking_enabled': track
             }
             self._save_database()
@@ -239,7 +216,32 @@ RISK LEVEL: MEDIUM - Can be used for legitimate or malicious purposes
             
             self.add_result(result)
             
-            # Create tracking HTML if enabled
+            if serve:
+                server = RedirectServer(port=port)
+                
+                # Callback to update stats
+                def tracking_callback(path, meta):
+                    if path in self.url_database:
+                        self.track_clicks(path, meta.get('referrer'), meta.get('ip'))
+                
+                # Register ALL existing routes from database
+                print(f"\n[+] Loading {len(self.url_database)} links from database...")
+                for code, data in self.url_database.items():
+                    server.add_route(code, data['original_url'], callback=tracking_callback)
+                
+                result['Status'] = "Server Running (Ctrl+C to stop)"
+                
+                print(f"[+] Short URL active: {short_url}")
+                print(f"[+] Redirects to: {url}")
+                server.start()
+                
+                return {
+                    'success': True,
+                    'results': self.results,
+                    'short_url': short_url
+                }
+            
+            # Create tracking HTML if enabled (Legacy mode)
             if track:
                 tracker_html = self._create_tracker_html(short_code, url)
                 tracker_file = self.STORAGE_FILE.parent / f'track_{short_code}.html'

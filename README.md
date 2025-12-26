@@ -1,18 +1,18 @@
-# AloPantest v2.0 - Comprehensive Penetration Testing Framework
+# AloPantest v3.0 - Advanced Penetration Testing Framework
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  AloPantest v2.0 - Penetration Testing  🛡️        ║
+║         🛡️  AloPantest v3.0 - Penetration Testing  🛡️        ║
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║       400+ Tools • Multi-Platform • Rich CLI • Full Docs      ║
+║       400+ Tools • Multi-Platform • Modern TUI • V3.0 PRO     ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
-**AloPantest** is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 2.0 introduces over 400 tools, enhanced interactivity, and improved stability.
+**AloPantest** is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.0 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
 
 ---
 

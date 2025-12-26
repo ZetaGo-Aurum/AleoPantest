@@ -1,4 +1,4 @@
-"""Main CLI Application untuk AloPantest V2"""
+"""Main CLI Application untuk AloPantest V3"""
 import sys
 import os
 from pathlib import Path
@@ -16,6 +16,8 @@ except ImportError:
 from alo_pantest.core.logger import logger
 from alo_pantest.core.config import config
 from alo_pantest.core.interactive_handler import ParameterMapper
+from alo_pantest.core.session import SessionManager, SecurityGuard
+from alo_pantest.core.platform import PlatformDetector
 
 # Import all tools
 from alo_pantest.modules.network import (
@@ -116,16 +118,18 @@ TOOLS_BY_CATEGORY = {
 
 def print_banner():
     """Print AloPantest banner"""
-    banner = """
+    platform_name = PlatformDetector.get_platform_name()
+    banner = f"""
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  AloPantest v2.0 - Penetration Testing  🛡️        ║
+║         🛡️  AloPantest v{config.VERSION} - Penetration Testing  🛡️        ║
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║       400+ Tools • Multi-Platform • Rich CLI • Full Docs      ║
+║       400+ Tools • Multi-Platform • Modern TUI • V3.0 PRO     ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
+    Platform: {platform_name}
     """
     rprint(banner)
 
@@ -153,7 +157,7 @@ def print_tools_table():
 
 @click.group()
 def cli():
-    """AloPantest v2.0 - Comprehensive Penetration Testing Framework
+    """AloPantest v3.0 - Comprehensive Penetration Testing Framework
     
 Usage Examples:
   aleopantest --help              Show all commands
@@ -169,7 +173,7 @@ Usage Examples:
 def info():
     """Show tool information and statistics"""
     print_banner()
-    console.print("\n[bold cyan]📊 AloPantest v2.0 Statistics[/bold cyan]\n")
+    console.print("\n[bold cyan]📊 AloPantest v3.0 Statistics[/bold cyan]\n")
     
     categories = {}
     for tool_id, tool_class in TOOLS_REGISTRY.items():
@@ -209,6 +213,14 @@ def list_tools():
 
 
 @cli.command()
+def tui():
+    """Launch the modern TUI dashboard"""
+    from .tui import AloPantestTUI
+    app = AloPantestTUI()
+    app.run()
+
+
+@cli.command()
 @click.argument('tool_id')
 @click.option('--host', help='Target host/IP (alias: --ip)')
 @click.option('--ip', help='Target IP address (alias: --host)')
@@ -239,8 +251,9 @@ def list_tools():
 @click.option('--file-path', help='File path to hash or process')
 @click.option('--algorithm', help='Hash algorithm (md5, sha1, sha256, sha512)')
 @click.option('--interactive', is_flag=True, help='Use interactive mode to enter parameters')
+@click.option('--serve', is_flag=True, help='Start a local server to handle redirects')
 def run(tool_id, host, ip, url, domain, port, email, subject, target, type, duration, threads, preset, 
-        output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, authorized, query, engine, template, text, file_path, algorithm, interactive):
+        output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, authorized, query, engine, template, text, file_path, algorithm, interactive, serve):
     """Run a specific tool with optional interactive mode
     
 EXAMPLES:
@@ -358,12 +371,14 @@ SAFETY FEATURES:
         kwargs['file_path'] = file_path
     if algorithm:
         kwargs['algorithm'] = algorithm
+    if serve:
+        kwargs['serve'] = serve
     
     # Normalize parameters using parameter mapper
     normalized_kwargs = ParameterMapper.normalize_params(kwargs)
     
     # If no arguments provided and not interactive, show hint
-    if not any([host, ip, url, domain, port, email, subject, target, type, duration, threads, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, query, engine, template, text, file_path, algorithm]):
+    if not any([host, ip, url, domain, port, email, subject, target, type, duration, threads, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, query, engine, template, text, file_path, algorithm, serve]):
         if interactive:
             console.print(f"[cyan]💡 Interactive mode enabled - please provide parameters below[/cyan]\n")
         else:
@@ -372,7 +387,16 @@ SAFETY FEATURES:
     
     console.print(f"[bold cyan]🚀 Running: {tool_id}[/bold cyan]\n")
     
+    # Initialize session
+    session = SessionManager()
+    if not session.check_quota():
+        console.print("[red]❌ Session quota reached (10 minutes max). Please restart.[/red]")
+        return
+
     try:
+        # Apply safety limits
+        normalized_kwargs = SecurityGuard.enforce_limits(tool_id, normalized_kwargs)
+        
         # Run tool with normalized parameters
         result = tool.run(**normalized_kwargs)
         

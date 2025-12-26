@@ -1,5 +1,42 @@
 # AloPantest Changelog
 
+## [3.0.0] - 2025-12-26
+
+### Major Features Added 🚀
+
+#### Modern TUI Dashboard ✨
+- New `aleopantest tui` command to launch the Textual-based dashboard.
+- Interactive category-based navigation.
+- Real-time session monitoring and animations.
+- Dark mode support and sleek professional layout.
+
+#### Intelligent Automation 🤖
+- `AutomationEngine` for context-aware parameter filling.
+- Automatic detection of target types (URL, IP, Domain, Email).
+- Elimination of manual input requirements for common workflows.
+- Smart defaults based on platform and target context.
+
+#### Cross-Platform Support 🌐
+- Full compatibility with Windows (WSL), Android (Termux), macOS, and Linux (Ubuntu/Debian).
+- `PlatformDetector` for system-specific optimizations.
+- Optimized resource management (thread count) based on hardware.
+
+#### Security & Performance 🛡️
+- **10-Minute Session Quota**: Enforced session limits for security and resource management.
+- **Enhanced Anti-DDoS Safety**: New `SecurityGuard` to enforce safety limits on simulation tools.
+- **Multi-threaded Redirect Server**: Improved concurrency for URL masking and shortening.
+
+#### URL Masking & Shortening V2.1 🔗
+- Real-time server-based redirects (no more intermediate HTML files).
+- Persistent redirect server during session.
+- Detailed access logging (IP, User Agent, Referrer).
+- Link validity validation based on server session.
+
+### Core Changes 🔧
+- Semantic versioning update to V3.0.0.
+- Updated documentation hub with new guides.
+- Improved error handling and robust fallback mechanisms.
+
 ## [2.0.0] - 2025-12-25
 
 ### Major Features Added

@@ -9,6 +9,7 @@ from urllib.parse import quote, unquote, urlparse
 
 from alo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 from alo_pantest.core.logger import logger
+from .redirect_server import RedirectServer
 
 
 class URLMasking(BaseTool):
@@ -18,53 +19,28 @@ class URLMasking(BaseTool):
         metadata = ToolMetadata(
             name="URL Masking",
             category=ToolCategory.UTILITIES,
-            version="2.0.0",
+            version="2.1.0",
             author="AloPantest Team",
             description="Mask real URLs behind fake domain names for phishing and social engineering tests",
             usage="""
 URL MASKING - Hide real URLs behind fake domain names
 
 USAGE:
-  aleopantest run url-mask --url <real_url> --fake-domain <domain> [--method <method>] [--generate-qr]
+  aleopantest run url-mask --url <real_url> --fake-domain <domain> [--serve] [--port <port>]
 
 PARAMETERS:
   --url TEXT              Real/malicious URL to hide (required)
-                         Example: https://attacker.com
-  --fake-domain TEXT      Domain to display to user (required)
-                         Example: google.com, youtube.com, facebook.com
-  --method TEXT          Masking method (default: redirect)
-                         Options: redirect, iframe, obfuscation, encoding
-  --generate-qr          Generate QR code for masked URL (optional)
-
-METHODS EXPLAINED:
-  redirect      - Auto-redirect to real URL after 1 second delay
-                 Best for quick redirects, user may notice
-  iframe        - Embed real website in iframe with fake domain shown
-                 More deceptive, real site loads inside frame
-  obfuscation   - Base64 encode + JavaScript obfuscation
-                 Hides intent, harder to detect
-  encoding      - Multi-layer encoding for masked URL
-                 Maximum obfuscation, works with short URLs
+  --fake-domain TEXT      Domain/Path to display (required)
+  --serve                 Start a local server to handle redirects (Recommended)
+  --port INT             Port for the local server (default: 8080)
+  --method TEXT          Legacy methods: redirect, iframe, obfuscation, encoding
 
 EXAMPLES:
-  # Redirect google.com traffic to attacker.com
+  # Start server to redirect /google to attacker.com
+  aleopantest run url-mask --url https://attacker.com --fake-domain google --serve
+
+  # Legacy file generation
   aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
-
-  # Iframe method - embed YouTube inside fake Facebook
-  aleopantest run url-mask --url https://youtube.com --fake-domain facebook.com --method iframe
-
-  # Obfuscated version with QR code
-  aleopantest run url-mask --url https://phishing-site.com --fake-domain twitter.com --method obfuscation --generate-qr
-
-  # Multi-layer encoding
-  aleopantest run url-mask --url https://malware.com --fake-domain github.com --method encoding
-
-OUTPUT:
-  - HTML file: ./output/url_masking/mask_[method]_[hash].html
-  - Open HTML in browser to see masked URL
-  - If --generate-qr: QR code saved as PNG
-
-RISK LEVEL: HIGH - Illegal without authorization
             """,
             requirements=['requests', 'validators', 'qrcode'],
             tags=['url-masking', 'phishing', 'social-engineering', 'education'],
@@ -74,7 +50,7 @@ RISK LEVEL: HIGH - Illegal without authorization
         super().__init__(metadata)
     
     def validate_input(self, real_url: str = None, url: str = None, fake_domain: str = None, 
-                      method: str = None, **kwargs) -> bool:
+                      method: str = None, serve: bool = False, **kwargs) -> bool:
         """Validate input parameters"""
         # Support both --real-url and --url parameters
         final_url = url or real_url
@@ -239,7 +215,37 @@ RISK LEVEL: HIGH - Illegal without authorization
             real_url = self._normalized_url
             fake_domain = kwargs.get('fake_domain')
             method = kwargs.get('method', 'redirect')
+            serve = kwargs.get('serve', False)
+            port = int(kwargs.get('port', 8080))
             
+            if serve:
+                server = RedirectServer(port=port)
+                # Register route using fake_domain as path
+                path = fake_domain.split('.')[0] # Use first part of domain as path
+                server.add_route(path, real_url)
+                
+                masked_url = f"http://localhost:{port}/{path}"
+                
+                result = {
+                    "Method": "server-redirect",
+                    "Real URL": real_url,
+                    "Fake Domain/Path": fake_domain,
+                    "Server URL": masked_url,
+                    "Status": "Running (Ctrl+C to stop)"
+                }
+                self.add_result(result)
+                
+                # Start server (blocking)
+                print(f"\n[+] Masked URL active: {masked_url}")
+                print(f"[+] Redirects to: {real_url}")
+                server.start()
+                
+                return {
+                    'success': True,
+                    'results': self.results,
+                    'masked_url': masked_url
+                }
+
             # Create appropriate HTML/URL based on method
             if method == 'redirect':
                 content = self.create_redirect_html(real_url, fake_domain)
