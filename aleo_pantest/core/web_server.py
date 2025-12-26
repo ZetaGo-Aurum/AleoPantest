@@ -138,11 +138,42 @@ async def run_tool(request: ToolRunRequest):
         if request.params:
             final_params.update(request.params)
         
-        # Run tool
-        result = tool_instance.run(**final_params)
+        # Run tool with retry logic
+        max_retries = 3
+        retry_delay = 2
+        result = None
+        last_error = None
+        
+        for attempt in range(max_retries):
+            try:
+                logger.info(f"Executing tool {request.tool_id} (Attempt {attempt + 1}/{max_retries})")
+                result = tool_instance.run(**final_params)
+                if result is not None:
+                    break
+            except Exception as e:
+                last_error = e
+                logger.warning(f"Attempt {attempt + 1} failed for {request.tool_id}: {str(e)}")
+                if attempt < max_retries - 1:
+                    time.sleep(retry_delay)
         
         if result is None:
+            if last_error:
+                raise last_error
             result = {"status": "success", "output": "Tool executed but returned no results.", "results": []}
+        
+        # Ensure result is a dictionary and has standard web fields
+        if not isinstance(result, dict):
+            result = {"results": result}
+            
+        # Add metadata for web consistency
+        response_data = {
+            "status": "success",
+            "message": "Execution completed successfully",
+            "tool_id": request.tool_id,
+            "timestamp": datetime.now().isoformat(),
+            "results": result,
+            "output": json.dumps(result, indent=2) if isinstance(result, (dict, list)) else str(result)
+        }
         
         # Store results for potential download (in-memory simple cache)
         if not hasattr(app, 'last_results'):
@@ -153,11 +184,19 @@ async def run_tool(request: ToolRunRequest):
             'timestamp': datetime.now().timestamp()
         }
         
-        return result
+        return response_data
     except Exception as e:
         import traceback
         traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error running tool {request.tool_id}: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "status": "error",
+                "message": str(e),
+                "traceback": traceback.format_exc() if os.environ.get("DEBUG") else None
+            }
+        )
 
 @app.get("/api/download/{tool_id}/{format}")
 async def download_results(tool_id: str, format: str):

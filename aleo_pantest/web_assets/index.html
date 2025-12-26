@@ -390,44 +390,50 @@
         let activeTool = null;
         let adminInfo = null;
 
-        async function apiFetch(url, options = {}) {
-            try {
-                const response = await fetch(url, options);
-                
-                // Update status UI to online
-                const statusDot = document.getElementById('status-dot');
-                const statusText = document.getElementById('status-text');
-                if (statusDot) {
-                    statusDot.className = 'w-1.5 h-1.5 rounded-full bg-green-500';
-                    statusDot.classList.remove('animate-pulse');
-                }
-                if (statusText) {
-                    statusText.innerText = 'Online';
-                    statusText.className = 'text-xs font-semibold text-primary';
-                }
-
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-                }
-                return response;
-            } catch (error) {
-                console.error(`API Fetch Error (${url}):`, error);
-                
-                // Update status UI to offline if it's a connection error
-                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.message.includes('connection refused')) {
+        async function apiFetch(url, options = {}, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    
+                    // Update status UI to online
                     const statusDot = document.getElementById('status-dot');
                     const statusText = document.getElementById('status-text');
                     if (statusDot) {
-                        statusDot.className = 'w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse';
+                        statusDot.className = 'w-1.5 h-1.5 rounded-full bg-green-500';
+                        statusDot.classList.remove('animate-pulse');
                     }
                     if (statusText) {
-                        statusText.innerText = 'Offline';
-                        statusText.className = 'text-xs font-semibold text-white/40';
+                        statusText.innerText = 'Online';
+                        statusText.className = 'text-xs font-semibold text-primary';
                     }
-                    showToast("Backend connection refused. Ensure server is running on port 8000/8002.", "error");
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    console.error(`API Fetch Attempt ${i + 1} failed (${url}):`, error);
+                    
+                    if (i === retries - 1) {
+                        // Update status UI to offline if it's a connection error
+                        if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.message.includes('connection refused')) {
+                            const statusDot = document.getElementById('status-dot');
+                            const statusText = document.getElementById('status-text');
+                            if (statusDot) {
+                                statusDot.className = 'w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse';
+                            }
+                            if (statusText) {
+                                statusText.innerText = 'Offline';
+                                statusText.className = 'text-xs font-semibold text-white/40';
+                            }
+                            showToast("Backend connection refused. Ensure server is running on port 8000/8002.", "error");
+                        }
+                        throw error;
+                    }
+                    // Wait before retry (exponential backoff)
+                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
                 }
-                throw error;
             }
         }
 
@@ -809,16 +815,34 @@
                 
                 const data = await response.json();
                 
-                if (data.status === 'success') {
+                if (data && data.status === 'success') {
                     showToast(`Execution completed successfully`, 'success');
-                    resultsPre.innerText = data.output;
+                    
+                    // Display full output (JSON format for consistency with CLI)
+                    let displayOutput = "";
+                    if (data.results) {
+                        displayOutput = JSON.stringify(data.results, null, 2);
+                    } else if (data.output) {
+                        displayOutput = data.output;
+                    } else {
+                        displayOutput = "No output returned from tool.";
+                    }
+
+                    resultsPre.innerText = displayOutput;
+                    
                     // Add admin context to output
                     if (adminInfo) {
-                        resultsPre.innerText = `[ADMIN CONTEXT: ${adminInfo.username}@${adminInfo.hostname}]\n[TIMESTAMP: ${new Date().toLocaleString()}]\n\n` + data.output;
+                        resultsPre.innerText = `[ADMIN CONTEXT: ${adminInfo.username}@${adminInfo.hostname}]\n[TIMESTAMP: ${new Date().toLocaleString()}]\n[TOOL: ${activeTool.name}]\n${'='.repeat(40)}\n\n` + displayOutput;
                     }
+                    resultsPre.classList.remove('text-red-400');
                 } else {
-                    showToast(`Execution failed: ${data.message}`, 'error');
-                    resultsPre.innerText = `ERROR: ${data.message}`;
+                    const errorMsg = (data && data.message) ? data.message : "Unknown error occurred during tool execution";
+                    showToast(`Execution failed: ${errorMsg}`, 'error');
+                    resultsPre.innerText = `ERROR: ${errorMsg}`;
+                    if (data && data.traceback) {
+                        console.error("Backend Traceback:", data.traceback);
+                    }
+                    resultsPre.classList.add('text-red-400');
                 }
                 resultsPre.scrollIntoView({ behavior: 'smooth' });
             } catch (error) {

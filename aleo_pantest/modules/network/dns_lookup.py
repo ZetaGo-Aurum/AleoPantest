@@ -43,38 +43,66 @@ class DNSLookup(BaseTool):
         try:
             import dns.resolver
             mx_records = []
-            for mx in dns.resolver.resolve(domain, 'MX'):
-                mx_records.append({
-                    'exchange': str(mx.exchange),
-                    'preference': mx.preference
-                })
+            try:
+                answers = dns.resolver.resolve(domain, 'MX')
+                for mx in answers:
+                    mx_records.append({
+                        'exchange': str(mx.exchange).rstrip('.'),
+                        'preference': mx.preference
+                    })
+            except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN):
+                logger.info(f"No MX records found for {domain}")
+            except Exception as e:
+                logger.error(f"MX lookup error for {domain}: {e}")
+                self.add_error(f"MX lookup error: {e}")
+                
             return sorted(mx_records, key=lambda x: x['preference'])
-        except:
+        except ImportError:
             logger.warning("MX lookup requires dnspython library")
+            self.add_warning("MX lookup requires dnspython library. Install with 'pip install dnspython'")
             return []
-    
+
     def lookup_txt(self, domain: str) -> List[str]:
         """Lookup TXT records"""
         try:
             import dns.resolver
             txt_records = []
-            for txt in dns.resolver.resolve(domain, 'TXT'):
-                txt_records.append(str(txt))
+            try:
+                answers = dns.resolver.resolve(domain, 'TXT')
+                for txt in answers:
+                    # TXT records can be multi-part
+                    txt_records.append("".join([t.decode() if isinstance(t, bytes) else str(t) for t in txt.strings]))
+            except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN):
+                logger.info(f"No TXT records found for {domain}")
+            except Exception as e:
+                logger.error(f"TXT lookup error for {domain}: {e}")
+                self.add_error(f"TXT lookup error: {e}")
+                
             return txt_records
-        except:
+        except ImportError:
             logger.warning("TXT lookup requires dnspython library")
+            self.add_warning("TXT lookup requires dnspython library")
             return []
-    
+
     def lookup_ns(self, domain: str) -> List[str]:
         """Lookup NS records"""
         try:
             import dns.resolver
             ns_records = []
-            for ns in dns.resolver.resolve(domain, 'NS'):
-                ns_records.append(str(ns))
+            try:
+                answers = dns.resolver.resolve(domain, 'NS')
+                for ns in answers:
+                    ns_records.append(str(ns).rstrip('.'))
+            except (dns.resolver.NoAnswer, dns.resolver.NXDOMAIN):
+                logger.info(f"No NS records found for {domain}")
+            except Exception as e:
+                logger.error(f"NS lookup error for {domain}: {e}")
+                self.add_error(f"NS lookup error: {e}")
+                
             return ns_records
-        except:
+        except ImportError:
             logger.warning("NS lookup requires dnspython library")
+            self.add_warning("NS lookup requires dnspython library")
             return []
     
     def reverse_lookup(self, ip: str) -> str:
