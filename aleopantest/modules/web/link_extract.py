@@ -19,7 +19,10 @@ class LinkExtractor(BaseTool):
         super().__init__(metadata)
 
     def run(self, url: str = "", **kwargs):
-        if not url: return {"error": "URL is required"}
+        url = url or kwargs.get('target', '') or kwargs.get('url', '')
+        if not url:
+            self.add_error("URL is required")
+            return self.get_results()
         try:
             r = requests.get(url, timeout=10)
             links = re.findall(r'href=["\'](https?://.*?)["\']', r.text)

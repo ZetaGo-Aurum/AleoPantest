@@ -69,6 +69,12 @@ V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
         return None
 
     def run(self, url: str = "", threads: int = 10, timeout: int = 5, **kwargs):
+        # Support both url and target
+        current_target = url or kwargs.get('target', '') or kwargs.get('url', '')
+        if not current_target:
+            self.add_error("URL is required")
+            return self.get_results()
+        url = current_target
         if not url:
             self.add_error("URL is required")
             return self.get_results()

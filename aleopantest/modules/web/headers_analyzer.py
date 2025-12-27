@@ -32,6 +32,12 @@ class HeadersAnalyzer(BaseTool):
         super().__init__(metadata)
 
     def run(self, url: str = "", user_agent: str = "", **kwargs):
+        # Support both url and target
+        current_target = url or kwargs.get('target', '') or kwargs.get('url', '')
+        if not current_target:
+            self.add_error("URL is required")
+            return self.get_results()
+        url = current_target
         if not url:
             self.add_error("URL is required")
             return self.get_results()

@@ -232,6 +232,10 @@
                 <span>Terminal Activity</span>
                 <span id="terminal-count" class="ml-auto bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded-full hidden">0</span>
             </div>
+            <div onclick="showFileHub()" id="nav-filehub" class="sidebar-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>File Security Hub</span>
+            </div>
             <div class="h-4"></div>
             <div class="px-4 py-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">Tool Categories</div>
             <div id="dynamic-categories">
@@ -341,6 +345,61 @@
                     <div class="material-card p-10 text-center">
                         <i class="fas fa-terminal text-4xl text-white/10 mb-4"></i>
                         <p class="text-white/30 font-medium">Belum ada aktivitas terminal yang terdeteksi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Security Hub View -->
+            <div id="file-hub-container" class="hidden animate-fade-in">
+                <div class="mb-10">
+                    <h3 class="text-3xl font-bold mb-2">File Security Hub</h3>
+                    <p class="text-white/50 text-lg">Validasi keamanan file, ekstraksi metadata, dan analisis ancaman berbasis file.</p>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-10">
+                    <!-- Upload Section -->
+                    <div class="material-card p-8 border border-white/5">
+                        <h4 class="text-xl font-bold mb-6 flex items-center gap-3">
+                            <i class="fas fa-upload text-primary"></i>
+                            Secure File Upload
+                        </h4>
+                        
+                        <div id="drop-zone" class="border-2 border-dashed border-white/10 rounded-3xl p-10 text-center hover:border-primary/50 transition-all cursor-pointer bg-white/2 mb-6">
+                            <input type="file" id="file-input" class="hidden" multiple>
+                            <i class="fas fa-cloud-upload-alt text-5xl text-white/10 mb-4"></i>
+                            <h5 class="text-lg font-bold mb-2">Drag & drop files here</h5>
+                            <p class="text-sm text-white/30">atau klik untuk memilih file dari komputer Anda</p>
+                            <p class="text-[10px] uppercase tracking-widest text-white/20 mt-6 font-bold">Max size: 5MB | Allowed: Images, PDF, TXT</p>
+                        </div>
+
+                        <div id="upload-progress" class="hidden mb-6">
+                            <div class="flex justify-between text-xs font-bold mb-2">
+                                <span id="upload-status">Uploading...</span>
+                                <span id="upload-percent">0%</span>
+                            </div>
+                            <div class="w-full bg-white/5 rounded-full h-1.5">
+                                <div id="upload-bar" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <button onclick="document.getElementById('file-input').click()" class="btn-primary w-full justify-center">
+                            <i class="fas fa-plus mr-2"></i> Select Files to Analyze
+                        </button>
+                    </div>
+
+                    <!-- Analysis Results -->
+                    <div class="material-card p-8 border border-white/5">
+                        <h4 class="text-xl font-bold mb-6 flex items-center gap-3">
+                            <i class="fas fa-microscope text-accent"></i>
+                            Analysis Result
+                        </h4>
+                        
+                        <div id="file-results" class="space-y-4">
+                            <div class="text-center py-20 text-white/20">
+                                <i class="fas fa-file-shield text-4xl mb-4 opacity-50"></i>
+                                <p class="text-sm font-medium">Belum ada file yang dianalisis.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -930,8 +989,26 @@
                                 ${field.options.map(opt => `<option value="${opt}" ${opt === field.default ? 'selected' : ''}>${(opt || '').toUpperCase()}</option>`).join('')}
                             </select>
                         `;
-                    } else if (field.type === 'textarea') {
-                        inputHtml = `<textarea name="${field.name}" placeholder="${field.placeholder || ''}" class="input-field h-32 resize-none" ${field.required ? 'required' : ''}></textarea>`;
+                    } else if (field.type === 'textarea' || field.type === 'json') {
+                        const placeholder = field.type === 'json' ? (field.placeholder || '{"key": "value"}') : (field.placeholder || '');
+                        inputHtml = `<textarea name="${field.name}" placeholder="${placeholder}" class="input-field h-32 resize-none font-mono text-xs" ${field.required ? 'required' : ''}>${field.default || ''}</textarea>`;
+                        if (field.type === 'json') {
+                            inputHtml += `<p class="text-[10px] text-white/30 mt-1"><i class="fas fa-info-circle"></i> Format as JSON object</p>`;
+                        }
+                    } else if (field.type === 'boolean' || field.type === 'bool' || field.type === 'checkbox') {
+                        inputHtml = `
+                            <div class="flex items-center gap-3 mt-2">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" name="${field.name}" class="sr-only peer" ${field.default === true || field.default === 'true' ? 'checked' : ''}>
+                                    <div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                </label>
+                                <span class="text-sm text-white/50">${field.description || 'Enable this option'}</span>
+                            </div>
+                        `;
+                    } else if (field.type === 'number' || field.type === 'int' || field.type === 'float') {
+                        inputHtml = `<input type="number" name="${field.name}" step="${field.type === 'float' ? '0.01' : '1'}" placeholder="${field.placeholder || ''}" class="input-field" ${field.required ? 'required' : ''} value="${field.default || ''}">`;
+                    } else if (field.type === 'date') {
+                        inputHtml = `<input type="date" name="${field.name}" class="input-field" ${field.required ? 'required' : ''} value="${field.default || ''}">`;
                     } else {
                         inputHtml = `<input type="${field.type || 'text'}" name="${field.name}" placeholder="${field.placeholder || ''}" class="input-field" ${field.required ? 'required' : ''} value="${field.default || ''}">`;
                     }
@@ -990,14 +1067,23 @@
             runBtn.disabled = true;
             runBtn.innerHTML = `<span>Running...</span> <i class="fas fa-circle-notch animate-spin text-[10px]"></i>`;
             
-            const formData = new FormData(toolForm);
             const params = {};
             let target = "";
             
-            formData.forEach((value, key) => {
-                if (key === 'target') target = value;
-                else params[key] = value;
-            });
+            // Handle all form elements including unchecked checkboxes
+            const elements = toolForm.elements;
+            for (let i = 0; i < elements.length; i++) {
+                const el = elements[i];
+                if (!el.name) continue;
+                
+                if (el.type === 'checkbox') {
+                    params[el.name] = el.checked;
+                } else if (el.name === 'target') {
+                    target = el.value;
+                } else {
+                    params[el.name] = el.value;
+                }
+            }
 
             // Validate target if required by tool metadata
             // Some tools might not need a target if they have specific params
@@ -1132,6 +1218,220 @@
                 return;
             }
             window.location.href = `/aleopantest/api/download/${activeTool.id}/${format}`;
+        }
+
+        function showFileHub() {
+            const containers = ['dashboard-home', 'tool-grid-container', 'terminal-activity-container', 'execution-panel', 'file-hub-container'];
+            containers.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            
+            const fileHub = document.getElementById('file-hub-container');
+            if (fileHub) fileHub.classList.remove('hidden');
+            
+            const currCat = document.getElementById('current-category');
+            if (currCat) currCat.innerText = "File Security Hub";
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            const navFileHub = document.getElementById('nav-filehub');
+            if (navFileHub) navFileHub.classList.add('active');
+            
+            if (window.innerWidth < 1024) toggleSidebar();
+        }
+
+        // File Hub Logic
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const uploadProgress = document.getElementById('upload-progress');
+        const uploadBar = document.getElementById('upload-bar');
+        const uploadPercent = document.getElementById('upload-percent');
+        const fileResults = document.getElementById('file-results');
+
+        if (dropZone && fileInput) {
+            dropZone.onclick = () => fileInput.click();
+            
+            dropZone.ondragover = (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-primary', 'bg-primary/5');
+            };
+            
+            dropZone.ondragleave = () => {
+                dropZone.classList.remove('border-primary', 'bg-primary/5');
+            };
+            
+            dropZone.ondrop = (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-primary', 'bg-primary/5');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) handleFileUpload(files);
+            };
+            
+            fileInput.onchange = (e) => {
+                if (e.target.files.length > 0) handleFileUpload(e.target.files);
+            };
+        }
+
+        async function handleFileUpload(files) {
+            for (const file of files) {
+                await uploadFile(file);
+            }
+        }
+
+        async function uploadFile(file) {
+            // Check size (5MB)
+            const MAX_SIZE = 5 * 1024 * 1024;
+            if (file.size > MAX_SIZE) {
+                showToast(`File ${file.name} too large. Max 5MB allowed.`, "error");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            uploadProgress.classList.remove('hidden');
+            uploadBar.style.width = '0%';
+            uploadPercent.innerText = '0%';
+            
+            try {
+                const response = await fetch('/aleopantest/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showToast(`File ${file.name} analyzed successfully`, "success");
+                    addFileResult(data.data);
+                } else {
+                    showToast(`Failed to analyze ${file.name}: ${data.message}`, "error");
+                }
+            } catch (error) {
+                console.error("Upload error:", error);
+                showToast(`System Error: ${error.message}`, "error");
+            } finally {
+                setTimeout(() => {
+                    uploadProgress.classList.add('hidden');
+                }, 1000);
+            }
+        }
+
+        function addFileResult(data) {
+            if (!fileResults) return;
+            
+            // Remove empty state if exists
+            if (fileResults.querySelector('.py-20')) {
+                fileResults.innerHTML = '';
+            }
+            
+            const metadata = data.metadata;
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'bg-white/5 rounded-2xl p-6 border border-white/10 animate-fade-in';
+            
+            let metadataHtml = '';
+            if (metadata.exif && typeof metadata.exif === 'object') {
+                metadataHtml = `
+                    <div class="mt-4 pt-4 border-t border-white/5">
+                        <p class="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">EXIF Data</p>
+                        <div class="grid grid-cols-2 gap-2 text-[11px]">
+                            ${Object.entries(metadata.exif).slice(0, 8).map(([key, val]) => `
+                                <div class="flex flex-col">
+                                    <span class="text-white/30 truncate">${key}</span>
+                                    <span class="text-white/70 truncate font-medium">${val}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            resultDiv.innerHTML = `
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-primary">
+                            <i class="fas ${getFileIcon(metadata.mime_type)} text-xl"></i>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-white/90 truncate max-w-[200px]">${metadata.filename}</h5>
+                            <p class="text-xs text-white/30">${formatBytes(metadata.size)} • ${metadata.mime_type}</p>
+                        </div>
+                    </div>
+                    <div class="bg-green-400/10 text-green-400 text-[10px] font-bold px-3 py-1 rounded-full">
+                        SECURE
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white/2 rounded-xl p-3">
+                        <p class="text-[10px] text-white/20 font-bold uppercase mb-1">Status</p>
+                        <p class="text-xs font-semibold text-white/70">Verified & Analyzed</p>
+                    </div>
+                    <div class="bg-white/2 rounded-xl p-3">
+                        <p class="text-[10px] text-white/20 font-bold uppercase mb-1">MIME Type</p>
+                        <p class="text-xs font-semibold text-white/70">${metadata.mime_type}</p>
+                    </div>
+                </div>
+
+                ${metadataHtml}
+                
+                <div class="mt-6 flex gap-2">
+                    <button class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 py-2 rounded-xl text-xs font-bold transition-all" 
+                        onclick="showMetadata('${btoa(JSON.stringify(metadata))}')">
+                        <i class="fas fa-info-circle mr-2"></i> View All Metadata
+                    </button>
+                    <button class="w-10 h-10 bg-white/5 hover:bg-red-400/20 hover:text-red-400 flex items-center justify-center rounded-xl transition-all"
+                        onclick="this.closest('.animate-fade-in').remove()">
+                        <i class="fas fa-trash-alt text-xs"></i>
+                    </button>
+                </div>
+            `;
+            
+            fileResults.prepend(resultDiv);
+        }
+
+        function getFileIcon(mime) {
+            if (mime.startsWith('image/')) return 'fa-file-image';
+            if (mime === 'application/pdf') return 'fa-file-pdf';
+            if (mime.startsWith('text/')) return 'fa-file-lines';
+            return 'fa-file';
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function showMetadata(encodedData) {
+            try {
+                const metadata = JSON.parse(atob(encodedData));
+                const resultsPre = document.getElementById('tool-results');
+                const resultsContainer = document.getElementById('results-container');
+                const execPanel = document.getElementById('execution-panel');
+                const fileHub = document.getElementById('file-hub-container');
+                
+                fileHub.classList.add('hidden');
+                execPanel.classList.remove('hidden');
+                resultsContainer.classList.remove('hidden');
+                
+                // Set fake active tool for header display
+                activeTool = { name: `Analysis: ${metadata.filename}`, id: 'file_analysis' };
+                document.getElementById('exec-tool-name').innerText = activeTool.name;
+                document.getElementById('exec-tool-desc').innerText = "Detailed security analysis and metadata extraction result.";
+                document.getElementById('exec-tool-cat').innerText = "FILE ANALYSIS";
+                
+                resultsPre.innerText = JSON.stringify(metadata, null, 2);
+                resultsPre.scrollIntoView({ behavior: 'smooth' });
+                
+                showToast("Detailed metadata loaded", "info");
+            } catch (e) {
+                console.error("Error decoding metadata:", e);
+            }
         }
 
         // Error Monitoring

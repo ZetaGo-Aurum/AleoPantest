@@ -25,27 +25,15 @@ SOFTWARE.
 
 ---
 
-### ⚠️ PENTING: DISCLAIMER & SYARAT PENGGUNAAN
+### ⚠️ IMPORTANT: TERMS OF SERVICE & DISCLAIMER
 
-**Aleopantest adalah TOOLS UNTUK KEPERLUAN EDUKASI DAN PEMBELAJARAN CYBERSECURITY SEMATA.**
+By using **Aleopantest**, you acknowledge that you have read, understood, and agreed to the full **[Terms of Service](TERMS_OF_SERVICE.md)**.
 
-Pengembang dan kontributor **Aleopantest** tidak bertanggung jawab atas penyalahgunaan alat ini untuk aktivitas ilegal, tidak etis, atau tanpa izin. Pengguna bertanggung jawab sepenuhnya atas segala konsekuensi hukum yang timbul dari penggunaan alat ini.
+**Aleopantest is strictly for EDUCATIONAL AND ETHICAL CYBERSECURITY RESEARCH PURPOSES.**
 
-**Aleopantest Team TIDAK bertanggung jawab atas:**
-1. Kerusakan pada sistem target.
-2. Kehilangan data.
-3. Konsekuensi hukum akibat penggunaan alat ini.
-4. Penyalahgunaan identitas atau informasi yang diperoleh melalui alat ini.
+The developers and contributors are NOT responsible for any misuse, illegal activities, or damages caused by this tool. Users are solely responsible for compliance with local and international laws, including but not limited to Indonesia's UU ITE, the US CFAA, and the EU GDPR.
 
-Dengan menggunakan Aleopantest, Anda setuju untuk:
-1. Hanya menggunakan alat ini pada sistem yang Anda miliki atau memiliki izin tertulis untuk mengujinya.
-2. Tidak menggunakan alat ini untuk aktivitas yang melanggar hukum.
-3. Menghargai privasi dan keamanan orang lain.
-
-Aleopantest dikembangkan untuk:
-- Membantu security researchers memahami kerentanan.
-- Membantu developer membangun aplikasi yang lebih aman.
-- Sarana pembelajaran ethical hacking bagi pemula.
+For the full legal terms, jurisdiction-specific clauses, and disclaimer of liability, please refer to the **[TERMS_OF_SERVICE.md](TERMS_OF_SERVICE.md)** file in the root directory.
 
 ---
 
@@ -73,7 +61,7 @@ Aleopantest menggunakan berbagai third-party libraries dengan licenses mereka se
 
 **FINAL ACKNOWLEDGMENT**
 
-Dengan mengunduh, menginstall, atau menggunakan Aleopantest, Anda:
-1. Menyatakan telah membaca dan memahami seluruh isi License dan Disclaimer ini.
-2. Menyetujui untuk membebaskan tim pengembang dari segala tuntutan hukum.
-3. Berjanji untuk menjadi White-Hat hacker yang bertanggung jawab.
+By downloading, installing, or using Aleopantest, you:
+1. Represent that you have read and understood the entire contents of this License and the [Terms of Service](TERMS_OF_SERVICE.md).
+2. Agree to indemnify and hold harmless the development team from any and all legal claims.
+3. Pledge to act as a responsible White-Hat hacker.

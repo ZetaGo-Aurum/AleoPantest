@@ -21,11 +21,16 @@ class TechStack(BaseTool):
         super().__init__(metadata)
 
     def run(self, url: str = "", **kwargs):
-        if not url: return {"error": "URL is required"}
-        if not url.startswith('http'): url = 'http://' + url
+        # Support both 'url' and 'target'
+        url = url or kwargs.get('target', '') or kwargs.get('url', '')
+        if not url:
+            self.add_error("URL is required")
+            return self.get_results()
+        
+        if not target.startswith('http'): target = 'http://' + target
         
         try:
-            response = requests.get(url, timeout=10, verify=False)
+            response = requests.get(target, timeout=10, verify=False)
             headers = response.headers
             content = response.text.lower()
             

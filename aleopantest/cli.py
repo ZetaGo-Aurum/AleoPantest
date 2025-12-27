@@ -17,7 +17,7 @@ from aleopantest.core.logger import logger
 from aleopantest.core.config import config
 from aleopantest.core.interactive_handler import ParameterMapper
 from aleopantest.core.session import SessionManager, SecurityGuard
-from aleopantest.core.platform import PlatformDetector
+from aleopantest.core.platform_detector import PlatformDetector
 
 # Import all tools
 from aleopantest.modules.network import (
@@ -42,6 +42,7 @@ from aleopantest.modules.utilities import (
     URLEncoder, ReverseShellGenerator, URLMasking, URLShortener,
     Base64Tool, JSONFormatter, JWTDecoder, IPInfo, CronGen
 )
+from aleopantest.modules.utilities.test_complex_params import ComplexParamTester
 from aleopantest.modules.phishing import (
     WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation, NgrokPhishing
 )
@@ -168,6 +169,7 @@ TOOLS_REGISTRY = {
     'jwt-decoder': JWTDecoder,
     'ip-info': IPInfo,
     'cron-gen': CronGen,
+    'complex-tester': ComplexParamTester,
 
     # Crypto Tools
     'hash-cracker': HashCracker,

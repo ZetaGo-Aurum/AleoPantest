@@ -61,7 +61,7 @@ class SecurityGuard:
                 sanitized['duration'] = 30 # Default safe duration
                 
             # Cap threads to prevent local resource exhaustion
-            from .platform import PlatformOptimizer
+            from .platform_detector import PlatformOptimizer
             max_threads = PlatformOptimizer.get_optimal_threads()
             if 'threads' in sanitized:
                 sanitized['threads'] = min(int(sanitized['threads']), max_threads)
@@ -75,7 +75,7 @@ class SecurityGuard:
         
         # General limits for other tools
         if 'threads' in sanitized:
-            from .platform import PlatformOptimizer
+            from .platform_detector import PlatformOptimizer
             max_threads = PlatformOptimizer.get_optimal_threads() * 2
             sanitized['threads'] = min(int(sanitized['threads']), max_threads)
             

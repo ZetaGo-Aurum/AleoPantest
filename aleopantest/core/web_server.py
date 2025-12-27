@@ -25,9 +25,10 @@ except (ImportError, ValueError):
 
 try:
     import uvicorn
-    from fastapi import FastAPI, HTTPException
+    from fastapi import FastAPI, HTTPException, UploadFile, File, Form
     from fastapi.staticfiles import StaticFiles
     from fastapi.responses import FileResponse, JSONResponse, Response
+    from fastapi.middleware.cors import CORSMiddleware
     HAS_WEB_DEPS = True
 except ImportError:
     HAS_WEB_DEPS = False
@@ -38,6 +39,9 @@ except ImportError:
     class FileResponse: pass
     class JSONResponse: pass
     class Response: pass
+    class UploadFile: pass
+    class File: pass
+    class Form: pass
     
     class DummyApp:
         def get(self, *args, **kwargs): return lambda f: f
@@ -213,6 +217,90 @@ async def custom_404_handler(request, exc):
         content={"message": "Resource not found", "path": request.url.path}
     )
 
+# --- File Upload Feature ---
+@app.post("/aleopantest/api/upload")
+async def upload_file(
+    file: UploadFile = File(...),
+    max_size: int = Form(5 * 1024 * 1024), # Default 5MB
+    allowed_types: str = Form("image/jpeg,image/png,image/gif,application/pdf,text/plain")
+):
+    """
+    Endpoint to upload files with security validation and metadata extraction.
+    """
+    try:
+        # 1. Validate File Size
+        content = await file.read()
+        file_size = len(content)
+        if file_size > max_size:
+            raise HTTPException(status_code=400, detail=f"File too large ({file_size} bytes). Max allowed: {max_size} bytes")
+        
+        # 2. Validate MIME Type
+        mime_type = file.content_type
+        allowed_list = [t.strip() for t in allowed_types.split(",")]
+        if mime_type not in allowed_list:
+            raise HTTPException(status_code=400, detail=f"File type {mime_type} not allowed. Allowed: {allowed_types}")
+
+        # 3. Security Validation (Basic)
+        filename = file.filename
+        if ".." in filename or "/" in filename or "\\" in filename:
+            raise HTTPException(status_code=400, detail="Invalid filename detected (security risk)")
+        
+        # 4. Extract Metadata (EXIF for images)
+        metadata = {
+            "filename": filename,
+            "size": file_size,
+            "mime_type": mime_type,
+            "timestamp": datetime.now().isoformat()
+        }
+
+        if mime_type.startswith("image/") and HAS_WEB_DEPS:
+            try:
+                from PIL import Image
+                from PIL.ExifTags import TAGS
+                img = Image.open(io.BytesIO(content))
+                exif_data = {}
+                info = img._getexif()
+                if info:
+                    for tag, value in info.items():
+                        decoded = TAGS.get(tag, tag)
+                        if isinstance(value, bytes):
+                            value = value.decode(errors='replace')
+                        exif_data[str(decoded)] = str(value)
+                metadata["exif"] = exif_data
+                metadata["dimensions"] = f"{img.width}x{img.height}"
+                metadata["format"] = img.format
+            except Exception as exif_err:
+                logger.warning(f"Could not extract EXIF: {str(exif_err)}")
+                metadata["exif"] = "Not available"
+
+        # 5. Save file (Simulated for now, or save to a temp dir)
+        upload_dir = os.path.join(os.getcwd(), "uploads")
+        if not os.path.exists(upload_dir):
+            os.makedirs(upload_dir)
+        
+        # Use a safe filename
+        safe_filename = "".join([c for c in filename if c.isalnum() or c in "._-"])
+        save_path = os.path.join(upload_dir, f"{int(time.time())}_{safe_filename}")
+        
+        with open(save_path, "wb") as f:
+            f.write(content)
+
+        logger.info(f"File uploaded successfully: {filename} ({file_size} bytes)")
+        
+        return {
+            "status": "success",
+            "message": "File uploaded and validated successfully",
+            "data": {
+                "metadata": metadata,
+                "save_path": save_path
+            }
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Upload error: {str(e)}")
+        return JSONResponse(status_code=500, content={"status": "error", "message": str(e)})
+
 @app.post("/aleopantest/api/run")
 async def run_tool(request: ToolRunRequest):
     if not request or not request.tool_id:
@@ -273,17 +361,35 @@ async def run_tool(request: ToolRunRequest):
                 if attempt > 0:
                     logger.info(f"Retrying execution... (Attempt {attempt + 1}/{max_retries})")
                 
-                # Check if tool needs specific parameter normalization for web
-                # Some tools might expect 'url' instead of 'target'
-                if 'url' not in final_params and 'target' in final_params:
-                    # Look at tool metadata to see if it expects 'url'
-                    params_desc = tool_instance.metadata.parameters or {}
-                    if 'url' in params_desc:
-                        final_params['url'] = final_params.pop('target')
-                elif 'target' not in final_params and 'url' in final_params:
-                     params_desc = tool_instance.metadata.parameters or {}
-                     if 'target' in params_desc:
-                        final_params['target'] = final_params.pop('url')
+                # --- Robust Parameter Mapping and Validation for V3.0 ---
+                # 1. Process and convert parameter types
+                final_params = tool_instance.process_parameters(request.params or {})
+                
+                # 2. Map 'target' to common parameter names if needed
+                if request.target:
+                    for p_name in ['url', 'host', 'domain', 'ip', 'target_url', 'target']:
+                        if p_name in (tool_instance.metadata.parameters or {}) and p_name not in final_params:
+                            final_params[p_name] = request.target
+                            logger.info(f"Auto-mapped target to parameter: {p_name}")
+
+                # 3. Validation before processing
+                validation_errors = []
+                if hasattr(tool_instance, 'validate_input'):
+                    # Check if validation passes
+                    try:
+                        # Some tools use positional args for validation, some use kwargs
+                        # We try to be flexible here
+                        is_valid = tool_instance.validate_input(**final_params)
+                        if not is_valid:
+                            validation_errors = tool_instance.errors or ["Input validation failed"]
+                    except Exception as ve:
+                        validation_errors = [f"Validation error: {str(ve)}"]
+                
+                if validation_errors:
+                    logger.warning(f"Validation failed for {request.tool_id}: {validation_errors}")
+                    tool_instance.status = "failed"
+                    tool_instance.errors = validation_errors
+                    break
 
                 result = tool_instance.run(**final_params)
                 
@@ -485,7 +591,11 @@ def start_web_server(host: str = "127.0.0.1", port: int = 8002):
         return
 
     print(f"🚀 Aleopantest Web Server starting at http://{host}:{port}")
-    uvicorn.run(app, host=host, port=port)
+    try:
+        uvicorn.run(app, host=host, port=port)
+    except Exception as e:
+        print(f"❌ Critical error running uvicorn: {e}")
+        traceback.print_exc()
 
 if __name__ == "__main__":
     start_web_server(port=8002)

@@ -13,7 +13,7 @@ import datetime
 from pathlib import Path
 
 from ..core.logger import logger
-from ..core.platform import EnvironmentAdapter
+from ..core.platform_detector import EnvironmentAdapter
 
 
 class ToolCategory(Enum):
@@ -104,8 +104,15 @@ class BaseTool(ABC):
         
         # Ensure results is not empty if completed
         final_results = self.results
-        if not final_results and not self.errors:
-            final_results = ["No specific findings detected, but scan completed successfully."]
+        if self.status == "completed" and not final_results and not self.errors:
+            final_results = [{
+                "info": "Scan completed successfully",
+                "message": f"No specific vulnerabilities or findings detected for {self.metadata.name if self.metadata else 'this tool'}.",
+                "timestamp": datetime.datetime.now().isoformat(),
+                "status": "SECURE"
+            }]
+        elif self.status == "failed" and not self.results and not self.errors:
+            self.errors = ["Unknown error occurred during tool execution. No results or specific error messages were captured."]
 
         output = {
             "tool_info": self.metadata.to_dict() if self.metadata else {},
@@ -128,11 +135,12 @@ class BaseTool(ABC):
         }
         
         # V3.0 Requirement: No empty arrays in output JSON if possible
-        # We fill them with descriptive messages or remove if optional
         if not output["errors"]:
-            output["errors"] = ["None"]
+            output["errors"] = ["None detected"]
         if not output["warnings"]:
-            output["warnings"] = ["None"]
+            output["warnings"] = ["None detected"]
+        if not output["results"] and self.status != "completed":
+             output["results"] = ["No results available yet"]
             
         return output
 
@@ -251,18 +259,29 @@ class BaseTool(ABC):
                 self.status = "completed"
 
     def add_error(self, error: str):
-        """Add error"""
+        """Add error with enhanced logging and context"""
+        timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+        tool_name = self.metadata.name if self.metadata else 'Unknown'
+        formatted_error = f"[{timestamp}] [{tool_name}] ERROR: {error}"
+        
         self.errors.append(error)
         # Only set to failed if we don't have results yet
-        # If we have results, it might be a partial failure
         if not self.results:
             self.status = "failed"
-        logger.error(f"[{self.metadata.name if self.metadata else 'Unknown'}] {error}")
+        
+        logger.error(formatted_error)
+        # Also log to audit if high risk
+        if self.metadata and self.metadata.risk_level in ["HIGH", "CRITICAL"]:
+            self.audit_log(f"Error encountered: {error}")
 
     def add_warning(self, warning: str):
-        """Add warning"""
+        """Add warning with enhanced logging"""
+        timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+        tool_name = self.metadata.name if self.metadata else 'Unknown'
+        formatted_warning = f"[{timestamp}] [{tool_name}] WARNING: {warning}"
+        
         self.warnings.append(warning)
-        logger.warning(f"[{self.metadata.name if self.metadata else 'Unknown'}] {warning}")
+        logger.warning(formatted_warning)
 
     def get_summary(self) -> Dict[str, Any]:
         """Get execution summary"""
@@ -299,6 +318,7 @@ class BaseTool(ABC):
                 except: pass
             elif isinstance(kwargs['headers'], dict):
                 self.headers.update(kwargs['headers'])
+        
         if 'auth_user' in kwargs and 'auth_pass' in kwargs:
             if kwargs['auth_user'] and kwargs['auth_pass']:
                 self.auth = (kwargs['auth_user'], kwargs['auth_pass'])
@@ -306,6 +326,53 @@ class BaseTool(ABC):
             self.proxy = kwargs['proxy']
         if 'scan_options' in kwargs and kwargs['scan_options']: 
             self.scan_options.update(kwargs['scan_options'])
+
+    def process_parameters(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Process and convert parameter types based on form_schema.
+        Supports Number, Boolean, Date, JSON, and complex types.
+        """
+        if not self.metadata or not self.metadata.form_schema:
+            return params
+
+        processed = params.copy()
+        for field in self.metadata.form_schema:
+            name = field.get('name')
+            if name not in processed:
+                # Use default if available and required
+                if 'default' in field:
+                    processed[name] = field['default']
+                continue
+
+            val = processed[name]
+            field_type = field.get('type', 'text').lower()
+
+            try:
+                if field_type in ['number', 'int', 'integer']:
+                    processed[name] = int(val) if val else 0
+                elif field_type == 'float':
+                    processed[name] = float(val) if val else 0.0
+                elif field_type in ['boolean', 'bool', 'checkbox']:
+                    if isinstance(val, str):
+                        processed[name] = val.lower() in ['true', 'on', 'yes', '1']
+                    else:
+                        processed[name] = bool(val)
+                elif field_type == 'json':
+                    if isinstance(val, str) and val.strip():
+                        processed[name] = json.loads(val)
+                    elif not val:
+                        processed[name] = {}
+                elif field_type == 'date':
+                    if isinstance(val, str) and val.strip():
+                        # Just keep as string but could convert to datetime object if needed
+                        pass
+                elif field_type == 'list' or field_type == 'array':
+                    if isinstance(val, str):
+                        processed[name] = [item.strip() for item in val.split(',') if item.strip()]
+            except (ValueError, json.JSONDecodeError) as e:
+                self.add_warning(f"Parameter '{name}' conversion failed for type '{field_type}': {e}. Using raw value.")
+        
+        return processed
 
     @staticmethod
     def get_common_form_schema() -> List[Dict[str, Any]]:

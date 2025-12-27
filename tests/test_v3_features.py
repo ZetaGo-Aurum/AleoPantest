@@ -1,7 +1,7 @@
 """Unit tests for Aleopantest V3.0 core features"""
 import unittest
 import time
-from aleopantest.core.platform import PlatformDetector, PlatformOptimizer
+from aleopantest.core.platform_detector import PlatformDetector, PlatformOptimizer
 from aleopantest.core.session import SessionManager, SecurityGuard
 from aleopantest.core.automation import ContextDetector, AutomationEngine
 
