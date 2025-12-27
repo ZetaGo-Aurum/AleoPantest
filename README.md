@@ -1,149 +1,162 @@
-# Aleopantest V3.0 (Major Patch) - Advanced Penetration Testing Framework
-<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
+# Aleopantest V3.0 (Major Patch) - Framework Penetration Testing Tingkat Lanjut
+<div style="font-size: 80%; color: #666666;">oleh Aleocrophic</div>
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  Aleopantest V3.0.0 - by Aleocrophic  🛡️          ║
+║         🛡️  Aleopantest V3.0.0 - oleh Aleocrophic  🛡️         ║
 ║                                                               ║
-║              Advanced Cybersecurity Tool Suite                ║
+║              Suite Alat Keamanan Siber Canggih                ║
 ║                                                               ║
-║      400+ Tools • Multi-Platform • Modern TUI • V3.0.0 PRO    ║
+║      400+ Alat • Multi-Platform • TUI Modern • V3.0.0 PRO     ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
-**Aleopantest** (by Aleocrophic) is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.3.5 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
+**Aleopantest** (oleh Aleocrophic) adalah framework penetration testing modular tingkat lanjut yang dirancang untuk profesional keamanan dan ethical hacker. Versi 3.3.5 memperkenalkan dashboard TUI modern, otomasi cerdas, dan dukungan lintas platform yang ditingkatkan.
 
 ---
 
-## 📚 Documentation Hub
+## � Deskripsi Proyek
 
-Explore the full documentation to get the most out of **Aleopantest**.
+Aleopantest adalah solusi komprehensif untuk pengujian keamanan yang mencakup berbagai fase pengetesan, mulai dari pengumpulan informasi (reconnaissance) hingga eksploitasi dan pelaporan. Dengan arsitektur plugin-based, pengguna dapat dengan mudah menambahkan alat baru atau mengintegrasikan alat yang sudah ada ke dalam alur kerja yang terotomasi.
 
-### 🚀 Getting Started
-*   [**Start Here**](00-START-HERE.md) - Overview of v2.0 release and new features.
-*   [**Installation Guide**](INSTALL_GUIDE.md) - Detailed installation instructions for all platforms.
-*   [**Quick Start Guide**](QUICKSTART_GUIDE.md) - Get up and running in minutes.
-
-### 📖 User Guides
-*   [**Interactive CLI Guide**](INTERACTIVE_CLI_GUIDE.md) - Master the new interactive command-line interface.
-*   [**Advanced Features**](ADVANCED_FEATURES.md) - Deep dive into advanced capabilities.
-*   [**Testing Guide**](TESTING_GUIDE.md) - How to run tests and verify the system.
-*   [**Tools Reference**](docs/TOOLS.md) - Complete reference for all 400+ tools.
-
-### 📊 Project Reports & Status
-*   [**Project Summary**](PROJECT_SUMMARY.md) - High-level project overview.
-*   [**Implementation Summary**](IMPLEMENTATION_SUMMARY.md) - Technical details of implementation.
-*   [**Feature Checklist**](FEATURE_CHECKLIST.md) - Status of all planned features.
-*   [**Changelog**](CHANGELOG.md) - History of changes and updates.
-*   [**Build Report**](BUILD_REPORT.md) - Build status and verification.
-*   [**Python 3.9+ Fix Report**](PYTHON39_FIX_REPORT.md) - Details on compatibility fixes.
+### Fitur Utama:
+- **Arsitektur Modular**: Mudah diperluas dan dipelihara.
+- **CLI Interaktif**: Antarmuka pengguna yang ramah dengan auto-completion dan output yang kaya (Rich output).
+- **Lintas Platform**: Berjalan di Windows, Linux, dan macOS.
+- **Otomasi Cerdas**: Pengisian parameter berbasis konteks dan optimasi performa.
+- **Output Standar**: Pelaporan JSON yang konsisten untuk lebih dari 400 alat.
 
 ---
 
-## ⚡ Installation
+## ⚡ Panduan Instalasi
 
-### Prerequisites
-- Python 3.8 or higher
+### Prasyarat
+- Python 3.8 atau lebih tinggi
 - Pip (Python Package Installer)
-- Git (optional, for cloning)
+- Git (opsional, untuk klon repositori)
 
-### Standard Installation
+### Instalasi Standar
 ```bash
-# Clone the repository
+# Klon repositori
 git clone https://github.com/ZetaGo-Aurum/aleopantest.git
 cd aleopantest
 
-# Install dependencies
+# Instal dependensi
 pip install -r requirements.txt
 
-# Install as CLI tool (recommended)
+# Instal sebagai alat CLI (direkomendasikan)
 pip install -e .
 ```
 
-### Dependency Overview
-Aleopantest relies on several core libraries:
-- **CLI/TUI**: `click`, `rich`, `textual`, `typer`
-- **Networking**: `scapy`, `requests`, `nmap`, `paramiko`
-- **Web**: `beautifulsoup4`, `selenium`, `httpx`
-- **OSINT**: `shodan`, `geoip2`, `googlesearch-python`
-- **Security**: `cryptography`, `passlib`, `bcrypt`
+---
 
-For a full list, see [requirements.txt](requirements.txt).
+## ⚙️ Petunjuk Konfigurasi
+
+Aleopantest menggunakan file konfigurasi untuk mengatur perilaku framework dan integrasi API pihak ketiga.
+
+### 1. File `.env`
+Salin file `.env.example` menjadi `.env` dan isi kunci API yang diperlukan:
+```env
+SHODAN_API_KEY=your_key_here
+CENSYS_ID=your_id
+CENSYS_SECRET=your_secret
+VIRUSTOTAL_API_KEY=your_key
+```
+
+### 2. Konfigurasi YAML (`config/default.yml`)
+Anda dapat menyesuaikan pengaturan default seperti timeout, user-agent, dan path output di file ini:
+```yaml
+network:
+  timeout: 30
+  max_retries: 3
+  user_agent: "Aleopantest/3.3.5"
+output:
+  format: json
+  directory: ./results
+```
 
 ---
 
-## 🎮 Usage Examples
+## 🎮 Contoh Penggunaan
 
-### Basic Commands
+### Perintah Dasar CLI
 ```bash
-aleopantest --help          # Show help menu
-aleopantest list-tools      # List all available tools
-aleopantest info            # Show system info
+aleopantest --help          # Menampilkan menu bantuan
+aleopantest list-tools      # Daftar semua alat yang tersedia
+aleopantest info            # Menampilkan info sistem
 ```
 
-### Running Tools
+### Menjalankan Alat (CLI)
 ```bash
-# SQL Injection Scan
+# Pemindaian SQL Injection
 aleopantest run sql-inject --url http://example.com
 
-# Phishing Detection
+# Deteksi Phishing
 aleopantest run web-phishing --url http://suspicious-site.com
+```
 
-# DNS Lookup
-aleopantest run dns --domain target.com
+### Penggunaan sebagai Library Python
+Anda juga dapat mengintegrasikan modul Aleopantest ke dalam skrip Python Anda sendiri:
+
+```python
+from aleopantest.core.scanner import SecurityScanner
+
+# Inisialisasi scanner
+scanner = SecurityScanner()
+
+# Jalankan scan pada target
+results = scanner.scan_target("http://example.com", modules=["sql_inject", "xss"])
+
+# Cetak hasil
+for issue in results.vulnerabilities:
+    print(f"Ditemukan: {issue.name} pada {issue.location}")
 ```
 
 ---
 
-## 🛠️ Troubleshooting
+## ⚖️ Terms of Service (ToS)
 
-### Common Issues
-1. **ModuleNotFoundError**: Ensure you've run `pip install -e .` to register the package.
-2. **Permission Denied**: Some network tools (like packet sniffing or port scanning) may require administrator/root privileges. Run with `sudo` (Linux/macOS) or as Administrator (Windows).
-3. **Dependency Conflicts**: It's recommended to use a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/macOS
-   .\venv\Scripts\activate   # Windows
-   ```
+Penggunaan **Aleopantest** diatur oleh ketentuan hukum berikut. Dengan menggunakan perangkat lunak ini, Anda dianggap telah menyetujui seluruh poin di bawah ini.
 
----
+### 1. Ketentuan Penggunaan
+- Aleopantest dikembangkan **eksklusif untuk tujuan edukasi, riset keamanan, dan ethical hacking**.
+- Dilarang keras menggunakan alat ini pada sistem atau jaringan tanpa **izin tertulis yang eksplisit** dari pemilik sistem.
+- Pengguna bertanggung jawab penuh atas segala aktivitas yang dilakukan menggunakan alat ini.
 
-## ⚖️ Terms of Service & Legal
+### 2. Pembatasan Tanggung Jawab
+- Pengembang dan kontributor **TIDAK BERTANGGUNG JAWAB** atas penyalahgunaan, aktivitas ilegal, atau kerusakan yang disebabkan oleh perangkat lunak ini.
+- Perangkat lunak ini disediakan "APA ADANYA" (AS IS) tanpa jaminan apa pun, baik tersurat maupun tersirat.
+- Dalam hal apa pun, penulis tidak bertanggung jawab atas klaim, kerusakan, atau kewajiban lainnya yang timbul dari penggunaan perangkat lunak ini.
 
-The use of **Aleopantest** is governed by strict legal terms to ensure ethical and responsible usage.
+### 3. Kebijakan Privasi
+- Aleopantest **tidak mengumpulkan atau mengirimkan data pribadi** pengguna ke server luar.
+- Seluruh hasil pemindaian dan data sensitif yang dikumpulkan selama pengujian disimpan secara lokal di perangkat pengguna.
+- Pengguna bertanggung jawab penuh atas penanganan data yang mereka kumpulkan selama proses penetration testing sesuai dengan regulasi privasi yang berlaku (seperti GDPR atau UU PDP).
 
-Aleopantest is developed exclusively for **educational purposes, security research, and ethical hacking**. Users are strictly prohibited from using this tool on systems or networks without explicit written permission from the system owner. Any unauthorized use may be considered a serious legal violation.
-
-The developers and contributors are **not responsible** for any misuse, illegal activities, or damages caused by this software. Users bear full responsibility for compliance with local and international laws, including but not limited to:
-- **UU ITE** (Indonesia)
-- **CFAA** (United States)
-- **GDPR** (European Union)
-
-For complete information regarding liability limitations, jurisdictional clauses, and user obligations, please read the full **[Terms of Service](TERMS_OF_SERVICE.md)** document.
+### 4. Persyaratan Hak Cipta
+- Aleopantest adalah perangkat lunak open-source yang dilisensikan di bawah **Lisensi MIT**.
+- Hak cipta (c) 2024 Tim Aleocrophic.
+- Anda diperbolehkan menyalin, memodifikasi, dan mendistribusikan perangkat lunak ini selama menyertakan pemberitahuan hak cipta dan izin yang asli.
 
 ---
 
-## 🌟 Key Features
+## 🤝 Kontribusi
 
-*   **Modular Architecture**: Easy to extend and maintain.
-*   **Interactive CLI**: User-friendly interface with auto-completion and rich output.
-*   **Cross-Platform**: Works on Windows, Linux, and macOS.
-*   **Intelligent Automation**: Context-aware parameter filling and optimization.
-*   **Standardized Output**: Consistent JSON reporting for all 400+ tools.
+Kontribusi sangat dihargai! Jika Anda ingin berkontribusi:
+1. Fork repositori ini.
+2. Buat branch fitur baru (`git checkout -b fitur-baru`).
+3. Commit perubahan Anda (`git commit -m 'Menambahkan fitur baru'`).
+4. Push ke branch tersebut (`git push origin fitur-baru`).
+5. Buat Pull Request.
 
 ---
 
-## 🤝 Contributing
+## 📄 Lisensi
 
-Contributions are welcome! Please check the [Project Summary](PROJECT_SUMMARY.md) for roadmap and [Testing Guide](TESTING_GUIDE.md) for standards.
-
-## 📄 License
-
-This project is licensed under the [LICENSE](LICENSE) file.
+Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE).
 
 ---
 **Aleopantest V3.0.0**
-<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
+<div style="font-size: 80%; color: #666666;">oleh Aleocrophic</div>
