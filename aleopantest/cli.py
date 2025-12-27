@@ -18,6 +18,7 @@ from aleopantest.core.config import config
 from aleopantest.core.interactive_handler import ParameterMapper
 from aleopantest.core.session import SessionManager, SecurityGuard
 from aleopantest.core.platform_detector import PlatformDetector
+from aleopantest.core.tool_helper import get_safe_attr
 
 # Import all tools
 from aleopantest.modules.network import (
@@ -233,13 +234,18 @@ def print_tools_table():
     for category, tools in TOOLS_BY_CATEGORY.items():
         for idx, tool_id in enumerate(tools):
             if tool_id in TOOLS_REGISTRY:
-                instance = TOOLS_REGISTRY[tool_id]()
-                desc = instance.metadata.description[:40] + "..."
-                
-                if idx == 0:
-                    table.add_row(category, tool_id, desc)
-                else:
-                    table.add_row("", tool_id, desc)
+                try:
+                    instance = TOOLS_REGISTRY[tool_id]()
+                    description = get_safe_attr(instance, "metadata.description", "No description available")
+                    desc = description[:40] + "..." if len(description) > 40 else description
+                    
+                    if idx == 0:
+                        table.add_row(category, tool_id, desc)
+                    else:
+                        table.add_row("", tool_id, desc)
+                except Exception as e:
+                    logger.error(f"Error loading tool {tool_id}: {str(e)}")
+                    table.add_row(category if idx == 0 else "", tool_id, "[red]Error loading tool[/red]")
     
     console.print(table)
 
@@ -266,9 +272,13 @@ def info():
     
     categories = {}
     for tool_id, tool_class in TOOLS_REGISTRY.items():
-        instance = tool_class()
-        cat = instance.metadata.category.value
-        categories[cat] = categories.get(cat, 0) + 1
+        try:
+            instance = tool_class()
+            cat = get_safe_attr(instance, "metadata.category.value", "Unknown")
+            categories[cat] = categories.get(cat, 0) + 1
+        except Exception as e:
+            logger.error(f"Error analyzing tool {tool_id} for statistics: {str(e)}")
+            categories["Error"] = categories.get("Error", 0) + 1
     
     table = Table(title="Tools by Category", show_header=True, header_style="bold")
     table.add_column("Category", style="cyan")
@@ -584,20 +594,32 @@ Example: aleopantest help-tool dns
         console.print(f"[red]Tool '{tool_id}' not found[/red]")
         return
     
-    tool_class = TOOLS_REGISTRY[tool_id]
-    tool = tool_class()
-    metadata = tool.metadata
-    
-    console.print(Panel(
-        f"[bold]{metadata.name}[/bold]\nv{metadata.version} by {metadata.author}",
-        title="Tool Information"
-    ))
-    
-    console.print(f"\n[bold cyan]Description:[/bold cyan]\n{metadata.description}\n")
-    console.print(f"[bold cyan]Usage:[/bold cyan]\n{metadata.usage}\n")
-    console.print(f"[bold cyan]Category:[/bold cyan] {metadata.category.value}\n")
-    console.print(f"[bold cyan]Tags:[/bold cyan] {', '.join(metadata.tags)}\n")
-    console.print(f"[bold cyan]Requirements:[/bold cyan] {', '.join(metadata.requirements)}")
+    try:
+        tool_class = TOOLS_REGISTRY[tool_id]
+        tool = tool_class()
+        
+        name = get_safe_attr(tool, "metadata.name", tool_id)
+        version = get_safe_attr(tool, "metadata.version", "1.0.0")
+        author = get_safe_attr(tool, "metadata.author", "Unknown")
+        description = get_safe_attr(tool, "metadata.description", "No description available")
+        usage = get_safe_attr(tool, "metadata.usage", "No usage information")
+        category = get_safe_attr(tool, "metadata.category.value", "Unknown")
+        tags = get_safe_attr(tool, "metadata.tags", [])
+        requirements = get_safe_attr(tool, "metadata.requirements", [])
+        
+        console.print(Panel(
+            f"[bold]{name}[/bold]\nv{version} by {author}",
+            title="Tool Information"
+        ))
+        
+        console.print(f"\n[bold cyan]Description:[/bold cyan]\n{description}\n")
+        console.print(f"[bold cyan]Usage:[/bold cyan]\n{usage}\n")
+        console.print(f"[bold cyan]Category:[/bold cyan] {category}\n")
+        console.print(f"[bold cyan]Tags:[/bold cyan] {', '.join(tags) if tags else 'None'}\n")
+        console.print(f"[bold cyan]Requirements:[/bold cyan] {', '.join(requirements) if requirements else 'None'}")
+    except Exception as e:
+        console.print(f"[red]Error retrieving help for {tool_id}: {str(e)}[/red]")
+        logger.error(f"Help error for {tool_id}: {str(e)}")
 
 
 @cli.command()
@@ -614,8 +636,14 @@ def list_by_category(category):
         table.add_column("Description")
         
         for tool_id in TOOLS_BY_CATEGORY[category.title()]:
-            instance = TOOLS_REGISTRY[tool_id]()
-            table.add_row(tool_id, instance.metadata.description[:50] + "...")
+            try:
+                instance = TOOLS_REGISTRY[tool_id]()
+                description = get_safe_attr(instance, "metadata.description", "No description")
+                desc = description[:50] + "..." if len(description) > 50 else description
+                table.add_row(tool_id, desc)
+            except Exception as e:
+                logger.error(f"Error loading tool {tool_id} in list_by_category: {str(e)}")
+                table.add_row(tool_id, "[red]Error loading tool[/red]")
         
         console.print(table)
     else:

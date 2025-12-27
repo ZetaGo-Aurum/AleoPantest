@@ -15,6 +15,7 @@ from .core.platform import PlatformDetector
 from .core.session import SessionManager
 from .core.automation import AutomationEngine, ContextDetector
 from .core.base_tool import BaseTool
+from .core.tool_helper import get_safe_attr
 from .cli import TOOLS_BY_CATEGORY, TOOLS_REGISTRY
 
 class ToolExecutionScreen(Screen):
@@ -38,8 +39,11 @@ class ToolExecutionScreen(Screen):
         yield Header()
         with Horizontal():
             with Vertical(id="execution-container"):
-                yield Label(f"[bold cyan]Tool:[/bold cyan] {self.tool_instance.metadata.name}", id="tool-title")
-                yield Label(f"[dim]{self.tool_instance.metadata.description}[/dim]", id="tool-desc")
+                tool_name = get_safe_attr(self.tool_instance, "metadata.name", self.tool_id)
+                tool_desc = get_safe_attr(self.tool_instance, "metadata.description", "No description available")
+                
+                yield Label(f"[bold cyan]Tool:[/bold cyan] {tool_name}", id="tool-title")
+                yield Label(f"[dim]{tool_desc}[/dim]", id="tool-desc")
                 yield Label(f"[bold green]Admin:[/bold green] {admin['username']}@{admin['hostname']} ([dim]{admin['os']}[/dim])", id="admin-info-label")
                 
                 with Container(id="input-area"):
@@ -55,25 +59,32 @@ class ToolExecutionScreen(Screen):
                 yield Label("[bold cyan]Tool Information[/bold cyan]", id="info-title")
                 
                 yield Label("[yellow]Description:[/yellow]")
-                yield Label(f"{self.tool_instance.metadata.description}", id="tool-desc-full")
+                yield Label(f"{tool_desc}", id="tool-desc-full")
                 
+                usage = get_safe_attr(self.tool_instance, "metadata.usage", "No usage guide available")
                 yield Label("\n[yellow]Usage Guide:[/yellow]")
-                yield Label(f"{self.tool_instance.metadata.usage}", id="usage-info")
+                yield Label(f"{usage}", id="usage-info")
                 
-                if self.tool_instance.metadata.example:
+                example = get_safe_attr(self.tool_instance, "metadata.example", "")
+                if example:
                     yield Label("\n[yellow]Example:[/yellow]")
-                    yield Label(f"{self.tool_instance.metadata.example}", id="example-info")
+                    yield Label(f"{example}", id="example-info")
                 
-                if self.tool_instance.metadata.parameters:
+                parameters = get_safe_attr(self.tool_instance, "metadata.parameters", {})
+                if parameters:
                     yield Label("\n[yellow]Available Parameters:[/yellow]")
                     params_text = ""
-                    for k, v in self.tool_instance.metadata.parameters.items():
+                    for k, v in parameters.items():
                         params_text += f"• [b]{k}[/b]: {v}\n"
                     yield Label(params_text.strip(), id="params-info")
                 
-                yield Label(f"\n[yellow]Risk Level:[/yellow] {self.tool_instance.metadata.risk_level}")
-                yield Label(f"[yellow]Category:[/yellow] {self.tool_instance.metadata.category.value}")
-                yield Label(f"[yellow]Author:[/yellow] {self.tool_instance.metadata.author}")
+                risk_level = get_safe_attr(self.tool_instance, "metadata.risk_level", "LOW")
+                category = get_safe_attr(self.tool_instance, "metadata.category.value", "Unknown")
+                author = get_safe_attr(self.tool_instance, "metadata.author", "Unknown")
+                
+                yield Label(f"\n[yellow]Risk Level:[/yellow] {risk_level}")
+                yield Label(f"[yellow]Category:[/yellow] {category}")
+                yield Label(f"[yellow]Author:[/yellow] {author}")
         yield Footer()
 
     @on(Button.Pressed, "#launch-btn")

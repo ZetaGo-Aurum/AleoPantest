@@ -180,3 +180,44 @@ def robust_import(module_path: str, class_name: str):
     except Exception as e:
         logger.error(f"FATAL: System Error while loading {class_name} from {module_path}: {str(e)}")
         return None
+
+
+def get_safe_attr(obj: Any, attr_path: str, default: Any = None) -> Any:
+    """
+    Safely get nested attributes from an object.
+    Example: get_safe_attr(instance, "metadata.category.value", "Unknown")
+    
+    Args:
+        obj: The object to access attributes from
+        attr_path: Dot-separated path to the attribute (e.g., 'metadata.category.value')
+        default: Default value if attribute is missing or None
+        
+    Returns:
+        The attribute value or default
+    """
+    if obj is None:
+        return default
+        
+    try:
+        attrs = attr_path.split('.')
+        current = obj
+        for attr in attrs:
+            if current is None:
+                return default
+            
+            # Check if current is a dict or an object
+            if isinstance(current, dict):
+                current = current.get(attr)
+            else:
+                current = getattr(current, attr, None)
+                
+            if current is None:
+                return default
+                
+        return current
+    except (AttributeError, TypeError) as e:
+        logger.debug(f"Safe attribute access failed for {attr_path} on {obj}: {str(e)}")
+        return default
+    except Exception as e:
+        logger.warning(f"Unexpected error in get_safe_attr for {attr_path}: {str(e)}")
+        return default
