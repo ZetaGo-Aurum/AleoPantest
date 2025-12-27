@@ -1,63 +1,63 @@
-# Aleopantest V3.0 (Major Patch) - Framework Penetration Testing Tingkat Lanjut
-<div style="font-size: 80%; color: #666666;">oleh Aleocrophic</div>
+# Aleopantest V3.0 (Major Patch) - Advanced Penetration Testing Framework
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  Aleopantest V3.0.0 - oleh Aleocrophic  🛡️         ║
+║         🛡️  Aleopantest V3.0.0 - by Aleocrophic  🛡️          ║
 ║                                                               ║
-║              Suite Alat Keamanan Siber Canggih                ║
+║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║      400+ Alat • Multi-Platform • TUI Modern • V3.0.0 PRO     ║
+║      400+ Tools • Multi-Platform • Modern TUI • V3.0.0 PRO    ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
-**Aleopantest** (oleh Aleocrophic) adalah framework penetration testing modular tingkat lanjut yang dirancang untuk profesional keamanan dan ethical hacker. Versi 3.3.5 memperkenalkan dashboard TUI modern, otomasi cerdas, dan dukungan lintas platform yang ditingkatkan.
+**Aleopantest** (by Aleocrophic) is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.3.5 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
 
 ---
 
-## � Deskripsi Proyek
+## 📖 Project Overview
 
-Aleopantest adalah solusi komprehensif untuk pengujian keamanan yang mencakup berbagai fase pengetesan, mulai dari pengumpulan informasi (reconnaissance) hingga eksploitasi dan pelaporan. Dengan arsitektur plugin-based, pengguna dapat dengan mudah menambahkan alat baru atau mengintegrasikan alat yang sudah ada ke dalam alur kerja yang terotomasi.
+Aleopantest is a comprehensive solution for security testing that covers various phases of assessment, from information gathering (reconnaissance) to exploitation and reporting. With its plugin-based architecture, users can easily add new tools or integrate existing ones into an automated workflow.
 
-### Fitur Utama:
-- **Arsitektur Modular**: Mudah diperluas dan dipelihara.
-- **CLI Interaktif**: Antarmuka pengguna yang ramah dengan auto-completion dan output yang kaya (Rich output).
-- **Lintas Platform**: Berjalan di Windows, Linux, dan macOS.
-- **Otomasi Cerdas**: Pengisian parameter berbasis konteks dan optimasi performa.
-- **Output Standar**: Pelaporan JSON yang konsisten untuk lebih dari 400 alat.
+### Key Features:
+- **Modular Architecture**: Easy to extend and maintain via a robust plugin system.
+- **Interactive CLI & TUI**: User-friendly interface with auto-completion, rich terminal output, and a modern dashboard.
+- **Cross-Platform Support**: Seamless operation on Windows, Linux, and macOS.
+- **Intelligent Automation**: Context-aware parameter filling and performance optimization.
+- **Standardized Reporting**: Consistent JSON and PDF reporting for over 400 specialized tools.
 
 ---
 
-## ⚡ Panduan Instalasi
+## ⚡ Installation Instructions
 
-### Prasyarat
-- Python 3.8 atau lebih tinggi
+### Prerequisites
+- Python 3.8 or higher
 - Pip (Python Package Installer)
-- Git (opsional, untuk klon repositori)
+- Git (optional, for cloning the repository)
 
-### Instalasi Standar
+### Standard Installation
 ```bash
-# Klon repositori
+# Clone the repository
 git clone https://github.com/ZetaGo-Aurum/aleopantest.git
 cd aleopantest
 
-# Instal dependensi
+# Install dependencies
 pip install -r requirements.txt
 
-# Instal sebagai alat CLI (direkomendasikan)
+# Install as a CLI tool (recommended)
 pip install -e .
 ```
 
 ---
 
-## ⚙️ Petunjuk Konfigurasi
+## ⚙️ Configuration Details
 
-Aleopantest menggunakan file konfigurasi untuk mengatur perilaku framework dan integrasi API pihak ketiga.
+Aleopantest uses configuration files to manage framework behavior and third-party API integrations.
 
-### 1. File `.env`
-Salin file `.env.example` menjadi `.env` dan isi kunci API yang diperlukan:
+### 1. Environment Variables (`.env`)
+Copy `.env.example` to `.env` and fill in the required API keys:
 ```env
 SHODAN_API_KEY=your_key_here
 CENSYS_ID=your_id
@@ -65,8 +65,8 @@ CENSYS_SECRET=your_secret
 VIRUSTOTAL_API_KEY=your_key
 ```
 
-### 2. Konfigurasi YAML (`config/default.yml`)
-Anda dapat menyesuaikan pengaturan default seperti timeout, user-agent, dan path output di file ini:
+### 2. YAML Configuration (`config/default.yml`)
+You can customize default settings such as timeouts, user-agents, and output paths:
 ```yaml
 network:
   timeout: 30
@@ -79,84 +79,84 @@ output:
 
 ---
 
-## 🎮 Contoh Penggunaan
+## 🎮 Usage Guidelines
 
-### Perintah Dasar CLI
+### Basic CLI Commands
 ```bash
-aleopantest --help          # Menampilkan menu bantuan
-aleopantest list-tools      # Daftar semua alat yang tersedia
-aleopantest info            # Menampilkan info sistem
+aleopantest --help          # Display the help menu
+aleopantest list-tools      # List all available security tools
+aleopantest info            # Show system and framework information
 ```
 
-### Menjalankan Alat (CLI)
+### Running Tools via CLI
 ```bash
-# Pemindaian SQL Injection
+# SQL Injection Scanning
 aleopantest run sql-inject --url http://example.com
 
-# Deteksi Phishing
+# Web Phishing Detection
 aleopantest run web-phishing --url http://suspicious-site.com
 ```
 
-### Penggunaan sebagai Library Python
-Anda juga dapat mengintegrasikan modul Aleopantest ke dalam skrip Python Anda sendiri:
+### Using as a Python Library
+Integrate Aleopantest modules directly into your custom Python scripts:
 
 ```python
 from aleopantest.core.scanner import SecurityScanner
 
-# Inisialisasi scanner
+# Initialize the scanner
 scanner = SecurityScanner()
 
-# Jalankan scan pada target
+# Run a scan on a target with specific modules
 results = scanner.scan_target("http://example.com", modules=["sql_inject", "xss"])
 
-# Cetak hasil
+# Process and print findings
 for issue in results.vulnerabilities:
-    print(f"Ditemukan: {issue.name} pada {issue.location}")
+    print(f"Found: {issue.name} at {issue.location}")
 ```
 
 ---
 
 ## ⚖️ Terms of Service (ToS)
 
-Penggunaan **Aleopantest** diatur oleh ketentuan hukum berikut. Dengan menggunakan perangkat lunak ini, Anda dianggap telah menyetujui seluruh poin di bawah ini.
+The use of **Aleopantest** is governed by the following legal terms. By using this software, you agree to be bound by these conditions.
 
-### 1. Ketentuan Penggunaan
-- Aleopantest dikembangkan **eksklusif untuk tujuan edukasi, riset keamanan, dan ethical hacking**.
-- Dilarang keras menggunakan alat ini pada sistem atau jaringan tanpa **izin tertulis yang eksplisit** dari pemilik sistem.
-- Pengguna bertanggung jawab penuh atas segala aktivitas yang dilakukan menggunakan alat ini.
+### 1. Terms of Use
+- Aleopantest is developed **exclusively for educational purposes, security research, and ethical hacking**.
+- Unauthorized use of this tool on systems or networks without **explicit, written permission** from the system owner is strictly prohibited.
+- Users assume full responsibility for all activities performed using this framework.
 
-### 2. Pembatasan Tanggung Jawab
-- Pengembang dan kontributor **TIDAK BERTANGGUNG JAWAB** atas penyalahgunaan, aktivitas ilegal, atau kerusakan yang disebabkan oleh perangkat lunak ini.
-- Perangkat lunak ini disediakan "APA ADANYA" (AS IS) tanpa jaminan apa pun, baik tersurat maupun tersirat.
-- Dalam hal apa pun, penulis tidak bertanggung jawab atas klaim, kerusakan, atau kewajiban lainnya yang timbul dari penggunaan perangkat lunak ini.
+### 2. Limitation of Liability
+- The developers and contributors **ARE NOT LIABLE** for any misuse, illegal activities, or damages caused by this software.
+- This software is provided "AS IS" without warranty of any kind, express or implied.
+- In no event shall the authors be liable for any claim, damages, or other liability arising from the use of the software.
 
-### 3. Kebijakan Privasi
-- Aleopantest **tidak mengumpulkan atau mengirimkan data pribadi** pengguna ke server luar.
-- Seluruh hasil pemindaian dan data sensitif yang dikumpulkan selama pengujian disimpan secara lokal di perangkat pengguna.
-- Pengguna bertanggung jawab penuh atas penanganan data yang mereka kumpulkan selama proses penetration testing sesuai dengan regulasi privasi yang berlaku (seperti GDPR atau UU PDP).
+### 3. Privacy Policy
+- Aleopantest **does not collect or transmit personal data** to external servers.
+- All scan results and sensitive data collected during testing are stored locally on the user's device.
+- Users are responsible for handling collected data in compliance with applicable privacy regulations (e.g., GDPR).
 
-### 4. Persyaratan Hak Cipta
-- Aleopantest adalah perangkat lunak open-source yang dilisensikan di bawah **Lisensi MIT**.
-- Hak cipta (c) 2024 Tim Aleocrophic.
-- Anda diperbolehkan menyalin, memodifikasi, dan mendistribusikan perangkat lunak ini selama menyertakan pemberitahuan hak cipta dan izin yang asli.
-
----
-
-## 🤝 Kontribusi
-
-Kontribusi sangat dihargai! Jika Anda ingin berkontribusi:
-1. Fork repositori ini.
-2. Buat branch fitur baru (`git checkout -b fitur-baru`).
-3. Commit perubahan Anda (`git commit -m 'Menambahkan fitur baru'`).
-4. Push ke branch tersebut (`git push origin fitur-baru`).
-5. Buat Pull Request.
+### 4. Copyright Requirements
+- Aleopantest is open-source software licensed under the **MIT License**.
+- Copyright (c) 2024 Aleocrophic Team.
+- You are permitted to copy, modify, and distribute this software as long as the original copyright notice and permission notice are included.
 
 ---
 
-## 📄 Lisensi
+## 🤝 Contribution Rules
 
-Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE).
+Contributions are highly welcome! To contribute:
+1. Fork the repository.
+2. Create a new feature branch (`git checkout -b feature-name`).
+3. Commit your changes (`git commit -m 'Add descriptive message'`).
+4. Push to the branch (`git push origin feature-name`).
+5. Open a Pull Request for review.
+
+---
+
+## 📄 Licensing Information
+
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 **Aleopantest V3.0.0**
-<div style="font-size: 80%; color: #666666;">oleh Aleocrophic</div>
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
