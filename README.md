@@ -25,7 +25,6 @@ Explore the full documentation to get the most out of **Aleopantest**.
 *   [**Start Here**](00-START-HERE.md) - Overview of v2.0 release and new features.
 *   [**Installation Guide**](INSTALL_GUIDE.md) - Detailed installation instructions for all platforms.
 *   [**Quick Start Guide**](QUICKSTART_GUIDE.md) - Get up and running in minutes.
-*   [**Installation (ID)**](INSTALLATION.md) - Panduan instalasi dalam Bahasa Indonesia.
 
 ### 📖 User Guides
 *   [**Interactive CLI Guide**](INTERACTIVE_CLI_GUIDE.md) - Master the new interactive command-line interface.
@@ -33,21 +32,24 @@ Explore the full documentation to get the most out of **Aleopantest**.
 *   [**Testing Guide**](TESTING_GUIDE.md) - How to run tests and verify the system.
 *   [**Tools Reference**](docs/TOOLS.md) - Complete reference for all 400+ tools.
 
-### � Project Reports & Status
+### 📊 Project Reports & Status
 *   [**Project Summary**](PROJECT_SUMMARY.md) - High-level project overview.
 *   [**Implementation Summary**](IMPLEMENTATION_SUMMARY.md) - Technical details of implementation.
 *   [**Feature Checklist**](FEATURE_CHECKLIST.md) - Status of all planned features.
 *   [**Changelog**](CHANGELOG.md) - History of changes and updates.
 *   [**Build Report**](BUILD_REPORT.md) - Build status and verification.
 *   [**Python 3.9+ Fix Report**](PYTHON39_FIX_REPORT.md) - Details on compatibility fixes.
-*   **v3.3.3 API Standardization**: Fixed string-integer comparison errors and standardized JSON output format for all modules.
-*   **v3.3.2 Admin Update**: Enhanced admin detection and environment adapter for multi-stage deployment.
-*   **v3.3.1 Stability Update**: Robustness fixes for undefined/null errors across API, Web, TUI, and CLI.
 
 ---
 
-## ⚡ Quick Installation
+## ⚡ Installation
 
+### Prerequisites
+- Python 3.8 or higher
+- Pip (Python Package Installer)
+- Git (optional, for cloning)
+
+### Standard Installation
 ```bash
 # Clone the repository
 git clone https://github.com/ZetaGo-Aurum/aleopantest.git
@@ -56,11 +58,21 @@ cd aleopantest
 # Install dependencies
 pip install -r requirements.txt
 
-# Install as CLI tool
+# Install as CLI tool (recommended)
 pip install -e .
 ```
 
-For detailed instructions, see [INSTALL_GUIDE.md](INSTALL_GUIDE.md).
+### Dependency Overview
+Aleopantest relies on several core libraries:
+- **CLI/TUI**: `click`, `rich`, `textual`, `typer`
+- **Networking**: `scapy`, `requests`, `nmap`, `paramiko`
+- **Web**: `beautifulsoup4`, `selenium`, `httpx`
+- **OSINT**: `shodan`, `geoip2`, `googlesearch-python`
+- **Security**: `cryptography`, `passlib`, `bcrypt`
+
+For a full list, see [requirements.txt](requirements.txt).
+
+---
 
 ## 🎮 Usage Examples
 
@@ -83,61 +95,46 @@ aleopantest run web-phishing --url http://suspicious-site.com
 aleopantest run dns --domain target.com
 ```
 
-More examples in [QUICKSTART_GUIDE.md](QUICKSTART_GUIDE.md).
+---
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+1. **ModuleNotFoundError**: Ensure you've run `pip install -e .` to register the package.
+2. **Permission Denied**: Some network tools (like packet sniffing or port scanning) may require administrator/root privileges. Run with `sudo` (Linux/macOS) or as Administrator (Windows).
+3. **Dependency Conflicts**: It's recommended to use a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/macOS
+   .\venv\Scripts\activate   # Windows
+   ```
+
+---
+
+## ⚖️ Terms of Service & Legal
+
+The use of **Aleopantest** is governed by strict legal terms to ensure ethical and responsible usage.
+
+Aleopantest is developed exclusively for **educational purposes, security research, and ethical hacking**. Users are strictly prohibited from using this tool on systems or networks without explicit written permission from the system owner. Any unauthorized use may be considered a serious legal violation.
+
+The developers and contributors are **not responsible** for any misuse, illegal activities, or damages caused by this software. Users bear full responsibility for compliance with local and international laws, including but not limited to:
+- **UU ITE** (Indonesia)
+- **CFAA** (United States)
+- **GDPR** (European Union)
+
+For complete information regarding liability limitations, jurisdictional clauses, and user obligations, please read the full **[Terms of Service](TERMS_OF_SERVICE.md)** document.
+
+---
 
 ## 🌟 Key Features
 
 *   **Modular Architecture**: Easy to extend and maintain.
 *   **Interactive CLI**: User-friendly interface with auto-completion and rich output.
 *   **Cross-Platform**: Works on Windows, Linux, and macOS.
-*   **Comprehensive Toolset**: Covering Network, Web, OSINT, Phishing, and more.
+*   **Intelligent Automation**: Context-aware parameter filling and optimization.
+*   **Standardized Output**: Consistent JSON reporting for all 400+ tools.
 
-## ⚖️ Terms of Service & Legal
-
-Penggunaan **Aleopantest** diatur oleh ketentuan hukum yang ketat untuk memastikan penggunaan yang etis dan bertanggung jawab.
-
-Aleopantest dikembangkan secara eksklusif untuk **tujuan edukasi, riset keamanan, dan ethical hacking**. Pengguna dilarang keras menggunakan alat ini pada sistem atau jaringan tanpa izin tertulis yang eksplisit dari pemilik sistem. Segala bentuk penggunaan yang tidak sah dapat dianggap sebagai pelanggaran hukum serius.
-
-Pengembang dan kontributor **tidak bertanggung jawab** atas penyalahgunaan, aktivitas ilegal, atau kerusakan yang disebabkan oleh perangkat lunak ini. Pengguna memikul tanggung jawab penuh atas kepatuhan terhadap hukum lokal dan internasional, termasuk namun tidak terbatas pada UU ITE (Indonesia), CFAA (Amerika Serikat), dan GDPR (Uni Eropa).
-
-Untuk informasi selengkapnya mengenai batasan tanggung jawab, klausul yurisdiksi, dan kewajiban pengguna, silakan baca dokumen **[Terms of Service](TERMS_OF_SERVICE.md)** secara menyeluruh.
-
-## 🛠️ Standardization & Safety (v3.3+)
-
-Starting from v3.3, Aleopantest implements strict parameter validation and standardized output across all modules.
-
-### Parameter Validation
-All high-risk tools now perform automatic type conversion and safety checks for duration parameters.
-- **Duration**: Must be a positive integer (string inputs like `"60"` are automatically converted).
-- **Safety Limit**: Intensive tasks are limited to a maximum of 3600 seconds (1 hour).
-
-### Standardized JSON Output
-Every module now returns a consistent JSON structure, making it easier for automation and web integration:
-
-```json
-{
-  "status": "completed",
-  "tool_metadata": {
-    "name": "Beacon Flood",
-    "risk_level": "HIGH",
-    "version": "3.3.5"
-  },
-  "results": [...],
-  "error_message": null,
-  "execution_details": {
-    "duration_seconds": 12.34,
-    "results_count": 5,
-    "errors_count": 0,
-    "warnings_count": 0,
-    "timestamp": "2025-12-27T00:33:54",
-    "admin_info": {
-      "username": "admin",
-      "hostname": "localhost",
-      "env": "local"
-    }
-  }
-}
-```
+---
 
 ## 🤝 Contributing
 
