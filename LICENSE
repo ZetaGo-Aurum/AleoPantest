@@ -1,5 +1,7 @@
-# LICENSE - Aleopantest
-<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
+===============================================================================
+                          LICENSE - ALEOPANTEST
+===============================================================================
+by Aleocrophic
 
 MIT License
 
@@ -23,21 +25,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
----
+-------------------------------------------------------------------------------
+IMPORTANT: TERMS OF SERVICE & DISCLAIMER
+-------------------------------------------------------------------------------
 
-### ⚠️ IMPORTANT: TERMS OF SERVICE & DISCLAIMER
+By using Aleopantest, you acknowledge that you have read, understood, and 
+agreed to the full Terms of Service (see TERMS_OF_SERVICE.md).
 
-By using **Aleopantest**, you acknowledge that you have read, understood, and agreed to the full **[Terms of Service](TERMS_OF_SERVICE.md)**.
+Aleopantest is strictly for EDUCATIONAL AND ETHICAL CYBERSECURITY RESEARCH 
+PURPOSES.
 
-**Aleopantest is strictly for EDUCATIONAL AND ETHICAL CYBERSECURITY RESEARCH PURPOSES.**
+The developers and contributors are NOT responsible for any misuse, illegal 
+activities, or damages caused by this tool. Users are solely responsible for 
+compliance with local and international laws, including but not limited to 
+Indonesia's UU ITE, the US CFAA, and the EU GDPR.
 
-The developers and contributors are NOT responsible for any misuse, illegal activities, or damages caused by this tool. Users are solely responsible for compliance with local and international laws, including but not limited to Indonesia's UU ITE, the US CFAA, and the EU GDPR.
+For the full legal terms, jurisdiction-specific clauses, and disclaimer of 
+liability, please refer to the TERMS_OF_SERVICE.md file in the root directory.
 
-For the full legal terms, jurisdiction-specific clauses, and disclaimer of liability, please refer to the **[TERMS_OF_SERVICE.md](TERMS_OF_SERVICE.md)** file in the root directory.
-
----
-
-**AUTHOR INFORMATION**
+-------------------------------------------------------------------------------
+AUTHOR INFORMATION
+-------------------------------------------------------------------------------
 
 Project Name: Aleopantest
 Author: Aleocrophic Team
@@ -45,11 +53,12 @@ Contact: deltaastra24@gmail.com
 Version: 3.3.4
 License: MIT License
 
----
+-------------------------------------------------------------------------------
+Third-Party Libraries
+-------------------------------------------------------------------------------
 
-### 📚 Third-Party Libraries
-
-Aleopantest menggunakan berbagai third-party libraries dengan licenses mereka sendiri:
+Aleopantest menggunakan berbagai third-party libraries dengan licenses mereka 
+sendiri:
 - Click (BSD-3-Clause)
 - Rich (MIT)
 - Requests (Apache-2.0)
@@ -57,11 +66,14 @@ Aleopantest menggunakan berbagai third-party libraries dengan licenses mereka se
 - Textual (MIT)
 - FastAPI (MIT)
 
----
-
-**FINAL ACKNOWLEDGMENT**
+-------------------------------------------------------------------------------
+FINAL ACKNOWLEDGMENT
+-------------------------------------------------------------------------------
 
 By downloading, installing, or using Aleopantest, you:
-1. Represent that you have read and understood the entire contents of this License and the [Terms of Service](TERMS_OF_SERVICE.md).
-2. Agree to indemnify and hold harmless the development team from any and all legal claims.
+1. Represent that you have read and understood the entire contents of this 
+   License and the Terms of Service.
+2. Agree to indemnify and hold harmless the development team from any and all 
+   legal claims.
 3. Pledge to act as a responsible White-Hat hacker.
+===============================================================================

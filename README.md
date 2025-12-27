@@ -92,6 +92,16 @@ More examples in [QUICKSTART_GUIDE.md](QUICKSTART_GUIDE.md).
 *   **Cross-Platform**: Works on Windows, Linux, and macOS.
 *   **Comprehensive Toolset**: Covering Network, Web, OSINT, Phishing, and more.
 
+## ⚖️ Terms of Service & Legal
+
+Penggunaan **Aleopantest** diatur oleh ketentuan hukum yang ketat untuk memastikan penggunaan yang etis dan bertanggung jawab.
+
+Aleopantest dikembangkan secara eksklusif untuk **tujuan edukasi, riset keamanan, dan ethical hacking**. Pengguna dilarang keras menggunakan alat ini pada sistem atau jaringan tanpa izin tertulis yang eksplisit dari pemilik sistem. Segala bentuk penggunaan yang tidak sah dapat dianggap sebagai pelanggaran hukum serius.
+
+Pengembang dan kontributor **tidak bertanggung jawab** atas penyalahgunaan, aktivitas ilegal, atau kerusakan yang disebabkan oleh perangkat lunak ini. Pengguna memikul tanggung jawab penuh atas kepatuhan terhadap hukum lokal dan internasional, termasuk namun tidak terbatas pada UU ITE (Indonesia), CFAA (Amerika Serikat), dan GDPR (Uni Eropa).
+
+Untuk informasi selengkapnya mengenai batasan tanggung jawab, klausul yurisdiksi, dan kewajiban pengguna, silakan baca dokumen **[Terms of Service](TERMS_OF_SERVICE.md)** secara menyeluruh.
+
 ## 🛠️ Standardization & Safety (v3.3+)
 
 Starting from v3.3, Aleopantest implements strict parameter validation and standardized output across all modules.
