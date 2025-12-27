@@ -1,4 +1,4 @@
-"""Unit tests for Aleocrophic V3.2 release features"""
+"""Unit tests for Aleopantest V3.2 release features"""
 import unittest
 import sys
 import os
@@ -16,11 +16,11 @@ sys.modules['pyngrok'] = MagicMock()
 # Add project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
-from aleo_pantest.modules.security.vuln_db import VulnDB
-from aleo_pantest.modules.osint.shodan_search import ShodanSearch
-from aleo_pantest.modules.crypto.stegano import SteganoTool
-from aleo_pantest.core.automation import AutomationEngine
+from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+from aleopantest.modules.security.vuln_db import VulnDB
+from aleopantest.modules.osint.shodan_search import ShodanSearch
+from aleopantest.modules.crypto.stegano import SteganoTool
+from aleopantest.core.automation import AutomationEngine
 
 class TestV32Release(unittest.TestCase):
     

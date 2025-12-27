@@ -1,10 +1,11 @@
-# Aleocrophic Interactive CLI - Testing Guide
+# Aleopantest v3.3.5 - Testing Guide
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## Test Environment Setup
 
 ```bash
 # Navigate to project directory
-cd Aleocrophic
+cd aleopantest
 
 # Ensure dependencies are installed
 pip install -r requirements.txt
@@ -20,13 +21,13 @@ python --version
 #### Test 1.1: Parameter Alias Support (host → ip)
 ```bash
 # Test using --ip parameter
-Aleocrophic run ip-geo --ip 8.8.8.8
+aleopantest run ip-geo --ip 8.8.8.8
 
 # Test using --host parameter (FIXED)
-Aleocrophic run ip-geo --host 1.1.1.1
+aleopantest run ip-geo --host 1.1.1.1
 
 # Test using --address parameter
-Aleocrophic run ip-geo --address 1.0.0.1
+aleopantest run ip-geo --address 1.0.0.1
 ```
 
 **Expected Result:** All three commands should work identically
@@ -42,19 +43,19 @@ Aleocrophic run ip-geo --address 1.0.0.1
 #### Test 1.2: IP Validation
 ```bash
 # Valid IP
-Aleocrophic run ip-geo --ip 8.8.8.8  # Should work
+aleopantest run ip-geo --ip 8.8.8.8  # Should work
 
 # Invalid IP - too many octets
-Aleocrophic run ip-geo --ip 8.8.8.8.8  # Should fail
+aleopantest run ip-geo --ip 8.8.8.8.8  # Should fail
 
 # Invalid IP - octet > 255
-Aleocrophic run ip-geo --ip 256.0.0.1  # Should fail
+aleopantest run ip-geo --ip 256.0.0.1  # Should fail
 
 # Invalid IP - non-numeric
-Aleocrophic run ip-geo --ip 8.8.8.a  # Should fail
+aleopantest run ip-geo --ip 8.8.8.a  # Should fail
 
 # Empty IP
-Aleocrophic run ip-geo --ip ""  # Should fail
+aleopantest run ip-geo --ip ""  # Should fail
 ```
 
 **Expected Result:** Only valid IPs accepted, clear error messages for invalid ones
@@ -63,7 +64,7 @@ Aleocrophic run ip-geo --ip ""  # Should fail
 
 #### Test 1.3: Output Format
 ```bash
-Aleocrophic run ip-geo --ip 8.8.8.8
+aleopantest run ip-geo --ip 8.8.8.8
 
 # Check that output contains:
 # - success: true
@@ -78,7 +79,7 @@ Aleocrophic run ip-geo --ip 8.8.8.8
 
 #### Test 1.4: Export to JSON
 ```bash
-Aleocrophic run ip-geo --ip 8.8.8.8 --output results.json
+aleopantest run ip-geo --ip 8.8.8.8 --output results.json
 
 # Verify file created
 ls -l results.json
@@ -96,10 +97,10 @@ cat results.json | python -m json.tool
 #### Test 2.1: Authorization Flag Requirement
 ```bash
 # Without --authorized (should fail)
-Aleocrophic run ddos-sim --target example.com --type http --preset light
+aleopantest run ddos-sim --target example.com --type http --preset light
 
 # With --authorized (should work)
-Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
+aleopantest run ddos-sim --target example.com --type http --preset light --authorized
 ```
 
 **Expected Result:**
@@ -111,13 +112,13 @@ Aleocrophic run ddos-sim --target example.com --type http --preset light --autho
 #### Test 2.2: Preset Configurations
 ```bash
 # Light preset (10s, 5 threads)
-Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
+aleopantest run ddos-sim --target example.com --type http --preset light --authorized
 
 # Medium preset (30s, 10 threads)
-Aleocrophic run ddos-sim --target example.com --type http --preset medium --authorized
+aleopantest run ddos-sim --target example.com --type http --preset medium --authorized
 
 # Heavy preset (60s, 20 threads)
-Aleocrophic run ddos-sim --target example.com --type http --preset heavy --authorized
+aleopantest run ddos-sim --target example.com --type http --preset heavy --authorized
 ```
 
 **Expected Result:**
@@ -130,13 +131,13 @@ Aleocrophic run ddos-sim --target example.com --type http --preset heavy --autho
 #### Test 2.3: Safety Limits
 ```bash
 # Attempt duration > 120s (should be capped)
-Aleocrophic run ddos-sim --target example.com --type http --duration 200 --authorized
+aleopantest run ddos-sim --target example.com --type http --duration 200 --authorized
 
 # Attempt threads > 50 (should be capped)
-Aleocrophic run ddos-sim --target example.com --type http --duration 30 --threads 100 --authorized
+aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 100 --authorized
 
 # Valid duration and threads
-Aleocrophic run ddos-sim --target example.com --type http --duration 30 --threads 20 --authorized
+aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 20 --authorized
 ```
 
 **Expected Result:**
@@ -148,22 +149,22 @@ Aleocrophic run ddos-sim --target example.com --type http --duration 30 --thread
 #### Test 2.4: Attack Types
 ```bash
 # HTTP flood
-Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
+aleopantest run ddos-sim --target example.com --type http --preset light --authorized
 
 # DNS flood
-Aleocrophic run ddos-sim --target example.com --type dns --preset light --authorized
+aleopantest run ddos-sim --target example.com --type dns --preset light --authorized
 
 # Slowloris
-Aleocrophic run ddos-sim --target example.com --type slowloris --preset light --authorized
+aleopantest run ddos-sim --target example.com --type slowloris --preset light --authorized
 
 # SYN flood
-Aleocrophic run ddos-sim --target example.com --type syn --preset light --authorized
+aleopantest run ddos-sim --target example.com --type syn --preset light --authorized
 
 # UDP flood
-Aleocrophic run ddos-sim --target example.com --type udp --preset light --authorized
+aleopantest run ddos-sim --target example.com --type udp --preset light --authorized
 
 # Invalid type
-Aleocrophic run ddos-sim --target example.com --type invalid --preset light --authorized
+aleopantest run ddos-sim --target example.com --type invalid --preset light --authorized
 ```
 
 **Expected Result:**
@@ -177,7 +178,7 @@ Aleocrophic run ddos-sim --target example.com --type invalid --preset light --au
 #### Test 3.1: Parameter Normalization
 ```python
 # Test in Python
-from aleo_pantest.core.interactive_handler import ParameterMapper
+from aleopantest.core.interactive_handler import ParameterMapper
 
 params = {
     'host': '8.8.8.8',
@@ -196,7 +197,7 @@ print(normalized)
 
 #### Test 3.2: Alias Resolution
 ```python
-from aleo_pantest.core.interactive_handler import ParameterMapper
+from aleopantest.core.interactive_handler import ParameterMapper
 
 aliases = ParameterMapper.get_aliases('ip')
 print(aliases)
@@ -215,7 +216,7 @@ print(aliases)
 
 #### Test 4.1: IP Validation
 ```python
-from aleo_pantest.core.tool_helper import ToolParameterValidator
+from aleopantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -241,7 +242,7 @@ assert error is not None
 
 #### Test 4.2: URL Validation
 ```python
-from aleo_pantest.core.tool_helper import ToolParameterValidator
+from aleopantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -268,7 +269,7 @@ assert is_valid == False
 
 #### Test 4.3: Domain Validation
 ```python
-from aleo_pantest.core.tool_helper import ToolParameterValidator
+from aleopantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -295,7 +296,7 @@ assert is_valid == False
 
 #### Test 4.4: Port Validation
 ```python
-from aleo_pantest.core.tool_helper import ToolParameterValidator
+from aleopantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -327,9 +328,9 @@ assert is_valid == False
 #### Test 5.1: Tool Help Display
 ```bash
 # View tool help
-Aleocrophic help-tool ip-geo
-Aleocrophic help-tool dns
-Aleocrophic help-tool ddos-sim
+aleopantest help-tool ip-geo
+aleopantest help-tool dns
+aleopantest help-tool ddos-sim
 
 # Check output contains:
 # - Tool name
@@ -347,12 +348,12 @@ Aleocrophic help-tool ddos-sim
 #### Test 5.2: List Tools
 ```bash
 # List all tools
-Aleocrophic list-tools
+aleopantest list-tools
 
 # List by category
-Aleocrophic list-by-category network
-Aleocrophic list-by-category osint
-Aleocrophic list-by-category web
+aleopantest list-by-category network
+aleopantest list-by-category osint
+aleopantest list-by-category web
 ```
 
 **Expected Result:** Tools organized and displayed correctly
@@ -361,7 +362,7 @@ Aleocrophic list-by-category web
 
 #### Test 5.3: Run Command Help
 ```bash
-Aleocrophic run --help
+aleopantest run --help
 
 # Check output contains usage examples
 ```
@@ -375,7 +376,7 @@ Aleocrophic run --help
 #### Test 6.1: End-to-End IP Geolocation
 ```bash
 # Run IP geolocation with output
-Aleocrophic run ip-geo --ip 8.8.8.8 --output geo_results.json
+aleopantest run ip-geo --ip 8.8.8.8 --output geo_results.json
 
 # Verify results
 cat geo_results.json | python -m json.tool
@@ -402,7 +403,7 @@ cat geo_results.json | python -m json.tool
 #### Test 6.2: End-to-End DNS Lookup
 ```bash
 # Run DNS lookup
-Aleocrophic run dns --domain google.com
+aleopantest run dns --domain google.com
 
 # Expected output structure
 # Shows DNS records for google.com
@@ -415,10 +416,10 @@ Aleocrophic run dns --domain google.com
 #### Test 6.3: Help Then Run
 ```bash
 # View help
-Aleocrophic help-tool ip-geo
+aleopantest help-tool ip-geo
 
 # Then run with proper parameters
-Aleocrophic run ip-geo --ip 8.8.8.8
+aleopantest run ip-geo --ip 8.8.8.8
 ```
 
 **Expected Result:** Help shown correctly, then tool runs
@@ -429,33 +430,33 @@ Aleocrophic run ip-geo --ip 8.8.8.8
 
 ```bash
 #!/bin/bash
-# test_Aleocrophic.sh
+# test_aleopantest.sh
 
-echo "Testing Aleocrophic Interactive CLI"
+echo "Testing aleopantest Interactive CLI"
 echo "===================================="
 
 # Test 1: IP Geolocation
 echo -e "\nTest 1: IP Geolocation with --ip"
-Aleocrophic run ip-geo --ip 8.8.8.8
+aleopantest run ip-geo --ip 8.8.8.8
 
 echo -e "\nTest 2: IP Geolocation with --host"
-Aleocrophic run ip-geo --host 1.1.1.1
+aleopantest run ip-geo --host 1.1.1.1
 
 # Test 2: DDoS Simulator (authorized)
 echo -e "\nTest 3: DDoS Simulator with light preset"
-Aleocrophic run ddos-sim --target example.com --type http --preset light --authorized
+aleopantest run ddos-sim --target example.com --type http --preset light --authorized
 
 # Test 3: Help system
 echo -e "\nTest 4: Help for ip-geo"
-Aleocrophic help-tool ip-geo
+aleopantest help-tool ip-geo
 
 # Test 4: List tools
 echo -e "\nTest 5: List all tools"
-Aleocrophic list-tools
+aleopantest list-tools
 
 # Test 5: DNS lookup
 echo -e "\nTest 6: DNS lookup"
-Aleocrophic run dns --domain google.com
+aleopantest run dns --domain google.com
 
 echo -e "\n===================================="
 echo "Testing complete!"
@@ -468,7 +469,7 @@ echo "Testing complete!"
 ### Test 1: Parameter Mapping Performance
 ```python
 import time
-from aleo_pantest.core.interactive_handler import ParameterMapper
+from aleopantest.core.interactive_handler import ParameterMapper
 
 params = {f'param{i}': f'value{i}' for i in range(100)}
 
@@ -486,7 +487,7 @@ print(f"1000 normalizations took {end-start:.3f}s")
 ### Test 2: Validation Performance
 ```python
 import time
-from aleo_pantest.core.tool_helper import ToolParameterValidator
+from aleopantest.core.tool_helper import ToolParameterValidator
 
 validator = ToolParameterValidator()
 
@@ -506,7 +507,7 @@ print(f"1000 IP validations took {end-start:.3f}s")
 ### Test 1: Many Parameters
 ```bash
 # Create command with many parameters
-Aleocrophic run ip-geo --ip 8.8.8.8 \
+aleopantest run ip-geo --ip 8.8.8.8 \
   --output results.json \
   --extra-param-1 value1 \
   --extra-param-2 value2
@@ -520,7 +521,7 @@ Aleocrophic run ip-geo --ip 8.8.8.8 \
 ```bash
 # Many invalid inputs, should fail gracefully
 for invalid in "" " " "invalid" "xxx"; do
-  Aleocrophic run ip-geo --ip "$invalid" 2>&1
+  aleopantest run ip-geo --ip "$invalid" 2>&1
 done
 
 # All should show clear error messages
@@ -553,7 +554,7 @@ done
 **Solution:**
 ```bash
 pip install -r requirements.txt
-python -m aleo_pantest.cli --help
+python -m aleopantest.cli --help
 ```
 
 ### Issue: API connection errors in IP Geo
@@ -564,7 +565,7 @@ python -m aleo_pantest.cli --help
 ```bash
 chmod 755 output/
 # Or use different output directory
-Aleocrophic run ip-geo --ip 8.8.8.8 --output ./my_results.json
+aleopantest run ip-geo --ip 8.8.8.8 --output ./my_results.json
 ```
 
 ---

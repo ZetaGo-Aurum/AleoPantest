@@ -1,6 +1,6 @@
 import unittest
 import time
-from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 
 class MockTool(BaseTool):
     def run(self, duration=0, **kwargs):

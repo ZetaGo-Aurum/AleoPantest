@@ -1,18 +1,19 @@
-# Aleocrophic v2.0 - Quick Start Guide
+# Aleopantest v3.3.5 - Quick Start Guide
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## 🚀 Instalasi Cepat
 
 ### 1. Install Package
 ```bash
-cd Aleocrophic
+cd aleopantest
 pip install -e .
 pip install -r requirements.txt
 ```
 
 ### 2. Verifikasi Instalasi
 ```bash
-Aleocrophic --help
-Aleocrophic info
+aleopantest --help
+aleopantest info
 ```
 
 ## 💡 Contoh Penggunaan
@@ -20,52 +21,52 @@ Aleocrophic info
 ### Phishing Detection
 ```bash
 # Deteksi website phishing
-Aleocrophic run web-phishing --url http://suspicious-site.com
+aleopantest run web-phishing --url http://suspicious-site.com
 
 # Analisis email phishing
-Aleocrophic run email-phishing --email "hacker@fake.com" --subject "Verify Now"
+aleopantest run email-phishing --email "hacker@fake.com" --subject "Verify Now"
 
 # Cari domain phishing dari target
-Aleocrophic run phishing-locator --domain example.com
+aleopantest run phishing-locator --domain example.com
 
 # Buat template phishing untuk awareness training
-Aleocrophic run phishing-impersonation --type email --target bank
+aleopantest run phishing-impersonation --type email --target bank
 ```
 
 ### Clickjacking Detection
 ```bash
 # Check vulnerability clickjacking
-Aleocrophic run clickjacking-check --url http://target.com
+aleopantest run clickjacking-check --url http://target.com
 
 # Buat PoC (Proof of Concept)
-Aleocrophic run clickjacking-make --url http://target.com --type basic
+aleopantest run clickjacking-make --url http://target.com --type basic
 
 # Generate header proteksi
-Aleocrophic run anti-clickjacking --framework nginx --output nginx.conf
+aleopantest run anti-clickjacking --framework nginx --output nginx.conf
 ```
 
 ### Security Analysis
 ```bash
 # Deteksi DDoS protection (Cloudflare, Akamai, dll)
-Aleocrophic run anti-ddos --url http://target.com
+aleopantest run anti-ddos --url http://target.com
 
 # Deteksi WAF (Web Application Firewall)
-Aleocrophic run waf-detect --url http://target.com
+aleopantest run waf-detect --url http://target.com
 ```
 
 ### Network Tools
 ```bash
 # DNS Lookup
-Aleocrophic run dns --domain google.com
+aleopantest run dns --domain google.com
 
 # Port Scanning
-Aleocrophic run port-scan --host 192.168.1.1
+aleopantest run port-scan --host 192.168.1.1
 
 # SSL Certificate Check
-Aleocrophic run ssl-check --domain google.com
+aleopantest run ssl-check --domain google.com
 
 # DDoS Simulation (authorized testing only)
-Aleocrophic run ddos-sim --target target.com --type http --duration 30
+aleopantest run ddos-sim --target target.com --type http --duration 30
 ```
 
 ## 📊 Daftar Tools by Category
@@ -123,102 +124,102 @@ Aleocrophic run ddos-sim --target target.com --type http --duration 30
 ### Workflow 1: Website Security Audit
 ```bash
 # 1. Check for phishing characteristics
-Aleocrophic run web-phishing --url http://target.com
+aleopantest run web-phishing --url http://target.com
 
 # 2. Check clickjacking protection
-Aleocrophic run clickjacking-check --url http://target.com
+aleopantest run clickjacking-check --url http://target.com
 
 # 3. Detect WAF
-Aleocrophic run waf-detect --url http://target.com
+aleopantest run waf-detect --url http://target.com
 
 # 4. Detect DDoS protection
-Aleocrophic run anti-ddos --url http://target.com
+aleopantest run anti-ddos --url http://target.com
 
 # 5. Check SSL
-Aleocrophic run ssl-check --domain target.com
+aleopantest run ssl-check --domain target.com
 
 # 6. Find subdomains
-Aleocrophic run subdomain --url http://target.com
+aleopantest run subdomain --url http://target.com
 ```
 
 ### Workflow 2: Phishing Campaign Investigation
 ```bash
 # 1. Analyze email sender
-Aleocrophic run email-phishing --email "suspicious@fake-domain.com" --subject "Urgent Action Required"
+aleopantest run email-phishing --email "suspicious@fake-domain.com" --subject "Urgent Action Required"
 
 # 2. Check website characteristics
-Aleocrophic run web-phishing --url http://suspicious-site.com
+aleopantest run web-phishing --url http://suspicious-site.com
 
 # 3. Find phishing domain variants
-Aleocrophic run phishing-locator --domain legitimate-site.com
+aleopantest run phishing-locator --domain legitimate-site.com
 
 # 4. Generate awareness template
-Aleocrophic run phishing-impersonation --type email --target company-name
+aleopantest run phishing-impersonation --type email --target company-name
 ```
 
 ### Workflow 3: Security Hardening
 ```bash
 # 1. Check current protections
-Aleocrophic run anti-ddos --url http://target.com
-Aleocrophic run waf-detect --url http://target.com
+aleopantest run anti-ddos --url http://target.com
+aleopantest run waf-detect --url http://target.com
 
 # 2. Check clickjacking
-Aleocrophic run clickjacking-check --url http://target.com
+aleopantest run clickjacking-check --url http://target.com
 
 # 3. Generate protection headers
-Aleocrophic run anti-clickjacking --framework nginx
+aleopantest run anti-clickjacking --framework nginx
 
 # 4. View and implement recommendations
-Aleocrophic help-tool anti-clickjacking
+aleopantest help-tool anti-clickjacking
 ```
 
 ## 🔧 Help & Documentation
 
 ```bash
 # Show all commands
-Aleocrophic --help
+aleopantest --help
 
 # List all tools
-Aleocrophic list-tools
+aleopantest list-tools
 
 # Show statistics
-Aleocrophic info
+aleopantest info
 
 # Get help for specific tool
-Aleocrophic help-tool dns
-Aleocrophic help-tool web-phishing
-Aleocrophic help-tool clickjacking-check
+aleopantest help-tool dns
+aleopantest help-tool web-phishing
+aleopantest help-tool clickjacking-check
 
 # List tools by category
-Aleocrophic list-by-category Phishing
-Aleocrophic list-by-category Security
-Aleocrophic list-by-category Network
+aleopantest list-by-category Phishing
+aleopantest list-by-category Security
+aleopantest list-by-category Network
 ```
 
 ## ⚙️ Advanced Options
 
 ### Export Results
 ```bash
-Aleocrophic run dns --domain target.com --output results.json
+aleopantest run dns --domain target.com --output results.json
 ```
 
 ### Run with Multiple Options
 ```bash
-Aleocrophic run web-phishing --url http://target.com --output phishing_report.json
+aleopantest run web-phishing --url http://target.com --output phishing_report.json
 ```
 
 ### Adjust Thread Count (for network tools)
 ```bash
-Aleocrophic run port-scan --host 192.168.1.1 --threads 50
+aleopantest run port-scan --host 192.168.1.1 --threads 50
 ```
 
 ### DDoS Testing Parameters
 ```bash
 # Quick test (10 seconds)
-Aleocrophic run ddos-sim --target target.com --type http --duration 10
+aleopantest run ddos-sim --target target.com --type http --duration 10
 
 # Extended test (5 minutes with 20 threads)
-Aleocrophic run ddos-sim --target target.com --type http --duration 300 --threads 20
+aleopantest run ddos-sim --target target.com --type http --duration 300 --threads 20
 ```
 
 ## 📝 Output

@@ -1,18 +1,18 @@
-"""Setup script untuk Aleocrophic"""
+"""Setup script untuk Aleopantest"""
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="Aleocrophic",
-    version="3.3.4",
+    name="aleopantest",
+    version="3.3.5",
     author="Aleocrophic Team",
     author_email="deltaastra24@gmail.com",
     description="Modern Penetration Testing Framework with TUI and Automation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ZetaGo-Aurum/Aleocrophic",
+    url="https://github.com/ZetaGo-Aurum/aleopantest",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -41,7 +41,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'aleopantest=aleo_pantest.cli:main',
+            'aleopantest=aleopantest.cli:cli',
         ],
     },
 )

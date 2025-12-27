@@ -2,8 +2,8 @@ import os
 
 tools = [
     {
-        "path": "aleo_pantest/modules/network/subnet_calc.py",
-        "content": """from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+        "path": "aleopantest/modules/network/subnet_calc.py",
+        "content": """from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 import ipaddress
 
 class SubnetCalc(BaseTool):
@@ -41,8 +41,8 @@ class SubnetCalc(BaseTool):
 """
     },
     {
-        "path": "aleo_pantest/modules/web/admin_finder.py",
-        "content": """from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+        "path": "aleopantest/modules/web/admin_finder.py",
+        "content": """from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 import requests
 
 class AdminFinder(BaseTool):
@@ -77,8 +77,8 @@ class AdminFinder(BaseTool):
 """
     },
     {
-        "path": "aleo_pantest/modules/osint/phone_lookup.py",
-        "content": """from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+        "path": "aleopantest/modules/osint/phone_lookup.py",
+        "content": """from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 
 class PhoneLookup(BaseTool):
     def __init__(self):
@@ -110,8 +110,8 @@ class PhoneLookup(BaseTool):
 """
     },
     {
-        "path": "aleo_pantest/modules/security/firewall_bypass.py",
-        "content": """from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+        "path": "aleopantest/modules/security/firewall_bypass.py",
+        "content": """from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 
 class FirewallBypass(BaseTool):
     def __init__(self):
@@ -144,8 +144,8 @@ class FirewallBypass(BaseTool):
 """
     },
     {
-        "path": "aleo_pantest/modules/crypto/rsa_gen.py",
-        "content": """from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+        "path": "aleopantest/modules/crypto/rsa_gen.py",
+        "content": """from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 import secrets
 
 class RSAGen(BaseTool):
@@ -176,8 +176,8 @@ class RSAGen(BaseTool):
 """
     },
     {
-        "path": "aleo_pantest/modules/utilities/cron_gen.py",
-        "content": """from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+        "path": "aleopantest/modules/utilities/cron_gen.py",
+        "content": """from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 
 class CronGen(BaseTool):
     def __init__(self):

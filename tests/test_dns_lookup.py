@@ -1,6 +1,6 @@
 
 import unittest
-from aleo_pantest.modules.network.dns_lookup import DNSLookup
+from aleopantest.modules.network.dns_lookup import DNSLookup
 
 class TestDNSLookup(unittest.TestCase):
     def setUp(self):

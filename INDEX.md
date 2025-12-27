@@ -1,8 +1,9 @@
-# 📑 Aleocrophic v2.0 - Documentation Index
+# 📑 Aleopantest v3.3.5 - Documentation Index
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 **Quick Navigation for All Documentation**  
-**Last Updated:** December 25, 2025  
-**Version:** 2.0.0
+**Last Updated:** December 27, 2025  
+**Version:** 3.3.5
 
 ---
 
@@ -58,13 +59,13 @@
 |----------|---------|----------|
 | **[README.md](README.md)** | Full tool guide | Comprehensive |
 | **[QUICKSTART.md](QUICKSTART.md)** | Quick examples | Learning by doing |
-| **CLI Help** | `Aleocrophic help-tool <tool>` | Specific tool |
+| **CLI Help** | `aleopantest help-tool <tool>` | Specific tool |
 
 **📌 To learn a specific tool:**
 ```bash
-Aleocrophic help-tool email-phishing
-Aleocrophic help-tool clickjacking-check
-Aleocrophic help-tool anti-ddos
+aleopantest help-tool email-phishing
+aleopantest help-tool clickjacking-check
+aleopantest help-tool anti-ddos
 ```
 
 ---
@@ -77,7 +78,7 @@ Aleocrophic help-tool anti-ddos
 1. README_START_HERE.md      ← Start here!
 2. QUICKSTART.md             ← Get it running
 3. README.md                 ← Learn features
-4. Aleocrophic --help        ← See commands
+4. aleopantest --help        ← See commands
 ```
 
 ### For Developers
@@ -104,7 +105,7 @@ Aleocrophic help-tool anti-ddos
 1. README_v2.md              ← Tools overview
 2. RELEASE_NOTES_v2.md       ← New tools
 3. QUICKSTART_v2.md          ← Usage examples
-4. Aleocrophic help-tool     ← Specific tool
+4. aleopantest help-tool     ← Specific tool
 ```
 
 ---
@@ -145,17 +146,17 @@ Aleocrophic help-tool anti-ddos
 
 ### "I want to..."
 
-#### Install Aleocrophic
+#### Install Aleopantest
 → [INSTALL_GUIDE.md](INSTALL_GUIDE.md) (detailed) or [QUICKSTART_v2.md](QUICKSTART_v2.md) (fast)
 
 #### Learn what's new in v2.0
 → [RELEASE_NOTES_v2.md](RELEASE_NOTES_v2.md)
 
 #### See all available tools
-→ Run: `Aleocrophic list-tools` or read [README_v2.md](README_v2.md)
+→ Run: `aleopantest list-tools` or read [README_v2.md](README_v2.md)
 
 #### Use a specific tool
-→ Run: `Aleocrophic help-tool <tool-id>` or see [QUICKSTART_v2.md](QUICKSTART_v2.md)
+→ Run: `aleopantest help-tool <tool-id>` or see [QUICKSTART_v2.md](QUICKSTART_v2.md)
 
 #### Understand phishing detection
 → [README_v2.md](README_v2.md) - Phishing section
@@ -167,10 +168,10 @@ Aleocrophic help-tool anti-ddos
 → [README_v2.md](README_v2.md) - Security section
 
 #### See all commands
-→ Run: `Aleocrophic --help`
+→ Run: `aleopantest --help`
 
 #### Get tool-specific help
-→ Run: `Aleocrophic help-tool <tool-id>`
+→ Run: `aleopantest help-tool <tool-id>`
 
 #### Understand the project
 → [SUMMARY_v2.md](SUMMARY_v2.md) or [BUILD_REPORT.md](BUILD_REPORT.md)
@@ -252,10 +253,10 @@ Documentation/
 ### By Directory
 
 ```
-Aleocrophic/
+aleopantest/
 ├── Root (Documentation files)
 ├── docs/ (Additional docs)
-├── aleo_pantest/ (Source code)
+├── aleopantest/ (Source code)
 ├── config/ (Configuration)
 ├── logs/ (Log directory)
 └── output/ (Output directory)
@@ -313,10 +314,10 @@ Home → README_START_HERE.md
 
 ### Command Reference
 ```bash
-Aleocrophic --help              # Show main help
-Aleocrophic list-tools          # List all tools
-Aleocrophic list-by-category    # List by category
-Aleocrophic help-tool <tool-id> # Tool-specific help
+aleopantest --help              # Show main help
+aleopantest list-tools          # List all tools
+aleopantest list-by-category    # List by category
+aleopantest help-tool <tool-id> # Tool-specific help
 ```
 
 ### Documentation Commands
@@ -341,18 +342,18 @@ cat README_v2.md
 
 ### During Installation
 - [ ] Follow INSTALL_GUIDE.md
-- [ ] Run `Aleocrophic --help`
-- [ ] Run `Aleocrophic info`
+- [ ] Run `aleopantest --help`
+- [ ] Run `aleopantest info`
 
 ### Before Using Tools
-- [ ] Read tool-specific help: `Aleocrophic help-tool <tool>`
+- [ ] Read tool-specific help: `aleopantest help-tool <tool>`
 - [ ] Review examples in QUICKSTART_v2.md
 - [ ] Check security guidelines in README_v2.md
 
 ### If You Have Questions
 1. Check this INDEX
 2. Search relevant documentation
-3. Check help system: `Aleocrophic help-tool <tool>`
+3. Check help system: `aleopantest help-tool <tool>`
 4. Review QUICKSTART_v2.md for examples
 
 ---
@@ -366,7 +367,7 @@ cat README_v2.md
 **Security:** [README_v2.md](README_v2.md) - search "Security"  
 **Installation issues:** [INSTALL_GUIDE.md](INSTALL_GUIDE.md) - Troubleshooting section  
 **Examples:** [QUICKSTART_v2.md](QUICKSTART_v2.md)  
-**All tools:** [FEATURE_CHECKLIST.md](FEATURE_CHECKLIST.md) or `Aleocrophic list-tools`  
+**All tools:** [FEATURE_CHECKLIST.md](FEATURE_CHECKLIST.md) or `aleopantest list-tools`  
 **What changed:** [CHANGELOG.md](CHANGELOG.md) or [RELEASE_NOTES_v2.md](RELEASE_NOTES_v2.md)
 
 ---
@@ -377,12 +378,12 @@ cat README_v2.md
 1. **Installation:** → [INSTALL_GUIDE.md](INSTALL_GUIDE.md)
 2. **Features:** → [README_v2.md](README_v2.md)
 3. **Examples:** → [QUICKSTART_v2.md](QUICKSTART_v2.md)
-4. **Specific tool:** → Run `Aleocrophic help-tool <tool>`
+4. **Specific tool:** → Run `aleopantest help-tool <tool>`
 
 ### Can't Find Something?
 1. Check this INDEX
 2. Search documentation files
-3. Use command: `Aleocrophic --help`
+3. Use command: `aleopantest --help`
 4. Check QUICKSTART_v2.md for examples
 
 ---
@@ -393,8 +394,8 @@ cat README_v2.md
 ```
 1. README_START_HERE.md (5 min)
 2. QUICKSTART_v2.md (15 min)
-3. Try: Aleocrophic list-tools (5 min)
-4. Try: Aleocrophic help-tool email-phishing (5 min)
+3. Try: aleopantest list-tools (5 min)
+4. Try: aleopantest help-tool email-phishing (5 min)
 ```
 
 ### Intermediate (1 hour)
@@ -420,11 +421,11 @@ cat README_v2.md
 
 ### Essential Commands
 ```bash
-Aleocrophic --help              # Main help
-Aleocrophic list-tools          # List all tools
-Aleocrophic info                # Tool statistics
-Aleocrophic help-tool <id>      # Tool help
-Aleocrophic run <tool> [options] # Run tool
+aleopantest --help              # Main help
+aleopantest list-tools          # List all tools
+aleopantest info                # Tool statistics
+aleopantest help-tool <id>      # Tool help
+aleopantest run <tool> [options] # Run tool
 ```
 
 ### Essential Files
@@ -434,20 +435,27 @@ Aleocrophic run <tool> [options] # Run tool
 - **INSTALL_GUIDE.md** - Setup
 
 ### Essential URLs
-- **GitHub:** https://github.com/ZetaGo-Aurum/Aleocrophic
+- **GitHub:** https://github.com/ZetaGo-Aurum/aleopantest
 - **Issues:** GitHub Issues
 - **Discussions:** GitHub Discussions
 
 ---
 
+## 🔗 EXTERNAL LINKS
+- **GitHub:** https://github.com/ZetaGo-Aurum/aleopantest
+- **Issues:** https://github.com/ZetaGo-Aurum/aleopantest/issues
+
+---
+
 ## 🎊 THANK YOU!
 
-Thank you for using Aleocrophic v2.0. We hope this documentation index helps you navigate our comprehensive guides!
+Thank you for using Aleopantest v3.3.5. We hope this documentation index helps you navigate our comprehensive guides!
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 **Start with:** [README_START_HERE.md](README_START_HERE.md)
 
 ---
 
-**Documentation Index v2.0**  
-*Last Updated: December 25, 2025*  
+**Documentation Index v3.3.5**  
+*Last Updated: December 27, 2025*  
 *Total Documentation: 50,000+ words across 15+ files*

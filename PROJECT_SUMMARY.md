@@ -1,4 +1,5 @@
-# PROJECT SUMMARY - Aleocrophic v1.0.0
+# PROJECT SUMMARY - Aleopantest v3.3.5
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## 📊 Project Status: ✅ COMPLETE
 
@@ -85,8 +86,8 @@ Sebuah comprehensive penetration testing framework dengan **30+ fully functional
 ## 📂 Project Structure
 
 ```
-Aleocrophic/
-├── aleo_pantest/                      # Main package
+aleopantest/
+├── aleopantest/                      # Main package
 │   ├── __init__.py                   # Package initialization
 │   ├── cli.py                        # CLI interface
 │   ├── core/                         # Core framework
@@ -140,7 +141,7 @@ Aleocrophic/
 ├── output/                           # Output directory
 ├── docs/                             # Documentation
 │   └── TOOLS.md                      # Tools documentation
-├── aleo_pantest_cli.py               # CLI entry point
+├── aleopantest_cli.py               # CLI entry point
 ├── test_tools.py                     # Test script
 ├── requirements.txt                  # Dependencies
 ├── setup.py                          # Package setup
@@ -231,25 +232,26 @@ Aleocrophic/
 
 ### Quick Install
 ```bash
-cd Aleocrophic
+cd aleopantest
 pip install -r requirements.txt
-python aleo_pantest_cli.py info
+aleopantest info
 ```
 
 ### Run Tools
 ```bash
 # Network tools
-python aleo_pantest_cli.py run port-scan --host 192.168.1.1
+aleopantest run port-scan --host 192.168.1.1
 
 # Web tools
-python aleo_pantest_cli.py run sql-inject --url http://target.com
+aleopantest run sql-inject --url http://target.com
 
 # OSINT tools
-python aleo_pantest_cli.py run domain-info --domain example.com
+aleopantest run domain-info --domain example.com
 
 # Utilities
-python aleo_pantest_cli.py run passgen --length 16
+aleopantest run passgen --length 16
 ```
+
 
 ---
 
@@ -348,7 +350,7 @@ python aleo_pantest_cli.py run passgen --length 16
 ### Adding New Tools
 Framework mendukung menambah tools baru:
 ```python
-from aleo_pantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
+from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 
 class CustomTool(BaseTool):
     def __init__(self):
@@ -494,25 +496,16 @@ class CustomTool(BaseTool):
 
 ---
 
-## 📜 Final Notes
+## 📈 Conclusion
 
-**Aleocrophic** adalah project lengkap yang siap untuk:
-- Educational use di institusi pendidikan
-- Professional training di perusahaan keamanan
-- Research purposes untuk security researchers
-- Bug bounty hunting
-- Penetration testing (authorized only)
-- Community development dan contribution
+**Aleopantest** adalah project lengkap yang siap untuk:
+-   **Security Audit**: Melakukan pengecekan kerentanan dasar.
+-   **Educational Tool**: Mempelajari cara kerja berbagai serangan cybersecurity.
+-   **Open Source Development**: Mudah dimodifikasi dan ditambahkan fitur baru.
 
-Semua komponen telah ditest dan didokumentasikan dengan baik.
-
----
-
-**Project Status**: ✅ **COMPLETE & READY FOR USE**
-
-**Last Updated**: Desember 2024
-**Version**: 1.0.0
-**Maintained By**: Aleocrophic Team
+**Maintained By**: Aleocrophic
+**License**: MIT License
+**Version**: 3.3.5
 
 ---
 

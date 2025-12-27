@@ -1,4 +1,5 @@
-# Aleocrophic v3.3.4 - Requirements File
+# Aleopantest v3.3.5 - Requirements File
+# by Aleocrophic
 # Environment: Python 3.8+ (Target: Windows, Linux, macOS)
 # Encoding: UTF-8
 # Standards: PEP 440 versioning, UTF-8 documentation

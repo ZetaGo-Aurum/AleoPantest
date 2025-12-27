@@ -1,4 +1,5 @@
-# TOOLS DOCUMENTATION
+# ALEOPANTEST - TOOLS DOCUMENTATION
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## Network Tools
 
@@ -9,8 +10,8 @@ Fast port scanner dengan multi-threading support.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run port-scan --host 192.168.1.1
-python aleo_pantest_cli.py run port-scan --host example.com --port 80,443,3306,5432
+python aleopantest_cli.py run port-scan --host 192.168.1.1
+python aleopantest_cli.py run port-scan --host example.com --port 80,443,3306,5432
 ```
 
 **Parameters**:
@@ -34,7 +35,7 @@ Real-time network packet capture dan analysis.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run sniffer
+python aleopantest_cli.py run sniffer
 ```
 
 **Features**:
@@ -51,8 +52,8 @@ ICMP ping untuk host reachability testing.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run ping --host 8.8.8.8
-python aleo_pantest_cli.py run ping --host example.com --count 10
+python aleopantest_cli.py run ping --host 8.8.8.8
+python aleopantest_cli.py run ping --host example.com --count 10
 ```
 
 **Parameters**:
@@ -69,7 +70,7 @@ DNS resolution dengan multiple record types.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run dns --domain example.com
+python aleopantest_cli.py run dns --domain example.com
 ```
 
 **Features**:
@@ -88,7 +89,7 @@ Network path analysis.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run traceroute --host 8.8.8.8
+python aleopantest_cli.py run traceroute --host 8.8.8.8
 ```
 
 **Parameters**:
@@ -106,8 +107,8 @@ Memutuskan koneksi klien dari Access Point secara real-time menggunakan paket de
 
 **Usage**:
 ```bash
-Aleocrophic run deauth --target 00:11:22:33:44:55 --iface wlan0mon
-Aleocrophic run deauth --target 00:11:22:33:44:55 --client AA:BB:CC:DD:EE:FF --count 100
+aleopantest run deauth --target 00:11:22:33:44:55 --iface wlan0mon
+aleopantest run deauth --target 00:11:22:33:44:55 --client AA:BB:CC:DD:EE:FF --count 100
 ```
 
 **Features**:
@@ -133,7 +134,7 @@ Membuat ribuan Access Point palsu untuk membanjiri daftar scan WiFi.
 
 **Usage**:
 ```bash
-Aleocrophic run beacon-flood --iface wlan0mon --count 100
+aleopantest run beacon-flood --iface wlan0mon --count 100
 ```
 
 **Parameters**:
@@ -150,7 +151,7 @@ Scan jaringan WiFi di sekitar dan menampilkan detail sinyal, enkripsi, dan BSSID
 
 **Usage**:
 ```bash
-Aleocrophic run wifi-scan --iface wlan0mon
+aleopantest run wifi-scan --iface wlan0mon
 ```
 ---
 
@@ -161,7 +162,7 @@ Domain ownership information.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run whois --domain example.com
+python aleopantest_cli.py run whois --domain example.com
 ```
 
 **Parameters**:
@@ -177,7 +178,7 @@ SSL/TLS certificate analysis.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run ssl-check --host example.com --port 443
+python aleopantest_cli.py run ssl-check --host example.com --port 443
 ```
 
 **Features**:
@@ -195,7 +196,7 @@ Subnet scanning untuk host discovery.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run ip-scan --network 192.168.1.0/24
+python aleopantest_cli.py run ip-scan --network 192.168.1.0/24
 ```
 
 **Parameters**:
@@ -212,7 +213,7 @@ SQL injection vulnerability testing.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run sql-inject --url http://target.com/page.php?id=1
+python aleopantest_cli.py run sql-inject --url http://target.com/page.php?id=1
 ```
 
 **Features**:
@@ -229,7 +230,7 @@ Cross-site scripting vulnerability detection.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run xss-detect --url http://target.com
+python aleopantest_cli.py run xss-detect --url http://target.com
 ```
 
 **Detects**:
@@ -246,7 +247,7 @@ CSRF vulnerability analysis.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run csrf-detect --url http://target.com/form
+python aleopantest_cli.py run csrf-detect --url http://target.com/form
 ```
 
 **Checks**:
@@ -263,7 +264,7 @@ Website structure mapping.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run crawler --url http://target.com --depth 2
+python aleopantest_cli.py run crawler --url http://target.com --depth 2
 ```
 
 **Parameters**:
@@ -279,7 +280,7 @@ Common web vulnerability scanning.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run vuln-scan --url http://target.com
+python aleopantest_cli.py run vuln-scan --url http://target.com
 ```
 
 **Checks**:
@@ -296,7 +297,7 @@ Subdomain enumeration.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run subdomain --domain example.com
+python aleopantest_cli.py run subdomain --domain example.com
 ```
 
 **Features**:
@@ -315,7 +316,7 @@ Email discovery from domain.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run email-find --domain example.com
+python aleopantest_cli.py run email-find --domain example.com
 ```
 
 **Features**:
@@ -332,7 +333,7 @@ Comprehensive domain information gathering.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run domain-info --domain example.com
+python aleopantest_cli.py run domain-info --domain example.com
 ```
 
 **Gathers**:
@@ -350,7 +351,7 @@ Geographical IP lookup.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run ip-geo --ip 8.8.8.8
+python aleopantest_cli.py run ip-geo --ip 8.8.8.8
 ```
 
 **Information**:
@@ -368,8 +369,8 @@ File dan website metadata extraction.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run metadata --url http://target.com
-python aleo_pantest_cli.py run metadata --file document.pdf
+python aleopantest_cli.py run metadata --url http://target.com
+python aleopantest_cli.py run metadata --file document.pdf
 ```
 
 **Supports**:
@@ -386,7 +387,7 @@ Advanced search engine queries.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run dorking --query "site:example.com filetype:pdf"
+python aleopantest_cli.py run dorking --query "site:example.com filetype:pdf"
 ```
 
 **Features**:
@@ -405,7 +406,7 @@ Secure password generation.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run passgen --length 16 --count 5
+python aleopantest_cli.py run passgen --length 16 --count 5
 ```
 
 **Parameters**:
@@ -422,7 +423,7 @@ Multi-algorithm hashing.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run hash --text "password" --algorithm sha256
+python aleopantest_cli.py run hash --text "password" --algorithm sha256
 ```
 
 **Algorithms**:
@@ -442,7 +443,7 @@ Proxy testing dan management.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run proxy --get-free
+python aleopantest_cli.py run proxy --get-free
 ```
 
 **Features**:
@@ -459,7 +460,7 @@ Encoding transformations.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run encode --text "hello world" --operation encode
+python aleopantest_cli.py run encode --text "hello world" --operation encode
 ```
 
 **Operations**:
@@ -477,7 +478,7 @@ Reverse shell payload generation.
 
 **Usage**:
 ```bash
-python aleo_pantest_cli.py run revshell --host 10.0.0.1 --port 4444 --language bash
+python aleopantest_cli.py run revshell --host 10.0.0.1 --port 4444 --language bash
 ```
 
 **Shells**:

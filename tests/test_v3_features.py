@@ -1,9 +1,9 @@
-"""Unit tests for Aleocrophic V3.0 core features"""
+"""Unit tests for Aleopantest V3.0 core features"""
 import unittest
 import time
-from aleo_pantest.core.platform import PlatformDetector, PlatformOptimizer
-from aleo_pantest.core.session import SessionManager, SecurityGuard
-from aleo_pantest.core.automation import ContextDetector, AutomationEngine
+from aleopantest.core.platform import PlatformDetector, PlatformOptimizer
+from aleopantest.core.session import SessionManager, SecurityGuard
+from aleopantest.core.automation import ContextDetector, AutomationEngine
 
 class TestV3Core(unittest.TestCase):
     

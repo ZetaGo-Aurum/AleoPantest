@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script untuk Aleocrophic
+Test script untuk Aleopantest
 Untuk verify semua tools berfungsi dengan baik
 """
 
@@ -10,11 +10,11 @@ from pathlib import Path
 # Add project to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from aleo_pantest.core.logger import logger
-from aleo_pantest.modules.network import PortScanner, PingTool, DNSLookup
-from aleo_pantest.modules.web import SQLInjector, SubdomainFinder
-from aleo_pantest.modules.osint import IPGeolocation, DomainInfo
-from aleo_pantest.modules.utilities import PasswordGenerator, HashTools, URLEncoder
+from aleopantest.core.logger import logger
+from aleopantest.modules.network import PortScanner, PingTool, DNSLookup
+from aleopantest.modules.web import SQLInjector, SubdomainFinder
+from aleopantest.modules.osint import IPGeolocation, DomainInfo
+from aleopantest.modules.utilities import PasswordGenerator, HashTools, URLEncoder
 
 def test_network_tools():
     """Test network tools"""
@@ -100,7 +100,7 @@ def run_all_tests():
     """Run semua tests"""
     print("\n")
     print("╔" + "="*48 + "╗")
-    print("║" + " Aleocrophic - Tool Test Suite ".center(48) + "║")
+    print("║" + " Aleopantest - Tool Test Suite ".center(48) + "║")
     print("╚" + "="*48 + "╝")
     
     tests = [
@@ -131,7 +131,7 @@ def run_all_tests():
     print(f"[*] Total: {passed + failed}")
     
     if failed == 0:
-        print("\n✓ All tests passed! Aleocrophic is ready to use.")
+        print("\n✓ All tests passed! Aleopantest is ready to use.")
         return 0
     else:
         print(f"\n✗ {failed} test(s) failed. Please check your installation.")

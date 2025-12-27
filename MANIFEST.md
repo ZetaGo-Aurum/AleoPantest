@@ -1,7 +1,8 @@
-# Aleocrophic v2.0 - MANIFEST & INVENTORY
+# Aleopantest v3.3.5 - MANIFEST & INVENTORY
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
-**Document Created:** December 25, 2025  
-**Version:** 2.0.0  
+**Document Created:** December 27, 2025  
+**Version:** 3.3.5  
 **Purpose:** Complete inventory of all deliverables
 
 ---
@@ -11,67 +12,67 @@
 ### New Tool Files (13 Files - 4,000+ Lines)
 
 #### Phishing Module
-1. **aleo_pantest/modules/phishing/__init__.py**
+1. **aleopantest/modules/phishing/__init__.py**
    - Module initialization
    - Exports: WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation
 
-2. **aleo_pantest/modules/phishing/web_phishing.py** (350 lines)
+2. **aleopantest/modules/phishing/web_phishing.py** (350 lines)
    - Class: WebPhishing
    - Methods: check_url_characteristics(), check_page_content(), validate_input(), run()
    - Features: URL analysis, SSL check, form detection, risk scoring
 
-3. **aleo_pantest/modules/phishing/email_phishing.py** (280 lines)
+3. **aleopantest/modules/phishing/email_phishing.py** (280 lines)
    - Class: EmailPhishing
    - Methods: analyze_sender(), analyze_subject(), validate_input(), run()
    - Features: Sender analysis, subject analysis, risk scoring
 
-4. **aleo_pantest/modules/phishing/phishing_locator.py** (290 lines)
+4. **aleopantest/modules/phishing/phishing_locator.py** (290 lines)
    - Class: PhishingLocator
    - Methods: generate_phishing_variants(), check_domain_availability(), validate_input(), run()
    - Features: Variant generation, DNS lookup, availability checking
 
-5. **aleo_pantest/modules/phishing/phishing_impersonation.py** (380 lines)
+5. **aleopantest/modules/phishing/phishing_impersonation.py** (380 lines)
    - Class: PhishingImpersonation
    - Methods: create_phishing_email_template(), create_phishing_website_template(), create_phishing_sms_template(), run()
    - Features: Template generation, HTML generation, educational content
 
 #### Clickjacking Module
-6. **aleo_pantest/modules/clickjacking/__init__.py**
+6. **aleopantest/modules/clickjacking/__init__.py**
    - Module initialization
    - Exports: ClickjackingChecker, ClickjackingMaker, AntiClickjackingGenerator
 
-7. **aleo_pantest/modules/clickjacking/clickjacking_checker.py** (280 lines)
+7. **aleopantest/modules/clickjacking/clickjacking_checker.py** (280 lines)
    - Class: ClickjackingChecker
    - Methods: check_headers(), check_html_content(), validate_input(), run()
    - Features: Header analysis, content analysis, vulnerability scoring
 
-8. **aleo_pantest/modules/clickjacking/clickjacking_maker.py** (380 lines)
+8. **aleopantest/modules/clickjacking/clickjacking_maker.py** (380 lines)
    - Class: ClickjackingMaker
    - Methods: create_basic_poc(), create_advanced_poc(), validate_input(), run()
    - Features: PoC generation, HTML generation, educational content
 
-9. **aleo_pantest/modules/clickjacking/anti_clickjacking_generator.py** (450 lines)
+9. **aleopantest/modules/clickjacking/anti_clickjacking_generator.py** (450 lines)
    - Class: AntiClickjackingGenerator
    - Methods: generate_nginx_config(), generate_apache_config(), generate_nodejs_code(), generate_python_code(), generate_javascript_framebuster(), validate_input(), run()
    - Features: Framework-specific code generation for 6 frameworks
 
 #### Security Module
-10. **aleo_pantest/modules/security/__init__.py**
+10. **aleopantest/modules/security/__init__.py**
     - Module initialization
     - Exports: AntiDDoS, WAFDetector
 
-11. **aleo_pantest/modules/security/anti_ddos.py** (350 lines)
+11. **aleopantest/modules/security/anti_ddos.py** (350 lines)
     - Class: AntiDDoS
     - Methods: detect_cdnandddos(), _check_dns(), _measure_response_times(), validate_input(), run()
     - Features: CDN detection, DDoS protection detection, DNS analysis
 
-12. **aleo_pantest/modules/security/waf_detector.py** (350 lines)
+12. **aleopantest/modules/security/waf_detector.py** (350 lines)
     - Class: WAFDetector
     - Methods: detect_waf_by_headers(), detect_waf_by_response_code(), validate_input(), run()
     - Features: WAF detection, payload testing, bypass enumeration
 
 #### Network Enhancement
-13. **aleo_pantest/modules/network/ddos_simulator.py** (420 lines)
+13. **aleopantest/modules/network/ddos_simulator.py** (420 lines)
     - Class: DDoSSimulator
     - Methods: simulate_http_flood(), simulate_dns_flood(), simulate_slowloris(), simulate_synflood(), simulate_udpflood(), get_attack_analysis(), validate_input(), run()
     - Features: 5 attack types, multi-threading, rate limiting
@@ -82,17 +83,17 @@
 
 1. **setup.py**
    - Updated version from 1.0.0 to 2.0.0
-   - Changed entry point from Aleocrophic to Aleocrophic
+   - Changed entry point to aleopantest
    - Updated description to "400+ penetration testing tools"
    - Updated install_requires with new tools
 
-2. **aleo_pantest/core/base_tool.py**
+2. **aleopantest/core/base_tool.py**
    - Added PHISHING to ToolCategory enum
    - Added SECURITY to ToolCategory enum
    - Added CLICKJACKING to ToolCategory enum
    - Expanded from 6 to 9 categories
 
-3. **aleo_pantest/cli.py** (Complete Rewrite)
+3. **aleopantest/cli.py** (Complete Rewrite)
    - Updated TOOLS_REGISTRY from 24 to 39 tools
    - Added TOOLS_BY_CATEGORY dictionary
    - Added list-by-category command
@@ -101,7 +102,7 @@
    - Updated banner with v2.0 branding
    - Improved help text and examples
 
-4. **aleo_pantest/modules/network/__init__.py**
+4. **aleopantest/modules/network/__init__.py**
    - Added DDoSSimulator import
    - Added DDoSSimulator to module exports
 
@@ -115,7 +116,7 @@
 ### Documentation Files (9 Files)
 
 1. **README_v2.md** (600+ lines)
-   - Aleocrophic v2.0 feature overview
+   - Aleopantest v2.0 feature overview
    - Installation instructions
    - Quick start section
    - Tool descriptions by category
@@ -272,8 +273,8 @@
 ## 🗂️ DIRECTORY STRUCTURE
 
 ```
-Aleocrophic/
-├── aleo_pantest/
+aleopantest/
+├── aleopantest/
 │   ├── core/
 │   │   ├── base_tool.py (MODIFIED - Added categories)
 │   │   ├── config.py
@@ -346,7 +347,7 @@ Aleocrophic/
 │   └── default.yml
 ├── logs/ (Directory)
 ├── output/ (Directory)
-├── Aleocrophic.egg-info/
+├── aleopantest.egg-info/
 │
 ├── setup.py (MODIFIED - v2.0.0)
 ├── requirements.txt (MODIFIED)
@@ -367,7 +368,7 @@ Aleocrophic/
 ├── COMPLETION_REPORT.md (Updated)
 ├── PROJECT_SUMMARY.md (Original)
 ├── test_tools.py
-└── aleo_pantest_cli.py
+└── aleopantest_cli.py
 ```
 
 ---
@@ -443,10 +444,10 @@ Aleocrophic/
 
 ### Quick Start
 ```bash
-Aleocrophic --help              # Show help
-Aleocrophic list-tools          # List all tools
-Aleocrophic help-tool <tool-id> # Tool help
-Aleocrophic run <tool> [opts]   # Run tool
+aleopantest --help              # Show help
+aleopantest list-tools          # List all tools
+aleopantest help-tool <tool-id> # Tool help
+aleopantest run <tool> [opts]   # Run tool
 ```
 
 ### Documentation Access
@@ -464,7 +465,7 @@ Aleocrophic run <tool> [opts]   # Run tool
 
 ## 🎊 FINAL STATUS
 
-**Project:** Aleocrophic v2.0  
+**Project:** aleopantest v3.3.5  
 **Status:** ✅ **COMPLETE**  
 **Date:** December 25, 2025  
 **Version:** 2.0.0
@@ -473,4 +474,4 @@ Aleocrophic run <tool> [opts]   # Run tool
 
 ---
 
-*This manifest documents all files created, modified, and delivered in the Aleocrophic v2.0 project.*
+*This manifest documents all files created, modified, and delivered in the aleopantest v3.3.5 project.*

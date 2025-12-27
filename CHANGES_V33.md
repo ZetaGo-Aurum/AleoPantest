@@ -1,5 +1,7 @@
-# Laporan Analisis Root Cause & Dokumentasi Perubahan
-## Aleocrophic v3.2.0 Web Mode Update (Fixes & Stability)
+# Aleopantest v3.3.5 - Analisis Root Cause & Dokumentasi Perubahan
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
+
+## Aleopantest v3.3.5 Update (Fixes & Stability)
 
 ### 1. Perbaikan Bug Modul WAF Detector
 - **Validasi URL Wajib:** Menambahkan validasi URL yang ketat sebelum eksekusi tool untuk mencegah error input kosong.
@@ -15,7 +17,7 @@
 
 ### 3. Kompatibilitas Web vs CLI
 - **Sinkronisasi Parameter:** Memperbaiki perbedaan penamaan parameter antara antarmuka web (biasanya `target`) dan internal tool (biasanya `url`).
-- **Terminal-to-Web Delivery:** Implementasi endpoint `/api/report` dan bridge `api.php` untuk memungkinkan pengiriman hasil langsung dari terminal ke dashboard web secara real-time.
+- **Terminal-to-Web Delivery:** Implementasi endpoint `/aleopantest/api/report` dan bridge `api.php` untuk memungkinkan pengiriman hasil langsung dari terminal ke dashboard web secara real-time.
 - **Enhanced Debugging:** Menambahkan logging traceback yang lebih detail di `web_server.py` untuk memudahkan pelacakan error ASGI.
 
 ### 4. Perbaikan Internal & Stabilitas
@@ -25,7 +27,7 @@
 
 ---
 
-## Aleocrophic v3.3.0 Web Mode Update (Previous Changes)
+## Aleopantest v3.3.0 Web Mode Update (Previous Changes)
 
 **Masalah:**
 Saat menjalankan tool melalui Dashboard Web, pengguna sering menerima pesan error "Execution failed: undefined" di UI toast, meskipun proses di backend mungkin berjalan.
@@ -43,8 +45,8 @@ Saat menjalankan tool melalui Dashboard Web, pengguna sering menerima pesan erro
 
 ### 2. Dokumentasi Perubahan
 
-#### Backend (`aleo_pantest/core/web_server.py`)
-- **Standardisasi Respon:** Semua pemanggilan `/api/run` sekarang mengembalikan struktur:
+#### Backend (`aleopantest/core/web_server.py`)
+- **Standardisasi Respon:** Semua pemanggilan `/aleopantest/api/run` sekarang mengembalikan struktur:
   ```json
   {
     "status": "success/error",
@@ -58,13 +60,13 @@ Saat menjalankan tool melalui Dashboard Web, pengguna sering menerima pesan erro
 - **Mekanisme Retry:** Implementasi logika retry otomatis (maksimal 3 kali dengan delay 2 detik) untuk pemanggilan tool guna meningkatkan stabilitas pada operasi jaringan yang fluktuatif.
 - **Enhanced Logging:** Menambahkan logging yang lebih detail untuk setiap percobaan eksekusi tool dan penangkapan traceback error secara lengkap.
 
-#### Frontend (`aleo_pantest/web_assets/index.html`)
+#### Frontend (`aleopantest/web_assets/index.html`)
 - **Penanganan Respon Baru:** Memperbarui fungsi `runTool()` untuk membaca data dari field `results` yang baru.
 - **Tampilan Output Lengkap:** Menggunakan `JSON.stringify(data.results, null, 2)` untuk menampilkan data secara utuh dan terformat, identik dengan tampilan `console.print_json` pada mode CLI.
 - **Robust Error Handling:** Menambahkan fallback untuk pesan error agar tidak lagi muncul "undefined".
 - **Status Indicator:** Menambahkan konteks admin, timestamp, dan nama tool pada header output untuk kemudahan auditing.
 
-#### DNS Lookup Tool (`aleo_pantest/modules/network/dns_lookup.py`)
+#### DNS Lookup Tool (`aleopantest/modules/network/dns_lookup.py`)
 - **Integrasi dnspython:** Memastikan penggunaan library `dnspython` untuk pengambilan record MX, TXT, dan NS yang lebih akurat.
 - **Pembersihan Output:** Menghapus dot (.) di akhir hostname pada record MX dan NS untuk konsistensi tampilan.
 - **Error Resilience:** Menambahkan penanganan exception spesifik (`NoAnswer`, `NXDOMAIN`) agar tool tidak crash jika salah satu tipe record tidak ditemukan.
@@ -77,5 +79,5 @@ Saat menjalankan tool melalui Dashboard Web, pengguna sering menerima pesan erro
 ### 3. Hasil Pengujian
 
 - **Unit Test (`tests/test_dns_lookup.py`):** LULUS. Memverifikasi struktur data DNS (A, MX, TXT, NS) sudah lengkap dan sesuai spesifikasi.
-- **Konsistensi CLI vs Web:** Terverifikasi identik. Data JSON yang ditampilkan di web sekarang sama persis dengan yang dihasilkan oleh perintah `Aleocrophic run dns`.
+- **Konsistensi CLI vs Web:** Terverifikasi identik. Data JSON yang ditampilkan di web sekarang sama persis dengan yang dihasilkan oleh perintah `aleopantest run dns`.
 - **Stabilitas:** Mekanisme retry berhasil menangani gangguan jaringan sementara selama pengujian simulasi.

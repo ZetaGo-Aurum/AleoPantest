@@ -1,24 +1,25 @@
-# Aleocrophic v3.3 - Advanced Penetration Testing Framework
+# Aleopantest v3.3.5 - Advanced Penetration Testing Framework
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  Aleocrophic v3.3 - Penetration Testing  🛡️        ║
+║         🛡️  Aleopantest v3.3.5 - by Aleocrophic  🛡️          ║
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║       400+ Tools • Multi-Platform • Modern TUI • V3.3 PRO     ║
+║      400+ Tools • Multi-Platform • Modern TUI • V3.3.5 PRO    ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
-**Aleocrophic** is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.3 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
+**Aleopantest** (by Aleocrophic) is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.3.5 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
 
 ---
 
 ## 📚 Documentation Hub
 
-Explore the full documentation to get the most out of Aleocrophic.
+Explore the full documentation to get the most out of **Aleopantest**.
 
 ### 🚀 Getting Started
 *   [**Start Here**](00-START-HERE.md) - Overview of v2.0 release and new features.
@@ -49,8 +50,8 @@ Explore the full documentation to get the most out of Aleocrophic.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
-cd Aleocrophic
+git clone https://github.com/ZetaGo-Aurum/aleopantest.git
+cd aleopantest
 
 # Install dependencies
 pip install -r requirements.txt
@@ -65,21 +66,21 @@ For detailed instructions, see [INSTALL_GUIDE.md](INSTALL_GUIDE.md).
 
 ### Basic Commands
 ```bash
-Aleocrophic --help          # Show help menu
-Aleocrophic list-tools      # List all available tools
-Aleocrophic info            # Show system info
+aleopantest --help          # Show help menu
+aleopantest list-tools      # List all available tools
+aleopantest info            # Show system info
 ```
 
 ### Running Tools
 ```bash
 # SQL Injection Scan
-Aleocrophic run sql-inject --url http://example.com
+aleopantest run sql-inject --url http://example.com
 
 # Phishing Detection
-Aleocrophic run web-phishing --url http://suspicious-site.com
+aleopantest run web-phishing --url http://suspicious-site.com
 
 # DNS Lookup
-Aleocrophic run dns --domain target.com
+aleopantest run dns --domain target.com
 ```
 
 More examples in [QUICKSTART_GUIDE.md](QUICKSTART_GUIDE.md).
@@ -93,7 +94,7 @@ More examples in [QUICKSTART_GUIDE.md](QUICKSTART_GUIDE.md).
 
 ## 🛠️ Standardization & Safety (v3.3+)
 
-Starting from v3.3, Aleocrophic implements strict parameter validation and standardized output across all modules.
+Starting from v3.3, Aleopantest implements strict parameter validation and standardized output across all modules.
 
 ### Parameter Validation
 All high-risk tools now perform automatic type conversion and safety checks for duration parameters.
@@ -109,7 +110,7 @@ Every module now returns a consistent JSON structure, making it easier for autom
   "tool_metadata": {
     "name": "Beacon Flood",
     "risk_level": "HIGH",
-    "version": "3.3.0"
+    "version": "3.3.5"
   },
   "results": [...],
   "error_message": null,
@@ -135,3 +136,7 @@ Contributions are welcome! Please check the [Project Summary](PROJECT_SUMMARY.md
 ## 📄 License
 
 This project is licensed under the [LICENSE](LICENSE) file.
+
+---
+**Aleopantest v3.3.5**
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>

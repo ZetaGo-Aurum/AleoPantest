@@ -1,16 +1,19 @@
+# LICENSE - Aleopantest
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
+
 MIT License
 
 Copyright (c) 2024 Aleocrophic Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
+of this software and associated documentation files (the "Aleopantest"), to deal
+in the Aleopantest without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
+copies of the Aleopantest, and to permit persons to whom the Aleopantest is
 furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+copies or substantial portions of the Aleopantest.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,33 +25,33 @@ SOFTWARE.
 
 ---
 
-**DISCLAIMER / PERINGATAN HUKUM (INDONESIA)**
+### ⚠️ PENTING: DISCLAIMER & SYARAT PENGGUNAAN
 
-**Aleocrophic adalah TOOLS UNTUK KEPERLUAN EDUKASI DAN PEMBELAJARAN CYBERSECURITY SEMATA.**
+**Aleopantest adalah TOOLS UNTUK KEPERLUAN EDUKASI DAN PEMBELAJARAN CYBERSECURITY SEMATA.**
 
-Pengembang dan kontributor **Aleocrophic** tidak bertanggung jawab atas penyalahgunaan alat ini untuk aktivitas ilegal, tidak etis, atau tanpa izin. Pengguna bertanggung jawab sepenuhnya atas segala konsekuensi hukum yang timbul dari penggunaan alat ini.
+Pengembang dan kontributor **Aleopantest** tidak bertanggung jawab atas penyalahgunaan alat ini untuk aktivitas ilegal, tidak etis, atau tanpa izin. Pengguna bertanggung jawab sepenuhnya atas segala konsekuensi hukum yang timbul dari penggunaan alat ini.
 
-**Aleocrophic Team TIDAK bertanggung jawab atas:**
-1. Kerusakan sistem atau kehilangan data.
-2. Pelanggaran hukum yang dilakukan oleh pengguna.
-3. Kerugian finansial atau reputasi.
-4. Penggunaan pada jaringan/sistem tanpa izin eksplisit dari pemiliknya.
+**Aleopantest Team TIDAK bertanggung jawab atas:**
+1. Kerusakan pada sistem target.
+2. Kehilangan data.
+3. Konsekuensi hukum akibat penggunaan alat ini.
+4. Penyalahgunaan identitas atau informasi yang diperoleh melalui alat ini.
 
-Dengan menggunakan Aleocrophic, Anda setuju untuk:
-1. Menggunakan alat ini hanya di lingkungan lab yang terisolasi atau pada sistem yang Anda miliki secara sah.
-2. Mematuhi hukum siber yang berlaku di wilayah Anda (seperti UU ITE di Indonesia).
-3. Tidak mendistribusikan ulang hasil scan atau eksploitasi tanpa izin.
+Dengan menggunakan Aleopantest, Anda setuju untuk:
+1. Hanya menggunakan alat ini pada sistem yang Anda miliki atau memiliki izin tertulis untuk mengujinya.
+2. Tidak menggunakan alat ini untuk aktivitas yang melanggar hukum.
+3. Menghargai privasi dan keamanan orang lain.
 
-Aleocrophic dikembangkan untuk:
-- Membantu Administrator Jaringan mengamankan sistem mereka.
-- Sebagai alat bantu pembelajaran bagi mahasiswa dan praktisi Cybersecurity.
-- Automasi tugas-tugas audit keamanan yang repetitif secara legal.
+Aleopantest dikembangkan untuk:
+- Membantu security researchers memahami kerentanan.
+- Membantu developer membangun aplikasi yang lebih aman.
+- Sarana pembelajaran ethical hacking bagi pemula.
 
 ---
 
 **AUTHOR INFORMATION**
 
-Project Name: Aleocrophic
+Project Name: Aleopantest
 Author: Aleocrophic Team
 Contact: deltaastra24@gmail.com
 Version: 3.3.4
@@ -56,9 +59,9 @@ License: MIT License
 
 ---
 
-**CONTRIBUTION & USAGE**
+### 📚 Third-Party Libraries
 
-Aleocrophic menggunakan berbagai third-party libraries dengan licenses mereka sendiri:
+Aleopantest menggunakan berbagai third-party libraries dengan licenses mereka sendiri:
 - Click (BSD-3-Clause)
 - Rich (MIT)
 - Requests (Apache-2.0)
@@ -70,7 +73,7 @@ Aleocrophic menggunakan berbagai third-party libraries dengan licenses mereka se
 
 **FINAL ACKNOWLEDGMENT**
 
-Dengan mengunduh, menginstall, atau menggunakan Aleocrophic, Anda:
+Dengan mengunduh, menginstall, atau menggunakan Aleopantest, Anda:
 1. Menyatakan telah membaca dan memahami seluruh isi License dan Disclaimer ini.
 2. Menyetujui untuk membebaskan tim pengembang dari segala tuntutan hukum.
 3. Berjanji untuk menjadi White-Hat hacker yang bertanggung jawab.

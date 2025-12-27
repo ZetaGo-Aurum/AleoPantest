@@ -1,4 +1,5 @@
-# Changelog - Aleocrophic v3.2.0
+# Changelog - Aleopantest v3.3.5
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## [3.2.0] - 2025-12-26
 
@@ -12,7 +13,7 @@
 
 ### Changed
 - **Web UI Overhaul**: Desain ulang total menggunakan Tailwind CSS (via CDN) dengan tema dark-mode yang konsisten.
-- **Web Server API**: Endpoint `/api/tools` kini mengembalikan metadata lengkap, dan `/api/run` mendukung parameter tambahan.
+- **Web Server API**: Endpoint `/aleopantest/api/tools` kini mengembalikan metadata lengkap, dan `/aleopantest/api/run` mendukung parameter tambahan.
 - **BaseTool Enhancement**: Penambahan field `form_schema` pada `ToolMetadata` dan perbaikan import typing.
 
 ### Fixed

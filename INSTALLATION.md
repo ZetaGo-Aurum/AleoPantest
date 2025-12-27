@@ -1,6 +1,7 @@
-# INSTALLATION GUIDE - Aleocrophic
+# INSTALLATION GUIDE - Aleopantest
+<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
-Panduan lengkap instalasi Aleocrophic di berbagai platform.
+Panduan lengkap instalasi Aleopantest di berbagai platform.
 
 ## 📋 Table of Contents
 - [Prerequisites](#prerequisites)
@@ -44,21 +45,21 @@ Jika Python belum terinstall, download dari [python.org](https://www.python.org/
 4. **PENTING**: Centang "Add Python to PATH"
 5. Click "Install Now"
 
-#### Step 2: Download Aleocrophic
+#### Step 2: Download Aleopantest
 ```powershell
 # Option A: Using Git
-git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
-cd Aleocrophic
+git clone https://github.com/ZetaGo-Aurum/aleopantest.git
+cd aleopantest
 
 # Option B: Manual Download
 # Download dari GitHub dan extract ke folder
-cd C:\Users\YourUsername\Aleocrophic
+cd C:\Users\YourUsername\aleopantest
 ```
 
 #### Step 3: Install Dependencies
 ```powershell
 # Buka PowerShell atau Command Prompt
-cd C:\Users\YourUsername\Aleocrophic
+cd C:\Users\YourUsername\aleopantest
 
 # Install requirements
 pip install -r requirements.txt
@@ -66,16 +67,16 @@ pip install -r requirements.txt
 
 #### Step 4: Verify Installation
 ```powershell
-python aleo_pantest_cli.py info
+aleopantest info
 ```
 
 #### Step 5: Run Tools
 ```powershell
 # List all tools
-python aleo_pantest_cli.py list-tools
+aleopantest list-tools
 
 # Run port scanner
-python aleo_pantest_cli.py run port-scan --host 192.168.1.1
+aleopantest run port-scan --host 192.168.1.1
 ```
 
 ### Method 2: WSL Installation (Recommended for Advanced Users)
@@ -119,14 +120,14 @@ sudo apt-get install python3 python3-pip python3-dev -y
 sudo apt-get install git build-essential libssl-dev -y
 ```
 
-### Step 3: Download Aleocrophic
+### Step 3: Download Aleopantest
 ```bash
 # Clone repository
-git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
-cd Aleocrophic
+git clone https://github.com/ZetaGo-Aurum/aleopantest.git
+cd aleopantest
 
 # Atau manual download dan extract
-# cd ~/Aleocrophic
+# cd ~/aleopantest
 ```
 
 ### Step 4: Install Python Requirements
@@ -137,25 +138,20 @@ pip3 install -r requirements.txt
 sudo pip3 install -r requirements.txt
 ```
 
-### Step 5: Make CLI Executable
+### Step 5: Install as CLI tool
 ```bash
-chmod +x aleo_pantest_cli.py
+pip3 install -e .
 ```
 
 ### Step 6: Verify Installation
 ```bash
-./aleo_pantest_cli.py info
-# atau
-python3 aleo_pantest_cli.py info
+aleopantest info
 ```
 
-### Step 7: Optional - System-wide Installation
+### Step 7: Run Tools
 ```bash
-# Install as system command
-sudo pip3 install -e .
-
-# Then run dari anywhere
-Aleocrophic info
+aleopantest list-tools
+aleopantest run dns --domain example.com
 ```
 
 ---
@@ -175,46 +171,42 @@ brew install python@3.11
 python3 --version
 ```
 
-### Step 3: Download Aleocrophic
+### Step 3: Download Aleopantest
 ```bash
 # Clone atau download
-git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
-cd Aleocrophic
+git clone https://github.com/ZetaGo-Aurum/aleopantest.git
+cd aleopantest
 ```
 
 ### Step 4: Install Dependencies
 ```bash
 pip3 install -r requirements.txt
+pip3 install -e .
 ```
 
-### Step 5: Make Executable
+### Step 5: Verify dan Run
 ```bash
-chmod +x aleo_pantest_cli.py
+aleopantest info
+aleopantest list-tools
 ```
 
-### Step 6: Verify dan Run
-```bash
-python3 aleo_pantest_cli.py info
-./aleo_pantest_cli.py list-tools
-```
-
-### Step 7: Optional - Create Alias
+### Step 6: Optional - Create Alias
 ```bash
 # Edit ~/.zshrc atau ~/.bash_profile
-echo "alias Aleocrophic='python3 ~/Aleocrophic/aleo_pantest_cli.py'" >> ~/.zshrc
+echo "alias aleopantest='python3 ~/aleopantest/aleopantest.py'" >> ~/.zshrc
 
 # Apply
 source ~/.zshrc
 
 # Usage
-Aleocrophic info
+aleopantest info
 ```
 
 ---
 
 ## Termux Installation (Android)
 
-Termux memungkinkan Anda menjalankan Aleocrophic di Android phone/tablet.
+Termux memungkinkan Anda menjalankan Aleopantest di Android phone/tablet.
 
 ### Step 1: Install Termux
 1. Download Termux dari [F-Droid](https://f-droid.org/packages/com.termux/)
@@ -235,14 +227,14 @@ pkg install python3 python3-pip git
 python3 --version
 ```
 
-### Step 4: Download Aleocrophic
+### Step 4: Download Aleopantest
 ```bash
 # Clone atau download
-git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
-cd Aleocrophic
+git clone https://github.com/ZetaGo-Aurum/aleopantest.git
+cd aleopantest
 
 # Atau manual
-# Download dan extract ke ~/Aleocrophic
+# Download dan extract ke ~/aleopantest
 ```
 
 ### Step 5: Install Requirements
@@ -250,15 +242,16 @@ cd Aleocrophic
 pip install -r requirements.txt
 ```
 
-### Step 6: Run Aleocrophic
+### Step 6: Run Aleopantest
 ```bash
-python3 aleo_pantest_cli.py info
+pip install -e .
+aleopantest info
 
 # List tools
-python3 aleo_pantest_cli.py list-tools
+aleopantest list-tools
 
 # Run tool
-python3 aleo_pantest_cli.py run ping --host 8.8.8.8
+aleopantest run ping --host 8.8.8.8
 ```
 
 ### Step 7: Optional - Storage Access
@@ -302,17 +295,17 @@ sudo apt-get upgrade -y
 sudo apt-get install python3 python3-pip git -y
 ```
 
-### Step 5: Install Aleocrophic
+### Step 5: Install Aleopantest
 ```bash
-git clone https://github.com/ZetaGo-Aurum/Aleocrophic.git
-cd Aleocrophic
+git clone https://github.com/ZetaGo-Aurum/aleopantest.git
+cd aleopantest
 pip3 install -r requirements.txt
 ```
 
 ### Step 6: Run dari Windows PowerShell
 ```powershell
 # Run WSL tool dari Windows
-wsl python3 ~/Aleocrophic/aleo_pantest_cli.py info
+wsl aleopantest info
 ```
 
 ---
@@ -334,25 +327,26 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+RUN pip install -e .
 
-ENTRYPOINT ["python", "aleo_pantest_cli.py"]
+ENTRYPOINT ["aleopantest"]
 ```
 
 ### Step 3: Build Docker Image
 ```bash
-docker build -t Aleocrophic:latest .
+docker build -t aleopantest:latest .
 ```
 
 ### Step 4: Run Container
 ```bash
 # Interactive mode
-docker run -it Aleocrophic:latest info
+docker run -it aleopantest:latest info
 
 # Run specific tool
-docker run -it Aleocrophic:latest run port-scan --host 192.168.1.1
+docker run -it aleopantest:latest run port-scan --host 192.168.1.1
 
 # With volume mount
-docker run -it -v /home/user/output:/app/output Aleocrophic:latest run port-scan --host 192.168.1.1 --output /app/output/results.json
+docker run -it -v /home/user/output:/app/output aleopantest:latest run port-scan --host 192.168.1.1 --output /app/output/results.json
 ```
 
 ---
@@ -367,16 +361,16 @@ python3 --version
 # Check pip packages
 pip3 list | grep -E 'click|rich|requests'
 
-# Check Aleocrophic
-python3 aleo_pantest_cli.py info
+# Check aleopantest
+aleopantest info
 ```
 
 ### Test Tools
 ```bash
 # Test basic tools
-python3 aleo_pantest_cli.py run passgen
-python3 aleo_pantest_cli.py run hash --text "test" --algorithm sha256
-python3 aleo_pantest_cli.py run encode --text "hello" --operation encode
+aleopantest run passgen
+aleopantest run hash --text "test" --algorithm sha256
+aleopantest run encode --text "hello" --operation encode
 ```
 
 ---
@@ -403,17 +397,17 @@ pip install -r requirements.txt
 ```
 
 ### Error: "Permission denied" (Linux/macOS)
-**Solution**: Make script executable
+**Solution**: Install as CLI tool
 ```bash
-chmod +x aleo_pantest_cli.py
-./aleo_pantest_cli.py info
+pip install -e .
+aleopantest info
 ```
 
-### Error: "ModuleNotFoundError: No module named 'aleo_pantest'"
-**Solution**: Run dari directory Aleocrophic
+### Error: "ModuleNotFoundError: No module named 'aleopantest'"
+**Solution**: Run dari directory aleopantest
 ```bash
-cd Aleocrophic
-python3 aleo_pantest_cli.py info
+cd aleopantest
+aleopantest info
 ```
 
 ### Error: "SSL: CERTIFICATE_VERIFY_FAILED"
@@ -431,7 +425,7 @@ python3 -m pip install --upgrade pip
 ### Error: "Port already in use" (Server)
 **Solution**: Use different port
 ```bash
-python3 aleo_pantest_cli.py server --port 8000
+aleopantest server --port 8000
 ```
 
 ### Network Issues Behind Proxy
@@ -490,13 +484,13 @@ chmod 755 output logs
 ### Test Specific Tool
 ```bash
 # Network tools
-python3 aleo_pantest_cli.py run ping --host 8.8.8.8
+aleopantest run ping --host 8.8.8.8
 
 # Web tools
-python3 aleo_pantest_cli.py run dns --domain google.com
+aleopantest run dns --domain google.com
 
 # Utilities
-python3 aleo_pantest_cli.py run hash --text "password" --algorithm sha256
+aleopantest run hash --text "password" --algorithm sha256
 ```
 
 ---
@@ -504,8 +498,8 @@ python3 aleo_pantest_cli.py run hash --text "password" --algorithm sha256
 ## Next Steps
 
 1. **Read Documentation**: Lihat [README.md](README.md)
-2. **List Tools**: `python3 aleo_pantest_cli.py list-tools`
-3. **Get Tool Help**: `python3 aleo_pantest_cli.py help-tool <tool-id>`
+2. **List Tools**: `python3 aleopantest.py list-tools`
+3. **Get Tool Help**: `python3 aleopantest.py help-tool <tool-id>`
 4. **Start Testing**: Run tools sesuai kebutuhan
 
 ---
@@ -513,9 +507,9 @@ python3 aleo_pantest_cli.py run hash --text "password" --algorithm sha256
 ## Support
 
 - **Issues**: Open GitHub issue
-- **Questions**: Email support@Aleocrophic.com
+- **Questions**: Email support@aleopantest.com
 - **Community**: Join Discord server
-- **Docs**: [Aleocrophic Documentation](https://docs.Aleocrophic.com)
+- **Docs**: [Aleopantest Documentation](https://docs.aleopantest.com)
 
 ---
 
