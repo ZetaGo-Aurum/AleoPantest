@@ -6,8 +6,8 @@ class HashCracker(BaseTool):
         metadata = ToolMetadata(
             name="Simple MD5 Hash Cracker",
             category=ToolCategory.CRYPTO,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencoba memecahkan hash MD5 menggunakan wordlist internal terbatas",
             usage="aleopantest run hash-cracker --hash <md5_hash>",
             example="aleopantest run hash-cracker --hash 5d41402abc4b2a76b9719d911017c592",

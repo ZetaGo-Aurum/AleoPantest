@@ -1,4 +1,8 @@
-"""URL Encoder/Decoder Tool"""
+"""
+URL Encoder/Decoder Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import urllib.parse
 import base64
 from typing import Dict, Any
@@ -14,8 +18,8 @@ class URLEncoder(BaseTool):
         metadata = ToolMetadata(
             name="URL Encoder/Decoder",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="URL encoder/decoder untuk encoding, decoding, dan transformasi URLs",
             usage="encoder = URLEncoder(); encoder.run(text='hello world', operation='encode')",
             requirements=["urllib", "base64"],
@@ -95,7 +99,7 @@ class URLEncoder(BaseTool):
             
             self.add_result(result)
             logger.info("Encoding/decoding completed")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Encoding failed: {e}")

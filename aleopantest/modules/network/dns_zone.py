@@ -8,8 +8,8 @@ class DNSZoneTransfer(BaseTool):
         metadata = ToolMetadata(
             name="DNS Zone Transfer",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencoba melakukan DNS zone transfer (AXFR)",
             usage="aleopantest run dns-zone --domain <domain>",
             example="aleopantest run dns-zone --domain example.com",

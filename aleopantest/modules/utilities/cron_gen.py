@@ -5,8 +5,8 @@ class CronGen(BaseTool):
         metadata = ToolMetadata(
             name="Cron Expression Generator",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Membuat ekspresi cron untuk jadwal tugas otomatis",
             usage="aleopantest run cron-gen --minute <m> --hour <h>",
             example="aleopantest run cron-gen --minute 0 --hour 12",

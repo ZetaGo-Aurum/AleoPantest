@@ -1,4 +1,8 @@
-"""Ping Tool"""
+"""
+Ping Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import subprocess
 import platform
 import re
@@ -15,8 +19,8 @@ class PingTool(BaseTool):
         metadata = ToolMetadata(
             name="Ping Tool",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Ping tool untuk deteksi apakah host aktif atau tidak",
             usage="ping = PingTool(); ping.run(host='8.8.8.8', count=4)",
             requirements=["subprocess", "platform"],
@@ -106,3 +110,4 @@ class PingTool(BaseTool):
             self.add_error(f"Ping failed: {e}")
         finally:
             self.is_running = False
+            return self.get_results()

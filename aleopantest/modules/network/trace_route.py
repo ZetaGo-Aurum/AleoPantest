@@ -1,4 +1,8 @@
-"""Traceroute Tool"""
+"""
+Traceroute Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import subprocess
 import platform
 import re
@@ -15,8 +19,8 @@ class TraceRoute(BaseTool):
         metadata = ToolMetadata(
             name="Traceroute",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Traceroute untuk melacak jalur paket melalui berbagai hop ke host tujuan",
             usage="trace = TraceRoute(); trace.run(host='8.8.8.8', max_hops=30)",
             requirements=["subprocess", "platform"],
@@ -106,3 +110,4 @@ class TraceRoute(BaseTool):
             self.add_error(f"Traceroute failed: {e}")
         finally:
             self.is_running = False
+            return self.get_results()

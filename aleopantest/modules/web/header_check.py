@@ -6,8 +6,8 @@ class HeaderChecker(BaseTool):
         metadata = ToolMetadata(
             name="Security Header Checker",
             category=ToolCategory.WEB,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menganalisis HTTP security headers pada target website",
             usage="aleopantest run header-check --url <url>",
             example="aleopantest run header-check --url https://google.com",

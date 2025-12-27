@@ -1,4 +1,8 @@
-"""SSL Certificate Checker Tool"""
+"""
+SSL Certificate Checker Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import socket
 import ssl
 from datetime import datetime
@@ -15,8 +19,8 @@ class SSLChecker(BaseTool):
         metadata = ToolMetadata(
             name="SSL Checker",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="SSL certificate checker untuk analisis sertifikat SSL/TLS dan keamanan",
             usage="ssl = SSLChecker(); ssl.run(host='google.com', port=443)",
             requirements=["socket", "ssl"],
@@ -105,7 +109,7 @@ class SSLChecker(BaseTool):
             
             self.add_result(result)
             logger.info(f"SSL check completed for {host}:{port}")
-            return result
+            return self.get_results()
             
         except socket.timeout:
             self.add_error(f"Connection timeout to {host}:{port}")

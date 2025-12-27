@@ -11,8 +11,8 @@ class PhoneLookup(BaseTool):
         metadata = ToolMetadata(
             name="Phone Number Lookup",
             category=ToolCategory.OSINT,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencari informasi detail tentang nomor telepon (Negara, Provider, Tipe, Timezone)",
             usage="aleopantest run phone-lookup --number <phone_number>",
             example="aleopantest run phone-lookup --number +628123456789",

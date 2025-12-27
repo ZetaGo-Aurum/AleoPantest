@@ -1,4 +1,4 @@
-# Aleopantest v3.3.5 - Interactive CLI Guide
+# Aleopantest V3.0.0 - Interactive CLI Guide
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## Overview

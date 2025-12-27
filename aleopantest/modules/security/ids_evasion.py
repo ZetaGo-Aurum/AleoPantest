@@ -7,8 +7,8 @@ class IDSEvasionHelper(BaseTool):
         self.metadata = ToolMetadata(
             name="IDS Evasion Helper",
             description="Generate payload variations to bypass Intrusion Detection Systems (IDS/IPS)",
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             category=ToolCategory.SECURITY,
             usage="aleopantest run ids-evasion --payload <string> --method <hex/base64/charcode>",
             requirements=[],

@@ -1,4 +1,8 @@
-"""URL Masking and Spoofing Tool"""
+"""
+URL Masking and Spoofing Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import json
 import hashlib
 import base64
@@ -19,7 +23,7 @@ class URLMasking(BaseTool):
         metadata = ToolMetadata(
             name="URL Masking",
             category=ToolCategory.UTILITIES,
-            version="2.1.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Mask real URLs behind fake domain names for phishing and social engineering tests",
             usage="""

@@ -6,8 +6,8 @@ class HashGenerator(BaseTool):
         metadata = ToolMetadata(
             name="Multi Hash Generator",
             category=ToolCategory.CRYPTO,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menghasilkan berbagai tipe hash dari sebuah input teks",
             usage="aleopantest run hash-gen --text <msg>",
             example="aleopantest run hash-gen --text secret123",

@@ -1,4 +1,4 @@
-"""Modern TUI for Aleopantest V3.3.5 - by Aleocrophic using Textual"""
+"""Modern TUI for Aleopantest V3.0.0 - by Aleocrophic using Textual"""
 from textual.app import App, ComposeResult
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Header, Footer, Static, Button, ListItem, ListView, Label, Input, DataTable

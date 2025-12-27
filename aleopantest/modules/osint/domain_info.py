@@ -1,4 +1,8 @@
-"""Domain Information Gatherer"""
+"""
+Domain Information Gatherer
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, Any
 import socket
@@ -14,8 +18,8 @@ class DomainInfo(BaseTool):
         metadata = ToolMetadata(
             name="Domain Information Gatherer",
             category=ToolCategory.OSINT,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Gather informasi komprehensif tentang domain termasuk DNS, IP, dan metadata",
             usage="info = DomainInfo(); info.run(domain='target.com')",
             requirements=["requests", "socket"],
@@ -112,7 +116,7 @@ class DomainInfo(BaseTool):
             
             self.add_result(result)
             logger.info(f"Domain information gathering completed")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Domain information gathering failed: {e}")

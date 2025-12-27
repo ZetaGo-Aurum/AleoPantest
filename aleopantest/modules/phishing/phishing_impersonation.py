@@ -1,4 +1,8 @@
-"""Phishing Impersonation Tool - Creates phishing site templates for educational purposes"""
+"""
+Phishing Impersonation Tool - Creates phishing site templates for educational purposes
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import os
 import json
 from typing import Dict, Any, List
@@ -16,7 +20,7 @@ class PhishingImpersonation(BaseTool):
         metadata = ToolMetadata(
             name="Phishing Impersonation Generator",
             category=ToolCategory.PHISHING,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Generates phishing template examples for educational security testing and awareness training",
             usage="aleopantest run phishing-impersonation --type email --target bank",

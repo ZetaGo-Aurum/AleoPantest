@@ -1,4 +1,8 @@
-"""DDoS Attack Simulator and Detection Tool"""
+"""
+DDoS Attack Simulator and Detection Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import random
 import threading
 import time
@@ -24,7 +28,7 @@ class DDoSSimulator(BaseTool):
         metadata = ToolMetadata(
             name="DDoS Simulator",
             category=ToolCategory.NETWORK,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Tool simulasi DDoS untuk pengujian penetrasi resmi. Mendukung HTTP, SYN, UDP, dan DNS flood.",
             usage="aleopantest run ddos-sim --target example.com --type http --duration 30 --threads 10",

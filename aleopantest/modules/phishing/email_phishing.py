@@ -1,4 +1,8 @@
-"""Email Phishing Detection and Analysis Tool"""
+"""
+Email Phishing Detection and Analysis Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import re
 from typing import Dict, Any, List, Tuple
 from datetime import datetime
@@ -14,7 +18,7 @@ class EmailPhishing(BaseTool):
         metadata = ToolMetadata(
             name="Email Phishing Detector",
             category=ToolCategory.PHISHING,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Detects phishing emails by analyzing headers, content, and suspicious patterns",
             usage="aleopantest run email-phishing --email 'sender@example.com' --subject 'Verify Account'",
@@ -173,7 +177,7 @@ class EmailPhishing(BaseTool):
             result['recommendations'] = self._get_recommendations(overall_risk)
             
             self.add_result(result)
-            return result
+            return self.get_results()
             
         except Exception as e:
             logger.exception("Email Phishing detection failed")

@@ -8,8 +8,8 @@ class BreachChecker(BaseTool):
         metadata = ToolMetadata(
             name="Breach Checker",
             description="Check if an email or username has been involved in known data breaches",
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             category=ToolCategory.OSINT,
             usage="aleopantest run breach-check --target <email/user>",
             requirements=["requests"],

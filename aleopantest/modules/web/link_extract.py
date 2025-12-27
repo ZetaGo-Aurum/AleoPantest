@@ -7,8 +7,8 @@ class LinkExtractor(BaseTool):
         metadata = ToolMetadata(
             name="Web Link Extractor",
             category=ToolCategory.WEB,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mengekstrak semua link (href) dari sebuah halaman web",
             usage="aleopantest run link-extract --url <url>",
             example="aleopantest run link-extract --url https://example.com",

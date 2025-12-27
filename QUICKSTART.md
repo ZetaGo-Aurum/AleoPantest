@@ -1,4 +1,4 @@
-# Aleopantest v3.3.5 - Quick Start Guide
+# Aleopantest V3.0.0 - Quick Start Guide
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## 🚀 Instalasi Cepat

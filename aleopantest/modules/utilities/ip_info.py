@@ -6,8 +6,8 @@ class IPInfo(BaseTool):
         metadata = ToolMetadata(
             name="IP Info Lookup",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mendapatkan informasi detail tentang sebuah IP address",
             usage="aleopantest run ip-info --ip <ip>",
             example="aleopantest run ip-info --ip 8.8.8.8",

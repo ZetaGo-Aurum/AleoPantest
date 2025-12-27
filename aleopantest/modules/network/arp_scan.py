@@ -11,8 +11,8 @@ class ArpScanner(BaseTool):
         metadata = ToolMetadata(
             name="ARP Scanner",
             category=ToolCategory.NETWORK,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Melakukan ARP scanning untuk menemukan perangkat di jaringan lokal",
             usage="aleopantest run arp-scan --range 192.168.1.0/24",
             example="aleopantest run arp-scan --range 192.168.1.0/24",

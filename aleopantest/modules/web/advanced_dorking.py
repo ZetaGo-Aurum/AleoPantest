@@ -1,4 +1,8 @@
-"""Advanced Search Engine Dorking Tool"""
+"""
+Advanced Search Engine Dorking Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import json
 import time
 from typing import Dict, Any, List, Optional
@@ -80,7 +84,7 @@ class AdvancedDorking(BaseTool):
         metadata = ToolMetadata(
             name="Advanced Search Engine Dorking",
             category=ToolCategory.OSINT,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Multi-engine search dorking with templates and custom queries for advanced reconnaissance.",
             usage="aleopantest run advanced-dorking --engine google --domain target.com --template exposed_configs",

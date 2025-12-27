@@ -14,8 +14,8 @@ class BeaconFlood(BaseTool):
         metadata = ToolMetadata(
             name="WiFi Beacon Flood",
             category=ToolCategory.WIRELESS,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Membuat ribuan SSID palsu untuk membingungkan pemindaian WiFi (Membutuhkan interface monitor mode)",
             usage="aleopantest run beacon-flood --iface wlan0mon --count 100",
             example="aleopantest run beacon-flood --iface wlan0mon --prefix 'GHOST_' --count 50",

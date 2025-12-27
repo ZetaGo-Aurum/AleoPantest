@@ -5,8 +5,8 @@ class FirewallBypass(BaseTool):
         metadata = ToolMetadata(
             name="Firewall Bypass Guide (Informational)",
             category=ToolCategory.SECURITY,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menyediakan teknik dan referensi umum untuk melewati firewall (WAF/IPS)",
             usage="aleopantest run firewall-bypass",
             example="aleopantest run firewall-bypass",

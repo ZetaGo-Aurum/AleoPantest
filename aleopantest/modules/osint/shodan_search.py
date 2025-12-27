@@ -11,8 +11,8 @@ class ShodanSearch(BaseTool):
         metadata = ToolMetadata(
             name="Shodan Search",
             category=ToolCategory.OSINT,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Melakukan pencarian pada Shodan menggunakan API Key.",
             usage="aleopantest run shodan-search --query <query> --api_key <key>",
             example="aleopantest run shodan-search --query 'apache' --api_key 'YOUR_API_KEY'",

@@ -1,4 +1,8 @@
-"""Password Generator Tool"""
+"""
+Password Generator Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import random
 import string
 from typing import Dict, Any
@@ -14,8 +18,8 @@ class PasswordGenerator(BaseTool):
         metadata = ToolMetadata(
             name="Password Generator",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Password generator untuk generate secure dan random passwords",
             usage="gen = PasswordGenerator(); gen.run(length=16, count=5)",
             requirements=["random", "string"],
@@ -92,7 +96,7 @@ class PasswordGenerator(BaseTool):
             }
             
             logger.info(f"Password generation completed")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Password generation failed: {e}")

@@ -1,14 +1,14 @@
-# Aleopantest v3.3.5 - Advanced Penetration Testing Framework
+# Aleopantest V3.0 (Major Patch) - Advanced Penetration Testing Framework
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║         🛡️  Aleopantest v3.3.5 - by Aleocrophic  🛡️          ║
+║         🛡️  Aleopantest V3.0.0 - by Aleocrophic  🛡️          ║
 ║                                                               ║
 ║              Advanced Cybersecurity Tool Suite                ║
 ║                                                               ║
-║      400+ Tools • Multi-Platform • Modern TUI • V3.3.5 PRO    ║
+║      400+ Tools • Multi-Platform • Modern TUI • V3.0.0 PRO    ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
@@ -138,5 +138,5 @@ Contributions are welcome! Please check the [Project Summary](PROJECT_SUMMARY.md
 This project is licensed under the [LICENSE](LICENSE) file.
 
 ---
-**Aleopantest v3.3.5**
+**Aleopantest V3.0.0**
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>

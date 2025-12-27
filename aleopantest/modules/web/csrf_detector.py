@@ -1,4 +1,8 @@
-"""CSRF Vulnerability Detector"""
+"""
+CSRF Vulnerability Detector
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, List, Any
 from bs4 import BeautifulSoup
@@ -14,8 +18,8 @@ class CSRFDetector(BaseTool):
         metadata = ToolMetadata(
             name="CSRF Detector",
             category=ToolCategory.WEB,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="CSRF vulnerability detection dengan analisis form token",
             usage="csrf = CSRFDetector(); csrf.run(url='http://target.com/form')",
             requirements=["requests", "beautifulsoup4"],
@@ -116,7 +120,7 @@ class CSRFDetector(BaseTool):
             
             self.add_result(result)
             logger.info(f"CSRF test completed. Vulnerable: {result['vulnerable']}")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"CSRF test failed: {e}")

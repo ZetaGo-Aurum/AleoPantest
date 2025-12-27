@@ -6,8 +6,8 @@ class MACLookup(BaseTool):
         metadata = ToolMetadata(
             name="MAC Vendor Lookup",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencari informasi vendor berdasarkan MAC address",
             usage="aleopantest run mac-lookup --mac <mac_address>",
             example="aleopantest run mac-lookup --mac 00:00:5e:00:53:af",

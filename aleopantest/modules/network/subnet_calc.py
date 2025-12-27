@@ -6,8 +6,8 @@ class SubnetCalc(BaseTool):
         metadata = ToolMetadata(
             name="Subnet Calculator",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menghitung detail subnet IP (mask, network, broadcast, host range)",
             usage="aleopantest run subnet-calc --cidr <ip/prefix>",
             example="aleopantest run subnet-calc --cidr 192.168.1.0/24",

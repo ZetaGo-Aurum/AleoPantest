@@ -1,4 +1,8 @@
-"""Proxy Manager Tool"""
+"""
+Proxy Manager Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 from typing import Dict, List, Any
 import requests
 
@@ -13,8 +17,8 @@ class ProxyManager(BaseTool):
         metadata = ToolMetadata(
             name="Proxy Manager",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Proxy manager untuk manage, test, dan rotate proxy servers",
             usage="pm = ProxyManager(); pm.run(test_url='http://httpbin.org/ip')",
             requirements=["requests"],
@@ -140,3 +144,4 @@ class ProxyManager(BaseTool):
             self.add_error(f"Proxy test failed: {e}")
         finally:
             self.is_running = False
+            return self.get_results()

@@ -1,4 +1,8 @@
-"""Reverse Shell Generator Tool"""
+"""
+Reverse Shell Generator Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 from typing import Dict, Any
 
 from ...core.base_tool import BaseTool, ToolMetadata, ToolCategory
@@ -12,8 +16,8 @@ class ReverseShellGenerator(BaseTool):
         metadata = ToolMetadata(
             name="Reverse Shell Generator",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Reverse shell generator untuk generate berbagai reverse shell payloads",
             usage="gen = ReverseShellGenerator(); gen.run(host='10.0.0.1', port=4444, language='bash')",
             requirements=[],
@@ -86,7 +90,7 @@ class ReverseShellGenerator(BaseTool):
                 self.add_result({'language': language, 'payload': payload})
             
             logger.info("Reverse shell generation completed")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Shell generation failed: {e}")

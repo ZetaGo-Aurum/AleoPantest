@@ -1,4 +1,8 @@
-"""IP Geolocation Tool"""
+"""
+IP Geolocation Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, Any
 
@@ -13,8 +17,8 @@ class IPGeolocation(BaseTool):
         metadata = ToolMetadata(
             name="IP Geolocation",
             category=ToolCategory.OSINT,
-            version="1.1.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="IP geolocation untuk mendapatkan lokasi geografis dari IP address dengan informasi lengkap",
             usage="""
 Examples:
@@ -138,7 +142,7 @@ CLI Usage:
             
             self.add_result(result)
             logger.info(f"Geolocation lookup completed for {target_ip}")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Geolocation lookup failed: {e}")

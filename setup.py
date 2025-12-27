@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="aleopantest",
-    version="3.3.5",
+    version="3.0.0",
     author="Aleocrophic Team",
     author_email="deltaastra24@gmail.com",
     description="Modern Penetration Testing Framework with TUI and Automation",

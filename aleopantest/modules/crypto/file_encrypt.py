@@ -6,8 +6,8 @@ class FileEncryptor(BaseTool):
         metadata = ToolMetadata(
             name="Simple File Hash Encryptor",
             category=ToolCategory.CRYPTO,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menghasilkan berbagai hash untuk sebuah string atau data",
             usage="aleopantest run file-encrypt --data <string>",
             example="aleopantest run file-encrypt --data 'secret message'",

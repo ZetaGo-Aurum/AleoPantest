@@ -13,8 +13,8 @@ class MongoDBAuditor(BaseTool):
         metadata = ToolMetadata(
             name="MongoDB Auditor",
             description="Audit MongoDB instances for misconfigurations and open access",
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             category=ToolCategory.DATABASE,
             usage="aleopantest run mongodb-audit --host <target> --port <port>",
             requirements=["pymongo"],

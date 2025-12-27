@@ -1,4 +1,8 @@
-"""Port Scanner Tool"""
+"""
+Port Scanner Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import socket
 import threading
 from typing import Dict, List, Tuple
@@ -17,8 +21,8 @@ class PortScanner(BaseTool):
         metadata = ToolMetadata(
             name="Port Scanner",
             category=ToolCategory.NETWORK,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Fast port scanner dengan multi-threading untuk deteksi service yang berjalan",
             usage="scanner = PortScanner(); scanner.run(host='192.168.1.1', ports='1-65535')",
             requirements=["socket", "threading"],
@@ -147,3 +151,4 @@ class PortScanner(BaseTool):
             self.add_error(f"Scan failed: {e}")
         finally:
             self.is_running = False
+            return self.get_results()

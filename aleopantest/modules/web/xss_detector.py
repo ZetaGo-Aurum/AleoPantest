@@ -1,4 +1,8 @@
-"""XSS Vulnerability Detector"""
+"""
+XSS Vulnerability Detector
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, List, Any
 from urllib.parse import urljoin, urlparse, parse_qs
@@ -14,8 +18,8 @@ class XSSDetector(BaseTool):
         metadata = ToolMetadata(
             name="XSS Detector",
             category=ToolCategory.WEB,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="XSS vulnerability detection dengan berbagai payload testing",
             usage="xss = XSSDetector(); xss.run(url='http://target.com')",
             requirements=["requests"],
@@ -129,7 +133,7 @@ class XSSDetector(BaseTool):
             
             self.add_result(result)
             logger.info(f"XSS test completed. Vulnerable: {result['vulnerable']}")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"XSS test failed: {e}")

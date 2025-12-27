@@ -6,8 +6,8 @@ class PasswordStrength(BaseTool):
         metadata = ToolMetadata(
             name="Password Strength Analyzer",
             category=ToolCategory.SECURITY,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menganalisis kekuatan password berdasarkan berbagai kriteria",
             usage="aleopantest run pass-strength --password <pwd>",
             example="aleopantest run pass-strength --password 'P@ssw0rd123'",

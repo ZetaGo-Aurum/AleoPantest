@@ -1,4 +1,4 @@
-# Aleopantest v3.3.5 - Advanced Features Documentation
+# Aleopantest V3.0.0 - Advanced Features Documentation
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## 🎯 New Features Overview

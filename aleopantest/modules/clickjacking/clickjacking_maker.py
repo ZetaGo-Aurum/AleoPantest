@@ -1,4 +1,8 @@
-"""Clickjacking Maker - Creates clickjacking proof of concept"""
+"""
+Clickjacking Maker - Creates clickjacking proof of concept
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import json
 from typing import Dict, Any, List
 from datetime import datetime
@@ -15,7 +19,7 @@ class ClickjackingMaker(BaseTool):
         metadata = ToolMetadata(
             name="Clickjacking PoC Maker",
             category=ToolCategory.WEB,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Generates clickjacking proof of concept HTML for authorized security testing",
             usage="aleopantest run clickjacking-make --url https://example.com --output poc.html",
@@ -407,7 +411,7 @@ class ClickjackingMaker(BaseTool):
             
             self.add_result(result)
             logger.info(f"PoC saved to {output_path}")
-            return result
+            return self.get_results()
             
         except Exception as e:
             logger.exception("PoC generation failed")

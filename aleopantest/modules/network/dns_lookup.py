@@ -1,4 +1,8 @@
-"""DNS Lookup Tool"""
+"""
+DNS Lookup Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import socket
 from typing import Dict, Any, List
 
@@ -13,8 +17,8 @@ class DNSLookup(BaseTool):
         metadata = ToolMetadata(
             name="DNS Lookup",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="DNS lookup untuk mendapatkan IP address dari domain name",
             usage="dns = DNSLookup(); dns.run(domain='google.com')",
             requirements=["socket"],
@@ -145,7 +149,7 @@ class DNSLookup(BaseTool):
                 
                 self.add_result(result)
                 logger.info(f"DNS lookup completed: {result}")
-                return result
+                return self.get_results()
                 
             except Exception as e:
                 self.add_error(f"DNS lookup failed: {e}")
@@ -169,7 +173,7 @@ class DNSLookup(BaseTool):
                 
                 self.add_result(result)
                 logger.info(f"Reverse DNS lookup completed: {result}")
-                return result
+                return self.get_results()
                 
             except Exception as e:
                 self.add_error(f"Reverse DNS lookup failed: {e}")

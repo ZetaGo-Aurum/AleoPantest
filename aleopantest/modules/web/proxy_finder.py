@@ -6,8 +6,8 @@ class ProxyFinder(BaseTool):
         metadata = ToolMetadata(
             name="Proxy Finder",
             category=ToolCategory.WEB,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencari daftar public proxy yang tersedia secara online",
             usage="aleopantest run proxy-finder --type http",
             example="aleopantest run proxy-finder --type https",

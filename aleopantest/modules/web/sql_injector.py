@@ -1,4 +1,8 @@
-"""SQL Injection Testing Tool"""
+"""
+SQL Injection Testing Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 import time
 from urllib.parse import urlparse, parse_qs, urlencode, urljoin
@@ -12,7 +16,7 @@ class SQLInjector(BaseTool):
         metadata = ToolMetadata(
             name="SQL Injection Tester",
             category=ToolCategory.WEB,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="SQL injection vulnerability testing dengan berbagai payload untuk mendeteksi celah keamanan pada aplikasi web.",
             usage="aleopantest run sql-injector --url http://target.com/page.php?id=1",

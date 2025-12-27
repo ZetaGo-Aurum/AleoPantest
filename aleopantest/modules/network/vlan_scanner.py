@@ -6,8 +6,8 @@ class VLANScanner(BaseTool):
         metadata = ToolMetadata(
             name="VLAN Scanner",
             description="Scan for active VLANs and tagged traffic on a network interface",
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             category=ToolCategory.NETWORK,
             usage="aleopantest run vlan-scan --interface <iface> --range <1-4094>",
             requirements=[],

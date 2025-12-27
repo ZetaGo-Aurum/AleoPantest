@@ -7,8 +7,8 @@ class XORCipher(BaseTool):
         self.metadata = ToolMetadata(
             name="XOR Cipher",
             description="Simple XOR encryption/decryption tool",
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             category=ToolCategory.CRYPTO,
             usage="aleopantest run xor-cipher --text <string> --key <string>",
             requirements=[],

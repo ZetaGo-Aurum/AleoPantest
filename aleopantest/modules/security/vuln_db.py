@@ -6,8 +6,8 @@ class VulnDB(BaseTool):
         metadata = ToolMetadata(
             name="Vulnerability Database Search",
             category=ToolCategory.SECURITY,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencari informasi kerentanan pada database publik secara real-time (via CIRCL CVE API)",
             usage="aleopantest run vuln-db --query <cve_id>",
             example="aleopantest run vuln-db --query CVE-2021-44228",

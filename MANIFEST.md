@@ -1,4 +1,4 @@
-# Aleopantest v3.3.5 - MANIFEST & INVENTORY
+# Aleopantest V3.0.0 - MANIFEST & INVENTORY
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 **Document Created:** December 27, 2025  
@@ -349,7 +349,7 @@ aleopantest/
 ├── output/ (Directory)
 ├── aleopantest.egg-info/
 │
-├── setup.py (MODIFIED - v2.0.0)
+├── setup.py (MODIFIED - V3.0.0)
 ├── requirements.txt (MODIFIED)
 ├── requirements_v2.txt
 ├── LICENSE
@@ -465,7 +465,7 @@ aleopantest run <tool> [opts]   # Run tool
 
 ## 🎊 FINAL STATUS
 
-**Project:** aleopantest v3.3.5  
+**Project:** aleopantest V3.0.0  
 **Status:** ✅ **COMPLETE**  
 **Date:** December 25, 2025  
 **Version:** 2.0.0
@@ -474,4 +474,4 @@ aleopantest run <tool> [opts]   # Run tool
 
 ---
 
-*This manifest documents all files created, modified, and delivered in the aleopantest v3.3.5 project.*
+*This manifest documents all files created, modified, and delivered in the aleopantest V3.0.0 project.*

@@ -4,13 +4,17 @@ from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 from aleopantest.core.logger import logger
 
 class AdminFinder(BaseTool):
-    """Admin Panel Finder with comprehensive path list and multi-threading"""
+    """
+Admin Panel Finder with comprehensive path list and multi-threading
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
     
     def __init__(self):
         metadata = ToolMetadata(
             name="Admin Panel Finder",
             category=ToolCategory.WEB,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Mencari lokasi halaman admin pada website menggunakan daftar path umum dan multi-threading.",
             usage="aleopantest run admin-finder --url https://example.com --threads 10",

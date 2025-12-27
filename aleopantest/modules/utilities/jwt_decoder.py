@@ -7,8 +7,8 @@ class JWTDecoder(BaseTool):
         metadata = ToolMetadata(
             name="JWT Decoder",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Men-decode header dan payload dari JWT token tanpa verifikasi signature",
             usage="aleopantest run jwt-decoder --token <jwt>",
             example="aleopantest run jwt-decoder --token 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",

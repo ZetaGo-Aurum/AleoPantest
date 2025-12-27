@@ -1,4 +1,8 @@
-"""Anti-Clickjacking Header Generator - Generates security headers to prevent clickjacking"""
+"""
+Anti-Clickjacking Header Generator - Generates security headers to prevent clickjacking
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import json
 from typing import Dict, Any, List
 from datetime import datetime
@@ -15,7 +19,7 @@ class AntiClickjackingGenerator(BaseTool):
         metadata = ToolMetadata(
             name="Anti-Clickjacking Generator",
             category=ToolCategory.WEB,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Generates anti-clickjacking security headers and JavaScript code for protection",
             usage="aleopantest run anti-clickjacking --framework nginx --output security.conf",
@@ -452,7 +456,7 @@ window.addEventListener('load', function() {
             ]
             
             self.add_result(result)
-            return result
+            return self.get_results()
             
         except Exception as e:
             logger.exception("Code generation failed")

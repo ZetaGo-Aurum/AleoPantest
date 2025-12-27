@@ -13,8 +13,8 @@ class DeauthTool(BaseTool):
         metadata = ToolMetadata(
             name="WiFi Deauthentication",
             category=ToolCategory.WIRELESS,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mengirim paket deauthentication untuk memutus koneksi klien dari Access Point secara real-time.",
             usage="aleopantest run deauth --target <bssid> --client <client_mac> --iface <interface>",
             example="aleopantest run deauth --target 00:11:22:33:44:55 --iface wlan0mon",
@@ -70,10 +70,12 @@ class DeauthTool(BaseTool):
 
     def run(self, iface: str = "wlan0mon", target: str = "", client: str = "FF:FF:FF:FF:FF:FF", count: Any = 64, interval: Any = 0.05, burst: bool = True, **kwargs):
         """
-        WiFi Deauthentication Patch v3.3.0
+WiFi Deauthentication Patch v3.3.0
         Optimized for 100% success rate on real hardware.
         Response time < 2s for initial burst.
-        """
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
         self.start_time = time.time()
         self.set_core_params(**kwargs)
         

@@ -1,4 +1,8 @@
-"""Search Engine Dorking Tool"""
+"""
+Search Engine Dorking Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, List, Any
 from urllib.parse import urlencode
@@ -14,8 +18,8 @@ class SearchEngineDorking(BaseTool):
         metadata = ToolMetadata(
             name="Search Engine Dorking",
             category=ToolCategory.OSINT,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Search engine dorking untuk advanced search queries dan OSINT menggunakan Google dan DuckDuckGo",
             usage="aleopantest run search-engine-dorking --query 'site:target.com filetype:pdf' --engine duckduckgo",
             requirements=["requests", "beautifulsoup4", "duckduckgo-search"],

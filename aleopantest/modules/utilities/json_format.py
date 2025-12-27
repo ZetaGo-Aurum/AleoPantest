@@ -6,8 +6,8 @@ class JSONFormatter(BaseTool):
         metadata = ToolMetadata(
             name="JSON Formatter",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Memformat string JSON yang berantakan menjadi rapi (pretty-print)",
             usage="aleopantest run json-format --data <json_string>",
             example="aleopantest run json-format --data '{\"a\":1,\"b\":2}'",

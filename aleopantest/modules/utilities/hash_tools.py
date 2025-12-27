@@ -1,4 +1,8 @@
-"""Hash Tools untuk berbagai hashing algorithms"""
+"""
+Hash Tools untuk berbagai hashing algorithms
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import hashlib
 from typing import Dict, Any
 
@@ -13,8 +17,8 @@ class HashTools(BaseTool):
         metadata = ToolMetadata(
             name="Hash Tools",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Hash tools untuk generate MD5, SHA1, SHA256, SHA512 dan hash lainnya",
             usage="hasher = HashTools(); hasher.run(text='hello world', algorithm='sha256')",
             requirements=["hashlib"],
@@ -113,7 +117,7 @@ class HashTools(BaseTool):
                 result['file'] = file_path
             
             logger.info("Hash generation completed")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Hash generation failed: {e}")

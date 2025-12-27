@@ -10,8 +10,8 @@ class WhoisHistory(BaseTool):
         metadata = ToolMetadata(
             name="WHOIS Analyzer",
             category=ToolCategory.OSINT,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mendapatkan informasi detail WHOIS domain (Registrar, Expiry, Name Servers)",
             usage="aleopantest run whois-history --domain <domain>",
             example="aleopantest run whois-history --domain google.com",

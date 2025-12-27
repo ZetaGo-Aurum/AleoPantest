@@ -27,7 +27,9 @@ def test_network_tools():
     dns = DNSLookup()
     result = dns.run(domain='example.com')
     assert result, "DNS lookup failed"
-    print(f"[✓] DNS Lookup: {result}")
+    # Check V3.0 compliance
+    assert result.get('summary', {}).get('v3_certified') == True, "Not V3.0 Certified"
+    print(f"[✓] DNS Lookup (V3.0): {result.get('execution', {}).get('status')}")
     
     # Test Ping
     print("\n[*] Testing Ping...")

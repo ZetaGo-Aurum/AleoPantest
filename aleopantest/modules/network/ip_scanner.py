@@ -1,4 +1,8 @@
-"""IP Scanner Tool"""
+"""
+IP Scanner Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import socket
 import ipaddress
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -15,8 +19,8 @@ class IPScanner(BaseTool):
         metadata = ToolMetadata(
             name="IP Scanner",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="IP scanner untuk scanning subnet dan deteksi host yang aktif",
             usage="scanner = IPScanner(); scanner.run(network='192.168.1.0/24')",
             requirements=["socket", "ipaddress"],
@@ -114,3 +118,4 @@ class IPScanner(BaseTool):
             self.add_error(f"Network scan failed: {e}")
         finally:
             self.is_running = False
+            return self.get_results()

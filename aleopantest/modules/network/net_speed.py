@@ -6,8 +6,8 @@ class NetSpeed(BaseTool):
         metadata = ToolMetadata(
             name="Network Speed Test (Simulated)",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menguji kecepatan unduh dan unggah jaringan",
             usage="aleopantest run net-speed",
             example="aleopantest run net-speed",

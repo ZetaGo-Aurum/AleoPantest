@@ -1,4 +1,8 @@
-"""Subdomain Finder Tool"""
+"""
+Subdomain Finder Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, List, Any, Set
 import socket
@@ -14,8 +18,8 @@ class SubdomainFinder(BaseTool):
         metadata = ToolMetadata(
             name="Subdomain Finder",
             category=ToolCategory.WEB,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Subdomain finder dengan brute force dan DNS enumeration",
             usage="finder = SubdomainFinder(); finder.run(domain='target.com')",
             requirements=["requests", "socket"],
@@ -127,3 +131,4 @@ class SubdomainFinder(BaseTool):
             self.add_error(f"Subdomain enumeration failed: {e}")
         finally:
             self.is_running = False
+            return self.get_results()

@@ -1,4 +1,8 @@
-"""Web Crawler Tool"""
+"""
+Web Crawler Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, List, Any, Set
 from urllib.parse import urljoin, urlparse
@@ -15,8 +19,8 @@ class WebCrawler(BaseTool):
         metadata = ToolMetadata(
             name="Web Crawler",
             category=ToolCategory.WEB,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Web crawler untuk mapping struktur website dan discovery URL",
             usage="crawler = WebCrawler(); crawler.run(url='http://target.com', depth=2)",
             requirements=["requests", "beautifulsoup4"],
@@ -141,7 +145,7 @@ class WebCrawler(BaseTool):
             }
             
             logger.info(f"Crawling completed. Found {len(self.results)} URLs")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Crawling failed: {e}")

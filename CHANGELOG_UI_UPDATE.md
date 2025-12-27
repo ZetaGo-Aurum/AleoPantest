@@ -1,4 +1,4 @@
-# Changelog - Aleopantest v3.3.5
+# Changelog - Aleopantest V3.0.0
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## [3.2.0] - 2025-12-26

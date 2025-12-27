@@ -1,7 +1,7 @@
-# Aleopantest v3.3.5 - Analisis Root Cause & Dokumentasi Perubahan
+# Aleopantest V3.0.0 - Analisis Root Cause & Dokumentasi Perubahan
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
-## Aleopantest v3.3.5 Update (Fixes & Stability)
+## Aleopantest V3.0.0 Update (Fixes & Stability)
 
 ### 1. Perbaikan Bug Modul WAF Detector
 - **Validasi URL Wajib:** Menambahkan validasi URL yang ketat sebelum eksekusi tool untuk mencegah error input kosong.

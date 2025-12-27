@@ -1,4 +1,4 @@
-# Aleopantest v3.3.5 Quick Start Guide
+# Aleopantest V3.0.0 Quick Start Guide
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## Installation & Setup
@@ -290,7 +290,7 @@ aleopantest run vuln-scan --url http://example.com --output vulnerabilities.json
 
 ## 📞 Support & Feedback
 
--   **Version**: v3.3.5
+-   **Version**: V3.0.0
 -   **Framework**: Aleopantest Penetration Testing Suite
 -   **By**: Aleocrophic
 -   **License**: Educational/Authorized Use Only

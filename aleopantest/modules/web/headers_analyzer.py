@@ -6,8 +6,8 @@ class HeadersAnalyzer(BaseTool):
         metadata = ToolMetadata(
             name="HTTP Headers Analyzer",
             category=ToolCategory.WEB,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menganalisis HTTP security headers dari sebuah URL untuk menilai postur keamanan",
             usage="aleopantest run headers-analyzer --url <url>",
             example="aleopantest run headers-analyzer --url https://google.com",

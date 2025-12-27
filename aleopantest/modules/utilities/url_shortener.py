@@ -1,4 +1,8 @@
-"""URL Shortener Tool with Custom Aliases"""
+"""
+URL Shortener Tool with Custom Aliases
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import json
 import hashlib
 import random
@@ -23,7 +27,7 @@ class URLShortener(BaseTool):
         metadata = ToolMetadata(
             name="URL Shortener",
             category=ToolCategory.UTILITIES,
-            version="2.1.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Create short URLs with custom aliases for tracking and redirection",
             usage="""

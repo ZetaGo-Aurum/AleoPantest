@@ -1,4 +1,8 @@
-"""Clickjacking Checker - Detects if a website is vulnerable to clickjacking"""
+"""
+Clickjacking Checker - Detects if a website is vulnerable to clickjacking
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, Any, List
 from datetime import datetime
@@ -15,7 +19,7 @@ class ClickjackingChecker(BaseTool):
         metadata = ToolMetadata(
             name="Clickjacking Checker",
             category=ToolCategory.WEB,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Checks if a website is vulnerable to clickjacking attacks by analyzing security headers",
             usage="aleopantest run clickjacking-check --url https://example.com",
@@ -178,7 +182,7 @@ class ClickjackingChecker(BaseTool):
             }
             
             self.add_result(result)
-            return result
+            return self.get_results()
             
         except requests.exceptions.RequestException as e:
             logger.error(f"Failed to fetch URL: {e}")

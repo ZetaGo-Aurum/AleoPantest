@@ -1,4 +1,8 @@
-"""Email Finder Tool"""
+"""
+Email Finder Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 import re
 from typing import Dict, List, Any, Set
@@ -14,8 +18,8 @@ class EmailFinder(BaseTool):
         metadata = ToolMetadata(
             name="Email Finder",
             category=ToolCategory.OSINT,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Email finder untuk mencari email addresses yang terkait dengan domain menggunakan crawler dan search engine",
             usage="aleopantest run email-finder --domain target.com",
             requirements=["requests", "beautifulsoup4"],

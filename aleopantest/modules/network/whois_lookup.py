@@ -1,4 +1,8 @@
-"""WHOIS Lookup Tool"""
+"""
+WHOIS Lookup Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import socket
 import subprocess
 from typing import Dict, Any
@@ -14,8 +18,8 @@ class WhoisLookup(BaseTool):
         metadata = ToolMetadata(
             name="WHOIS Lookup",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="WHOIS lookup untuk mendapatkan informasi registrasi domain dan IP ownership",
             usage="whois = WhoisLookup(); whois.run(domain='google.com')",
             requirements=["socket", "subprocess"],
@@ -96,3 +100,4 @@ class WhoisLookup(BaseTool):
             self.add_error(f"WHOIS lookup failed: {e}")
         finally:
             self.is_running = False
+            return self.get_results()

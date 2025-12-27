@@ -1,4 +1,4 @@
-# PROJECT SUMMARY - Aleopantest v3.3.5
+# PROJECT SUMMARY - Aleopantest V3.0.0
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## 📊 Project Status: ✅ COMPLETE

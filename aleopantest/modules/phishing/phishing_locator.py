@@ -1,4 +1,8 @@
-"""Phishing Locator Tool - Finds phishing sites related to a domain"""
+"""
+Phishing Locator Tool - Finds phishing sites related to a domain
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import re
 from typing import Dict, Any, List
 from datetime import datetime
@@ -15,7 +19,7 @@ class PhishingLocator(BaseTool):
         metadata = ToolMetadata(
             name="Phishing Locator",
             category=ToolCategory.PHISHING,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Locates phishing sites and domains that mimic legitimate organizations",
             usage="aleopantest run phishing-locator --domain example.com",
@@ -222,7 +226,7 @@ class PhishingLocator(BaseTool):
             result['recommendations'] = self._get_recommendations(registered_count, domain)
             
             self.add_result(result)
-            return result
+            return self.get_results()
             
         except Exception as e:
             logger.exception("Phishing Locator failed")

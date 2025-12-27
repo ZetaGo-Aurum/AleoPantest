@@ -6,8 +6,8 @@ class RSAGen(BaseTool):
         metadata = ToolMetadata(
             name="RSA Key Pair Generator (Simple)",
             category=ToolCategory.CRYPTO,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Membuat pasangan kunci RSA sederhana (untuk demonstrasi)",
             usage="aleopantest run rsa-gen",
             example="aleopantest run rsa-gen",

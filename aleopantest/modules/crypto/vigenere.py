@@ -5,8 +5,8 @@ class VigenereCipher(BaseTool):
         metadata = ToolMetadata(
             name="Vigenere Cipher Tool",
             category=ToolCategory.CRYPTO,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Melakukan enkripsi dan dekripsi menggunakan algoritma Vigenere Cipher",
             usage="aleopantest run vigenere --text <msg> --key <key> --action [encrypt|decrypt]",
             example="aleopantest run vigenere --text HELLO --key KEY --action encrypt",

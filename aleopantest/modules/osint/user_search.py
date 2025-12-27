@@ -6,8 +6,8 @@ class UserSearch(BaseTool):
         metadata = ToolMetadata(
             name="Username Searcher",
             category=ToolCategory.OSINT,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencari keberadaan username di berbagai platform media sosial",
             usage="aleopantest run user-search --username <target_username>",
             example="aleopantest run user-search --username zeta_go",

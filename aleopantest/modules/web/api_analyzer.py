@@ -7,8 +7,8 @@ class APIAnalyzer(BaseTool):
         metadata = ToolMetadata(
             name="API Analyzer",
             description="Analyze web API endpoints for common vulnerabilities and documentation",
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             category=ToolCategory.WEB,
             usage="aleopantest run api-analyzer --url <api_url>",
             requirements=["requests"],

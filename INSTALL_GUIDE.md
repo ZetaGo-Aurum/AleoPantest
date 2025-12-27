@@ -1,4 +1,4 @@
-# Aleopantest v2.0.0 Installation Guide
+# Aleopantest V3.0.0 Installation Guide
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 ## 📋 Requirements
@@ -239,7 +239,7 @@ pip install git+https://github.com/ZetaGo-Aurum/aleopantest.git
 
 pip install git+https://github.com/ZetaGo-Aurum/aleopantest.git@develop
 # Or for a specific version:
-pip install git+https://github.com/ZetaGo-Aurum/aleopantest.git@v3.3.5
+pip install git+https://github.com/ZetaGo-Aurum/aleopantest.git@V3.0.0
 ```
 
 ### From Offline Installation

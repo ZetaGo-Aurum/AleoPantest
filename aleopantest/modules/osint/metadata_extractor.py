@@ -1,4 +1,8 @@
-"""Metadata Extractor Tool"""
+"""
+Metadata Extractor Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, Any
 from pathlib import Path
@@ -14,8 +18,8 @@ class MetadataExtractor(BaseTool):
         metadata = ToolMetadata(
             name="Metadata Extractor",
             category=ToolCategory.OSINT,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Metadata extractor untuk ekstrak metadata dari file PDF, images, dan dokumen",
             usage="extractor = MetadataExtractor(); extractor.run(file='document.pdf')",
             requirements=["requests"],
@@ -161,7 +165,7 @@ class MetadataExtractor(BaseTool):
             
             self.add_result(result)
             logger.info("Metadata extraction completed")
-            return result
+            return self.get_results()
             
         except Exception as e:
             self.add_error(f"Metadata extraction failed: {e}")

@@ -1,4 +1,4 @@
-"""Main CLI Application untuk Aleopantest V3.3.5 - by Aleocrophic"""
+"""Main CLI Application untuk Aleopantest V3.0.0 - by Aleocrophic"""
 import sys
 import os
 from pathlib import Path

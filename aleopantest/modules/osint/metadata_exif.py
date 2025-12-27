@@ -12,8 +12,8 @@ class MetadataExif(BaseTool):
         metadata = ToolMetadata(
             name="Metadata Exif Extractor",
             category=ToolCategory.OSINT,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mengekstrak metadata EXIF (GPS, Camera, Date) dari file gambar secara nyata",
             usage="aleopantest run metadata-exif --file <path>",
             example="aleopantest run metadata-exif --file target.jpg",

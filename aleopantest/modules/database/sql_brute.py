@@ -20,8 +20,8 @@ class SQLBruteForcer(BaseTool):
         metadata = ToolMetadata(
             name="SQL Brute Forcer",
             description="Brute force SQL database credentials (MySQL, PostgreSQL)",
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             category=ToolCategory.DATABASE,
             usage="aleopantest run sql-brute --host <target> --port <port> --user <user> --wordlist <path>",
             requirements=["mysql-connector-python", "psycopg2"],

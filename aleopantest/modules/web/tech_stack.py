@@ -7,8 +7,8 @@ class TechStack(BaseTool):
         metadata = ToolMetadata(
             name="Technology Stack Detector",
             category=ToolCategory.WEB,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mendeteksi teknologi yang digunakan oleh sebuah website (Header & Content analysis)",
             usage="aleopantest run tech-stack --url <target_url>",
             example="aleopantest run tech-stack --url https://google.com",

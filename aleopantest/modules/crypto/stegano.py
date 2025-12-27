@@ -7,8 +7,8 @@ class SteganoTool(BaseTool):
         metadata = ToolMetadata(
             name="Steganography Analyzer",
             category=ToolCategory.CRYPTO,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Menganalisis gambar untuk mencari pesan tersembunyi menggunakan teknik LSB (Least Significant Bit).",
             usage="aleopantest run stegano --file <image_path>",
             example="aleopantest run stegano --file evidence.png",

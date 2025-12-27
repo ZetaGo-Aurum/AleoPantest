@@ -1,4 +1,8 @@
-"""Anti-DDoS Protection Analysis Tool"""
+"""
+Anti-DDoS Protection Analysis Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, Any, List
 from datetime import datetime
@@ -15,7 +19,7 @@ class AntiDDoS(BaseTool):
         metadata = ToolMetadata(
             name="Anti-DDoS Detector",
             category=ToolCategory.SECURITY,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Detects and analyzes DDoS protection mechanisms like Cloudflare, Akamai, AWS Shield",
             usage="aleopantest run anti-ddos --url https://example.com",
@@ -261,7 +265,7 @@ class AntiDDoS(BaseTool):
             }
             
             self.add_result(result)
-            return result
+            return self.get_results()
             
         except Exception as e:
             logger.exception("Anti-DDoS detection failed")

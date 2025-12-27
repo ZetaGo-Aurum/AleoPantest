@@ -7,8 +7,8 @@ class SocialAnalyzer(BaseTool):
         metadata = ToolMetadata(
             name="Social Analyzer",
             category=ToolCategory.OSINT,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencari keberadaan username di berbagai platform media sosial secara real-time",
             usage="aleopantest run social-analyzer --username <user>",
             example="aleopantest run social-analyzer --username john_doe",

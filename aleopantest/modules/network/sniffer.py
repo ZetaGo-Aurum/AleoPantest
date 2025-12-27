@@ -1,4 +1,8 @@
-"""Packet Sniffer Tool"""
+"""
+Packet Sniffer Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 from typing import Optional, Dict, Any, List
 import time
 
@@ -18,7 +22,7 @@ class PacketSniffer(BaseTool):
         metadata = ToolMetadata(
             name="Packet Sniffer",
             category=ToolCategory.NETWORK,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Packet sniffer untuk capture dan analisis network traffic secara real-time menggunakan Scapy.",
             usage="aleopantest run sniffer --interface eth0 --count 10",

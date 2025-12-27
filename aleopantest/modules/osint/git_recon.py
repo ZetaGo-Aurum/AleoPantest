@@ -6,8 +6,8 @@ class GitRecon(BaseTool):
         metadata = ToolMetadata(
             name="GitHub Recon",
             category=ToolCategory.OSINT,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Mencari informasi publik tentang user atau organisasi di GitHub",
             usage="aleopantest run git-recon --org <name>",
             example="aleopantest run git-recon --org google",

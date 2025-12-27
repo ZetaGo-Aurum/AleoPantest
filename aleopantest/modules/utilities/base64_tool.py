@@ -6,8 +6,8 @@ class Base64Tool(BaseTool):
         metadata = ToolMetadata(
             name="Base64 Encoder/Decoder",
             category=ToolCategory.UTILITIES,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Encode atau decode string menggunakan format Base64",
             usage="aleopantest run base64 --action <encode|decode> --data <string>",
             example="aleopantest run base64 --action encode --data 'hello world'",

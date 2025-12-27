@@ -1,4 +1,8 @@
-"""WAF (Web Application Firewall) Detector and Analyzer"""
+"""
+WAF (Web Application Firewall) Detector and Analyzer
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import requests
 from typing import Dict, Any, List
 from datetime import datetime
@@ -14,7 +18,7 @@ class WAFDetector(BaseTool):
         metadata = ToolMetadata(
             name="WAF Detector",
             category=ToolCategory.SECURITY,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Detects Web Application Firewalls (WAF) and analyzes their configuration and effectiveness",
             usage="aleopantest run waf-detect --url https://example.com",
@@ -320,7 +324,7 @@ class WAFDetector(BaseTool):
             }
             
             self.results = [result]
-            return result
+            return self.get_results()
             
         except requests.exceptions.RequestException as e:
             error_msg = f"Network error connecting to {target_url}: {str(e)}"

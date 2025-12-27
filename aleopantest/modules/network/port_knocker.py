@@ -6,8 +6,8 @@ class PortKnocker(BaseTool):
         metadata = ToolMetadata(
             name="Port Knocker",
             category=ToolCategory.NETWORK,
-            version="1.0.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Melakukan port knocking pada urutan port tertentu",
             usage="aleopantest run port-knocker --host <ip> --ports <port1,port2,port3>",
             example="aleopantest run port-knocker --host 192.168.1.1 --ports 1000,2000,3000",

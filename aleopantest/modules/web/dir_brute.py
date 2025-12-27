@@ -4,13 +4,17 @@ from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 from aleopantest.core.logger import logger
 
 class DirBrute(BaseTool):
-    """Advanced Directory Brute Forcer with multi-threading support"""
+    """
+Advanced Directory Brute Forcer with multi-threading support
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
     
     def __init__(self):
         metadata = ToolMetadata(
             name="Directory Brute Forcer",
             category=ToolCategory.WEB,
-            version="3.3.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Mencari direktori tersembunyi menggunakan wordlist dan multi-threading.",
             usage="aleopantest run dir-brute --url https://example.com --threads 10",

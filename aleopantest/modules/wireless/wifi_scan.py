@@ -11,8 +11,8 @@ class WifiScanner(BaseTool):
         metadata = ToolMetadata(
             name="WiFi Scanner",
             category=ToolCategory.WIRELESS,
-            version="3.3.0",
-            author="deltaastra24@gmail.com",
+            version="3.0.0",
+            author="Aleocrophic Team",
             description="Memindai jaringan WiFi di sekitar untuk mendapatkan SSID, BSSID, Signal, dan Security (Membutuhkan interface monitor mode)",
             usage="aleopantest run wifi-scan --iface wlan0mon --duration 10",
             example="aleopantest run wifi-scan --iface wlan0mon",

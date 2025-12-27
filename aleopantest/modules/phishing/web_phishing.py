@@ -1,4 +1,8 @@
-"""Web Phishing Detection and Analysis Tool"""
+"""
+Web Phishing Detection and Analysis Tool
+
+V3.0 Major Patch: Enhanced accuracy, powerful features, and standardized output.
+"""
 import json
 import re
 from typing import Dict, Any, List
@@ -17,7 +21,7 @@ class WebPhishing(BaseTool):
         metadata = ToolMetadata(
             name="Web Phishing Detector",
             category=ToolCategory.PHISHING,
-            version="2.0.0",
+            version="3.0.0",
             author="Aleocrophic Team",
             description="Detects and analyzes phishing websites by checking suspicious characteristics",
             usage="aleopantest run web-phishing --url https://example.com",
@@ -174,7 +178,7 @@ class WebPhishing(BaseTool):
             }
             
             self.add_result(result)
-            return result
+            return self.get_results()
             
         except Exception as e:
             logger.exception("Web Phishing detection failed")

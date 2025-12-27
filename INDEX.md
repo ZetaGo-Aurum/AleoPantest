@@ -1,4 +1,4 @@
-# 📑 Aleopantest v3.3.5 - Documentation Index
+# 📑 Aleopantest V3.0.0 - Documentation Index
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 **Quick Navigation for All Documentation**  
@@ -449,13 +449,13 @@ aleopantest run <tool> [options] # Run tool
 
 ## 🎊 THANK YOU!
 
-Thank you for using Aleopantest v3.3.5. We hope this documentation index helps you navigate our comprehensive guides!
+Thank you for using Aleopantest V3.0.0. We hope this documentation index helps you navigate our comprehensive guides!
 <div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
 
 **Start with:** [README_START_HERE.md](README_START_HERE.md)
 
 ---
 
-**Documentation Index v3.3.5**  
+**Documentation Index V3.0.0**  
 *Last Updated: December 27, 2025*  
 *Total Documentation: 50,000+ words across 15+ files*
