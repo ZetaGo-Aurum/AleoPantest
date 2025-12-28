@@ -22,15 +22,41 @@ class DNSLookup(BaseTool):
             description="DNS lookup untuk mendapatkan IP address dari domain name",
             usage="dns = DNSLookup(); dns.run(domain='google.com')",
             requirements=["socket"],
-            tags=["network", "dns", "domain", "lookup"]
+            tags=["network", "dns", "domain", "lookup"],
+            form_schema=[
+                {
+                    "name": "target",
+                    "type": "text",
+                    "label": "Target Domain",
+                    "placeholder": "e.g. google.com",
+                    "required": True
+                },
+                {
+                    "name": "domain",
+                    "type": "text",
+                    "label": "Manual Domain (Optional)",
+                    "placeholder": "Override domain here",
+                    "required": False
+                }
+            ]
         )
         super().__init__(metadata)
     
-    def validate_input(self, domain: str, **kwargs) -> bool:
-        """Validate input"""
+    def validate_input(self, **kwargs) -> bool:
+        """Validate input with auto-detection"""
+        domain = kwargs.get('domain') or kwargs.get('target')
         if not domain:
-            self.add_error("Domain tidak boleh kosong")
+            # If we have IP, validation can still pass for reverse lookup
+            if kwargs.get('ip'):
+                return True
+            self.add_error("Domain tidak boleh kosong. Silakan masukkan secara manual.")
             return False
+        
+        # Standardize
+        if "://" in domain:
+            domain = domain.split("://")[-1].split("/")[0]
+            
+        self.target_domain = domain
         return True
     
     def lookup_a(self, domain: str) -> List[str]:
@@ -118,12 +144,16 @@ class DNSLookup(BaseTool):
             self.add_error(f"Reverse lookup failed: {e}")
             return None
     
-    def run(self, domain: str = None, ip: str = None, lookup_type: str = 'all', **kwargs):
+    def run(self, **kwargs):
         """Execute DNS lookup"""
-        if domain:
-            if not self.validate_input(domain, **kwargs):
-                return
+        if not self.validate_input(**kwargs):
+            return
             
+        domain = getattr(self, 'target_domain', kwargs.get('domain'))
+        ip = kwargs.get('ip')
+        lookup_type = kwargs.get('lookup_type', 'all')
+        
+        if domain:
             self.is_running = True
             self.clear_results()
             

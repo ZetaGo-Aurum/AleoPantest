@@ -59,14 +59,18 @@ class SubdomainFinder(BaseTool):
             'help', 'contact', 'info', 'about', 'news', 'events',
         ]
     
-    def validate_input(self, domain: str, **kwargs) -> bool:
-        """Validate input"""
+    def validate_input(self, **kwargs) -> bool:
+        """Validate input with auto-detection"""
+        domain = kwargs.get('domain') or kwargs.get('target')
         if not domain:
-            self.add_error("Domain tidak boleh kosong")
+            self.add_error("Domain tidak boleh kosong. Silakan masukkan secara manual.")
             return False
-        # Remove protocol if present
-        if domain.startswith(('http://', 'https://')):
-            domain = domain.split('://')[1]
+        
+        # Standardize domain (remove protocol if present)
+        if "://" in domain:
+            domain = domain.split("://")[-1].split("/")[0]
+        
+        self.target_domain = domain
         return True
     
     def check_subdomain(self, subdomain: str, domain: str) -> bool:
@@ -78,14 +82,16 @@ class SubdomainFinder(BaseTool):
         except socket.gaierror:
             return False
     
-    def run(self, domain: str, timeout: int = 10, threads: int = 50, **kwargs):
+    def run(self, **kwargs):
         """Find subdomains"""
-        if not self.validate_input(domain, **kwargs):
+        if not self.validate_input(**kwargs):
             return
         
+        domain = getattr(self, 'target_domain', kwargs.get('domain'))
+        timeout = kwargs.get('timeout', 10)
+        threads = kwargs.get('threads', 50)
+        
         # Clean domain
-        if domain.startswith(('http://', 'https://')):
-            domain = domain.split('://')[1]
         domain = domain.rstrip('/')
         
         self.is_running = True

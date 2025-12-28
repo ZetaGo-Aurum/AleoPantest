@@ -23,15 +23,49 @@ class DomainInfo(BaseTool):
             description="Gather informasi komprehensif tentang domain termasuk DNS, IP, dan metadata",
             usage="info = DomainInfo(); info.run(domain='target.com')",
             requirements=["requests", "socket"],
-            tags=["osint", "domain", "information-gathering", "reconnaissance"]
+            tags=["osint", "domain", "information-gathering", "reconnaissance"],
+            form_schema=[
+                {
+                    "name": "target",
+                    "type": "text",
+                    "label": "Target Domain / URL",
+                    "placeholder": "e.g. example.com",
+                    "required": True
+                },
+                {
+                    "name": "domain",
+                    "type": "text",
+                    "label": "Manual Domain (Optional)",
+                    "placeholder": "Override target domain here if needed",
+                    "required": False,
+                    "description": "Biarkan kosong untuk menggunakan target di atas"
+                },
+                {
+                    "name": "timeout",
+                    "type": "number",
+                    "label": "Timeout (seconds)",
+                    "default": 10,
+                    "required": False
+                }
+            ]
         )
         super().__init__(metadata)
     
-    def validate_input(self, domain: str, **kwargs) -> bool:
-        """Validate input"""
+    def validate_input(self, **kwargs) -> bool:
+        """Validate input with auto-detection of domain from target or manual input"""
+        # Auto-detect domain from kwargs (domain or target)
+        domain = kwargs.get('domain') or kwargs.get('target')
+        
         if not domain:
-            self.add_error("Domain tidak boleh kosong")
+            self.add_error("Parameter 'domain' atau 'target' tidak ditemukan. Silakan masukkan domain secara manual.")
             return False
+            
+        # Standardize domain (remove protocol if present)
+        if "://" in domain:
+            domain = domain.split("://")[-1].split("/")[0]
+        
+        # Save to instance variable for run() to use
+        self.target_domain = domain
         return True
     
     def get_dns_records(self, domain: str) -> Dict[str, Any]:
@@ -96,10 +130,14 @@ class DomainInfo(BaseTool):
         
         return header_info
     
-    def run(self, domain: str, timeout: int = 10, **kwargs):
+    def run(self, **kwargs):
         """Gather domain information"""
-        if not self.validate_input(domain, **kwargs):
+        if not self.validate_input(**kwargs):
             return
+        
+        # Use domain from instance variable (populated by validate_input)
+        domain = getattr(self, 'target_domain', kwargs.get('domain'))
+        timeout = kwargs.get('timeout', 10)
         
         self.is_running = True
         self.clear_results()
