@@ -29,6 +29,20 @@ class ToolCategory(Enum):
     PHISHING = "Phishing"
     SECURITY = "Security"
     CLICKJACKING = "Clickjacking"
+    REPORTING = "Reporting"
+    FORENSICS = "Forensics"
+    MALWARE = "Malware Analysis"
+    MOBILE = "Mobile Security"
+    CLOUD = "Cloud Security"
+    IOT = "IoT Security"
+    EXPLOIT = "Exploitation"
+    POST_EXPLOIT = "Post-Exploitation"
+    SOCIAL = "Social Engineering"
+    STEGANO = "Steganography"
+    BRUTEFORCE = "Brute Force"
+    SNIFFING = "Sniffing & Spoofing"
+    VULNERABILITY = "Vulnerability Analysis"
+    UNKNOWN = "Unknown"
 
 
 @dataclass

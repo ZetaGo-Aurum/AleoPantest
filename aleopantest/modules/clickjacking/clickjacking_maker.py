@@ -18,7 +18,7 @@ class ClickjackingMaker(BaseTool):
     def __init__(self):
         metadata = ToolMetadata(
             name="Clickjacking PoC Maker",
-            category=ToolCategory.WEB,
+            category=ToolCategory.CLICKJACKING,
             version="3.0.0",
             author="Aleocrophic Team",
             description="Generates clickjacking proof of concept HTML for authorized security testing",

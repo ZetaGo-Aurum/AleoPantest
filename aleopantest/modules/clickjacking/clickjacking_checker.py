@@ -18,7 +18,7 @@ class ClickjackingChecker(BaseTool):
     def __init__(self):
         metadata = ToolMetadata(
             name="Clickjacking Checker",
-            category=ToolCategory.WEB,
+            category=ToolCategory.CLICKJACKING,
             version="3.0.0",
             author="Aleocrophic Team",
             description="Checks if a website is vulnerable to clickjacking attacks by analyzing security headers",

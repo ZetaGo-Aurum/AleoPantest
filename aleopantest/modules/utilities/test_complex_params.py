@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
-from typing import Dict, Any
-from aleopantest.core.base_tool import BaseTool
+from typing import Dict, Any, List
+from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 
 class ComplexParamTester(BaseTool):
     """
@@ -9,13 +9,8 @@ class ComplexParamTester(BaseTool):
     """
     
     def __init__(self):
-        super().__init__()
-        self.name = "Complex Param Tester"
-        self.description = "Tests and displays various parameter types for verification"
-        self.category = "Utilities"
-        
         # Define form schema with various types
-        self.form_schema = [
+        form_schema = [
             {
                 "name": "target",
                 "type": "text",
@@ -66,6 +61,19 @@ class ComplexParamTester(BaseTool):
                 "description": "Comma separated list"
             }
         ]
+
+        metadata = ToolMetadata(
+            name="Complex Param Tester",
+            category=ToolCategory.UTILITIES,
+            version="3.0.0",
+            author="Aleocrophic Team",
+            description="Tests and displays various parameter types for verification",
+            usage="aleopantest run complex-tester --target test --test-number 123",
+            requirements=[],
+            tags=["test", "utilities", "development"],
+            form_schema=form_schema
+        )
+        super().__init__(metadata)
 
     def run(self, target: str, **kwargs) -> Dict[str, Any]:
         self.logger.info(f"Starting Complex Param Test on: {target}")

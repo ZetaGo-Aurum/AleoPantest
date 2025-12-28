@@ -18,7 +18,7 @@ class AntiClickjackingGenerator(BaseTool):
     def __init__(self):
         metadata = ToolMetadata(
             name="Anti-Clickjacking Generator",
-            category=ToolCategory.WEB,
+            category=ToolCategory.CLICKJACKING,
             version="3.0.0",
             author="Aleocrophic Team",
             description="Generates anti-clickjacking security headers and JavaScript code for protection",

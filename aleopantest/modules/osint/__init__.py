@@ -14,6 +14,7 @@ PhoneLookup = robust_import("aleopantest.modules.osint.phone_lookup", "PhoneLook
 MetadataExif = robust_import("aleopantest.modules.osint.metadata_exif", "MetadataExif")
 SocialAnalyzer = robust_import("aleopantest.modules.osint.social_analyzer", "SocialAnalyzer")
 BreachChecker = robust_import("aleopantest.modules.osint.breach_check", "BreachChecker")
+DarkWebSearch = robust_import("aleopantest.modules.osint.dark_web_search", "DarkWebSearch")
 
 __all__ = [
     'EmailFinder',
@@ -28,5 +29,6 @@ __all__ = [
     'PhoneLookup',
     'MetadataExif',
     'SocialAnalyzer',
-    'BreachChecker'
+    'BreachChecker',
+    'DarkWebSearch'
 ]

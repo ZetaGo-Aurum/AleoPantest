@@ -24,7 +24,7 @@ from aleopantest.core.tool_helper import get_safe_attr
 from aleopantest.modules.network import (
     PortScanner, PacketSniffer, PingTool, DNSLookup,
     TraceRoute, WhoisLookup, SSLChecker, IPScanner, DDoSSimulator,
-    MACLookup, NetSpeed, SubnetCalc, ArpScanner, VLANScanner
+    MACLookup, NetSpeed, SubnetCalc, ArpScanner, VLANScanner, SNMPWalker
 )
 from aleopantest.modules.web import (
     SQLInjector, XSSDetector, CSRFDetector, WebCrawler,
@@ -36,7 +36,7 @@ from aleopantest.modules.osint import (
     EmailFinder, DomainInfo, IPGeolocation,
     MetadataExtractor, SearchEngineDorking, UserSearch,
     GitRecon, WhoisHistory, ShodanSearch, PhoneLookup,
-    MetadataExif, SocialAnalyzer, BreachChecker
+    MetadataExif, SocialAnalyzer, BreachChecker, DarkWebSearch
 )
 from aleopantest.modules.utilities import (
     PasswordGenerator, HashTools, ProxyManager,
@@ -57,12 +57,39 @@ from aleopantest.modules.crypto import (
     HashCracker, SteganoTool, RSAGen, VigenereCipher, HashGenerator, XORCipher
 )
 from aleopantest.modules.wireless import (
-    BeaconFlood, DeauthTool, WifiScanner
+    BeaconFlood, DeauthTool, WifiScanner, WPSChecker
 )
 from aleopantest.modules.database import (
     SQLBruteForcer, MongoDBAuditor
 )
 from aleopantest.modules.web import AdvancedDorking
+from aleopantest.modules.reporting import (
+    PDFReportGenerator, HTMLReportGenerator
+)
+from aleopantest.modules.exploit import (
+    SearchSploitWrapper, MetasploitHelper
+)
+from aleopantest.modules.forensics import (
+    FileCarver, MemoryAnalyzer, LogForensics
+)
+from aleopantest.modules.malware import (
+    MalwareSandbox, PEAnalyzer, StringExtractor
+)
+from aleopantest.modules.mobile import (
+    APKAnalyzer, IOSAppAnalyzer
+)
+from aleopantest.modules.cloud import (
+    AWSEnumerator, AzureAudit
+)
+from aleopantest.modules.iot import (
+    MQTTExplorer, FirmwareScanner
+)
+from aleopantest.modules.post_exploit import (
+    SystemEnum, PrivEscCheck
+)
+from aleopantest.modules.social import (
+    UsernameGen, PayloadDelivery
+)
 
 import json
 import requests
@@ -106,6 +133,7 @@ TOOLS_REGISTRY = {
     'subnet-calc': SubnetCalc,
     'arp-scan': ArpScanner,
     'vlan-scan': VLANScanner,
+    'snmp-walker': SNMPWalker,
     
     # Web Tools
     'sql-inject': SQLInjector,
@@ -156,6 +184,7 @@ TOOLS_REGISTRY = {
     'metadata-exif': MetadataExif,
     'social-analyzer': SocialAnalyzer,
     'breach-check': BreachChecker,
+    'dark-web-search': DarkWebSearch,
     
     # Utilities
     'passgen': PasswordGenerator,
@@ -184,24 +213,72 @@ TOOLS_REGISTRY = {
     'beacon-flood': BeaconFlood,
     'deauth': DeauthTool,
     'wifi-scan': WifiScanner,
+    'wps-check': WPSChecker,
 
     # Database Tools
     'sql-brute': SQLBruteForcer,
     'mongodb-audit': MongoDBAuditor,
+
+    # Reporting Tools
+    'pdf-report': PDFReportGenerator,
+    'html-report': HTMLReportGenerator,
+
+    # Exploit Tools
+    'searchsploit': SearchSploitWrapper,
+    'msf-helper': MetasploitHelper,
+
+    # Forensics Tools
+    'file-carver': FileCarver,
+    'memory-analyzer': MemoryAnalyzer,
+    'log-forensics': LogForensics,
+
+    # Malware Tools
+    'malware-sandbox': MalwareSandbox,
+    'pe-analyzer': PEAnalyzer,
+    'string-extractor': StringExtractor,
+
+    # Mobile Tools
+    'apk-analyzer': APKAnalyzer,
+    'ios-analyzer': IOSAppAnalyzer,
+
+    # Cloud Tools
+    'aws-enum': AWSEnumerator,
+    'azure-audit': AzureAudit,
+
+    # IoT Tools
+    'mqtt-explorer': MQTTExplorer,
+    'firmware-scan': FirmwareScanner,
+
+    # Post-Exploit Tools
+    'system-enum': SystemEnum,
+    'priv-esc-check': PrivEscCheck,
+
+    # Social Engineering Tools
+    'username-gen': UsernameGen,
+    'payload-delivery': PayloadDelivery,
 }
 
 # Organize tools by category
 TOOLS_BY_CATEGORY = {
-    'Network': ['port-scan', 'ping', 'dns', 'traceroute', 'whois', 'ssl-check', 'ip-scan', 'sniffer', 'ddos-sim', 'mac-lookup', 'net-speed', 'subnet-calc', 'arp-scan', 'vlan-scan'],
+    'Network': ['port-scan', 'ping', 'dns', 'traceroute', 'whois', 'ssl-check', 'ip-scan', 'sniffer', 'ddos-sim', 'mac-lookup', 'net-speed', 'subnet-calc', 'arp-scan', 'vlan-scan', 'snmp-walker'],
     'Web': ['sql-inject', 'xss-detect', 'csrf-detect', 'crawler', 'vuln-scan', 'subdomain', 'advanced-dorking', 'tech-stack', 'dir-brute', 'link-extract', 'admin-finder', 'headers-analyzer', 'proxy-finder', 'api-analyzer'],
     'Phishing': ['web-phishing', 'email-phishing', 'phishing-locator', 'phishing-impersonation', 'ngrok-phishing'],
     'Clickjacking': ['clickjacking-check', 'clickjacking-make', 'anti-clickjacking'],
     'Security': ['anti-ddos', 'waf-detect', 'vuln-db', 'firewall-bypass', 'ids-evasion'],
-    'OSINT': ['email-find', 'domain-info', 'ip-geo', 'metadata', 'dorking', 'user-search', 'git-recon', 'whois-history', 'shodan-search', 'phone-lookup', 'metadata-exif', 'social-analyzer', 'breach-check'],
+    'OSINT': ['email-find', 'domain-info', 'ip-geo', 'metadata', 'dorking', 'user-search', 'git-recon', 'whois-history', 'shodan-search', 'phone-lookup', 'metadata-exif', 'social-analyzer', 'breach-check', 'dark-web-search'],
     'Utilities': ['passgen', 'hash', 'proxy', 'encode', 'revshell', 'url-mask', 'url-shorten', 'base64', 'json-format', 'jwt-decoder', 'ip-info', 'cron-gen'],
     'Crypto': ['hash-cracker', 'stegano', 'rsa-gen', 'vigenere', 'hash-gen', 'xor-cipher'],
-    'Wireless': ['beacon-flood', 'deauth', 'wifi-scan'],
+    'Wireless': ['beacon-flood', 'deauth', 'wifi-scan', 'wps-check'],
     'Database': ['sql-brute', 'mongodb-audit'],
+    'Reporting': ['pdf-report', 'html-report'],
+    'Exploit': ['searchsploit', 'msf-helper'],
+    'Forensics': ['file-carver', 'memory-analyzer', 'log-forensics'],
+    'Malware': ['malware-sandbox', 'pe-analyzer', 'string-extractor'],
+    'Mobile Security': ['apk-analyzer', 'ios-analyzer'],
+    'Cloud Security': ['aws-enum', 'azure-audit'],
+    'IoT Security': ['mqtt-explorer', 'firmware-scan'],
+    'Post-Exploitation': ['system-enum', 'priv-esc-check'],
+    'Social Engineering': ['username-gen', 'payload-delivery'],
 }
 
 

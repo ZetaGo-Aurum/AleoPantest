@@ -15,6 +15,7 @@ NetSpeed = robust_import("aleopantest.modules.network.net_speed", "NetSpeed")
 SubnetCalc = robust_import("aleopantest.modules.network.subnet_calc", "SubnetCalc")
 ArpScanner = robust_import("aleopantest.modules.network.arp_scan", "ArpScanner")
 VLANScanner = robust_import("aleopantest.modules.network.vlan_scanner", "VLANScanner")
+SNMPWalker = robust_import("aleopantest.modules.network.snmp_walker", "SNMPWalker")
 
 __all__ = [
     'PortScanner',
@@ -30,5 +31,6 @@ __all__ = [
     'NetSpeed',
     'SubnetCalc',
     'ArpScanner',
-    'VLANScanner'
+    'VLANScanner',
+    'SNMPWalker'
 ]
