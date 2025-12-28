@@ -105,6 +105,15 @@
             animation: fadeIn 0.4s ease-out forwards;
         }
 
+        .page-transition {
+            animation: pageSlide 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes pageSlide {
+            from { opacity: 0; transform: translateX(20px); filter: blur(4px); }
+            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -389,9 +398,14 @@
 
                     <!-- Analysis Results -->
                     <div class="material-card p-8 border border-white/5">
-                        <h4 class="text-xl font-bold mb-6 flex items-center gap-3">
-                            <i class="fas fa-microscope text-accent"></i>
-                            Analysis Result
+                        <h4 class="text-xl font-bold mb-6 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-microscope text-accent"></i>
+                                Analysis Result
+                            </div>
+                            <button onclick="clearFileResults()" class="text-[10px] uppercase tracking-widest text-white/30 hover:text-red-400 transition-colors font-bold">
+                                <i class="fas fa-trash-alt mr-1"></i> Clear All
+                            </button>
                         </h4>
                         
                         <div id="file-results" class="space-y-4">
@@ -648,8 +662,62 @@
         }
 
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebar-overlay').classList.toggle('open');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar) sidebar.classList.toggle('open');
+            if (overlay) overlay.classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('open');
+        }
+
+        function navigateTo(containerId) {
+            closeSidebar();
+            
+            const containers = ['dashboard-home', 'tool-grid-container', 'terminal-activity-container', 'execution-panel', 'file-hub-container'];
+            
+            containers.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === containerId) {
+                        el.classList.remove('hidden');
+                        el.classList.add('page-transition');
+                        setTimeout(() => el.classList.remove('page-transition'), 500);
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function detectParameterType(value) {
+            if (!value) return null;
+            
+            // IPv4 regex
+            const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            if (ipv4Regex.test(value)) return 'ip';
+            
+            // Domain regex
+            const domainRegex = /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/i;
+            if (domainRegex.test(value)) return 'domain';
+            
+            // URL regex
+            const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+            if (urlRegex.test(value)) return 'url';
+            
+            // Email regex
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(value)) return 'email';
+
+            // Phone regex (International)
+            const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+            if (phoneRegex.test(value)) return 'phone';
+            
+            return 'string';
         }
 
         async function fetchTerminalReports() {
@@ -694,9 +762,12 @@
             
             if (!reports || reports.length === 0) {
                 list.innerHTML = `
-                    <div class="material-card p-10 text-center">
-                        <i class="fas fa-terminal text-4xl text-white/10 mb-4"></i>
-                        <p class="text-white/30 font-medium">Belum ada aktivitas terminal yang terdeteksi.</p>
+                    <div class="material-card p-20 text-center border-dashed border-2 border-white/5 bg-transparent">
+                        <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-terminal text-3xl text-white/10"></i>
+                        </div>
+                        <h4 class="text-xl font-bold mb-2">No Activity Detected</h4>
+                        <p class="text-white/30 font-medium max-w-xs mx-auto">Waiting for automated sync from terminal executions...</p>
                     </div>
                 `;
                 return;
@@ -707,27 +778,69 @@
                 const timestamp = new Date(report.timestamp || report.received_at).toLocaleString();
                 const results = report.data?.results || report.results || {};
                 const source = report.data?.source || report.source || 'Terminal';
+                const status = report.status || 'completed';
+                
+                const statusColors = {
+                    'completed': 'bg-green-400',
+                    'running': 'bg-primary animate-pulse',
+                    'failed': 'bg-red-500',
+                    'pending': 'bg-yellow-400'
+                };
                 
                 return `
-                    <div class="material-card p-6 border-l-4 border-primary/50 hover:border-primary transition-all">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-primary">
-                                    <i class="fas fa-terminal text-sm"></i>
+                    <div class="material-card overflow-hidden group hover:border-primary/30 transition-all duration-500">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-6 gap-6">
+                            <div class="flex items-center gap-5">
+                                <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+                                    <i class="fas fa-terminal text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg">${toolId.toUpperCase()}</h4>
-                                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-widest">${source} • ${timestamp}</p>
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <h4 class="font-bold text-xl tracking-tight">${toolId.toUpperCase()}</h4>
+                                        <span class="w-2 h-2 rounded-full ${statusColors[status] || 'bg-white/20'}"></span>
+                                    </div>
+                                    <div class="flex items-center gap-3 text-[11px] font-bold text-white/30 uppercase tracking-widest">
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fas fa-microchip opacity-50"></i> ${source}
+                                        </span>
+                                        <span class="opacity-30">•</span>
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="far fa-clock opacity-50"></i> ${timestamp}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <button onclick="copyTerminalResult(${index})" class="text-white/20 hover:text-primary transition-colors">
-                                <i class="far fa-copy"></i>
-                            </button>
+                            <div class="flex items-center gap-3 ml-auto md:ml-0">
+                                <button onclick="copyTerminalResult(${index})" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40 hover:bg-primary hover:text-on-primary transition-all duration-300" title="Copy results">
+                                    <i class="far fa-copy text-sm"></i>
+                                </button>
+                                <button onclick="toggleTerminalDetail(${index})" class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40 hover:bg-white/10 transition-all duration-300" title="Toggle details">
+                                    <i class="fas fa-chevron-down text-sm transition-transform duration-300" id="chevron-${index}"></i>
+                                </button>
+                            </div>
                         </div>
-                        <pre class="bg-black/30 p-4 rounded-xl text-xs font-mono text-white/60 overflow-x-auto max-h-40 custom-scrollbar">${JSON.stringify(results, null, 2)}</pre>
+                        <div id="detail-${index}" class="hidden border-t border-white/5 bg-black/20">
+                            <div class="p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">Raw Output JSON</span>
+                                    <span class="text-[10px] font-bold text-primary/50 uppercase tracking-widest">v3.3.5 standardized</span>
+                                </div>
+                                <pre class="text-xs font-mono text-white/60 overflow-x-auto custom-scrollbar leading-relaxed">${JSON.stringify(results, null, 2)}</pre>
+                            </div>
+                        </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        function toggleTerminalDetail(index) {
+            const detail = document.getElementById(`detail-${index}`);
+            const chevron = document.getElementById(`chevron-${index}`);
+            if (detail && chevron) {
+                const isHidden = detail.classList.contains('hidden');
+                detail.classList.toggle('hidden');
+                chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
         }
 
         function copyTerminalResult(index) {
@@ -740,16 +853,16 @@
         }
 
         function showTerminalReports() {
+            navigateTo('terminal-activity-container');
             document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('nav-terminal').classList.add('active');
+            const nav = document.getElementById('nav-terminal');
+            if (nav) nav.classList.add('active');
             
-            document.getElementById('dashboard-home').classList.add('hidden');
-            document.getElementById('tool-grid-container').classList.add('hidden');
-            document.getElementById('execution-panel').classList.add('hidden');
-            document.getElementById('terminal-activity-container').classList.remove('hidden');
+            const currCat = document.getElementById('current-category');
+            if (currCat) currCat.innerText = "Terminal Activity";
             
-            document.getElementById('current-category').innerText = "Terminal Activity";
-            document.getElementById('tool-count').innerText = "LIVE SYNC";
+            const toolCount = document.getElementById('tool-count');
+            if (toolCount) toolCount.innerText = "LIVE SYNC";
             
             fetchTerminalReports();
         }
@@ -811,13 +924,9 @@
         }
 
         function showDashboard() {
+            navigateTo('dashboard-home');
             document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
             document.getElementById('nav-dashboard').classList.add('active');
-            
-            document.getElementById('dashboard-home').classList.remove('hidden');
-            document.getElementById('tool-grid-container').classList.add('hidden');
-            document.getElementById('execution-panel').classList.add('hidden');
-            document.getElementById('terminal-activity-container').classList.add('hidden');
             
             document.getElementById('current-category').innerText = "Dashboard";
             document.getElementById('tool-count').innerText = "V3.3.5 PRO";
@@ -844,18 +953,11 @@
         function showCategory(cat) {
             if (!cat) return;
             currentCategoryId = cat;
+            navigateTo('tool-grid-container');
             document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
             const sideCat = document.getElementById(`side-${cat}`);
             if (sideCat) sideCat.classList.add('active');
 
-            const dashHome = document.getElementById('dashboard-home');
-            const gridCont = document.getElementById('tool-grid-container');
-            const execPanel = document.getElementById('execution-panel');
-            
-            if (dashHome) dashHome.classList.add('hidden');
-            if (gridCont) gridCont.classList.remove('hidden');
-            if (execPanel) execPanel.classList.add('hidden');
-            
             const currCat = document.getElementById('current-category');
             if (currCat) currCat.innerText = cat;
             
@@ -923,14 +1025,7 @@
                 return;
             }
             activeTool = tool;
-            
-            const dashHome = document.getElementById('dashboard-home');
-            const gridCont = document.getElementById('tool-grid-container');
-            const execPanel = document.getElementById('execution-panel');
-            
-            if (dashHome) dashHome.classList.add('hidden');
-            if (gridCont) gridCont.classList.add('hidden');
-            if (execPanel) execPanel.classList.remove('hidden');
+            navigateTo('execution-panel');
             
             const nameEl = document.getElementById('exec-tool-name');
             const descEl = document.getElementById('exec-tool-desc');
@@ -1069,6 +1164,7 @@
             
             const params = {};
             let target = "";
+            let parameterTypes = {};
             
             // Handle all form elements including unchecked checkboxes
             const elements = toolForm.elements;
@@ -1078,15 +1174,29 @@
                 
                 if (el.type === 'checkbox') {
                     params[el.name] = el.checked;
+                    parameterTypes[el.name] = 'boolean';
                 } else if (el.name === 'target') {
                     target = el.value;
+                    parameterTypes[el.name] = detectParameterType(target);
                 } else {
                     params[el.name] = el.value;
+                    parameterTypes[el.name] = detectParameterType(el.value);
+                }
+            }
+
+            // Enhanced Validation with Auto-Detection
+            if (target) {
+                const detectedType = parameterTypes['target'];
+                console.log(`Detected target type: ${detectedType}`);
+                
+                // Optional: Alert user if target looks suspicious or wrong type
+                if (detectedType === 'string' && target.includes('.') && !target.startsWith('http')) {
+                    // Might be an invalid domain or IP
+                    showToast("Warning: Target format looks unusual. Please verify.", "warning");
                 }
             }
 
             // Validate target if required by tool metadata
-            // Some tools might not need a target if they have specific params
             const targetInput = document.getElementById('tool-target');
             if (targetInput && targetInput.required && !target) {
                 showToast("Target is required for this tool", "warning");
@@ -1098,7 +1208,10 @@
             try {
                 resultsContainer.classList.remove('hidden');
                 resultsPre.innerText = "Initializing scan...\nWaiting for response from engine...";
-                showToast(`Starting execution: ${activeTool.name}`, 'info');
+                
+                // Include detected types in the request if the backend supports it, 
+                // or just use it for local validation/logging for now.
+                showToast(`Starting execution: ${activeTool.name} (${parameterTypes['target'] || 'general'})`, 'info');
                 
                 const response = await apiFetch('/aleopantest/api/run', {
                     method: 'POST',
@@ -1106,7 +1219,11 @@
                     body: JSON.stringify({
                         tool_id: activeTool.id,
                         target: target,
-                        params: params
+                        params: params,
+                        meta: {
+                            detected_types: parameterTypes,
+                            client_timestamp: new Date().toISOString()
+                        }
                     })
                 });
                 
@@ -1221,14 +1338,7 @@
         }
 
         function showFileHub() {
-            const containers = ['dashboard-home', 'tool-grid-container', 'terminal-activity-container', 'execution-panel', 'file-hub-container'];
-            containers.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.add('hidden');
-            });
-            
-            const fileHub = document.getElementById('file-hub-container');
-            if (fileHub) fileHub.classList.remove('hidden');
+            navigateTo('file-hub-container');
             
             const currCat = document.getElementById('current-category');
             if (currCat) currCat.innerText = "File Security Hub";
@@ -1237,8 +1347,6 @@
             document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
             const navFileHub = document.getElementById('nav-filehub');
             if (navFileHub) navFileHub.classList.add('active');
-            
-            if (window.innerWidth < 1024) toggleSidebar();
         }
 
         // File Hub Logic
@@ -1389,6 +1497,21 @@
             `;
             
             fileResults.prepend(resultDiv);
+        }
+
+        function clearFileResults() {
+            if (!fileResults) return;
+            if (fileResults.querySelector('.py-20')) return; // Already empty
+            
+            if (confirm("Hapus semua hasil analisis file?")) {
+                fileResults.innerHTML = `
+                    <div class="text-center py-20 text-white/20">
+                        <i class="fas fa-file-shield text-4xl mb-4 opacity-50"></i>
+                        <p class="text-sm font-medium">Belum ada file yang dianalisis.</p>
+                    </div>
+                `;
+                showToast("Semua hasil analisis dihapus", "success");
+            }
         }
 
         function getFileIcon(mime) {
