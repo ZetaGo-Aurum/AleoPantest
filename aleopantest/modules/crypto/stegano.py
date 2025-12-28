@@ -1,4 +1,9 @@
-from PIL import Image
+try:
+    from PIL import Image
+    HAS_PILLOW = True
+except ImportError:
+    HAS_PILLOW = False
+
 from aleopantest.core.base_tool import BaseTool, ToolMetadata, ToolCategory
 import os
 
@@ -71,6 +76,10 @@ class SteganoTool(BaseTool):
             return None
 
     def run(self, file: str = "", mode: str = "full_scan", **kwargs):
+        if not HAS_PILLOW:
+            self.add_error("Library 'Pillow' tidak ditemukan. Silakan jalankan: pip install Pillow")
+            return self.get_results()
+
         if not file:
             self.add_error("File path is required")
             return self.get_results()

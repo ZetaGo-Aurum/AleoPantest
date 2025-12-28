@@ -255,8 +255,13 @@ async def upload_file(
 
         if mime_type.startswith("image/") and HAS_WEB_DEPS:
             try:
-                from PIL import Image
-                from PIL.ExifTags import TAGS
+                try:
+                    from PIL import Image
+                    from PIL.ExifTags import TAGS
+                except ImportError:
+                    logger.warning("Pillow not installed, skipping image EXIF extraction")
+                    return metadata
+                
                 img = Image.open(io.BytesIO(content))
                 exif_data = {}
                 info = img._getexif()

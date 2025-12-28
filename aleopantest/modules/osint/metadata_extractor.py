@@ -66,8 +66,12 @@ class MetadataExtractor(BaseTool):
         """Extract metadata dari image"""
         metadata = {}
         try:
-            from PIL import Image
-            from PIL.ExifTags import TAGS
+            try:
+                from PIL import Image
+                from PIL.ExifTags import TAGS
+            except ImportError:
+                logger.warning("Pillow not available for image extraction. Please install it with 'pip install Pillow'")
+                return metadata
             
             image = Image.open(file_path)
             
