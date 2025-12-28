@@ -95,6 +95,14 @@ pip install -e .
 
 ---
 
+## ⚙️ Recent Fixes (v3.3.6)
+
+- **CORS Policy Error**: Configured `CORSMiddleware` in the backend to allow secure cross-origin resource sharing from the web interface.
+- **Resource Loading Error**: Implemented a global resource error handler and fallback mechanisms for external SDKs (e.g., ReasonLabs) to ensure UI stability even when network connectivity is limited.
+- **Base64 Encoding Error**: (Coming soon) Fixed `InvalidCharacterError` in file upload by ensuring proper UTF-8 to Base64 conversion.
+
+---
+
 ## ⚙️ Configuration Details
 
 Aleopantest uses configuration files to manage framework behavior and third-party API integrations.

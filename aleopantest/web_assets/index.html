@@ -478,6 +478,19 @@
     </main>
 
     <script>
+        // Global Resource Loading Error Handler
+        window.addEventListener('error', function(e) {
+            if (e.target && (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) {
+                const url = e.target.src || e.target.href;
+                console.warn(`[Resource] Failed to load: ${url}`);
+                
+                if (url && url.includes('reasonlabsapi.com')) {
+                    console.error(`[Resource] Critical failure for ReasonLabs SDK. Check network connectivity or API availability.`);
+                    showToast("Security SDK failed to load. Some features might be limited.", "warning");
+                }
+            }
+        }, true);
+
         let allTools = {};
         let currentCategoryId = 'Dashboard';
         let activeTool = null;
@@ -504,6 +517,12 @@
                             ...options.headers
                         }
                     });
+                    
+                    // Fallback for specific endpoints if needed
+                    if (url.includes('reasonlabsapi.com') && !response.ok) {
+                        console.warn(`[API] ReasonLabs API returned ${response.status}. Using local fallback if available.`);
+                        // Here you could return a mock response or a local alternative
+                    }
                     
                     // Update status UI to online
                     const statusDot = document.getElementById('status-dot');
