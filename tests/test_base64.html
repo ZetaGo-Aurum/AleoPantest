@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Base64 Encoding Unit Tests</title>
+    <script>
+        // UTF-8 safe Base64 encoding (copied from index.html)
+        function utf8_to_b64(str) {
+            try {
+                return window.btoa(unescape(encodeURIComponent(str)));
+            } catch (e) {
+                console.error("[Encoding] Failed to encode UTF-8 to Base64:", e);
+                return "";
+            }
+        }
+
+        // UTF-8 safe Base64 decoding (copied from index.html)
+        function b64_to_utf8(str) {
+            try {
+                return decodeURIComponent(escape(window.atob(str)));
+            } catch (e) {
+                console.error("[Encoding] Failed to decode Base64 to UTF-8:", e);
+                return "";
+            }
+        }
+
+        function runTests() {
+            const results = document.getElementById('results');
+            const log = (msg, pass) => {
+                const el = document.createElement('div');
+                el.innerText = (pass ? '✅ ' : '❌ ') + msg;
+                el.style.color = pass ? 'green' : 'red';
+                results.appendChild(el);
+            };
+
+            // Test 1: Simple ASCII
+            const test1 = "Hello World";
+            const encoded1 = utf8_to_b64(test1);
+            const decoded1 = b64_to_utf8(encoded1);
+            log(`ASCII encoding/decoding: ${test1} -> ${encoded1} -> ${decoded1}`, test1 === decoded1);
+
+            // Test 2: Non-Latin1 characters (Emoji)
+            const test2 = "Security 🛡️ Tool";
+            try {
+                const encoded2 = utf8_to_b64(test2);
+                const decoded2 = b64_to_utf8(encoded2);
+                log(`Emoji encoding/decoding: ${test2} -> ${encoded2} -> ${decoded2}`, test2 === decoded2);
+            } catch (e) {
+                log(`Emoji encoding failed: ${e.message}`, false);
+            }
+
+            // Test 3: Special characters (UTF-8 symbols)
+            const test3 = "π = 3.14159, © 2025";
+            const encoded3 = utf8_to_b64(test3);
+            const decoded3 = b64_to_utf8(encoded3);
+            log(`UTF-8 symbol encoding/decoding: ${test3} -> ${encoded3} -> ${decoded3}`, test3 === decoded3);
+
+            // Test 4: Verify that standard btoa fails on emoji
+            try {
+                window.btoa("🛡️");
+                log("Standard btoa surprisingly worked (unexpected for this test case)", false);
+            } catch (e) {
+                log("Standard btoa failed on emoji as expected: " + e.message, true);
+            }
+        }
+    </script>
+</head>
+<body onload="runTests()">
+    <h1>Base64 Encoding Unit Tests</h1>
+    <div id="results"></div>
+</body>
+</html>
