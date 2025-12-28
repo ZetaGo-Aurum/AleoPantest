@@ -484,6 +484,26 @@
         let adminInfo = null;
         let currentTerminalReports = [];
 
+        // UTF-8 safe Base64 encoding
+        function utf8_to_b64(str) {
+            try {
+                return window.btoa(unescape(encodeURIComponent(str)));
+            } catch (e) {
+                console.error("[Encoding] Failed to encode UTF-8 to Base64:", e);
+                return "";
+            }
+        }
+
+        // UTF-8 safe Base64 decoding
+        function b64_to_utf8(str) {
+            try {
+                return decodeURIComponent(escape(window.atob(str)));
+            } catch (e) {
+                console.error("[Encoding] Failed to decode Base64 to UTF-8:", e);
+                return "";
+            }
+        }
+
         async function apiFetch(url, options = {}, retries = 3) {
             const baseDelay = 1000;
             
@@ -1378,7 +1398,7 @@
                 
                 <div class="mt-6 flex gap-2">
                     <button class="flex-1 bg-white/5 hover:bg-white/10 text-white/70 py-2 rounded-xl text-xs font-bold transition-all" 
-                        onclick="showMetadata('${btoa(JSON.stringify(metadata))}')">
+                        onclick="showMetadata('${utf8_to_b64(JSON.stringify(metadata))}')">
                         <i class="fas fa-info-circle mr-2"></i> View All Metadata
                     </button>
                     <button class="w-10 h-10 bg-white/5 hover:bg-red-400/20 hover:text-red-400 flex items-center justify-center rounded-xl transition-all"
@@ -1409,7 +1429,7 @@
 
         function showMetadata(encodedData) {
             try {
-                const metadata = JSON.parse(atob(encodedData));
+                const metadata = JSON.parse(b64_to_utf8(encodedData));
                 const resultsPre = document.getElementById('tool-results');
                 const resultsContainer = document.getElementById('results-container');
                 const execPanel = document.getElementById('execution-panel');
