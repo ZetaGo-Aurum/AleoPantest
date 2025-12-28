@@ -50,11 +50,18 @@ class EmailFinder(BaseTool):
         )
         super().__init__(metadata)
     
-    def validate_input(self, domain: str, **kwargs) -> bool:
-        """Validate input"""
+    def validate_input(self, **kwargs) -> bool:
+        """Validate input with auto-detection"""
+        domain = kwargs.get('domain') or kwargs.get('target')
         if not domain:
-            self.add_error("Domain tidak boleh kosong")
+            self.add_error("Domain tidak boleh kosong. Silakan masukkan secara manual.")
             return False
+        
+        # Standardize domain (remove protocol if present)
+        if "://" in domain:
+            domain = domain.split("://")[-1].split("/")[0]
+        
+        self.target_domain = domain
         return True
     
     def extract_emails_from_html(self, html: str, domain: str = None) -> Set[str]:
@@ -107,11 +114,14 @@ class EmailFinder(BaseTool):
             self.add_warning(f"DuckDuckGo search error: {e}")
         return emails
     
-    def run(self, domain: str, timeout: int = 10, **kwargs):
+    def run(self, **kwargs):
         """Find emails for domain"""
         self.set_core_params(**kwargs)
-        if not self.validate_input(domain, **kwargs):
+        if not self.validate_input(**kwargs):
             return self.get_results()
+        
+        domain = getattr(self, 'target_domain', kwargs.get('domain'))
+        timeout = kwargs.get('timeout', 10)
         
         self.is_running = True
         self.clear_results()

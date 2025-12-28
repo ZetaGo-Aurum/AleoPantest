@@ -23,7 +23,23 @@ class XSSDetector(BaseTool):
             description="XSS vulnerability detection dengan berbagai payload testing",
             usage="xss = XSSDetector(); xss.run(url='http://target.com')",
             requirements=["requests"],
-            tags=["web", "xss", "vulnerability", "testing"]
+            tags=["web", "xss", "vulnerability", "testing"],
+            form_schema=[
+                {
+                    "name": "url",
+                    "label": "Target URL",
+                    "type": "text",
+                    "placeholder": "http://example.com/page.php?id=1",
+                    "required": True
+                },
+                {
+                    "name": "parameter",
+                    "label": "Specific Parameter (Optional)",
+                    "type": "text",
+                    "placeholder": "e.g. id",
+                    "required": False
+                }
+            ] + BaseTool.get_common_form_schema()
         )
         super().__init__(metadata)
         
@@ -41,14 +57,18 @@ class XSSDetector(BaseTool):
             'data:text/html,<script>alert("XSS")</script>',
         ]
     
-    def validate_input(self, url: str, **kwargs) -> bool:
-        """Validate input"""
+    def validate_input(self, **kwargs) -> bool:
+        """Validate input with auto-detection"""
+        url = kwargs.get('url') or kwargs.get('target')
         if not url:
-            self.add_error("URL tidak boleh kosong")
+            self.add_error("URL tidak boleh kosong. Silakan masukkan secara manual.")
             return False
+        
         if not url.startswith(('http://', 'https://')):
-            self.add_error("Invalid URL format")
-            return False
+            # Try to fix URL if it's just a domain
+            url = "http://" + url
+            
+        self.target_url = url
         return True
     
     def test_parameter(self, url: str, param: str, timeout: int = 10) -> Dict[str, Any]:
@@ -98,10 +118,14 @@ class XSSDetector(BaseTool):
         
         return results
     
-    def run(self, url: str, parameter: str = None, timeout: int = 10, **kwargs):
+    def run(self, **kwargs):
         """Test URL for XSS"""
-        if not self.validate_input(url, **kwargs):
+        if not self.validate_input(**kwargs):
             return
+        
+        url = getattr(self, 'target_url', kwargs.get('url'))
+        parameter = kwargs.get('parameter')
+        timeout = kwargs.get('timeout', 10)
         
         self.is_running = True
         self.clear_results()
