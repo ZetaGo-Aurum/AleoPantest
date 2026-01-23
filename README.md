@@ -185,6 +185,12 @@ The use of **Aleopantest** is governed by the following legal terms. By using th
 
 ---
 
+## ⚙️ Recent Fixes (v3.3.6)
+
+- **CORS Policy Error**: Configured `CORSMiddleware` in the backend to allow secure cross-origin resource sharing from the web interface.
+- **Resource Loading Error**: Implemented a global resource error handler and fallback mechanisms for external SDKs (e.g., ReasonLabs) to ensure UI stability even when network connectivity is limited.
+- **Base64 Encoding Error**: Resolved `InvalidCharacterError` in file metadata display by implementing UTF-8 safe Base64 encoding/decoding (`utf8_to_b64` and `b64_to_utf8`). This ensures support for non-Latin1 characters like emojis and special symbols in filenames and metadata.
+
 ## 🤝 Contribution Rules
 
 Contributions are highly welcome! To contribute:
