@@ -63,6 +63,16 @@ except (ImportError, ValueError):
 
 if HAS_WEB_DEPS:
     app = FastAPI(title="Aleopantest V3 API")
+    
+    # Configure CORS
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # For broader compatibility, but can be restricted to ["http://127.0.0.1:8002"]
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    
     automation_engine = AutomationEngine()
 
     # Serve static files
