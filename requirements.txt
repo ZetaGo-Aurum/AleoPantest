@@ -1,101 +1,114 @@
-# Aleopantest V3.0.0 - Requirements File
+# Aleopantest V4.0.0 - Requirements File
 # by Aleocrophic
-# Environment: Python 3.8+ (Target: Windows, Linux, macOS)
+# Environment: Python 3.9+ (Target: Windows, Linux, macOS, WSL, Kali, Termux)
 # Encoding: UTF-8
 # Standards: PEP 440 versioning, UTF-8 documentation
 
 # --- Core Framework ---
-click==8.1.7               # Penanganan Command Line Interface (CLI) dan argument parsing.
-rich==13.7.0                # Output terminal yang berwarna, tabel, dan progress bar untuk TUI modern.
-pydantic==2.5.0             # Validasi data dan pengaturan menggunakan model Python.
-python-dotenv==1.0.0        # Memuat variabel lingkungan dari file .env.
-pyyaml==6.0.1               # Parsing dan dumping file konfigurasi YAML (default.yml).
+click>=8.1.7                # CLI argument parsing and command handling.
+rich>=13.9.0                # Rich terminal output, tables, progress bars, panels.
+pydantic>=2.6.0             # Data validation and settings using Python models.
+python-dotenv>=1.0.1        # Load environment variables from .env files.
+pyyaml>=6.0.2               # YAML configuration file parsing and dumping.
 
 # --- CLI & TUI ---
-textual==0.48.0             # Framework TUI (Terminal User Interface) interaktif untuk dashboard.
-typer==0.9.0                # Membangun aplikasi CLI berbasis type-hints untuk kemudahan penggunaan.
-colorama==0.4.6             # Dukungan warna terminal lintas platform (khususnya Windows).
-termcolor==2.4.0            # Pewarnaan teks sederhana untuk output log.
-tabulate==0.9.0             # Memformat data list/dict menjadi tabel teks yang rapi.
-prettytable==3.10.0         # Library alternatif untuk pembuatan tabel ASCII yang kompleks.
+textual>=0.89.0             # Interactive TUI (Terminal User Interface) framework.
+typer>=0.12.0               # Type-hint based CLI builder.
+colorama>=0.4.6             # Cross-platform terminal color support.
+termcolor>=2.5.0            # Simple text coloring for log output.
+tabulate>=0.9.0             # Format list/dict data into text tables.
+prettytable>=3.11.0         # Alternative ASCII table library.
+prompt_toolkit>=3.0.48      # Advanced interactive prompts with auto-completion.
 
 # --- Network Tools ---
-scapy==2.5.0                # Manipulasi paket jaringan tingkat rendah (Sniffing, Injection, Scanning).
-python-nmap==0.7.1          # Interface Python untuk pemindaian port menggunakan Nmap.
-paramiko==3.4.0             # Implementasi protokol SSHv2 untuk remote command execution.
-pycryptodome==3.19.0        # Operasi kriptografi tingkat rendah untuk protokol jaringan.
-requests==2.31.0            # Library HTTP client utama untuk interaksi API dan Web.
-urllib3==2.1.0              # Library HTTP client tingkat rendah, dependensi untuk requests.
-httpx==0.25.2               # Client HTTP modern dengan dukungan async/await.
-aiohttp==3.9.1              # Client/Server HTTP asinkron untuk performa tinggi.
-websockets==12.0            # Implementasi protokol WebSocket untuk komunikasi real-time.
-dnspython==2.4.2            # Manipulasi dan lookup DNS tingkat lanjut.
-whois==0.9.1                # Pengambilan data pendaftaran domain (WHOIS).
-python-whois==0.7.3         # Library alternatif untuk parsing data WHOIS.
+scapy>=2.6.0                # Low-level network packet manipulation (Sniff, Inject, Scan).
+python-nmap>=0.7.1          # Python interface for Nmap port scanning.
+paramiko>=3.5.0             # SSHv2 protocol implementation for remote execution.
+pycryptodome>=3.21.0        # Low-level cryptographic operations.
+requests>=2.32.0            # Primary HTTP client library for API/Web interaction.
+urllib3>=2.2.0              # Low-level HTTP client library (requests dependency).
+httpx>=0.28.0               # Modern HTTP client with async/await support.
+aiohttp>=3.11.0             # Async HTTP client/server for high performance.
+websockets>=14.0            # WebSocket protocol implementation.
+dnspython>=2.7.0            # Advanced DNS manipulation and lookup.
+python-whois>=0.9.4         # WHOIS domain registration data retrieval.
 
 # --- Web Scraping & Crawling ---
-beautifulsoup4==4.12.2      # Parsing dokumen HTML/XML untuk ekstraksi data web.
-selenium==4.15.2            # Otomatisasi browser untuk pengujian aplikasi web dinamis.
-scrapy==2.11.0              # Framework crawling web tingkat tinggi dan ekstraksi data.
-httplib2==0.22.0            # Library client HTTP yang komprehensif.
-fake-useragent==1.4.0       # Pembuatan User-Agent acak untuk bypass deteksi bot.
-lxml==4.9.3                 # Parser XML dan HTML yang cepat dan efisien.
+beautifulsoup4>=4.12.3      # HTML/XML document parsing for web data extraction.
+selenium>=4.27.0            # Browser automation for dynamic web app testing.
+lxml>=5.3.0                 # Fast and efficient XML/HTML parser.
+fake-useragent>=2.0.0       # Random User-Agent generation for bot detection bypass.
 
 # --- SQL & Database ---
-sqlalchemy==2.0.23          # Toolkit SQL dan Object Relational Mapper (ORM) untuk database.
-pymysql==1.1.0              # Driver murni Python untuk koneksi database MySQL.
-psycopg2-binary==2.9.9      # Adaptor database PostgreSQL untuk Python.
-pymongo==4.6.0              # Driver Python untuk interaksi dengan database MongoDB.
+sqlalchemy>=2.0.36          # SQL toolkit and ORM for database interaction.
+pymysql>=1.1.1              # Pure Python MySQL database driver.
+psycopg2-binary>=2.9.10     # PostgreSQL database adapter.
+pymongo>=4.10.0             # Python driver for MongoDB interaction.
 
 # --- OSINT & Data Collection ---
-shodan==1.28.2              # Integrasi API Shodan untuk pencarian perangkat terhubung internet.
-googlesearch-python==1.2.3  # Pencarian Google secara otomatis melalui script.
-requests-html==0.10.0       # Parsing HTML dengan dukungan JavaScript (Render).
-instagrapi==2.0.0           # Library untuk interaksi dengan API Instagram (OSINT).
-tweepy==4.14.0              # Library untuk akses API Twitter/X (OSINT).
-selenium-wire==5.1.0        # Ekstensi Selenium untuk inspeksi request HTTP/HTTPS.
-browser-cookie3==0.19.1     # Pengambilan cookie dari browser lokal untuk bypass login.
-duckduckgo-search==3.9.5    # Pencarian DuckDuckGo tanpa API key.
-bing-image-downloader==1.3.3 # Pengunduhan gambar dari Bing secara massal.
-geoip2==4.7.0               # Geolokasi alamat IP menggunakan database MaxMind.
-maxminddb==2.2.0            # Library pembaca database MaxMind (.mmdb).
+shodan>=1.31.0              # Shodan API integration for internet device search.
+googlesearch-python>=1.2.5  # Automated Google search via script.
+tweepy>=4.14.0              # Twitter/X API access library (OSINT).
+duckduckgo-search>=7.0.0    # DuckDuckGo search without API key.
+geoip2>=4.8.1               # IP geolocation using MaxMind databases.
+maxminddb>=2.6.2            # MaxMind database (.mmdb) reader library.
+censys>=2.2.0               # Censys search engine API integration.
 
 # --- Cryptography & Encoding ---
-cryptography==41.0.7        # Library kriptografi modern (AES, RSA, ECC, dll.).
-base58==2.1.1               # Encoding/Decoding Base58 (umum digunakan di Blockchain).
-base91==1.0.1               # Encoding/Decoding Base91 untuk kompresi data tekstual.
-jwt==1.3.1                  # Penanganan JSON Web Token untuk pengujian keamanan API.
-pyaes==1.6.1                # Implementasi AES murni Python (tanpa dependensi C).
+cryptography>=44.0.0        # Modern cryptographic library (AES, RSA, ECC, etc.).
+base58>=2.1.1               # Base58 encoding/decoding (common in Blockchain).
+pyaes>=1.6.1                # Pure Python AES implementation.
+pyjwt>=2.10.0               # JSON Web Token handling for API security testing.
 
 # --- Password Tools ---
-passlib==1.7.4              # Hashing password dengan dukungan berbagai algoritma (BCrypt, SHA).
-bcrypt==4.1.1               # Library khusus untuk algoritma hashing BCrypt.
-argon2-cffi==23.1.0         # Hashing password menggunakan algoritma Argon2 (pemenang PHC).
+passlib>=1.7.4              # Password hashing with multiple algorithm support.
+bcrypt>=4.2.0               # BCrypt hashing algorithm library.
+argon2-cffi>=23.1.0         # Argon2 password hashing (PHC winner).
 
-# --- WiFi & Wireless ---
-scapy-radio==0.3            # Ekstensi Scapy untuk protokol radio (ZigBee, 802.15.4).
-pywifi==1.1.1               # Manipulasi interface WiFi (Connect, Disconnect, Scan).
+# --- WiFi & Wireless (Linux/Kali only) ---
+# pywifi>=1.1.1             # WiFi interface manipulation (platform-dependent).
+# NOTE: Install manually on supported platforms: pip install pywifi
 
 # --- API & Web Testing ---
-requests-auth==6.0.0        # Berbagai metode autentikasi untuk library requests.
-graphene==3.3               # Library untuk membangun API GraphQL di Python.
-fastapi==0.109.0            # Framework web modern dan cepat untuk membangun API.
-flask==3.0.0                # Micro-framework web untuk prototyping cepat.
-uvicorn==0.24.0             # Server ASGI yang cepat untuk menjalankan FastAPI/Flask.
+fastapi>=0.115.0            # Modern high-performance web framework for APIs.
+flask>=3.1.0                # Micro web framework for rapid prototyping.
+uvicorn>=0.34.0             # Fast ASGI server for running FastAPI/Flask.
+python-multipart>=0.0.18    # Multipart form data parsing for FastAPI.
+jinja2>=3.1.5               # Template engine for HTML report generation.
 
 # --- Proxy & Tunneling ---
-pysocks==1.7.1              # Client SOCKS proxy untuk Python.
-requests-socks==0.7.1       # Dukungan SOCKS proxy untuk library requests.
-pexpect==4.9.0              # Otomatisasi interaksi dengan aplikasi terminal/shell.
-ngrok==6.1.1                # Client API resmi untuk layanan tunneling Ngrok.
-pyngrok==7.0.1              # Wrapper Python untuk instalasi dan penggunaan Ngrok.
+pysocks>=1.7.1              # SOCKS proxy client for Python.
+pexpect>=4.9.0              # Terminal/shell interaction automation.
+pyngrok>=7.2.0              # Python wrapper for Ngrok tunneling.
 
 # --- File Analysis ---
-magic-python==0.4.24        # Deteksi tipe file berdasarkan magic bytes (libmagic).
-exifread==3.0.0             # Ekstraksi metadata EXIF dari file gambar (OSINT).
-pillow==10.1.0              # Library pengolahan gambar (PIL Fork).
-pdf2image==1.16.3           # Konversi halaman PDF menjadi objek gambar.
+exifread>=3.0.0             # EXIF metadata extraction from image files (OSINT).
+pillow>=11.0.0              # Image processing library (PIL Fork).
+python-magic>=0.4.27        # File type detection based on magic bytes.
 
 # --- QR Code ---
-qrcode==7.4.2               # Pembuatan kode QR untuk berbagai keperluan.
-pycqrcode==1.2.1            # Library alternatif pembuatan kode QR dengan fitur tambahan.
+qrcode>=8.0                 # QR code generation.
+
+# --- Active Directory & LDAP ---
+ldap3>=2.9.1                # LDAP v3 client for Active Directory interaction.
+impacket>=0.12.0            # Network protocol tools (SMB, NTLM, Kerberos, etc.).
+
+# --- Cloud & Container ---
+boto3>=1.35.0               # AWS SDK for cloud security auditing.
+# azure-identity>=1.19.0   # Azure AD authentication (optional, large dep).
+# kubernetes>=31.0.0        # Kubernetes API client (optional).
+docker>=7.1.0               # Docker SDK for container security.
+
+# --- Reporting & Export ---
+reportlab>=4.2.0            # PDF generation library.
+openpyxl>=3.1.5             # Excel file generation and manipulation.
+markdown>=3.7               # Markdown to HTML conversion for reports.
+
+# --- Code Analysis ---
+bandit>=1.8.0               # Python code security linter.
+semgrep>=1.96.0             # Fast static analysis for code security.
+
+# --- Misc ---
+tqdm>=4.67.0                # Progress bar for long-running operations.
+psutil>=6.1.0               # System and process utilities.
+netifaces>=0.11.0           # Network interface information.

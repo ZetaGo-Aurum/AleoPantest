@@ -62,7 +62,7 @@ except (ImportError, ValueError):
     from aleopantest.core.base_tool import BaseTool
 
 if HAS_WEB_DEPS:
-    app = FastAPI(title="Aleopantest V3 API")
+    app = FastAPI(title="Aleopantest V4.0.0 API", version="4.0.0")
     automation_engine = AutomationEngine()
 
     # Serve static files
@@ -103,6 +103,7 @@ async def get_admin():
         return {"username": "Hunter", "hostname": "localhost", "status": "online"}
 
 @app.post("/aleopantest/api/report")
+@app.post("/api/report")
 async def report_result(data: Dict[str, Any]):
     """Endpoint for terminal tools to report results to the web dashboard"""
     try:
@@ -165,50 +166,25 @@ async def get_tools():
         logger.error(f"Critical error in get_tools: {str(e)}")
         return JSONResponse(status_code=500, content={"message": "Failed to load tools", "error": str(e)})
 
-@app.get("/aleopantest/api/download/{tool_id}/{format}")
-async def download_results(tool_id: str, format: str):
-    """Endpoint to download tool execution results in various formats"""
-    try:
-        if tool_id not in TOOLS_REGISTRY:
-            raise HTTPException(status_code=404, detail="Tool not found")
-        
-        # In a real implementation, we would store results in a session or database
-        # For now, we'll try to get the last result from the tool instance if available
-        tool_class = TOOLS_REGISTRY[tool_id]
-        tool_instance = tool_class()
-        
-        # This is a simplified implementation. 
-        # In a production environment, we'd fetch actual stored results.
-        results = {"message": "Export feature is currently being enhanced. Please use 'Copy' for now.", "tool": tool_id, "format": format}
-        
-        content = ""
-        media_type = "text/plain"
-        filename = f"aleopantest_{tool_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        
-        if format == 'json':
-            content = json.dumps(results, indent=2)
-            media_type = "application/json"
-            filename += ".json"
-        elif format == 'txt':
-            content = f"Aleopantest Result Report\n{'='*30}\nTool: {tool_id}\nDate: {datetime.now().isoformat()}\n\n{results.get('message')}"
-            media_type = "text/plain"
-            filename += ".txt"
-        elif format == 'pdf':
-            # Simplified PDF (just text for now as PDF generation needs extra libs)
-            content = f"PDF Export for {tool_id} (Simulated)\n\n{results.get('message')}"
-            media_type = "application/pdf"
-            filename += ".pdf"
-        else:
-            raise HTTPException(status_code=400, detail="Invalid format")
-            
-        return Response(
-            content=content,
-            media_type=media_type,
-            headers={"Content-Disposition": f"attachment; filename={filename}"}
-        )
-    except Exception as e:
-        logger.error(f"Error in download_results: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+@app.get("/aleopantest/api/license")
+@app.get("/api/license")
+async def get_license():
+    """Return LICENSE content"""
+    import pathlib
+    for p in [pathlib.Path(__file__).parent.parent.parent / "LICENSE", pathlib.Path.cwd() / "LICENSE"]:
+        if p.exists():
+            return {"content": p.read_text(encoding="utf-8", errors="ignore")}
+    return {"content": "LICENSE file not found."}
+
+@app.get("/aleopantest/api/tos")
+@app.get("/api/tos")
+async def get_tos():
+    """Return Terms of Service content"""
+    import pathlib
+    for p in [pathlib.Path(__file__).parent.parent.parent / "TERMS_OF_SERVICE.md", pathlib.Path.cwd() / "TERMS_OF_SERVICE.md"]:
+        if p.exists():
+            return {"content": p.read_text(encoding="utf-8", errors="ignore")}
+    return {"content": "TERMS_OF_SERVICE.md file not found."}
 
 @app.exception_handler(404)
 async def custom_404_handler(request, exc):

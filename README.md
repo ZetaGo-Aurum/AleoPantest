@@ -1,205 +1,155 @@
-# Aleopantest V3.0 (Major Patch) - Advanced Penetration Testing Framework
-<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
+<div align="center">
+
+# 🛡️ AleoPantest V4.0.0 PRO (Codename: HYDRA)
+*Advanced Penetration Testing & Cybersecurity Framework*
+
+[![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![OS Supported](https://img.shields.io/badge/os-Linux%20%7C%20Windows%20%7C%20macOS%20%7C%20Kali%20%7C%20Termux-brightgreen?style=for-the-badge&logo=linux&logoColor=white)]()
+[![License](https://img.shields.io/badge/License-MIT-orange.svg?style=for-the-badge)](LICENSE)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=for-the-badge)]()
+
+**548+ Specialized Tools** • **Cross-Platform** • **Modern CLI, TUI & Web Dashboard**
+<br>
+<div style="font-size: 80%; color: #666666;">by Aleocrophic Team</div>
+
+</div>
 
 ---
 
-## 🧭 Document Navigation List
-
-This section provides a complete navigation map to all documentation files in this repository. You can use these links to quickly jump to specific guides, technical reports, or legal documents.
-
-### 🚀 Getting Started & Core
-- [README](README.md) - Main framework documentation
-- [00-START-HERE](00-START-HERE.md) - Initial entry point for new users
-- [README_START_HERE](README_START_HERE.md) - Alternative quick start guide
-- [INDEX](INDEX.md) - Master index of documentation
-- [MANIFEST](MANIFEST.md) - Project manifest and file structure
-
-### 📖 User Guides
-- [INSTALLATION](INSTALLATION.md) - Detailed installation steps
-- [INSTALL_GUIDE](INSTALL_GUIDE.md) - Step-by-step setup walkthrough
-- [QUICKSTART](QUICKSTART.md) - Fast-track usage guide
-- [QUICKSTART_GUIDE](QUICKSTART_GUIDE.md) - Comprehensive quick start instructions
-- [INTERACTIVE_CLI_GUIDE](INTERACTIVE_CLI_GUIDE.md) - Guide for the interactive terminal interface
-- [TESTING_GUIDE](TESTING_GUIDE.md) - Instructions for running tests and verification
-- [docs/TOOLS](docs/TOOLS.md) - Complete list of 400+ security tools
-
-### 🛠️ Technical & Development
-- [ADVANCED_FEATURES](ADVANCED_FEATURES.md) - Deep dive into V3.0 features
-- [CHANGELOG](CHANGELOG.md) - Version history and updates
-- [CHANGELOG_UI_UPDATE](CHANGELOG_UI_UPDATE.md) - Specific changes for the UI overhaul
-- [CHANGES_V33](CHANGES_V33.md) - Recent updates in version 3.3
-- [MIGRATION_GUIDE](MIGRATION_GUIDE.md) - Guide for upgrading from previous versions
-- [FEATURE_CHECKLIST](FEATURE_CHECKLIST.md) - Status of various framework features
-- [docs/FIX_NONE_TYPE_ERROR](docs/FIX_NONE_TYPE_ERROR.md) - Technical report on attribute error fixes
-- [PYTHON39_FIX_REPORT](PYTHON39_FIX_REPORT.md) - Compatibility fixes for Python 3.9
-
-### 📊 Reports & Status
-- [PROJECT_SUMMARY](PROJECT_SUMMARY.md) - High-level overview of project achievements
-- [IMPLEMENTATION_SUMMARY](IMPLEMENTATION_SUMMARY.md) - Technical implementation details
-- [COMPLETION_REPORT](COMPLETION_REPORT.md) - Final project completion status
-- [BUILD_REPORT](BUILD_REPORT.md) - Framework build and compilation details
-
-### ⚖️ Legal & Compliance
-- [TERMS_OF_SERVICE](TERMS_OF_SERVICE.md) - Terms of use and legal disclaimers
+## 🧭 Navigation
+- [✨ Features](#-features)
+- [⚡ Quick Start & Universal Installation](#-quick-start--universal-installation)
+- [🧩 Tool Categories (548+ Tools)](#-tool-categories)
+- [🖥️ Interfaces (CLI, TUI, Web)](#-interfaces-cli-tui-web)
+- [📚 Documentation Directory](#-documentation-directory)
+- [⚖️ License & Terms](#%EF%B8%8F-license--terms-of-service)
 
 ---
 
-```
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║         🛡️  Aleopantest V3.0.0 - by Aleocrophic  🛡️          ║
-║                                                               ║
-║              Advanced Cybersecurity Tool Suite                ║
-║                                                               ║
-║      400+ Tools • Multi-Platform • Modern TUI • V3.0.0 PRO    ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
-```
+## ✨ Features
 
-**Aleopantest** (by Aleocrophic) is an advanced, modular penetration testing framework designed for security professionals and ethical hackers. Version 3.3.5 introduces a modern TUI dashboard, intelligent automation, and enhanced cross-platform support.
+**Aleopantest** (by Aleocrophic) is an advanced, modular penetration testing framework designed for security professionals, system administrators, and ethical hackers. Version 4.0.0 (HYDRA) marks a massive overhaul:
+
+- 🚀 **548+ Specialized Tools**: Covering everything from OSINT and Web Exploitation to Cloud Security, Active Directory, and IoT.
+- 🌐 **Global Command Alias**: Call the framework from anywhere using `alpnts` or `aleopantest`.
+- 🖥️ **Three distinct interfaces**: A rich, robust **CLI**, a modern Text-based User Interface (**TUI**), and a responsive **Web Dashboard**.
+- 🤖 **Intelligent Automation**: Context-aware parameter filling, allowing seamless tool chaining without manual input.
+- 📊 **Standardized Reporting**: Every tool outputs consistent JSON, TXT, or PDF formats, ready for compliance audits.
+- 🌍 **True Cross-Platform**: Optimized specifically for standard OS (Windows, Linux, macOS) AND specialized environments (Kali Linux, Parrot OS, WSL, Termux).
 
 ---
 
-## 📖 Project Overview
+## ⚡ Quick Start & Universal Installation
 
-Aleopantest is a comprehensive solution for security testing that covers various phases of assessment, from information gathering (reconnaissance) to exploitation and reporting. With its plugin-based architecture, users can easily add new tools or integrate existing ones into an automated workflow.
+AleoPantest is designed to be universally compatible. Follow these simple steps for your environment.
 
-### Key Features:
-- **Modular Architecture**: Easy to extend and maintain via a robust plugin system.
-- **Interactive CLI & TUI**: User-friendly interface with auto-completion, rich terminal output, and a modern dashboard.
-- **Cross-Platform Support**: Seamless operation on Windows, Linux, and macOS.
-- **Intelligent Automation**: Context-aware parameter filling and performance optimization.
-- **Standardized Reporting**: Consistent JSON and PDF reporting for over 400 specialized tools.
+### 📋 Prerequisites
+- **Python 3.9** or higher installed. (Run `python3 --version` or `python --version` to check)
+- **Git** (To clone the repository)
 
----
+### 🚀 Universal Install Guide (Linux, Windows, macOS, Kali, WSL)
 
-## ⚡ Installation Instructions
+Open your terminal or command prompt and run:
 
-### Prerequisites
-- Python 3.8 or higher
-- Pip (Python Package Installer)
-- Git (optional, for cloning the repository)
-
-### Standard Installation
 ```bash
-# Clone the repository
-git clone https://github.com/ZetaGo-Aurum/aleopantest.git
-cd aleopantest
+# 1. Clone the repository
+git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
+cd AleoPantest
 
-# Install dependencies
+# 2. Install required dependencies
 pip install -r requirements.txt
 
-# Install as a CLI tool (recommended)
+# 3. Register the global CLI commands (`aleopantest` and `alpnts`)
 pip install -e .
+
+# 4. Verify installation
+alpnts --version
 ```
 
----
+### 📱 Termux Install Guide (Android)
 
-## ⚙️ Configuration Details
-
-Aleopantest uses configuration files to manage framework behavior and third-party API integrations.
-
-### 1. Environment Variables (`.env`)
-Copy `.env.example` to `.env` and fill in the required API keys:
-```env
-SHODAN_API_KEY=your_key_here
-CENSYS_ID=your_id
-CENSYS_SECRET=your_secret
-VIRUSTOTAL_API_KEY=your_key
-```
-
-### 2. YAML Configuration (`config/default.yml`)
-You can customize default settings such as timeouts, user-agents, and output paths:
-```yaml
-network:
-  timeout: 30
-  max_retries: 3
-  user_agent: "Aleopantest/3.3.5"
-output:
-  format: json
-  directory: ./results
-```
-
----
-
-## 🎮 Usage Guidelines
-
-### Basic CLI Commands
 ```bash
-aleopantest --help          # Display the help menu
-aleopantest list-tools      # List all available security tools
-aleopantest info            # Show system and framework information
+pkg update && pkg upgrade -y
+pkg install python git clang libxml2 libxslt libffi openssl -y
+git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
+cd AleoPantest
+MATHLIB=m pip install -r requirements.txt
+pip install -e .
+alpnts --version
 ```
 
-### Running Tools via CLI
+> **Note:** If you encounter permission issues on Linux/macOS during step 3, try running `pip install --user -e .` instead.
+
+---
+
+## 🧩 Tool Categories
+
+AleoPantest V4.0.0 comes equipped with **548** fully functioning tools spanning **31** distinct categories. Use `alpnts list-tools` to see them all.
+
+| Core Security | Advanced Security | Utilities & Compliance |
+|---------------|-------------------|------------------------|
+| 🌐 Web Security | ☁️ Cloud Security | 📜 Reporting |
+| 📡 Network & WiFi | 🐋 Container Security | ⚖️ Compliance & Audit |
+| 🕵️ OSINT | 🏰 Active Directory | ⚙️ Automation |
+| 🔐 Password/Auth | 🧬 Binary Analysis | 🛠️ Miscellaneous |
+| 🔑 Cryptography | 🧩 API Security | 📱 Mobile Security |
+| 🛡️ Exploit/Post-Exploit| 🕵️ Forensics | 🎭 Social Engineering |
+
+*(For a full list of tools, refer to [docs/TOOLS.md](docs/TOOLS.md))*
+
+---
+
+## 🖥️ Interfaces (CLI, TUI, Web)
+
+AleoPantest adapts to your workflow. Use the interface that best suits your current task.
+
+### 1. The Rich CLI
+Perfect for quick scans, automation scripts, and CI/CD pipelines.
 ```bash
-# SQL Injection Scanning
-aleopantest run sql-inject --url http://example.com
-
-# Web Phishing Detection
-aleopantest run web-phishing --url http://suspicious-site.com
+alpnts list-tools                   # View the list of all 548 tools
+alpnts run dns --domain zeta.com    # Run a specific tool
+alpnts run sql-inject -i            # Run a tool in interactive mode
+alpnts --license                    # View the license
+alpnts info                         # Print framework stats
 ```
 
-### Using as a Python Library
-Integrate Aleopantest modules directly into your custom Python scripts:
-
-```python
-from aleopantest.core.scanner import SecurityScanner
-
-# Initialize the scanner
-scanner = SecurityScanner()
-
-# Run a scan on a target with specific modules
-results = scanner.scan_target("http://example.com", modules=["sql_inject", "xss"])
-
-# Process and print findings
-for issue in results.vulnerabilities:
-    print(f"Found: {issue.name} at {issue.location}")
+### 2. The Modern TUI (Terminal User Interface)
+For a visual, keyboard-driven dashboard directly in your terminal.
+```bash
+alpnts tui
 ```
 
----
-
-## ⚖️ Terms of Service (ToS)
-
-The use of **Aleopantest** is governed by the following legal terms. By using this software, you agree to be bound by these conditions.
-
-### 1. Terms of Use
-- Aleopantest is developed **exclusively for educational purposes, security research, and ethical hacking**.
-- Unauthorized use of this tool on systems or networks without **explicit, written permission** from the system owner is strictly prohibited.
-- Users assume full responsibility for all activities performed using this framework.
-
-### 2. Limitation of Liability
-- The developers and contributors **ARE NOT LIABLE** for any misuse, illegal activities, or damages caused by this software.
-- This software is provided "AS IS" without warranty of any kind, express or implied.
-- In no event shall the authors be liable for any claim, damages, or other liability arising from the use of the software.
-
-### 3. Privacy Policy
-- Aleopantest **does not collect or transmit personal data** to external servers.
-- All scan results and sensitive data collected during testing are stored locally on the user's device.
-- Users are responsible for handling collected data in compliance with applicable privacy regulations (e.g., GDPR).
-
-### 4. Copyright Requirements
-- Aleopantest is open-source software licensed under the **MIT License**.
-- Copyright (c) 2024 Aleocrophic Team.
-- You are permitted to copy, modify, and distribute this software as long as the original copyright notice and permission notice are included.
+### 3. The Web Dashboard
+For a graphical interface with visualization, reporting features, and centralized logs.
+```bash
+alpnts web --port 8002
+```
+Access the dashboard via your browser at `http://127.0.0.1:8002`.
 
 ---
 
-## 🤝 Contribution Rules
+## 📚 Documentation Directory
 
-Contributions are highly welcome! To contribute:
-1. Fork the repository.
-2. Create a new feature branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -m 'Add descriptive message'`).
-4. Push to the branch (`git push origin feature-name`).
-5. Open a Pull Request for review.
+Explore the rest of the documentation for advanced setups, technical reports, and historical changes:
 
----
-
-## 📄 Licensing Information
-
-This project is licensed under the [MIT License](LICENSE).
+- [CHANGELOG_V4](CHANGELOG_V4.md) - **NEW!** See all the massive upgrades in V4.0.0 HYDRA.
+- [docs/TOOLS](docs/TOOLS.md) - Complete list of security tools.
+- [INDEX](INDEX.md) - Master index of documentation.
+- [ADVANCED_FEATURES](ADVANCED_FEATURES.md) - Deep dive into core features.
+- [MIGRATION_GUIDE](MIGRATION_GUIDE.md) - Guide for upgrading from previous versions.
+- [INTERACTIVE_CLI_GUIDE](INTERACTIVE_CLI_GUIDE.md) - Mastering the CLI and `alpnts`.
 
 ---
-**Aleopantest V3.0.0**
-<div style="font-size: 80%; color: #666666;">by Aleocrophic</div>
+
+## ⚖️ License & Terms of Service
+
+AleoPantest is developed strictly for **educational purposes, authorized auditing, and ethical hacking**.
+
+By using this software, you agree to the [Terms of Service](TERMS_OF_SERVICE.md). Any misuse of this tool is strictly prohibited, and the authors hold no liability for damages.
+
+This project is licensed under the **MIT License**. Read the full [LICENSE](LICENSE) file for more information.
+
+<div align="center">
+  <br>
+  <i>Empowering Security Teams. Elevating Defenses.</i>
+</div>

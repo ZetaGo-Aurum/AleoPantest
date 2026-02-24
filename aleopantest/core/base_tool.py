@@ -1,4 +1,4 @@
-"""Base tool framework untuk semua tools"""
+"""Base tool framework untuk semua tools - Aleopantest V4.0.0"""
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional, List
 from dataclasses import dataclass
@@ -17,7 +17,7 @@ from ..core.platform_detector import EnvironmentAdapter
 
 
 class ToolCategory(Enum):
-    """Tool categories"""
+    """Tool categories for Aleopantest V4.0.0"""
     NETWORK = "Network"
     WEB = "Web"
     OSINT = "OSINT"
@@ -42,6 +42,19 @@ class ToolCategory(Enum):
     BRUTEFORCE = "Brute Force"
     SNIFFING = "Sniffing & Spoofing"
     VULNERABILITY = "Vulnerability Analysis"
+    # V4.0 New Categories
+    ACTIVE_DIRECTORY = "Active Directory"
+    API_SECURITY = "API Security"
+    CONTAINER = "Container Security"
+    BINARY = "Binary Analysis"
+    PASSWORD = "Password & Auth"
+    COMPLIANCE = "Compliance & Audit"
+    AUTOMATION = "Automation & Pipeline"
+    RECONNAISSANCE = "Reconnaissance"
+    WEB_ADVANCED = "Web Advanced"
+    NETWORK_ADVANCED = "Network Advanced"
+    WIRELESS_ADVANCED = "Wireless Advanced"
+    MISC = "Miscellaneous"
     UNKNOWN = "Unknown"
 
 
@@ -61,6 +74,7 @@ class ToolMetadata:
     example: str = ""
     parameters: Dict[str, str] = None
     form_schema: List[Dict[str, Any]] = None  # UI Form schema for web/TUI
+    platform_support: List[str] = None  # ['windows', 'linux', 'macos', 'termux', 'wsl', 'kali']
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -92,12 +106,12 @@ class BaseTool(ABC):
         self.is_running = False
         self.start_time = time.time() # Initialize immediately
         
-        # Core Parameters for V3.0 (Major Patch)
+        # Core Parameters for V4.0.0
         self.timeout = 30
         self.headers = {
-            "User-Agent": "Aleopantest/3.0.0 (Cybersecurity Framework)",
+            "User-Agent": "Aleopantest/4.0.0 (Advanced Cybersecurity Framework)",
             "Accept": "*/*",
-            "X-Aleo-Version": "3.0.0"
+            "X-Aleo-Version": "4.0.0"
         }
         self.auth = None
         self.proxy = None
@@ -110,7 +124,7 @@ class BaseTool(ABC):
 
     def get_results(self) -> Dict[str, Any]:
         """
-        Returns structured results for V3.0 standards.
+        Returns structured results for V4.0 standards.
         Ensures no empty arrays in critical fields and 100% accuracy.
         """
         end_time = time.time()
@@ -144,7 +158,8 @@ class BaseTool(ABC):
                 "total_errors": len(self.errors),
                 "total_warnings": len(self.warnings),
                 "accuracy_level": "100%",
-                "v3_certified": True
+                "v4_certified": True,
+                "v3_certified": True  # backward compat
             }
         }
         

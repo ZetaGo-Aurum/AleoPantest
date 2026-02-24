@@ -1,4 +1,4 @@
-"""Main CLI Application untuk Aleopantest V3.0.0 - by Aleocrophic"""
+"""Main CLI Application untuk Aleopantest V4.0.0 - by Aleocrophic"""
 import sys
 import os
 from pathlib import Path
@@ -8,23 +8,20 @@ try:
     from rich.console import Console
     from rich.table import Table
     from rich.panel import Panel
+    from rich.text import Text
     from rich import print as rprint
 except ImportError:
-    print("Required packages not installed. Run: pip install -r requirements.txt")
+    print("ERROR: Missing dependencies. Run: pip install click rich")
     sys.exit(1)
 
 from aleopantest.core.logger import logger
-from aleopantest.core.config import config
-from aleopantest.core.interactive_handler import ParameterMapper
-from aleopantest.core.session import SessionManager, SecurityGuard
 from aleopantest.core.platform_detector import PlatformDetector
-from aleopantest.core.tool_helper import get_safe_attr
 
-# Import all tools
+# --- Existing V3 imports (preserved) ---
 from aleopantest.modules.network import (
-    PortScanner, PacketSniffer, PingTool, DNSLookup,
-    TraceRoute, WhoisLookup, SSLChecker, IPScanner, DDoSSimulator,
-    MACLookup, NetSpeed, SubnetCalc, ArpScanner, VLANScanner, SNMPWalker
+    PortScanner, PacketSniffer, PingTool, DNSLookup, TraceRoute,
+    WhoisLookup, SSLChecker, IPScanner, DDoSSimulator, MACLookup,
+    NetSpeed, SubnetCalc, ArpScanner, VLANScanner, SNMPWalker
 )
 from aleopantest.modules.web import (
     SQLInjector, XSSDetector, CSRFDetector, WebCrawler,
@@ -38,31 +35,25 @@ from aleopantest.modules.osint import (
     GitRecon, WhoisHistory, ShodanSearch, PhoneLookup,
     MetadataExif, SocialAnalyzer, BreachChecker, DarkWebSearch
 )
+from aleopantest.modules.web import AdvancedDorking
 from aleopantest.modules.utilities import (
-    PasswordGenerator, HashTools, ProxyManager,
-    URLEncoder, ReverseShellGenerator, URLMasking, URLShortener,
-    Base64Tool, JSONFormatter, JWTDecoder, IPInfo, CronGen
+    PasswordGenerator, HashTools, Base64Tool, URLEncoder, URLMasker,
+    URLShortener, HTMLTool, JSONFormatter, JWTDecoder, TextObfuscator,
+    IPConverter, TimestampConvert, ColorConverter, UnitConverter
 )
-from aleopantest.modules.utilities.test_complex_params import ComplexParamTester
 from aleopantest.modules.phishing import (
-    WebPhishing, EmailPhishing, PhishingLocator, PhishingImpersonation, NgrokPhishing
-)
-from aleopantest.modules.clickjacking import (
-    ClickjackingChecker, ClickjackingMaker, AntiClickjackingGenerator
+    PhishingLocator, WebPhishing, EmailPhishing, URLMaskingTool, PhishingFramework
 )
 from aleopantest.modules.security import (
     AntiDDoS, WAFDetector, VulnDB, FirewallBypass, IDSEvasionHelper
 )
+from aleopantest.modules.clickjacking import (
+    ClickjackingChecker, ClickjackingMaker, AntiClickjackingGenerator
+)
 from aleopantest.modules.crypto import (
-    HashCracker, SteganoTool, RSAGen, VigenereCipher, HashGenerator, XORCipher
+    HashCracker, HashGenerator, VigenereCipher, XORCipher,
+    RSAGenerator, Steganography, FileEncryptor
 )
-from aleopantest.modules.wireless import (
-    BeaconFlood, DeauthTool, WifiScanner, WPSChecker
-)
-from aleopantest.modules.database import (
-    SQLBruteForcer, MongoDBAuditor
-)
-from aleopantest.modules.web import AdvancedDorking
 from aleopantest.modules.reporting import (
     PDFReportGenerator, HTMLReportGenerator
 )
@@ -79,7 +70,7 @@ from aleopantest.modules.mobile import (
     APKAnalyzer, IOSAppAnalyzer
 )
 from aleopantest.modules.cloud import (
-    AWSEnumerator, AzureAudit
+    AWSEnum, AzureAudit
 )
 from aleopantest.modules.iot import (
     MQTTExplorer, FirmwareScanner
@@ -90,6 +81,99 @@ from aleopantest.modules.post_exploit import (
 from aleopantest.modules.social import (
     UsernameGen, PayloadDelivery
 )
+from aleopantest.modules.wireless import (
+    BeaconFlood, DeauthTool, WifiScanner, WPSChecker
+)
+from aleopantest.modules.database import (
+    SQLBruteForcer, MongoDBAuditor
+)
+
+# --- V4.0 New Tool Imports ---
+from aleopantest.modules.active_directory import (ADEnum, Kerberoast, ASREPRoast, DCSyncDetect, BloodhoundIngest, GPPDecrypt)
+from aleopantest.modules.active_directory import (ADACLAudit, LDAPSearch, NTLMRelayDetect, ADTrustAudit, ADPasswordAudit, ADDelegation)
+from aleopantest.modules.active_directory import (SPNScan, ADCertAudit, ADDNSEnum, ADGPOAudit, ADReplication, ADSIDHistory)
+from aleopantest.modules.active_directory import (ADForestAudit, ADPrivUsers, ADLockout, ADStaleObjects, ADSchemaAudit, ADBackupCheck)
+from aleopantest.modules.active_directory import (LAPSAudit, ADServiceAccounts, ADGroupNesting, ADRecycleBin, ADAdminCount, ADFunctionalLevel)
+from aleopantest.modules.api_security import (GraphQLIntrospect, RESTFuzzer, APIKeyLeak, SwaggerScan, OAuthTest, JWTAttack)
+from aleopantest.modules.api_security import (CORSTest, SOAPAudit, GRPCTest, RateLimitTest, APIAuthBypass, APIEnum)
+from aleopantest.modules.api_security import (APIVersionCheck, APIParamTamper, APISchemaValidate, WebhookTest, APIDOSTest, APIInjection)
+from aleopantest.modules.api_security import (APIMassAssign, APIBrokenAuth, APIExcessiveData, APIBOLA, APISSRF, APIGraphQLDoS)
+from aleopantest.modules.api_security import (APIResponseHeader, APIErrorDisclosure, APIMethodTest, APIContentType, APIPagination, APIBatchTest)
+from aleopantest.modules.api_security import (APICachePoison, APIRaceCondition, APIIdempotency, APIFileUpload, APIRedirect)
+from aleopantest.modules.automation_pipeline import (AutoRecon, AutoVuln, PipelineBuilder, Scheduler, ParallelScan, ResultAggregator)
+from aleopantest.modules.automation_pipeline import (NotificationSend, WebhookTrigger, CICDScan, ContinuousMonitor, ScanProfile, ToolChain)
+from aleopantest.modules.automation_pipeline import (BatchScan, ScanResume, ReportAuto, TargetImport, AssetDiscover, ChangeDetect)
+from aleopantest.modules.automation_pipeline import (WorkflowTemplate, ScanQueue)
+from aleopantest.modules.binary_analysis import (ELFAnalyzer, DLLInjectDetect, ROPGadget, FormatString, HeapAnalyzer, FuzzerGen)
+from aleopantest.modules.binary_analysis import (ShellcodeGen, PackerDetect, AntiDebugDetect, BinaryDiff, SymbolExtract, CallGraph)
+from aleopantest.modules.binary_analysis import (ControlFlow, BinaryPatch, ObfuscationDetect, ImportAnalyzer, EntropyAnalyzer, BinaryStrings)
+from aleopantest.modules.binary_analysis import (CodeCave, VTableAnalyzer, BinarySign, Disassembler, Decompiler, BinaryVuln)
+from aleopantest.modules.binary_analysis import (FirmwareExtract)
+from aleopantest.modules.cloud import (GCPEnum, S3BucketScan, AzureADEnum, K8sClusterAudit, DockerEscapeCheck, LambdaAudit)
+from aleopantest.modules.cloud import (IAMPrivesc, CloudTrailAudit, ECRScan, TerraformScan, CloudStorageEnum, GCPIAMAudit)
+from aleopantest.modules.cloud import (AzureBlobScan, CloudFirewall, ServerlessAudit, CloudKeyAudit, CloudNetworkAudit, CloudLogging)
+from aleopantest.modules.cloud import (CloudCompliance, CloudCostAudit, EKSAudit, AKSAudit, GKEAudit, CloudDBAudit)
+from aleopantest.modules.cloud import (CloudSecretScan, CloudSnapshot, MultiCloudAudit, CloudDNSAudit, CloudWAFAudit, CloudCDNAudit)
+from aleopantest.modules.cloud import (CloudIdentity, CloudEndpoint, CloudEncryption, CloudContainerReg, CloudAPIGateway, CloudLBAudit)
+from aleopantest.modules.cloud import (CloudVPNAudit, CloudIAMRoles)
+from aleopantest.modules.compliance_audit import (PCIDSS, HIPAAAudit, GDPRScan, ISO27001, NISTAssess, SOXAudit)
+from aleopantest.modules.compliance_audit import (CISBenchmark, STIGCheck, VulnPrioritize, RiskScore, PolicyCheck, BaselineAudit)
+from aleopantest.modules.compliance_audit import (AccessReview, DataClass, RetentionCheck, VendorRisk, IncidentReport, ControlMatrix)
+from aleopantest.modules.compliance_audit import (GapAnalysis, MaturityAssess, AuditEvidence, PrivacyImpact, ThreatModel, SecurityRoadmap)
+from aleopantest.modules.compliance_audit import (ComplianceReport)
+from aleopantest.modules.container_security import (DockerAudit, K8sPodScan, ContainerEscapeDetect, ImageScan, RegistryEnum, ComposeAudit)
+from aleopantest.modules.container_security import (HelmAudit, IstioCheck, RuntimeScan, CgroupEscape, K8sRBAC, K8sNetworkPolicy)
+from aleopantest.modules.container_security import (K8sSecrets, DockerSocket, K8sAdmission, ContainerCaps, K8sEtcd, DockerfileLint)
+from aleopantest.modules.container_security import (K8sAPIAudit, ContainerForensics, K8sPSP, ContainerNetwork, K8sIngress, ContainerVolume)
+from aleopantest.modules.container_security import (K8sServiceMesh)
+from aleopantest.modules.crypto import (AESAttack, RSAAttack, PaddingOracle, TimingAttack, CertAudit, TLSDowngrade)
+from aleopantest.modules.crypto import (SSLStripDetect, PGPAudit, BlockchainAnalyze, RandomTest, KeyStrength, CipherDetect)
+from aleopantest.modules.crypto import (CryptoAudit, EntropyCheck, HMACTest, KeyExchange, HashCollision, CryptoDowngrade)
+from aleopantest.modules.forensics import (DiskForensics, RegistryForensics, BrowserForensics, EmailForensics, TimelineGen, ArtifactCollect)
+from aleopantest.modules.forensics import (VolatilityWrap, YaraScan, PCAPAnalyzer, USBForensics, EventLog, PrefetchAnalyzer)
+from aleopantest.modules.forensics import (ShadowCopy, DeletedRecovery, SwapAnalyzer, HashVerify, MalwareTriage, SteganographyDetect)
+from aleopantest.modules.forensics import (EncryptionDetect, ChainCustody)
+from aleopantest.modules.misc_utility import (PayloadEncode, C2Detect, HoneypotDetect, SandboxDetect, ProxyChain, TorCheck)
+from aleopantest.modules.misc_utility import (VPNLeakTest, DNSLeakTest, IPRotate, UserAgentGen, ReverseShell, BindShell)
+from aleopantest.modules.misc_utility import (FileServer, PortForward, NetworkPivot, DataExfilDetect, LogCleanerDetect, RootkitDetect)
+from aleopantest.modules.misc_utility import (BackdoorDetect, WebshellDetect, ConfigAudit, ServiceEnum, CronAudit, SUIDCheck)
+from aleopantest.modules.misc_utility import (KernelExploit)
+from aleopantest.modules.mobile import (AndroidDebug, IOSJailbreak, MobileSSLPin, AppPermission, SmaliDecompile, FridaScripts)
+from aleopantest.modules.mobile import (ObjectionWrap, MobileAPITest, CertPinBypass, IntentFuzz, MobileStorage, MobileCrypto)
+from aleopantest.modules.mobile import (MobileNetwork, MobileAuth, AppCloneDetect, MobileMalware, MobilePrivacy, MobileConfig)
+from aleopantest.modules.network_advanced import (BGPHijack, DNSTunnel, ICMPTunnel, TCPHijack, MITMDetect, RogueDHCP)
+from aleopantest.modules.network_advanced import (IPv6Recon, NetBIOSEnum, SMBEnum, RPCEnum, NTPAmp, SSDPScan)
+from aleopantest.modules.network_advanced import (LDAPEnum, FTPAudit, SMTPEnum, POP3Audit, IMAPAudit, RedisAudit)
+from aleopantest.modules.network_advanced import (MemcacheAudit, ElasticAudit, KafkaAudit, RabbitAudit, VNCAudit, RDPAudit)
+from aleopantest.modules.network_advanced import (TelnetAudit)
+from aleopantest.modules.osint import (TelegramOSINT, DiscordRecon, LinkedInEnum, PastebinMonitor, WaybackRecon, CertSearch)
+from aleopantest.modules.osint import (DNSHistory, FaviconHash, S3Finder, GoogleDorkingAdv, GitHubRecon, TwitterOSINT)
+from aleopantest.modules.osint import (InstagramOSINT, FaceSearch, EmailOSINT, CompanyRecon, GeoOSINT, VehicleOSINT)
+from aleopantest.modules.osint import (CryptoTrace, DomainMonitor, LeakSearch, WebArchive, ImageForensics, SocialMediaMap)
+from aleopantest.modules.osint import (WebsiteMonitor, TechProfiler, NetworkOSINT, DocumentOSINT, PhoneOSINT, UsernameSearch)
+from aleopantest.modules.osint import (IPReputation, ThreatIntel, MalwareHash, SubdomainEnum, ASNLookup)
+from aleopantest.modules.password_auth import (SprayAttack, CredentialTest, PassPolicyAudit, MFABypassCheck, SessionHijackDetect, CookieAnalyzer)
+from aleopantest.modules.password_auth import (OAuthAbuse, SAMLAttack, TicketForge, RainbowGen, WordlistGen, HashIdentify)
+from aleopantest.modules.password_auth import (PassStrength, BruteHTTP, BruteSSH, BruteFTP, BruteRDP, BruteMySQL)
+from aleopantest.modules.password_auth import (BruteSMTP, BruteLDAP, BruteCustom, DefaultCreds, PassReuse, AuthTokenTest)
+from aleopantest.modules.password_auth import (SSOAudit, TOTPTest, APIKeyTest, CertAuthTest, BiometricBypass, CaptchaTest)
+from aleopantest.modules.reporting import (ExecutiveReport, ComplianceRep, RiskMatrix, VulnTimeline, DiffReport, CSVExport)
+from aleopantest.modules.reporting import (XMLExport, SARIFExport, MarkdownReport, ChartGen, DashboardGen, ScanCompare)
+from aleopantest.modules.reporting import (EvidencePack)
+from aleopantest.modules.social import (PhishTemplate, VishingSim, SmishingSim, PretextingGen, CloneSite, CredentialHarvest)
+from aleopantest.modules.social import (USBDropSim, WateringHole, SpearPhish, DeepfakeDetect, SocialProfile, PhishDetect)
+from aleopantest.modules.social import (AwarenessTest, QRPhish, CallbackPhish)
+from aleopantest.modules.web_advanced import (XXEDetect, SSRFDetect, SSTIDetect, PrototypePollute, DeserializeCheck, HTTPSmuggle)
+from aleopantest.modules.web_advanced import (CachePoison, CORSMiscfg, OpenRedirect, HostHeaderInject, CRLFInject, LFIDetect)
+from aleopantest.modules.web_advanced import (RFIDetect, CommandInject, IDORDetect, PathTraversal, UploadVuln, SessionFixation)
+from aleopantest.modules.web_advanced import (BusinessLogic, RaceCondition, SubdomainTakeover, WebSocketTest, CSRFAdvanced, ContentSecurity)
+from aleopantest.modules.web_advanced import (CookieSecurity, JSAnalyzer, WAFBypass, WebFingerprint, BrokenAccess, SecurityHeaders)
+from aleopantest.modules.web_advanced import (HTMLInject, WebParamMine, HTTP2Test, GraphQLVuln, WebSocketHijack, DOMXSS)
+from aleopantest.modules.web_advanced import (WebCacheDeception, ClickHijack, JWTVuln)
+from aleopantest.modules.wireless_advanced import (EvilTwin, KRACKTest, PMKIDCapture, WPA3Audit, BluetoothScan, BLEEnum)
+from aleopantest.modules.wireless_advanced import (ZigbeeScan, RFIDAnalyze, SDRScan, DroneDetect, WifiDeauthDetect, WifiHandshake)
+from aleopantest.modules.wireless_advanced import (WifiChannel, WifiRogueAP, NFCAnalyze, WifiProbe, WifiKarma, WifiSignal)
+from aleopantest.modules.wireless_advanced import (WifiWEPCrack, WifiEnterprise)
 
 import json
 import requests
@@ -97,28 +181,20 @@ from datetime import datetime
 
 console = Console()
 
+
 def send_to_web_dashboard(tool_id, result):
     """Send tool execution results to the web dashboard if available"""
     try:
-        # Default web server port is 8002
-        url = "http://127.0.0.1:8002/aleopantest/api/report"
-        data = {
-            "tool_id": tool_id,
-            "results": result,
-            "source": "CLI",
-            "timestamp": datetime.now().isoformat()
-        }
-        response = requests.post(url, json=data, timeout=2)
-        if response.status_code == 200:
-            return True
-    except:
-        # Silently fail if web server is not running
+        requests.post("http://127.0.0.1:8002/api/report",
+            json={"tool_id": tool_id, "result": result, "timestamp": datetime.now().isoformat()},
+            timeout=2)
+    except Exception:
         pass
-    return False
 
-# Tool registry organized by category
+
+# === TOOLS REGISTRY (V3 + V4 Combined) ===
 TOOLS_REGISTRY = {
-    # Network Tools
+    # --- V3 Existing Tools ---
     'port-scan': PortScanner,
     'ping': PingTool,
     'dns': DNSLookup,
@@ -134,15 +210,13 @@ TOOLS_REGISTRY = {
     'arp-scan': ArpScanner,
     'vlan-scan': VLANScanner,
     'snmp-walker': SNMPWalker,
-    
-    # Web Tools
     'sql-inject': SQLInjector,
     'xss-detect': XSSDetector,
     'csrf-detect': CSRFDetector,
     'crawler': WebCrawler,
     'vuln-scan': VulnerabilityScanner,
     'subdomain': SubdomainFinder,
-    'advanced-dorking': AdvancedDorking,
+    'dorking': AdvancedDorking,
     'tech-stack': TechStack,
     'dir-brute': DirBrute,
     'link-extract': LinkExtractor,
@@ -150,32 +224,11 @@ TOOLS_REGISTRY = {
     'headers-analyzer': HeadersAnalyzer,
     'proxy-finder': ProxyFinder,
     'api-analyzer': APIAnalyzer,
-    
-    # Phishing Tools
-    'web-phishing': WebPhishing,
-    'email-phishing': EmailPhishing,
-    'phishing-locator': PhishingLocator,
-    'phishing-impersonation': PhishingImpersonation,
-    'ngrok-phishing': NgrokPhishing,
-    
-    # Clickjacking Tools
-    'clickjacking-check': ClickjackingChecker,
-    'clickjacking-make': ClickjackingMaker,
-    'anti-clickjacking': AntiClickjackingGenerator,
-    
-    # Security Tools
-    'anti-ddos': AntiDDoS,
-    'waf-detect': WAFDetector,
-    'vuln-db': VulnDB,
-    'firewall-bypass': FirewallBypass,
-    'ids-evasion': IDSEvasionHelper,
-    
-    # OSINT Tools
     'email-find': EmailFinder,
     'domain-info': DomainInfo,
     'ip-geo': IPGeolocation,
     'metadata': MetadataExtractor,
-    'dorking': SearchEngineDorking,
+    'dorking-search': SearchEngineDorking,
     'user-search': UserSearch,
     'git-recon': GitRecon,
     'whois-history': WhoisHistory,
@@ -185,89 +238,538 @@ TOOLS_REGISTRY = {
     'social-analyzer': SocialAnalyzer,
     'breach-check': BreachChecker,
     'dark-web-search': DarkWebSearch,
-    
-    # Utilities
-    'passgen': PasswordGenerator,
-    'hash': HashTools,
-    'proxy': ProxyManager,
-    'encode': URLEncoder,
-    'revshell': ReverseShellGenerator,
-    'url-mask': URLMasking,
-    'url-shorten': URLShortener,
+    'password-gen': PasswordGenerator,
+    'hash-tools': HashTools,
     'base64': Base64Tool,
+    'url-encode': URLEncoder,
+    'url-mask': URLMasker,
+    'url-shorten': URLShortener,
+    'html-tool': HTMLTool,
     'json-format': JSONFormatter,
     'jwt-decoder': JWTDecoder,
-    'ip-info': IPInfo,
-    'cron-gen': CronGen,
-    'complex-tester': ComplexParamTester,
-
-    # Crypto Tools
+    'text-obfuscate': TextObfuscator,
+    'ip-convert': IPConverter,
+    'timestamp-convert': TimestampConvert,
+    'color-convert': ColorConverter,
+    'unit-convert': UnitConverter,
+    'phishing-locator': PhishingLocator,
+    'web-phishing': WebPhishing,
+    'email-phishing': EmailPhishing,
+    'url-masking': URLMaskingTool,
+    'phishing-framework': PhishingFramework,
+    'anti-ddos': AntiDDoS,
+    'waf-detect': WAFDetector,
+    'vuln-db': VulnDB,
+    'firewall-bypass': FirewallBypass,
+    'ids-evasion': IDSEvasionHelper,
+    'clickjacking-check': ClickjackingChecker,
+    'clickjacking-make': ClickjackingMaker,
+    'anti-clickjacking': AntiClickjackingGenerator,
     'hash-cracker': HashCracker,
-    'stegano': SteganoTool,
-    'rsa-gen': RSAGen,
-    'vigenere': VigenereCipher,
     'hash-gen': HashGenerator,
+    'vigenere': VigenereCipher,
     'xor-cipher': XORCipher,
-
-    # Wireless Tools
+    'rsa-gen': RSAGenerator,
+    'stegano': Steganography,
+    'file-encrypt': FileEncryptor,
     'beacon-flood': BeaconFlood,
     'deauth': DeauthTool,
     'wifi-scan': WifiScanner,
     'wps-check': WPSChecker,
-
-    # Database Tools
     'sql-brute': SQLBruteForcer,
     'mongodb-audit': MongoDBAuditor,
-
-    # Reporting Tools
     'pdf-report': PDFReportGenerator,
     'html-report': HTMLReportGenerator,
-
-    # Exploit Tools
     'searchsploit': SearchSploitWrapper,
     'msf-helper': MetasploitHelper,
-
-    # Forensics Tools
     'file-carver': FileCarver,
     'memory-analyzer': MemoryAnalyzer,
     'log-forensics': LogForensics,
-
-    # Malware Tools
     'malware-sandbox': MalwareSandbox,
     'pe-analyzer': PEAnalyzer,
     'string-extractor': StringExtractor,
-
-    # Mobile Tools
     'apk-analyzer': APKAnalyzer,
     'ios-analyzer': IOSAppAnalyzer,
-
-    # Cloud Tools
-    'aws-enum': AWSEnumerator,
+    'aws-enum': AWSEnum,
     'azure-audit': AzureAudit,
-
-    # IoT Tools
     'mqtt-explorer': MQTTExplorer,
     'firmware-scan': FirmwareScanner,
-
-    # Post-Exploit Tools
     'system-enum': SystemEnum,
     'priv-esc-check': PrivEscCheck,
-
-    # Social Engineering Tools
     'username-gen': UsernameGen,
     'payload-delivery': PayloadDelivery,
+
+    # --- V4.0 New Tools ---
+    'ad-enum': ADEnum,
+    'kerberoast': Kerberoast,
+    'asrep-roast': ASREPRoast,
+    'dcsync-detect': DCSyncDetect,
+    'bloodhound-ingest': BloodhoundIngest,
+    'gpp-decrypt': GPPDecrypt,
+    'ad-acl-audit': ADACLAudit,
+    'ldap-search': LDAPSearch,
+    'ntlm-relay-detect': NTLMRelayDetect,
+    'ad-trust-audit': ADTrustAudit,
+    'ad-pass-audit': ADPasswordAudit,
+    'ad-delegation': ADDelegation,
+    'spn-scan': SPNScan,
+    'ad-cert-audit': ADCertAudit,
+    'ad-dns-enum': ADDNSEnum,
+    'ad-gpo-audit': ADGPOAudit,
+    'ad-replication': ADReplication,
+    'ad-sid-history': ADSIDHistory,
+    'ad-forest-audit': ADForestAudit,
+    'ad-priv-users': ADPrivUsers,
+    'ad-lockout': ADLockout,
+    'ad-stale-objects': ADStaleObjects,
+    'ad-schema-audit': ADSchemaAudit,
+    'ad-backup-check': ADBackupCheck,
+    'laps-audit': LAPSAudit,
+    'ad-svc-audit': ADServiceAccounts,
+    'ad-group-nesting': ADGroupNesting,
+    'ad-recycle-bin': ADRecycleBin,
+    'ad-admin-count': ADAdminCount,
+    'ad-func-level': ADFunctionalLevel,
+    'graphql-introspect': GraphQLIntrospect,
+    'rest-fuzz': RESTFuzzer,
+    'api-key-leak': APIKeyLeak,
+    'swagger-scan': SwaggerScan,
+    'oauth-test': OAuthTest,
+    'jwt-attack': JWTAttack,
+    'cors-test': CORSTest,
+    'soap-audit': SOAPAudit,
+    'grpc-test': GRPCTest,
+    'rate-limit-test': RateLimitTest,
+    'api-auth-bypass': APIAuthBypass,
+    'api-enum': APIEnum,
+    'api-version-check': APIVersionCheck,
+    'api-param-tamper': APIParamTamper,
+    'api-schema-validate': APISchemaValidate,
+    'webhook-test': WebhookTest,
+    'api-dos-test': APIDOSTest,
+    'api-injection': APIInjection,
+    'api-mass-assign': APIMassAssign,
+    'api-broken-auth': APIBrokenAuth,
+    'api-excessive-data': APIExcessiveData,
+    'api-bola': APIBOLA,
+    'api-ssrf': APISSRF,
+    'graphql-dos': APIGraphQLDoS,
+    'api-response-header': APIResponseHeader,
+    'api-error-disclosure': APIErrorDisclosure,
+    'api-method-test': APIMethodTest,
+    'api-content-type': APIContentType,
+    'api-pagination': APIPagination,
+    'api-batch-test': APIBatchTest,
+    'api-cache-poison': APICachePoison,
+    'api-race-condition': APIRaceCondition,
+    'api-idempotency': APIIdempotency,
+    'api-file-upload': APIFileUpload,
+    'api-redirect': APIRedirect,
+    'docker-audit': DockerAudit,
+    'k8s-pod-scan': K8sPodScan,
+    'container-escape-detect': ContainerEscapeDetect,
+    'image-scan': ImageScan,
+    'registry-enum': RegistryEnum,
+    'compose-audit': ComposeAudit,
+    'helm-audit': HelmAudit,
+    'istio-check': IstioCheck,
+    'runtime-scan': RuntimeScan,
+    'cgroup-escape': CgroupEscape,
+    'k8s-rbac': K8sRBAC,
+    'k8s-net-policy': K8sNetworkPolicy,
+    'k8s-secrets': K8sSecrets,
+    'docker-socket': DockerSocket,
+    'k8s-admission': K8sAdmission,
+    'container-caps': ContainerCaps,
+    'k8s-etcd': K8sEtcd,
+    'dockerfile-lint': DockerfileLint,
+    'k8s-api-audit': K8sAPIAudit,
+    'container-forensics': ContainerForensics,
+    'k8s-psp': K8sPSP,
+    'container-network': ContainerNetwork,
+    'k8s-ingress': K8sIngress,
+    'container-volume': ContainerVolume,
+    'k8s-service-mesh': K8sServiceMesh,
+    'gcp-enum': GCPEnum,
+    's3-bucket-scan': S3BucketScan,
+    'azure-ad-enum': AzureADEnum,
+    'k8s-cluster-audit': K8sClusterAudit,
+    'docker-escape-check': DockerEscapeCheck,
+    'lambda-audit': LambdaAudit,
+    'iam-privesc': IAMPrivesc,
+    'cloudtrail-audit': CloudTrailAudit,
+    'ecr-scan': ECRScan,
+    'terraform-scan': TerraformScan,
+    'cloud-storage-enum': CloudStorageEnum,
+    'gcp-iam-audit': GCPIAMAudit,
+    'azure-blob-scan': AzureBlobScan,
+    'cloud-firewall': CloudFirewall,
+    'serverless-audit': ServerlessAudit,
+    'cloud-key-audit': CloudKeyAudit,
+    'cloud-network-audit': CloudNetworkAudit,
+    'cloud-logging': CloudLogging,
+    'cloud-compliance': CloudCompliance,
+    'cloud-cost-audit': CloudCostAudit,
+    'eks-audit': EKSAudit,
+    'aks-audit': AKSAudit,
+    'gke-audit': GKEAudit,
+    'cloud-db-audit': CloudDBAudit,
+    'cloud-secret-scan': CloudSecretScan,
+    'cloud-snapshot': CloudSnapshot,
+    'multi-cloud-audit': MultiCloudAudit,
+    'cloud-dns-audit': CloudDNSAudit,
+    'cloud-waf-audit': CloudWAFAudit,
+    'cloud-cdn-audit': CloudCDNAudit,
+    'cloud-identity': CloudIdentity,
+    'cloud-endpoint': CloudEndpoint,
+    'cloud-encryption': CloudEncryption,
+    'cloud-container-reg': CloudContainerReg,
+    'cloud-api-gateway': CloudAPIGateway,
+    'cloud-lb-audit': CloudLBAudit,
+    'cloud-vpn-audit': CloudVPNAudit,
+    'cloud-iam-roles': CloudIAMRoles,
+    'xxe-detect': XXEDetect,
+    'ssrf-detect': SSRFDetect,
+    'ssti-detect': SSTIDetect,
+    'prototype-pollute': PrototypePollute,
+    'deserialize-check': DeserializeCheck,
+    'http-smuggle': HTTPSmuggle,
+    'cache-poison': CachePoison,
+    'cors-miscfg': CORSMiscfg,
+    'open-redirect': OpenRedirect,
+    'host-header-inject': HostHeaderInject,
+    'crlf-inject': CRLFInject,
+    'lfi-detect': LFIDetect,
+    'rfi-detect': RFIDetect,
+    'command-inject': CommandInject,
+    'idor-detect': IDORDetect,
+    'path-traversal': PathTraversal,
+    'upload-vuln': UploadVuln,
+    'session-fixation': SessionFixation,
+    'business-logic': BusinessLogic,
+    'race-condition': RaceCondition,
+    'subdomain-takeover': SubdomainTakeover,
+    'websocket-test': WebSocketTest,
+    'csrf-advanced': CSRFAdvanced,
+    'content-security': ContentSecurity,
+    'cookie-security': CookieSecurity,
+    'js-analyzer': JSAnalyzer,
+    'waf-bypass': WAFBypass,
+    'web-fingerprint': WebFingerprint,
+    'broken-access': BrokenAccess,
+    'security-headers': SecurityHeaders,
+    'html-inject': HTMLInject,
+    'web-param-mine': WebParamMine,
+    'http2-test': HTTP2Test,
+    'graphql-vuln': GraphQLVuln,
+    'ws-hijack': WebSocketHijack,
+    'dom-xss': DOMXSS,
+    'web-cache-deception': WebCacheDeception,
+    'click-hijack': ClickHijack,
+    'jwt-vuln': JWTVuln,
+    'bgp-hijack': BGPHijack,
+    'dns-tunnel': DNSTunnel,
+    'icmp-tunnel': ICMPTunnel,
+    'tcp-hijack': TCPHijack,
+    'mitm-detect': MITMDetect,
+    'rogue-dhcp': RogueDHCP,
+    'ipv6-recon': IPv6Recon,
+    'netbios-enum': NetBIOSEnum,
+    'smb-enum': SMBEnum,
+    'rpc-enum': RPCEnum,
+    'ntp-amp': NTPAmp,
+    'ssdp-scan': SSDPScan,
+    'ldap-enum': LDAPEnum,
+    'ftp-audit': FTPAudit,
+    'smtp-enum': SMTPEnum,
+    'pop3-audit': POP3Audit,
+    'imap-audit': IMAPAudit,
+    'redis-audit': RedisAudit,
+    'memcache-audit': MemcacheAudit,
+    'elastic-audit': ElasticAudit,
+    'kafka-audit': KafkaAudit,
+    'rabbit-audit': RabbitAudit,
+    'vnc-audit': VNCAudit,
+    'rdp-audit': RDPAudit,
+    'telnet-audit': TelnetAudit,
+    'evil-twin': EvilTwin,
+    'krack-test': KRACKTest,
+    'pmkid-capture': PMKIDCapture,
+    'wpa3-audit': WPA3Audit,
+    'bluetooth-scan': BluetoothScan,
+    'ble-enum': BLEEnum,
+    'zigbee-scan': ZigbeeScan,
+    'rfid-analyze': RFIDAnalyze,
+    'sdr-scan': SDRScan,
+    'drone-detect': DroneDetect,
+    'wifi-deauth-detect': WifiDeauthDetect,
+    'wifi-handshake': WifiHandshake,
+    'wifi-channel': WifiChannel,
+    'wifi-rogue-ap': WifiRogueAP,
+    'nfc-analyze': NFCAnalyze,
+    'wifi-probe': WifiProbe,
+    'wifi-karma': WifiKarma,
+    'wifi-signal': WifiSignal,
+    'wifi-wep-crack': WifiWEPCrack,
+    'wifi-enterprise': WifiEnterprise,
+    'elf-analyzer': ELFAnalyzer,
+    'dll-inject-detect': DLLInjectDetect,
+    'rop-gadget': ROPGadget,
+    'format-string': FormatString,
+    'heap-analyzer': HeapAnalyzer,
+    'fuzzer-gen': FuzzerGen,
+    'shellcode-gen': ShellcodeGen,
+    'packer-detect': PackerDetect,
+    'anti-debug-detect': AntiDebugDetect,
+    'binary-diff': BinaryDiff,
+    'symbol-extract': SymbolExtract,
+    'call-graph': CallGraph,
+    'control-flow': ControlFlow,
+    'binary-patch': BinaryPatch,
+    'obfuscation-detect': ObfuscationDetect,
+    'import-analyzer': ImportAnalyzer,
+    'entropy-analyzer': EntropyAnalyzer,
+    'binary-strings': BinaryStrings,
+    'code-cave': CodeCave,
+    'vtable-analyzer': VTableAnalyzer,
+    'binary-sign': BinarySign,
+    'disassembler': Disassembler,
+    'decompiler': Decompiler,
+    'binary-vuln': BinaryVuln,
+    'firmware-extract': FirmwareExtract,
+    'telegram-osint': TelegramOSINT,
+    'discord-recon': DiscordRecon,
+    'linkedin-enum': LinkedInEnum,
+    'pastebin-monitor': PastebinMonitor,
+    'wayback-recon': WaybackRecon,
+    'cert-search': CertSearch,
+    'dns-history': DNSHistory,
+    'favicon-hash': FaviconHash,
+    's3-finder': S3Finder,
+    'google-dorking-adv': GoogleDorkingAdv,
+    'github-recon': GitHubRecon,
+    'twitter-osint': TwitterOSINT,
+    'instagram-osint': InstagramOSINT,
+    'face-search': FaceSearch,
+    'email-osint': EmailOSINT,
+    'company-recon': CompanyRecon,
+    'geo-osint': GeoOSINT,
+    'vehicle-osint': VehicleOSINT,
+    'crypto-trace': CryptoTrace,
+    'domain-monitor': DomainMonitor,
+    'leak-search': LeakSearch,
+    'web-archive': WebArchive,
+    'image-forensics': ImageForensics,
+    'social-media-map': SocialMediaMap,
+    'website-monitor': WebsiteMonitor,
+    'tech-profiler': TechProfiler,
+    'network-osint': NetworkOSINT,
+    'document-osint': DocumentOSINT,
+    'phone-osint': PhoneOSINT,
+    'username-search': UsernameSearch,
+    'ip-reputation': IPReputation,
+    'threat-intel': ThreatIntel,
+    'malware-hash': MalwareHash,
+    'subdomain-enum': SubdomainEnum,
+    'asn-lookup': ASNLookup,
+    'spray-attack': SprayAttack,
+    'credential-test': CredentialTest,
+    'pass-policy-audit': PassPolicyAudit,
+    'mfa-bypass-check': MFABypassCheck,
+    'session-hijack-detect': SessionHijackDetect,
+    'cookie-analyzer': CookieAnalyzer,
+    'oauth-abuse': OAuthAbuse,
+    'saml-attack': SAMLAttack,
+    'ticket-forge': TicketForge,
+    'rainbow-gen': RainbowGen,
+    'wordlist-gen': WordlistGen,
+    'hash-identify': HashIdentify,
+    'pass-strength': PassStrength,
+    'brute-http': BruteHTTP,
+    'brute-ssh': BruteSSH,
+    'brute-ftp': BruteFTP,
+    'brute-rdp': BruteRDP,
+    'brute-mysql': BruteMySQL,
+    'brute-smtp': BruteSMTP,
+    'brute-ldap': BruteLDAP,
+    'brute-custom': BruteCustom,
+    'default-creds': DefaultCreds,
+    'pass-reuse': PassReuse,
+    'auth-token-test': AuthTokenTest,
+    'sso-audit': SSOAudit,
+    'totp-test': TOTPTest,
+    'api-key-test': APIKeyTest,
+    'cert-auth-test': CertAuthTest,
+    'biometric-bypass': BiometricBypass,
+    'captcha-test': CaptchaTest,
+    'disk-forensics': DiskForensics,
+    'registry-forensics': RegistryForensics,
+    'browser-forensics': BrowserForensics,
+    'email-forensics': EmailForensics,
+    'timeline-gen': TimelineGen,
+    'artifact-collect': ArtifactCollect,
+    'volatility-wrap': VolatilityWrap,
+    'yara-scan': YaraScan,
+    'pcap-analyzer': PCAPAnalyzer,
+    'usb-forensics': USBForensics,
+    'event-log': EventLog,
+    'prefetch-analyzer': PrefetchAnalyzer,
+    'shadow-copy': ShadowCopy,
+    'deleted-recovery': DeletedRecovery,
+    'swap-analyzer': SwapAnalyzer,
+    'hash-verify': HashVerify,
+    'malware-triage': MalwareTriage,
+    'stego-detect': SteganographyDetect,
+    'encryption-detect': EncryptionDetect,
+    'chain-custody': ChainCustody,
+    'pci-dss': PCIDSS,
+    'hipaa-audit': HIPAAAudit,
+    'gdpr-scan': GDPRScan,
+    'iso27001': ISO27001,
+    'nist-assess': NISTAssess,
+    'sox-audit': SOXAudit,
+    'cis-benchmark': CISBenchmark,
+    'stig-check': STIGCheck,
+    'vuln-prioritize': VulnPrioritize,
+    'risk-score': RiskScore,
+    'policy-check': PolicyCheck,
+    'baseline-audit': BaselineAudit,
+    'access-review': AccessReview,
+    'data-class': DataClass,
+    'retention-check': RetentionCheck,
+    'vendor-risk': VendorRisk,
+    'incident-report': IncidentReport,
+    'control-matrix': ControlMatrix,
+    'gap-analysis': GapAnalysis,
+    'maturity-assess': MaturityAssess,
+    'audit-evidence': AuditEvidence,
+    'privacy-impact': PrivacyImpact,
+    'threat-model': ThreatModel,
+    'security-roadmap': SecurityRoadmap,
+    'compliance-report': ComplianceReport,
+    'phish-template': PhishTemplate,
+    'vishing-sim': VishingSim,
+    'smishing-sim': SmishingSim,
+    'pretexting-gen': PretextingGen,
+    'clone-site': CloneSite,
+    'credential-harvest': CredentialHarvest,
+    'usb-drop-sim': USBDropSim,
+    'watering-hole': WateringHole,
+    'spear-phish': SpearPhish,
+    'deepfake-detect': DeepfakeDetect,
+    'social-profile': SocialProfile,
+    'phish-detect': PhishDetect,
+    'awareness-test': AwarenessTest,
+    'qr-phish': QRPhish,
+    'callback-phish': CallbackPhish,
+    'android-debug': AndroidDebug,
+    'ios-jailbreak': IOSJailbreak,
+    'mobile-ssl-pin': MobileSSLPin,
+    'app-permission': AppPermission,
+    'smali-decompile': SmaliDecompile,
+    'frida-scripts': FridaScripts,
+    'objection-wrap': ObjectionWrap,
+    'mobile-api-test': MobileAPITest,
+    'cert-pin-bypass': CertPinBypass,
+    'intent-fuzz': IntentFuzz,
+    'mobile-storage': MobileStorage,
+    'mobile-crypto': MobileCrypto,
+    'mobile-network': MobileNetwork,
+    'mobile-auth': MobileAuth,
+    'app-clone-detect': AppCloneDetect,
+    'mobile-malware': MobileMalware,
+    'mobile-privacy': MobilePrivacy,
+    'mobile-config': MobileConfig,
+    'executive-report': ExecutiveReport,
+    'compliance-rep': ComplianceRep,
+    'risk-matrix': RiskMatrix,
+    'vuln-timeline': VulnTimeline,
+    'diff-report': DiffReport,
+    'csv-export': CSVExport,
+    'xml-export': XMLExport,
+    'sarif-export': SARIFExport,
+    'markdown-report': MarkdownReport,
+    'chart-gen': ChartGen,
+    'dashboard-gen': DashboardGen,
+    'scan-compare': ScanCompare,
+    'evidence-pack': EvidencePack,
+    'auto-recon': AutoRecon,
+    'auto-vuln': AutoVuln,
+    'pipeline-builder': PipelineBuilder,
+    'scheduler': Scheduler,
+    'parallel-scan': ParallelScan,
+    'result-aggregator': ResultAggregator,
+    'notification-send': NotificationSend,
+    'webhook-trigger': WebhookTrigger,
+    'ci-cd-scan': CICDScan,
+    'continuous-monitor': ContinuousMonitor,
+    'scan-profile': ScanProfile,
+    'tool-chain': ToolChain,
+    'batch-scan': BatchScan,
+    'scan-resume': ScanResume,
+    'report-auto': ReportAuto,
+    'target-import': TargetImport,
+    'asset-discover': AssetDiscover,
+    'change-detect': ChangeDetect,
+    'workflow-template': WorkflowTemplate,
+    'scan-queue': ScanQueue,
+    'aes-attack': AESAttack,
+    'rsa-attack': RSAAttack,
+    'padding-oracle': PaddingOracle,
+    'timing-attack': TimingAttack,
+    'cert-audit': CertAudit,
+    'tls-downgrade': TLSDowngrade,
+    'ssl-strip-detect': SSLStripDetect,
+    'pgp-audit': PGPAudit,
+    'blockchain-analyze': BlockchainAnalyze,
+    'random-test': RandomTest,
+    'key-strength': KeyStrength,
+    'cipher-detect': CipherDetect,
+    'crypto-audit': CryptoAudit,
+    'entropy-check': EntropyCheck,
+    'hmac-test': HMACTest,
+    'key-exchange': KeyExchange,
+    'hash-collision': HashCollision,
+    'crypto-downgrade': CryptoDowngrade,
+    'payload-encode': PayloadEncode,
+    'c2-detect': C2Detect,
+    'honeypot-detect': HoneypotDetect,
+    'sandbox-detect': SandboxDetect,
+    'proxy-chain': ProxyChain,
+    'tor-check': TorCheck,
+    'vpn-leak-test': VPNLeakTest,
+    'dns-leak-test': DNSLeakTest,
+    'ip-rotate': IPRotate,
+    'user-agent-gen': UserAgentGen,
+    'reverse-shell': ReverseShell,
+    'bind-shell': BindShell,
+    'file-server': FileServer,
+    'port-forward': PortForward,
+    'network-pivot': NetworkPivot,
+    'data-exfil-detect': DataExfilDetect,
+    'log-cleaner-detect': LogCleanerDetect,
+    'rootkit-detect': RootkitDetect,
+    'backdoor-detect': BackdoorDetect,
+    'webshell-detect': WebshellDetect,
+    'config-audit': ConfigAudit,
+    'service-enum': ServiceEnum,
+    'cron-audit': CronAudit,
+    'suid-check': SUIDCheck,
+    'kernel-exploit': KernelExploit,
+
 }
 
-# Organize tools by category
+# === TOOLS BY CATEGORY (V3 + V4 Combined) ===
 TOOLS_BY_CATEGORY = {
+    # V3 Categories
     'Network': ['port-scan', 'ping', 'dns', 'traceroute', 'whois', 'ssl-check', 'ip-scan', 'sniffer', 'ddos-sim', 'mac-lookup', 'net-speed', 'subnet-calc', 'arp-scan', 'vlan-scan', 'snmp-walker'],
-    'Web': ['sql-inject', 'xss-detect', 'csrf-detect', 'crawler', 'vuln-scan', 'subdomain', 'advanced-dorking', 'tech-stack', 'dir-brute', 'link-extract', 'admin-finder', 'headers-analyzer', 'proxy-finder', 'api-analyzer'],
-    'Phishing': ['web-phishing', 'email-phishing', 'phishing-locator', 'phishing-impersonation', 'ngrok-phishing'],
-    'Clickjacking': ['clickjacking-check', 'clickjacking-make', 'anti-clickjacking'],
+    'Web': ['sql-inject', 'xss-detect', 'csrf-detect', 'crawler', 'vuln-scan', 'subdomain', 'dorking', 'tech-stack', 'dir-brute', 'link-extract', 'admin-finder', 'headers-analyzer', 'proxy-finder', 'api-analyzer'],
+    'OSINT': ['email-find', 'domain-info', 'ip-geo', 'metadata', 'dorking-search', 'user-search', 'git-recon', 'whois-history', 'shodan-search', 'phone-lookup', 'metadata-exif', 'social-analyzer', 'breach-check', 'dark-web-search'],
+    'Utilities': ['password-gen', 'hash-tools', 'base64', 'url-encode', 'url-mask', 'url-shorten', 'html-tool', 'json-format', 'jwt-decoder', 'text-obfuscate', 'ip-convert', 'timestamp-convert', 'color-convert', 'unit-convert'],
+    'Phishing': ['phishing-locator', 'web-phishing', 'email-phishing', 'url-masking', 'phishing-framework'],
     'Security': ['anti-ddos', 'waf-detect', 'vuln-db', 'firewall-bypass', 'ids-evasion'],
-    'OSINT': ['email-find', 'domain-info', 'ip-geo', 'metadata', 'dorking', 'user-search', 'git-recon', 'whois-history', 'shodan-search', 'phone-lookup', 'metadata-exif', 'social-analyzer', 'breach-check', 'dark-web-search'],
-    'Utilities': ['passgen', 'hash', 'proxy', 'encode', 'revshell', 'url-mask', 'url-shorten', 'base64', 'json-format', 'jwt-decoder', 'ip-info', 'cron-gen'],
-    'Crypto': ['hash-cracker', 'stegano', 'rsa-gen', 'vigenere', 'hash-gen', 'xor-cipher'],
+    'Clickjacking': ['clickjacking-check', 'clickjacking-make', 'anti-clickjacking'],
+    'Crypto': ['hash-cracker', 'hash-gen', 'vigenere', 'xor-cipher', 'rsa-gen', 'stegano', 'file-encrypt'],
     'Wireless': ['beacon-flood', 'deauth', 'wifi-scan', 'wps-check'],
     'Database': ['sql-brute', 'mongodb-audit'],
     'Reporting': ['pdf-report', 'html-report'],
@@ -279,494 +781,251 @@ TOOLS_BY_CATEGORY = {
     'IoT Security': ['mqtt-explorer', 'firmware-scan'],
     'Post-Exploitation': ['system-enum', 'priv-esc-check'],
     'Social Engineering': ['username-gen', 'payload-delivery'],
+    # V4 Categories
+    'Active Directory': ['ad-enum', 'kerberoast', 'asrep-roast', 'dcsync-detect', 'bloodhound-ingest', 'gpp-decrypt', 'ad-acl-audit', 'ldap-search', 'ntlm-relay-detect', 'ad-trust-audit', 'ad-pass-audit', 'ad-delegation', 'spn-scan', 'ad-cert-audit', 'ad-dns-enum', 'ad-gpo-audit', 'ad-replication', 'ad-sid-history', 'ad-forest-audit', 'ad-priv-users', 'ad-lockout', 'ad-stale-objects', 'ad-schema-audit', 'ad-backup-check', 'laps-audit', 'ad-svc-audit', 'ad-group-nesting', 'ad-recycle-bin', 'ad-admin-count', 'ad-func-level'],
+    'Api Security': ['graphql-introspect', 'rest-fuzz', 'api-key-leak', 'swagger-scan', 'oauth-test', 'jwt-attack', 'cors-test', 'soap-audit', 'grpc-test', 'rate-limit-test', 'api-auth-bypass', 'api-enum', 'api-version-check', 'api-param-tamper', 'api-schema-validate', 'webhook-test', 'api-dos-test', 'api-injection', 'api-mass-assign', 'api-broken-auth', 'api-excessive-data', 'api-bola', 'api-ssrf', 'graphql-dos', 'api-response-header', 'api-error-disclosure', 'api-method-test', 'api-content-type', 'api-pagination', 'api-batch-test', 'api-cache-poison', 'api-race-condition', 'api-idempotency', 'api-file-upload', 'api-redirect'],
+    'Container': ['docker-audit', 'k8s-pod-scan', 'container-escape-detect', 'image-scan', 'registry-enum', 'compose-audit', 'helm-audit', 'istio-check', 'runtime-scan', 'cgroup-escape', 'k8s-rbac', 'k8s-net-policy', 'k8s-secrets', 'docker-socket', 'k8s-admission', 'container-caps', 'k8s-etcd', 'dockerfile-lint', 'k8s-api-audit', 'container-forensics', 'k8s-psp', 'container-network', 'k8s-ingress', 'container-volume', 'k8s-service-mesh'],
+    'Cloud': ['gcp-enum', 's3-bucket-scan', 'azure-ad-enum', 'k8s-cluster-audit', 'docker-escape-check', 'lambda-audit', 'iam-privesc', 'cloudtrail-audit', 'ecr-scan', 'terraform-scan', 'cloud-storage-enum', 'gcp-iam-audit', 'azure-blob-scan', 'cloud-firewall', 'serverless-audit', 'cloud-key-audit', 'cloud-network-audit', 'cloud-logging', 'cloud-compliance', 'cloud-cost-audit', 'eks-audit', 'aks-audit', 'gke-audit', 'cloud-db-audit', 'cloud-secret-scan', 'cloud-snapshot', 'multi-cloud-audit', 'cloud-dns-audit', 'cloud-waf-audit', 'cloud-cdn-audit', 'cloud-identity', 'cloud-endpoint', 'cloud-encryption', 'cloud-container-reg', 'cloud-api-gateway', 'cloud-lb-audit', 'cloud-vpn-audit', 'cloud-iam-roles'],
+    'Web Advanced': ['xxe-detect', 'ssrf-detect', 'ssti-detect', 'prototype-pollute', 'deserialize-check', 'http-smuggle', 'cache-poison', 'cors-miscfg', 'open-redirect', 'host-header-inject', 'crlf-inject', 'lfi-detect', 'rfi-detect', 'command-inject', 'idor-detect', 'path-traversal', 'upload-vuln', 'session-fixation', 'business-logic', 'race-condition', 'subdomain-takeover', 'websocket-test', 'csrf-advanced', 'content-security', 'cookie-security', 'js-analyzer', 'waf-bypass', 'web-fingerprint', 'broken-access', 'security-headers', 'html-inject', 'web-param-mine', 'http2-test', 'graphql-vuln', 'ws-hijack', 'dom-xss', 'web-cache-deception', 'click-hijack', 'jwt-vuln'],
+    'Network Advanced': ['bgp-hijack', 'dns-tunnel', 'icmp-tunnel', 'tcp-hijack', 'mitm-detect', 'rogue-dhcp', 'ipv6-recon', 'netbios-enum', 'smb-enum', 'rpc-enum', 'ntp-amp', 'ssdp-scan', 'ldap-enum', 'ftp-audit', 'smtp-enum', 'pop3-audit', 'imap-audit', 'redis-audit', 'memcache-audit', 'elastic-audit', 'kafka-audit', 'rabbit-audit', 'vnc-audit', 'rdp-audit', 'telnet-audit'],
+    'Wireless Advanced': ['evil-twin', 'krack-test', 'pmkid-capture', 'wpa3-audit', 'bluetooth-scan', 'ble-enum', 'zigbee-scan', 'rfid-analyze', 'sdr-scan', 'drone-detect', 'wifi-deauth-detect', 'wifi-handshake', 'wifi-channel', 'wifi-rogue-ap', 'nfc-analyze', 'wifi-probe', 'wifi-karma', 'wifi-signal', 'wifi-wep-crack', 'wifi-enterprise'],
+    'Binary': ['elf-analyzer', 'dll-inject-detect', 'rop-gadget', 'format-string', 'heap-analyzer', 'fuzzer-gen', 'shellcode-gen', 'packer-detect', 'anti-debug-detect', 'binary-diff', 'symbol-extract', 'call-graph', 'control-flow', 'binary-patch', 'obfuscation-detect', 'import-analyzer', 'entropy-analyzer', 'binary-strings', 'code-cave', 'vtable-analyzer', 'binary-sign', 'disassembler', 'decompiler', 'binary-vuln', 'firmware-extract'],
+    'Osint': ['telegram-osint', 'discord-recon', 'linkedin-enum', 'pastebin-monitor', 'wayback-recon', 'cert-search', 'dns-history', 'favicon-hash', 's3-finder', 'google-dorking-adv', 'github-recon', 'twitter-osint', 'instagram-osint', 'face-search', 'email-osint', 'company-recon', 'geo-osint', 'vehicle-osint', 'crypto-trace', 'domain-monitor', 'leak-search', 'web-archive', 'image-forensics', 'social-media-map', 'website-monitor', 'tech-profiler', 'network-osint', 'document-osint', 'phone-osint', 'username-search', 'ip-reputation', 'threat-intel', 'malware-hash', 'subdomain-enum', 'asn-lookup'],
+    'Password': ['spray-attack', 'credential-test', 'pass-policy-audit', 'mfa-bypass-check', 'session-hijack-detect', 'cookie-analyzer', 'oauth-abuse', 'saml-attack', 'ticket-forge', 'rainbow-gen', 'wordlist-gen', 'hash-identify', 'pass-strength', 'brute-http', 'brute-ssh', 'brute-ftp', 'brute-rdp', 'brute-mysql', 'brute-smtp', 'brute-ldap', 'brute-custom', 'default-creds', 'pass-reuse', 'auth-token-test', 'sso-audit', 'totp-test', 'api-key-test', 'cert-auth-test', 'biometric-bypass', 'captcha-test'],
+    'Forensics': ['disk-forensics', 'registry-forensics', 'browser-forensics', 'email-forensics', 'timeline-gen', 'artifact-collect', 'volatility-wrap', 'yara-scan', 'pcap-analyzer', 'usb-forensics', 'event-log', 'prefetch-analyzer', 'shadow-copy', 'deleted-recovery', 'swap-analyzer', 'hash-verify', 'malware-triage', 'stego-detect', 'encryption-detect', 'chain-custody'],
+    'Compliance': ['pci-dss', 'hipaa-audit', 'gdpr-scan', 'iso27001', 'nist-assess', 'sox-audit', 'cis-benchmark', 'stig-check', 'vuln-prioritize', 'risk-score', 'policy-check', 'baseline-audit', 'access-review', 'data-class', 'retention-check', 'vendor-risk', 'incident-report', 'control-matrix', 'gap-analysis', 'maturity-assess', 'audit-evidence', 'privacy-impact', 'threat-model', 'security-roadmap', 'compliance-report'],
+    'Social': ['phish-template', 'vishing-sim', 'smishing-sim', 'pretexting-gen', 'clone-site', 'credential-harvest', 'usb-drop-sim', 'watering-hole', 'spear-phish', 'deepfake-detect', 'social-profile', 'phish-detect', 'awareness-test', 'qr-phish', 'callback-phish'],
+    'Mobile': ['android-debug', 'ios-jailbreak', 'mobile-ssl-pin', 'app-permission', 'smali-decompile', 'frida-scripts', 'objection-wrap', 'mobile-api-test', 'cert-pin-bypass', 'intent-fuzz', 'mobile-storage', 'mobile-crypto', 'mobile-network', 'mobile-auth', 'app-clone-detect', 'mobile-malware', 'mobile-privacy', 'mobile-config'],
+    'Reporting': ['executive-report', 'compliance-rep', 'risk-matrix', 'vuln-timeline', 'diff-report', 'csv-export', 'xml-export', 'sarif-export', 'markdown-report', 'chart-gen', 'dashboard-gen', 'scan-compare', 'evidence-pack'],
+    'Automation': ['auto-recon', 'auto-vuln', 'pipeline-builder', 'scheduler', 'parallel-scan', 'result-aggregator', 'notification-send', 'webhook-trigger', 'ci-cd-scan', 'continuous-monitor', 'scan-profile', 'tool-chain', 'batch-scan', 'scan-resume', 'report-auto', 'target-import', 'asset-discover', 'change-detect', 'workflow-template', 'scan-queue'],
+    'Crypto': ['aes-attack', 'rsa-attack', 'padding-oracle', 'timing-attack', 'cert-audit', 'tls-downgrade', 'ssl-strip-detect', 'pgp-audit', 'blockchain-analyze', 'random-test', 'key-strength', 'cipher-detect', 'crypto-audit', 'entropy-check', 'hmac-test', 'key-exchange', 'hash-collision', 'crypto-downgrade'],
+    'Misc': ['payload-encode', 'c2-detect', 'honeypot-detect', 'sandbox-detect', 'proxy-chain', 'tor-check', 'vpn-leak-test', 'dns-leak-test', 'ip-rotate', 'user-agent-gen', 'reverse-shell', 'bind-shell', 'file-server', 'port-forward', 'network-pivot', 'data-exfil-detect', 'log-cleaner-detect', 'rootkit-detect', 'backdoor-detect', 'webshell-detect', 'config-audit', 'service-enum', 'cron-audit', 'suid-check', 'kernel-exploit'],
+
 }
 
 
+def get_license_text():
+    """Read LICENSE file content"""
+    for p in [Path(__file__).parent.parent / "LICENSE", Path.cwd() / "LICENSE"]:
+        if p.exists():
+            return p.read_text(encoding="utf-8", errors="ignore")
+    return "LICENSE file not found."
+
+
+def get_tos_text():
+    """Read TERMS_OF_SERVICE.md content"""
+    for p in [Path(__file__).parent.parent / "TERMS_OF_SERVICE.md", Path.cwd() / "TERMS_OF_SERVICE.md"]:
+        if p.exists():
+            return p.read_text(encoding="utf-8", errors="ignore")
+    return "TERMS_OF_SERVICE.md file not found."
+
+
 def print_banner():
-    """Print Aleopantest banner"""
-    platform_name = PlatformDetector.get_platform_name()
+    platform_info = PlatformDetector.get_platform_name()
+    platform_emoji = PlatformDetector.get_platform_emoji()
+    total = len(TOOLS_REGISTRY)
     banner = f"""
-╔═══════════════════════════════════════════════════════════════╗
-║                                                               ║
-║              🛡️  Aleopantest v{config.VERSION}  🛡️               ║
-║                    by Aleocrophic                             ║
-║                                                               ║
-║              Advanced Cybersecurity Tool Suite                ║
-║                                                               ║
-║       400+ Tools • Multi-Platform • Modern TUI • V3.3.5 PRO   ║
-║                                                               ║
-╚═══════════════════════════════════════════════════════════════╝
-    Platform: {platform_name}
-    """
-    rprint(banner)
+[bold cyan]
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║                                                                  ║
+    ║     █████╗ ██╗     ███████╗ ██████╗ ██████╗  █████╗ ███╗   ██╗   ║
+    ║    ██╔══██╗██║     ██╔════╝██╔═══██╗██╔══██╗██╔══██╗████╗  ██║   ║
+    ║    ███████║██║     █████╗  ██║   ██║██████╔╝███████║██╔██╗ ██║   ║
+    ║    ██╔══██║██║     ██╔══╝  ██║   ██║██╔═══╝ ██╔══██║██║╚██╗██║   ║
+    ║    ██║  ██║███████╗███████╗╚██████╔╝██║     ██║  ██║██║ ╚████║   ║
+    ║    ╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ║
+    ║                                                                  ║
+    ║    ████████╗███████╗███████╗████████╗                            ║
+    ║    ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝                            ║
+    ║       ██║   █████╗  ███████╗   ██║                               ║
+    ║       ██║   ██╔══╝  ╚════██║   ██║                               ║
+    ║       ██║   ███████╗███████║   ██║                               ║
+    ║       ╚═╝   ╚══════╝╚══════╝   ╚═╝                               ║
+    ║                                                                  ║
+    ║  [bold white]🛡️  Aleopantest V4.0.0 PRO[/bold white] [dim]- Codename: HYDRA[/dim]              ║
+    ║  [bold yellow]⚡ {total}+ Advanced Cybersecurity Tools[/bold yellow]                       ║
+    ║  [dim]{platform_emoji} Platform: {platform_info}[/dim]                             ║
+    ║  [dim]👤 by Aleocrophic Team[/dim]                                      ║
+    ║                                                                  ║
+    ╚══════════════════════════════════════════════════════════════════╝
+[/bold cyan]"""
+    console.print(banner)
 
 
 def print_tools_table():
     """Print tools table organized by category"""
-    table = Table(title="Available Tools by Category", show_header=True, header_style="bold magenta")
-    table.add_column("Category", style="cyan", width=15)
-    table.add_column("Tool ID", style="green")
-    table.add_column("Description")
-    
     for category, tools in TOOLS_BY_CATEGORY.items():
-        for idx, tool_id in enumerate(tools):
-            if tool_id in TOOLS_REGISTRY:
-                try:
-                    instance = TOOLS_REGISTRY[tool_id]()
-                    description = get_safe_attr(instance, "metadata.description", "No description available")
-                    desc = description[:40] + "..." if len(description) > 40 else description
-                    
-                    if idx == 0:
-                        table.add_row(category, tool_id, desc)
-                    else:
-                        table.add_row("", tool_id, desc)
-                except Exception as e:
-                    logger.error(f"Error loading tool {tool_id}: {str(e)}")
-                    table.add_row(category if idx == 0 else "", tool_id, "[red]Error loading tool[/red]")
-    
-    console.print(table)
+        table = Table(title=f"🔧 {category}", show_header=True, header_style="bold cyan", border_style="dim")
+        table.add_column("Tool ID", style="green", width=25)
+        table.add_column("Class", style="yellow", width=30)
+        table.add_column("Status", style="bold green", width=10)
+        for tool_id in tools:
+            cls = TOOLS_REGISTRY.get(tool_id)
+            cls_name = cls.__name__ if cls and hasattr(cls, '__name__') else str(cls)
+            table.add_row(tool_id, cls_name, "✓ Ready")
+        console.print(table)
+        console.print()
 
 
-@click.group()
-def cli():
-    """Aleopantest v3.3.5 - by Aleocrophic - Comprehensive Penetration Testing Framework
-    
-Usage Examples:
-  aleopantest --help              Show all commands
-  aleopantest list-tools          List all available tools
-  aleopantest run dns --domain example.com              Run DNS lookup
-  aleopantest run sql-inject --url http://example.com  Run SQL injection detection
-  aleopantest run phishing-locator --domain example.com  Locate phishing variants
-"""
-    pass
+@click.group(invoke_without_command=True)
+@click.option('--version', '-v', is_flag=True, help='Show version information')
+@click.option('--license', '-lcs', 'show_license', is_flag=True, help='Show LICENSE')
+@click.option('--tos', '-ts', is_flag=True, help='Show Terms of Service')
+@click.pass_context
+def cli(ctx, version, show_license, tos):
+    """
+    🛡️  Aleopantest V4.0.0 PRO - by Aleocrophic
+
+    Advanced Cybersecurity Tool Suite with 548+ tools.
+
+    ALIASES: You can also use 'alpnts' instead of 'aleopantest'.
+
+    EXAMPLES:
+      aleopantest --help              Show all commands
+      aleopantest list-tools          List all available tools
+      aleopantest run dns --domain example.com
+      aleopantest run sql-inject --url http://example.com
+      alpnts -v                       Show version (short alias)
+      alpnts --license                Show LICENSE
+      alpnts --tos                    Show Terms of Service
+    """
+    if version:
+        from aleopantest import __version__
+        console.print(f"[bold cyan]Aleopantest[/bold cyan] v{__version__} (Codename: HYDRA)")
+        console.print(f"[dim]Platform: {PlatformDetector.get_platform_name()}[/dim]")
+        console.print(f"[dim]Tools: {len(TOOLS_REGISTRY)}+ registered[/dim]")
+        console.print(f"[dim]Python: {sys.version.split()[0]}[/dim]")
+        return
+    if show_license:
+        console.print(Panel(get_license_text(), title="📄 LICENSE", border_style="cyan"))
+        return
+    if tos:
+        console.print(Panel(get_tos_text(), title="⚖️ TERMS OF SERVICE", border_style="yellow"))
+        return
+    if ctx.invoked_subcommand is None:
+        print_banner()
+        console.print("[bold]Quick Start:[/bold]")
+        console.print("  [cyan]aleopantest list-tools[/cyan]    List all tools")
+        console.print("  [cyan]aleopantest info[/cyan]          Show framework info")
+        console.print("  [cyan]aleopantest run <tool>[/cyan]    Run a specific tool")
+        console.print("  [cyan]aleopantest tui[/cyan]           Launch TUI dashboard")
+        console.print("  [cyan]aleopantest web[/cyan]           Launch Web dashboard")
+        console.print()
+        console.print("[dim]Tip: Use 'alpnts' as a shortcut for 'aleopantest'[/dim]")
+        console.print("[dim]Tip: Use 'aleopantest --license' or 'aleopantest --tos'[/dim]")
 
 
 @cli.command()
 def info():
     """Show tool information and statistics"""
+    from aleopantest import __version__
     print_banner()
-    console.print(f"\n[bold cyan]📊 Aleopantest v{config.VERSION} Statistics[/bold cyan]\n")
-    
-    categories = {}
-    for tool_id, tool_class in TOOLS_REGISTRY.items():
-        try:
-            instance = tool_class()
-            cat = get_safe_attr(instance, "metadata.category.value", "Unknown")
-            categories[cat] = categories.get(cat, 0) + 1
-        except Exception as e:
-            logger.error(f"Error analyzing tool {tool_id} for statistics: {str(e)}")
-            categories["Error"] = categories.get("Error", 0) + 1
-    
-    table = Table(title="Tools by Category", show_header=True, header_style="bold")
-    table.add_column("Category", style="cyan")
-    table.add_column("Count", style="green", justify="right")
-    
-    for cat in sorted(categories.keys()):
-        table.add_row(cat, str(categories[cat]))
-    
+    table = Table(title="📊 Framework Statistics", border_style="cyan")
+    table.add_column("Metric", style="bold")
+    table.add_column("Value", style="green")
+    table.add_row("Version", __version__)
+    table.add_row("Codename", "HYDRA")
+    table.add_row("Total Tools", str(len(TOOLS_REGISTRY)))
+    table.add_row("Categories", str(len(TOOLS_BY_CATEGORY)))
+    table.add_row("Platform", PlatformDetector.get_platform_name())
+    table.add_row("Python", sys.version.split()[0])
+    table.add_row("License", "MIT - Educational Use Only")
     console.print(table)
-    rprint(f"\n[bold]Total Tools Available:[/bold] {len(TOOLS_REGISTRY)}")
 
 
 @cli.command()
 def list_tools():
     """List all available tools"""
     print_banner()
+    console.print(f"[bold]📋 Total Tools: {len(TOOLS_REGISTRY)}[/bold]\n")
     print_tools_table()
-    
-    console.print("\n[bold cyan]💡 Usage Examples:[/bold cyan]")
-    examples = [
-        ("DNS Lookup", "aleopantest run dns --domain target.com"),
-        ("SQL Injection Test", "aleopantest run sql-inject --url http://target.com"),
-        ("Phishing Detection", "aleopantest run web-phishing --url http://phishing-site.com"),
-        ("Clickjacking Check", "aleopantest run clickjacking-check --url http://target.com"),
-        ("WAF Detection", "aleopantest run waf-detect --url http://target.com"),
-        ("DDoS Simulation", "aleopantest run ddos-sim --target target.com --type http --duration 30"),
-    ]
-    
-    for tool_name, example in examples:
-        console.print(f"  {tool_name}: [yellow]{example}[/yellow]")
 
 
 @cli.command()
 def tui():
     """Launch the modern TUI dashboard"""
-    from .tui import AleopantestTUI
+    from aleopantest.tui import AleopantestTUI
     app = AleopantestTUI()
     app.run()
 
 
 @cli.command()
-@click.option('--host', default='127.0.0.1', help='Host to bind the web server')
-@click.option('--port', default=8002, help='Port to bind the web server')
+@click.option('--host', default='127.0.0.1', help='Host to bind')
+@click.option('--port', default=8002, help='Port to listen on')
 def web(host, port):
     """Launch the modern Web Dashboard"""
-    try:
-        from .core.web_server import start_web_server
-        start_web_server(host=host, port=port)
-    except (ImportError, ModuleNotFoundError) as e:
-        console.print(f"[red]❌ Fatal Error: Missing dependency for Web Dashboard: {str(e)}[/red]")
-        console.print("[yellow]💡 Tip: Run 'pip install -r requirements.txt' or 'pip install fastapi uvicorn' to fix this.[/yellow]")
-    except Exception as e:
-        console.print(f"[red]❌ Fatal Error while starting Web Server: {str(e)}[/red]")
-        logger.error(f"Fatal error in web command: {str(e)}", exc_info=True)
+    from aleopantest.core.web_server import start_web_server
+    console.print(f"[bold cyan]🌐 Starting Web Dashboard at http://{host}:{port}[/bold cyan]")
+    start_web_server(host=host, port=port)
 
 
 @cli.command()
 @click.argument('tool_id')
-@click.option('--host', help='Target host/IP (alias: --ip)')
-@click.option('--ip', help='Target IP address (alias: --host)')
-@click.option('--url', help='Target URL')
-@click.option('--domain', help='Target domain')
-@click.option('--port', type=int, help='Port number')
-@click.option('--email', help='Email address')
-@click.option('--subject', help='Email subject')
-@click.option('--target', help='Target for attack')
-@click.option('--type', help='Tool type/attack type')
-@click.option('--duration', type=int, help='Duration in seconds')
-@click.option('--threads', type=int, default=None, help='Number of threads')
-@click.option('--preset', help='Preset configuration (for DDoS: light, medium, heavy)')
-@click.option('--output', help='Output file path')
-@click.option('--framework', help='Framework (for code generation)')
-@click.option('--alias', help='Alias (for URL tools)')
-@click.option('--fake-domain', help='Fake domain (for URL masking)')
-@click.option('--method', help='Method type')
-@click.option('--base-url', help='Base URL (for URL shortener)')
-@click.option('--generate-qr', is_flag=True, help='Generate QR code')
-@click.option('--tracking', help='Enable tracking')
-@click.option('--test-payloads', is_flag=True, help='Test with payloads')
-@click.option('--authorized', is_flag=True, help='Confirm authorization for sensitive operations (required for DDoS, etc.)')
-@click.option('--query', help='Search query (for dorking tools)')
-@click.option('--engine', help='Search engine (for dorking tools: google, duckduckgo, github, shodan)')
-@click.option('--template', help='Dorking template (exposed_configs, admin_panels, backup_files, source_code, user_data)')
-@click.option('--text', help='Text to hash or process (alias: --input)')
-@click.option('--file-path', help='File path to hash or process')
-@click.option('--algorithm', help='Hash algorithm (md5, sha1, sha256, sha512)')
-@click.option('--interactive', is_flag=True, help='Use interactive mode to enter parameters')
-@click.option('--serve', is_flag=True, help='Start a local server to handle redirects')
-def run(tool_id, host, ip, url, domain, port, email, subject, target, type, duration, threads, preset, 
-        output, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, authorized, query, engine, template, text, file_path, algorithm, interactive, serve):
-    """Run a specific tool with optional interactive mode
-    
-EXAMPLES:
-  Basic usage:
-    aleopantest run dns --domain target.com
-    aleopantest run ip-geo --ip 8.8.8.8
-    aleopantest run ip-geo --host 1.1.1.1
-    
-  Interactive mode (prompts for parameters):
-    aleopantest run ip-geo --interactive
-    aleopantest run dns --interactive
-    
-  Advanced usage:
-    aleopantest run url-mask --url https://attacker.com --fake-domain google.com --method redirect
-    aleopantest run ddos-sim --target target.com --type http --duration 30 --authorized
-    aleopantest run anti-clickjacking --framework nginx --output config.conf
-    
-PARAMETER ALIASES:
-  --host and --ip are interchangeable (both set the target IP)
-  
-SAFETY FEATURES:
-  - DDoS simulator requires --authorized flag for legal compliance
-  - Parameters are automatically normalized and validated
-  - Comprehensive error messages guide correct usage
-"""
-    
-    print_banner()
-    
+@click.option('--target', '-t', help='Target (URL, IP, domain)')
+@click.option('--host', '-H', help='Host/IP')
+@click.option('--domain', '-d', help='Domain name')
+@click.option('--url', '-u', help='URL target')
+@click.option('--ip', help='IP address')
+@click.option('--port', '-p', help='Port/range')
+@click.option('--output', '-o', help='Output file')
+@click.option('--format', 'fmt', help='Output format')
+@click.option('--threads', type=int, default=10, help='Thread count')
+@click.option('--timeout', type=int, default=30, help='Timeout seconds')
+@click.option('--interactive', '-i', is_flag=True, help='Interactive mode')
+@click.option('--verbose', '-V', is_flag=True, help='Verbose output')
+def run(tool_id, target, host, domain, url, ip, port, output, fmt, threads, timeout, interactive, verbose, **kwargs):
+    """Run a specific security tool
+
+    EXAMPLES:
+      aleopantest run dns --domain target.com
+      aleopantest run port-scan --host 192.168.1.1 --port 1-1000
+      aleopantest run sql-inject --url http://example.com
+      aleopantest run ip-geo --ip 8.8.8.8
+      alpnts run ad-enum --target dc.company.com
+    """
     if tool_id not in TOOLS_REGISTRY:
-        console.print(f"[red]❌ Tool '{tool_id}' not found[/red]")
-        console.print(f"\n[yellow]Available tools:[/yellow]")
-        for category, tools in TOOLS_BY_CATEGORY.items():
-            console.print(f"  [cyan]{category}:[/cyan] {', '.join(tools)}")
+        console.print(f"[red]❌ Unknown tool: {tool_id}[/red]")
+        console.print("[yellow]Use 'aleopantest list-tools' to see available tools[/yellow]")
         return
-    
-    # Display tool metadata/help first
+
     tool_class = TOOLS_REGISTRY[tool_id]
-    
-    if tool_class is None:
-        console.print(f"[red]❌ Tool '{tool_id}' exists but failed to load due to an internal error.[/red]")
-        console.print(f"[yellow]💡 Tip: Check for syntax errors or missing dependencies in the tool module.[/yellow]")
-        return
+    tool = tool_class()
+
+    params = {}
+    if target: params['target'] = target
+    if host: params['host'] = host
+    if domain: params['domain'] = domain
+    if url: params['url'] = url
+    if ip: params['ip'] = ip
+    if port: params['port'] = port
+    if threads: params['threads'] = threads
+    if timeout: params['timeout'] = timeout
+
+    # Auto-detect target from various params
+    if not params.get('target'):
+        params['target'] = host or domain or url or ip
+
+    if interactive and not params.get('target'):
+        from aleopantest.interactive import prompt_for_parameters
+        params = prompt_for_parameters(tool_id, tool.metadata)
+        if not params:
+            return
+
+    console.print(f"\n[bold cyan]🚀 Running {tool.metadata.name}...[/bold cyan]")
 
     try:
-        tool = tool_class()
-        if not tool:
-            console.print(f"[red]❌ Error: Failed to instantiate tool '{tool_id}'.[/red]")
-            return
-            
-        metadata = tool.metadata
-        if not metadata:
-            console.print(f"[red]❌ Error: Tool '{tool_id}' is missing metadata.[/red]")
-            return
-            
-        console.print(f"\n[bold cyan]{'='*70}[/bold cyan]")
-        console.print(f"[bold cyan]🛠️  {metadata.name} (v{metadata.version})[/bold cyan]")
-        console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
-        
-        console.print(f"[yellow]📝 Description:[/yellow]\n{metadata.description}\n")
-        
-        console.print(f"[yellow]📚 Usage:[/yellow]\n{metadata.usage}\n")
-        
-        if metadata.risk_level and metadata.risk_level != "LOW":
-            console.print(f"[bold red]⚠️  Risk Level: {metadata.risk_level}[/bold red]\n")
-        
-        if metadata.legal_disclaimer:
-            console.print(f"[bold red]⚖️  Legal Disclaimer:[/bold red]\n{metadata.legal_disclaimer}\n")
-        
-        console.print(f"[yellow]🏷️  Tags:[/yellow] {', '.join(metadata.tags)}")
-        console.print(f"[yellow]📦 Requirements:[/yellow] {', '.join(metadata.requirements)}\n")
-        
-        console.print(f"[bold cyan]{'='*70}[/bold cyan]\n")
-        
-    except Exception as e:
-        console.print(f"[red]❌ Error loading metadata for tool '{tool_id}': {e}[/red]")
-        return
-    
-    # Prepare arguments with parameter mapping
-    kwargs = {}
-    
-    # Use parameter mapping to normalize inputs
-    if host:
-        kwargs['host'] = host
-    if ip:
-        kwargs['ip'] = ip
-    if url:
-        kwargs['url'] = url
-    if domain:
-        kwargs['domain'] = domain
-    if port:
-        kwargs['port'] = port
-    if email:
-        kwargs['email'] = email
-    if subject:
-        kwargs['subject'] = subject
-    if target:
-        kwargs['target'] = target
-    if type:
-        kwargs['type'] = type
-    if duration:
-        kwargs['duration'] = duration
-    if threads is not None:
-        kwargs['threads'] = threads
-    if preset:
-        kwargs['preset'] = preset
-    if framework:
-        kwargs['framework'] = framework
-    if alias:
-        kwargs['alias'] = alias
-    if fake_domain:
-        kwargs['fake_domain'] = fake_domain
-    if method:
-        kwargs['method'] = method
-    if base_url:
-        kwargs['base_url'] = base_url
-    if generate_qr:
-        kwargs['generate_qr'] = generate_qr
-    if tracking:
-        kwargs['tracking'] = tracking.lower() == 'true'
-    if test_payloads:
-        kwargs['test_payloads'] = test_payloads
-    if authorized:
-        kwargs['authorized'] = authorized
-    if query:
-        kwargs['query'] = query
-    if engine:
-        kwargs['engine'] = engine
-    if template:
-        kwargs['template'] = template
-    if text:
-        kwargs['text'] = text
-    if file_path:
-        kwargs['file_path'] = file_path
-    if algorithm:
-        kwargs['algorithm'] = algorithm
-    if serve:
-        kwargs['serve'] = serve
-    
-    # Normalize parameters using parameter mapper
-    normalized_kwargs = ParameterMapper.normalize_params(kwargs)
-    
-    # If no arguments provided and not interactive, show hint
-    if not any([host, ip, url, domain, port, email, subject, target, type, duration, threads, framework, alias, fake_domain, method, base_url, generate_qr, tracking, test_payloads, query, engine, template, text, file_path, algorithm, serve]):
-        if interactive:
-            console.print(f"[cyan]💡 Interactive mode enabled - please provide parameters below[/cyan]\n")
-        else:
-            console.print(f"[cyan]💡 Tip: Provide parameters to run this tool, or use --interactive mode[/cyan]\n")
-            return
-    
-    console.print(f"[bold cyan]🚀 Running: {tool_id}[/bold cyan]\n")
-    
-    # Initialize session
-    session = SessionManager()
-    if not session.check_quota():
-        console.print("[red]❌ Session quota reached (10 minutes max). Please restart.[/red]")
-        return
-
-    try:
-        # Apply safety limits
-        normalized_kwargs = SecurityGuard.enforce_limits(tool_id, normalized_kwargs)
-        
-        # Run tool with normalized parameters
-        result = tool.run(**normalized_kwargs)
-        
+        result = tool.run(**params)
         if result:
-            console.print(f"\n[bold green]✓ Execution completed successfully[/bold green]")
-            console.print(f"\n[bold cyan]📊 Results:[/bold cyan]")
-            
-            # Pretty print results
             console.print_json(data=result)
-            
-            # Send to web dashboard if available
-            if send_to_web_dashboard(tool_id, result):
-                console.print(f"\n[dim green]ℹ Results also delivered to web dashboard[/dim green]")
-            
-            # Export if output specified
+            send_to_web_dashboard(tool_id, result)
             if output:
-                tool.export_json(output)
-                console.print(f"\n[green]✓[/green] Results exported to [bold]{output}[/bold]")
-        else:
-            console.print(f"\n[red]❌ Tool execution failed[/red]")
-            if tool.errors:
-                console.print(f"\n[bold red]Errors:[/bold red]")
-                for error in tool.errors:
-                    console.print(f"  • {error}")
-            if tool.warnings:
-                console.print(f"\n[bold yellow]Warnings:[/bold yellow]")
-                for warning in tool.warnings:
-                    console.print(f"  • {warning}")
-    
+                if fmt == 'txt':
+                    tool.export_txt(output)
+                else:
+                    tool.export_json(output)
+                console.print(f"[green]✓ Results saved to {output}[/green]")
     except Exception as e:
         console.print(f"[red]❌ Error: {e}[/red]")
-        logger.exception("Tool execution error")
-
-
-@cli.command()
-@click.option('--port', type=int, default=5000, help='Server port')
-def server(port):
-    """Start HTTP API server (requires FastAPI)"""
-    try:
-        from aleopantest.api.server import create_app
-        app = create_app()
-        
-        console.print(f"\n[bold green]✓ Starting Aleopantest API Server[/bold green]")
-        console.print(f"[cyan]http://localhost:{port}[/cyan]\n")
-        
-        import uvicorn
-        uvicorn.run(app, host="0.0.0.0", port=port)
-    except ImportError:
-        console.print("[red]FastAPI and Uvicorn required. Install with:[/red]")
-        console.print("[yellow]pip install fastapi uvicorn[/yellow]")
-
-
-@cli.command()
-@click.argument('tool_id')
-def help_tool(tool_id):
-    """Get detailed help for a specific tool
-    
-Example: aleopantest help-tool dns
-"""
-    
-    if tool_id not in TOOLS_REGISTRY:
-        console.print(f"[red]Tool '{tool_id}' not found[/red]")
-        return
-    
-    try:
-        tool_class = TOOLS_REGISTRY[tool_id]
-        tool = tool_class()
-        
-        name = get_safe_attr(tool, "metadata.name", tool_id)
-        version = get_safe_attr(tool, "metadata.version", "1.0.0")
-        author = get_safe_attr(tool, "metadata.author", "Unknown")
-        description = get_safe_attr(tool, "metadata.description", "No description available")
-        usage = get_safe_attr(tool, "metadata.usage", "No usage information")
-        category = get_safe_attr(tool, "metadata.category.value", "Unknown")
-        tags = get_safe_attr(tool, "metadata.tags", [])
-        requirements = get_safe_attr(tool, "metadata.requirements", [])
-        
-        console.print(Panel(
-            f"[bold]{name}[/bold]\nv{version} by {author}",
-            title="Tool Information"
-        ))
-        
-        console.print(f"\n[bold cyan]Description:[/bold cyan]\n{description}\n")
-        console.print(f"[bold cyan]Usage:[/bold cyan]\n{usage}\n")
-        console.print(f"[bold cyan]Category:[/bold cyan] {category}\n")
-        console.print(f"[bold cyan]Tags:[/bold cyan] {', '.join(tags) if tags else 'None'}\n")
-        console.print(f"[bold cyan]Requirements:[/bold cyan] {', '.join(requirements) if requirements else 'None'}")
-    except Exception as e:
-        console.print(f"[red]Error retrieving help for {tool_id}: {str(e)}[/red]")
-        logger.error(f"Help error for {tool_id}: {str(e)}")
-
-
-@cli.command()
-@click.argument('category', default='all')
-def list_by_category(category):
-    """List tools by category"""
-    print_banner()
-    
-    if category.lower() == 'all':
-        print_tools_table()
-    elif category.title() in TOOLS_BY_CATEGORY:
-        table = Table(title=f"{category.title()} Tools", show_header=True, header_style="bold magenta")
-        table.add_column("ID", style="cyan")
-        table.add_column("Description")
-        
-        for tool_id in TOOLS_BY_CATEGORY[category.title()]:
-            try:
-                instance = TOOLS_REGISTRY[tool_id]()
-                description = get_safe_attr(instance, "metadata.description", "No description")
-                desc = description[:50] + "..." if len(description) > 50 else description
-                table.add_row(tool_id, desc)
-            except Exception as e:
-                logger.error(f"Error loading tool {tool_id} in list_by_category: {str(e)}")
-                table.add_row(tool_id, "[red]Error loading tool[/red]")
-        
-        console.print(table)
-    else:
-        console.print(f"[red]Category '{category}' not found[/red]")
-        console.print(f"\n[yellow]Available categories:[/yellow]")
-        for cat in sorted(TOOLS_BY_CATEGORY.keys()):
-            console.print(f"  • {cat}")
-
-
-@cli.command()
-def config_show():
-    """Show current configuration"""
-    console.print(Panel("Current Configuration", style="bold magenta"))
-    
-    from rich.syntax import Syntax
-    import json
-    
-    config_json = json.dumps(config.to_dict(), indent=2)
-    syntax = Syntax(config_json, "json", theme="monokai", line_numbers=True)
-    console.print(syntax)
-
-
-def main():
-    """Main entry point"""
-    if len(sys.argv) == 1:
-        print_banner()
-        console.print("\n[bold cyan]Quick Start:[/bold cyan]")
-        console.print("  aleopantest list-tools       List all tools")
-        console.print("  aleopantest info              Show statistics")
-        console.print("  aleopantest run dns --domain example.com")
-        console.print("  aleopantest --help            Show all commands\n")
-    
-    try:
-        # Ensure logs directory exists
-        Path('logs').mkdir(exist_ok=True)
-        Path('output').mkdir(exist_ok=True)
-        
-        cli()
-    except KeyboardInterrupt:
-        console.print("\n[yellow]⚠️  Operation interrupted by user[/yellow]")
-        sys.exit(0)
-    except Exception as e:
-        console.print(f"[red]❌ Fatal error: {e}[/red]")
-        logger.exception("Fatal error in CLI")
-        sys.exit(1)
-
-
-if __name__ == '__main__':
-    main()
+        if verbose:
+            import traceback
+            console.print(traceback.format_exc())
