@@ -37,23 +37,17 @@ from aleopantest.modules.osint import (
 )
 from aleopantest.modules.web import AdvancedDorking
 from aleopantest.modules.utilities import (
-    PasswordGenerator, HashTools, Base64Tool, URLEncoder, URLMasker,
-    URLShortener, HTMLTool, JSONFormatter, JWTDecoder, TextObfuscator,
-    IPConverter, TimestampConvert, ColorConverter, UnitConverter
-)
+    PasswordGenerator, HashTools, Base64Tool, URLEncoder, 
+    URLShortener,  JSONFormatter, JWTDecoder)
 from aleopantest.modules.phishing import (
-    PhishingLocator, WebPhishing, EmailPhishing, URLMaskingTool, PhishingFramework
-)
+    PhishingLocator, WebPhishing, EmailPhishing)
 from aleopantest.modules.security import (
     AntiDDoS, WAFDetector, VulnDB, FirewallBypass, IDSEvasionHelper
 )
 from aleopantest.modules.clickjacking import (
     ClickjackingChecker, ClickjackingMaker, AntiClickjackingGenerator
 )
-from aleopantest.modules.crypto import (
-    HashCracker, HashGenerator, VigenereCipher, XORCipher,
-    RSAGenerator, Steganography, FileEncryptor
-)
+
 from aleopantest.modules.reporting import (
     PDFReportGenerator, HTMLReportGenerator
 )
@@ -70,7 +64,7 @@ from aleopantest.modules.mobile import (
     APKAnalyzer, IOSAppAnalyzer
 )
 from aleopantest.modules.cloud import (
-    AWSEnum, AzureAudit
+     AzureAudit
 )
 from aleopantest.modules.iot import (
     MQTTExplorer, FirmwareScanner
@@ -242,21 +236,12 @@ TOOLS_REGISTRY = {
     'hash-tools': HashTools,
     'base64': Base64Tool,
     'url-encode': URLEncoder,
-    'url-mask': URLMasker,
     'url-shorten': URLShortener,
-    'html-tool': HTMLTool,
     'json-format': JSONFormatter,
     'jwt-decoder': JWTDecoder,
-    'text-obfuscate': TextObfuscator,
-    'ip-convert': IPConverter,
-    'timestamp-convert': TimestampConvert,
-    'color-convert': ColorConverter,
-    'unit-convert': UnitConverter,
     'phishing-locator': PhishingLocator,
     'web-phishing': WebPhishing,
     'email-phishing': EmailPhishing,
-    'url-masking': URLMaskingTool,
-    'phishing-framework': PhishingFramework,
     'anti-ddos': AntiDDoS,
     'waf-detect': WAFDetector,
     'vuln-db': VulnDB,
@@ -265,13 +250,6 @@ TOOLS_REGISTRY = {
     'clickjacking-check': ClickjackingChecker,
     'clickjacking-make': ClickjackingMaker,
     'anti-clickjacking': AntiClickjackingGenerator,
-    'hash-cracker': HashCracker,
-    'hash-gen': HashGenerator,
-    'vigenere': VigenereCipher,
-    'xor-cipher': XORCipher,
-    'rsa-gen': RSAGenerator,
-    'stegano': Steganography,
-    'file-encrypt': FileEncryptor,
     'beacon-flood': BeaconFlood,
     'deauth': DeauthTool,
     'wifi-scan': WifiScanner,
@@ -290,7 +268,6 @@ TOOLS_REGISTRY = {
     'string-extractor': StringExtractor,
     'apk-analyzer': APKAnalyzer,
     'ios-analyzer': IOSAppAnalyzer,
-    'aws-enum': AWSEnum,
     'azure-audit': AzureAudit,
     'mqtt-explorer': MQTTExplorer,
     'firmware-scan': FirmwareScanner,
