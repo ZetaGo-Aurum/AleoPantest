@@ -4,6 +4,7 @@
 *Advanced Penetration Testing & Cybersecurity Framework*
 
 [![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![NPM Version](https://img.shields.io/npm/v/@zetagoaurum-dev/aleopantest?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/@zetagoaurum-dev/aleopantest)
 [![OS Supported](https://img.shields.io/badge/os-Linux%20%7C%20Windows%20%7C%20macOS%20%7C%20Kali%20%7C%20Termux-brightgreen?style=for-the-badge&logo=linux&logoColor=white)]()
 [![License](https://img.shields.io/badge/License-MIT-orange.svg?style=for-the-badge)](LICENSE)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=for-the-badge)]()
@@ -47,23 +48,34 @@ AleoPantest is designed to be universally compatible. Follow these simple steps 
 - **Python 3.9** or higher installed. (Run `python3 --version` or `python --version` to check)
 - **Git** (To clone the repository)
 
-### 🚀 Universal Install Guide (Linux, Windows, macOS, Kali, WSL)
+### 🚀 Installation (Choose 1 of 3 Methods)
 
-Open your terminal or command prompt and run:
-
+#### Method 1: NPX (Fastest)
+If you have Node.js installed, you can run AleoPantest instantly without manual cloning:
 ```bash
-# 1. Clone the repository
+npx @zetagoaurum-dev/aleopantest --version
+# OR install globally
+npm install -g @zetagoaurum-dev/aleopantest
+```
+
+#### Method 2: Fast Install Scripts (Low-RAM Devices)
+Great for preventing out-of-memory errors during install:
+```bash
 git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
 cd AleoPantest
+# On Linux/macOS/Termux:
+bash install.sh
+# On Windows:
+install.bat
+```
 
-# 2. Install required dependencies
+#### Method 3: Standard Python Install
+```bash
+git clone https://github.com/ZetaGo-Aurum/AleoPantest.git
+cd AleoPantest
 pip install -r requirements.txt
-
-# 3. Register the global CLI commands (`aleopantest` and `alpnts`)
 pip install -e .
-
-# 4. Verify installation
-alpnts --version
+# Note: For full features including Web Dashboard, use: pip install -e .[full]
 ```
 
 ### 📱 Termux Install Guide (Android)

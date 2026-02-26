@@ -1,114 +1,28 @@
-# Aleopantest V4.0.0 - Requirements File
-# by Aleocrophic
-# Environment: Python 3.9+ (Target: Windows, Linux, macOS, WSL, Kali, Termux)
-# Encoding: UTF-8
-# Standards: PEP 440 versioning, UTF-8 documentation
+# Aleopantest V4.0.0 (HYDRA) - Core Requirements
+# Optimized for low-end devices (e.g., Termux/3GB RAM)
+# 
+# For full features including Web Dashboard, Cloud, and Heavy OSINT:
+# run: pip install -e .[full]
 
-# --- Core Framework ---
-click>=8.1.7                # CLI argument parsing and command handling.
-rich>=13.9.0                # Rich terminal output, tables, progress bars, panels.
-pydantic>=2.6.0             # Data validation and settings using Python models.
-python-dotenv>=1.0.1        # Load environment variables from .env files.
-pyyaml>=6.0.2               # YAML configuration file parsing and dumping.
+# --- Core CLI & TUI ---
+click>=8.1.7
+rich>=13.9.0
+textual>=0.89.0
+colorama>=0.4.6
+prompt_toolkit>=3.0.48
 
-# --- CLI & TUI ---
-textual>=0.89.0             # Interactive TUI (Terminal User Interface) framework.
-typer>=0.12.0               # Type-hint based CLI builder.
-colorama>=0.4.6             # Cross-platform terminal color support.
-termcolor>=2.5.0            # Simple text coloring for log output.
-tabulate>=0.9.0             # Format list/dict data into text tables.
-prettytable>=3.11.0         # Alternative ASCII table library.
-prompt_toolkit>=3.0.48      # Advanced interactive prompts with auto-completion.
+# --- Core Utilities & Parsing ---
+pydantic>=2.6.0
+python-dotenv>=1.0.1
+pyyaml>=6.0.2
+tqdm>=4.67.0
+psutil>=6.1.0
 
-# --- Network Tools ---
-scapy>=2.6.0                # Low-level network packet manipulation (Sniff, Inject, Scan).
-python-nmap>=0.7.1          # Python interface for Nmap port scanning.
-paramiko>=3.5.0             # SSHv2 protocol implementation for remote execution.
-pycryptodome>=3.21.0        # Low-level cryptographic operations.
-requests>=2.32.0            # Primary HTTP client library for API/Web interaction.
-urllib3>=2.2.0              # Low-level HTTP client library (requests dependency).
-httpx>=0.28.0               # Modern HTTP client with async/await support.
-aiohttp>=3.11.0             # Async HTTP client/server for high performance.
-websockets>=14.0            # WebSocket protocol implementation.
-dnspython>=2.7.0            # Advanced DNS manipulation and lookup.
-python-whois>=0.9.4         # WHOIS domain registration data retrieval.
+# --- Core Networking & Web Requests ---
+requests>=2.32.0
+urllib3>=2.2.0
+dnspython>=2.7.0
 
-# --- Web Scraping & Crawling ---
-beautifulsoup4>=4.12.3      # HTML/XML document parsing for web data extraction.
-selenium>=4.27.0            # Browser automation for dynamic web app testing.
-lxml>=5.3.0                 # Fast and efficient XML/HTML parser.
-fake-useragent>=2.0.0       # Random User-Agent generation for bot detection bypass.
-
-# --- SQL & Database ---
-sqlalchemy>=2.0.36          # SQL toolkit and ORM for database interaction.
-pymysql>=1.1.1              # Pure Python MySQL database driver.
-psycopg2-binary>=2.9.10     # PostgreSQL database adapter.
-pymongo>=4.10.0             # Python driver for MongoDB interaction.
-
-# --- OSINT & Data Collection ---
-shodan>=1.31.0              # Shodan API integration for internet device search.
-googlesearch-python>=1.2.5  # Automated Google search via script.
-tweepy>=4.14.0              # Twitter/X API access library (OSINT).
-duckduckgo-search>=7.0.0    # DuckDuckGo search without API key.
-geoip2>=4.8.1               # IP geolocation using MaxMind databases.
-maxminddb>=2.6.2            # MaxMind database (.mmdb) reader library.
-censys>=2.2.0               # Censys search engine API integration.
-
-# --- Cryptography & Encoding ---
-cryptography>=44.0.0        # Modern cryptographic library (AES, RSA, ECC, etc.).
-base58>=2.1.1               # Base58 encoding/decoding (common in Blockchain).
-pyaes>=1.6.1                # Pure Python AES implementation.
-pyjwt>=2.10.0               # JSON Web Token handling for API security testing.
-
-# --- Password Tools ---
-passlib>=1.7.4              # Password hashing with multiple algorithm support.
-bcrypt>=4.2.0               # BCrypt hashing algorithm library.
-argon2-cffi>=23.1.0         # Argon2 password hashing (PHC winner).
-
-# --- WiFi & Wireless (Linux/Kali only) ---
-# pywifi>=1.1.1             # WiFi interface manipulation (platform-dependent).
-# NOTE: Install manually on supported platforms: pip install pywifi
-
-# --- API & Web Testing ---
-fastapi>=0.115.0            # Modern high-performance web framework for APIs.
-flask>=3.1.0                # Micro web framework for rapid prototyping.
-uvicorn>=0.34.0             # Fast ASGI server for running FastAPI/Flask.
-python-multipart>=0.0.18    # Multipart form data parsing for FastAPI.
-jinja2>=3.1.5               # Template engine for HTML report generation.
-
-# --- Proxy & Tunneling ---
-pysocks>=1.7.1              # SOCKS proxy client for Python.
-pexpect>=4.9.0              # Terminal/shell interaction automation.
-pyngrok>=7.2.0              # Python wrapper for Ngrok tunneling.
-
-# --- File Analysis ---
-exifread>=3.0.0             # EXIF metadata extraction from image files (OSINT).
-pillow>=11.0.0              # Image processing library (PIL Fork).
-python-magic>=0.4.27        # File type detection based on magic bytes.
-
-# --- QR Code ---
-qrcode>=8.0                 # QR code generation.
-
-# --- Active Directory & LDAP ---
-ldap3>=2.9.1                # LDAP v3 client for Active Directory interaction.
-impacket>=0.12.0            # Network protocol tools (SMB, NTLM, Kerberos, etc.).
-
-# --- Cloud & Container ---
-boto3>=1.35.0               # AWS SDK for cloud security auditing.
-# azure-identity>=1.19.0   # Azure AD authentication (optional, large dep).
-# kubernetes>=31.0.0        # Kubernetes API client (optional).
-docker>=7.1.0               # Docker SDK for container security.
-
-# --- Reporting & Export ---
-reportlab>=4.2.0            # PDF generation library.
-openpyxl>=3.1.5             # Excel file generation and manipulation.
-markdown>=3.7               # Markdown to HTML conversion for reports.
-
-# --- Code Analysis ---
-bandit>=1.8.0               # Python code security linter.
-semgrep>=1.96.0             # Fast static analysis for code security.
-
-# --- Misc ---
-tqdm>=4.67.0                # Progress bar for long-running operations.
-psutil>=6.1.0               # System and process utilities.
-netifaces>=0.11.0           # Network interface information.
+# --- Basic Data Handling ---
+tabulate>=0.9.0
+beautifulsoup4>=4.12.3
