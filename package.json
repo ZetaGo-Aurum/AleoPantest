@@ -1,6 +1,6 @@
 {
   "name": "@zetagoaurum-dev/aleopantest",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "AleoPantest - Advanced Penetration Testing Framework (548+ Tools). NPX/NPM bootstrap that installs the Python package into an isolated virtual environment.",
   "keywords": [
     "pentest",

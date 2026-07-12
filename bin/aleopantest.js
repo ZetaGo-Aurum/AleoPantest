@@ -106,6 +106,94 @@ function setupVenv(python, venv, pkgSource) {
   log(`[+] AleoPantest installed successfully inside the virtual environment.`, "green");
 }
 
+/**
+ * Make `alpnts` and `aleopantest` available as standalone commands by symlinking
+ * the venv executables into a directory that is (or will be) on the user's PATH.
+ * This is what lets `alpnts --help` work after `npx @zetagoaurum-dev/aleopantest`.
+ */
+function createCommandSymlinks(binDir) {
+  const targets = ["alpnts", "aleopantest"];
+  const pathDirs = (process.env.PATH || "")
+    .split(path.delimiter)
+    .filter((d) => d && fs.existsSync(d));
+
+  // Prefer an existing, writable directory already on PATH.
+  const candidates = [
+    path.join(os.homedir(), ".local", "bin"),
+    path.join(os.homedir(), "bin"),
+    ...pathDirs,
+  ];
+
+  let chosen = null;
+  for (const d of candidates) {
+    try {
+      if (fs.existsSync(d) && fs.accessSync(d, fs.constants.W_OK)) {
+        chosen = d;
+        break;
+      }
+    } catch (e) {
+      /* not writable, try next */
+    }
+  }
+
+  // Fall back to creating ~/.local/bin.
+  if (!chosen) {
+    chosen = path.join(os.homedir(), ".local", "bin");
+    fs.mkdirSync(chosen, { recursive: true });
+  }
+
+  const linked = [];
+  for (const t of targets) {
+    const src = getExe(t, binDir);
+    if (!fs.existsSync(src)) continue;
+    const link = path.join(chosen, t);
+    try {
+      if (fs.existsSync(link) || isSymlink(link)) fs.unlinkSync(link);
+      fs.symlinkSync(src, link);
+      linked.push(t);
+    } catch (e) {
+      // Could be a permissions issue on a system dir - skip silently.
+    }
+  }
+
+  if (linked.length > 0) {
+    log(`[+] Linked command(s) ${linked.join(", ")} -> ${chosen}`, "green");
+    if (!pathDirs.includes(chosen)) {
+      log(
+        `    Add to PATH once: export PATH="${chosen}:$PATH"  (and append it to ~/.bashrc)`,
+        "yellow",
+      );
+    } else {
+      log(`    You can now run '${linked[0]} --help' from anywhere.`, "cyan");
+    }
+  } else {
+    log(
+      `    Could not create a PATH symlink automatically. Run the venv binary directly:`,
+      "yellow",
+    );
+    log(`    "${getExe("alpnts", binDir)}" --help`, "yellow");
+  }
+}
+
+function isSymlink(p) {
+  try {
+    return fs.lstatSync(p).isSymbolicLink();
+  } catch (e) {
+    return false;
+  }
+}
+
+// Bump this whenever a new npm release should force a Python package upgrade.
+const BOOTSTRAP_VERSION = "4.0.2";
+
+function readMarker(p) {
+  try {
+    return fs.readFileSync(p, "utf8").trim();
+  } catch (e) {
+    return "";
+  }
+}
+
 function main() {
   log("[+] AleoPantest NPX/NPM Bootstrap Toolkit");
 
@@ -120,14 +208,27 @@ function main() {
   const venv = getVenvDir();
   const binDir = getBinDir(venv);
   const alpnts = getExe("alpnts", binDir);
+  const marker = path.join(venv, ".aleopantest_bootstrap");
 
-  if (venvUsable(venv)) {
+  // Install (or upgrade) whenever the venv is missing or older than this bootstrap.
+  if (venvUsable(venv) && readMarker(marker) === BOOTSTRAP_VERSION) {
     log("[+] AleoPantest is already installed (venv ready).", "green");
   } else {
+    if (venvUsable(venv)) {
+      log(`[*] A newer AleoPantest is available - upgrading virtual environment...`, "yellow");
+    }
     // The npm package may ship the Python sources alongside this script.
     const pkgRoot = path.resolve(__dirname, "..");
     setupVenv(python, venv, pkgRoot);
+    try {
+      fs.writeFileSync(marker, BOOTSTRAP_VERSION);
+    } catch (e) {
+      /* best effort */
+    }
   }
+
+  // Expose alpnts/aleopantest on PATH so the command works standalone.
+  createCommandSymlinks(binDir);
 
   const args = process.argv.slice(2);
   if (args.length === 0) {
