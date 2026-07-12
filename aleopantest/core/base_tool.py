@@ -10,10 +10,48 @@ import platform
 import os
 import time
 import datetime
+import inspect
 from pathlib import Path
 
 from ..core.logger import logger
 from ..core.platform_detector import EnvironmentAdapter
+
+# Common parameter-name aliases used across tools. When a tool's run/validate_input
+# signature requires a positional argument that was not explicitly provided, we try
+# these aliases (then fall back to the primary target) so tools never crash with a
+# TypeError and "just work" regardless of the parameter name used by the framework/UI.
+_COMMON_ALIASES = {
+    "network": ["network", "range", "target", "host", "ip"],
+    "range": ["range", "network", "target", "host", "ip"],
+    "host": ["host", "target", "ip", "url", "domain"],
+    "url": ["url", "target", "domain", "host"],
+    "domain": ["domain", "target", "host", "url"],
+    "ip": ["ip", "target", "host"],
+    "target": ["target", "host", "domain", "url", "ip"],
+    "file": ["file", "path", "input", "target"],
+    "path": ["path", "file", "target"],
+    "query": ["query", "q", "target", "domain"],
+    "q": ["q", "query", "target"],
+    "text": ["text", "input", "data", "target"],
+    "input": ["input", "text", "target"],
+    "data": ["data", "input", "text", "target"],
+    "tenant_id": ["tenant_id", "tenant", "target", "id"],
+    "module": ["module", "target"],
+    "rhosts": ["rhosts", "target", "host"],
+    "payload": ["payload", "target"],
+    "mac": ["mac", "target"],
+    "username": ["username", "user", "target"],
+    "user": ["user", "username", "target"],
+    "password": ["password", "pass", "target"],
+    "pass": ["pass", "password"],
+    "token": ["token", "target"],
+    "email": ["email", "target", "domain"],
+    "org": ["org", "organization", "target"],
+    "number": ["number", "target", "phone"],
+    "phone": ["phone", "number", "target"],
+    "profile": ["profile", "target"],
+    "name": ["name", "target"],
+}
 
 
 class ToolCategory(Enum):
@@ -402,6 +440,37 @@ class BaseTool(ABC):
                 self.add_warning(f"Parameter '{name}' conversion failed for type '{field_type}': {e}. Using raw value.")
         
         return processed
+
+    def resolve_call_kwargs(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Build a kwargs dict for calling self.run(...) / self.validate_input(...) that
+        guarantees every required positional parameter is satisfied. Missing required
+        parameters are filled from common aliases or the primary target value, so a
+        tool never raises a TypeError and instead reports a clean validation error.
+        """
+        sig = inspect.signature(self.run)
+        call = dict(params) if params else {}
+        primary = (
+            call.get("target")
+            or call.get("host")
+            or call.get("domain")
+            or call.get("url")
+            or call.get("ip")
+        )
+        for name, param in sig.parameters.items():
+            if name == "self":
+                continue
+            if param.kind in (param.POSITIONAL_ONLY, param.POSITIONAL_OR_KEYWORD):
+                if param.default is param.empty and name not in call:
+                    value = None
+                    for alias in _COMMON_ALIASES.get(name, [name]):
+                        if alias in call and call[alias] is not None:
+                            value = call[alias]
+                            break
+                    if value is None and primary is not None:
+                        value = primary
+                    call[name] = value
+        return call
 
     @staticmethod
     def get_common_form_schema() -> List[Dict[str, Any]]:

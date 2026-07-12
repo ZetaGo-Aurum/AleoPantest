@@ -10,6 +10,7 @@ import time
 import threading
 from datetime import timedelta
 from typing import Dict, Any, List, Optional
+import re
 
 from .core.platform_detector import PlatformDetector
 from .core.session import SessionManager
@@ -17,6 +18,22 @@ from .core.automation import AutomationEngine, ContextDetector
 from .core.base_tool import BaseTool
 from .core.tool_helper import get_safe_attr
 from .cli import TOOLS_BY_CATEGORY, TOOLS_REGISTRY
+
+
+def _safe_id(value: str) -> str:
+    """Sanitize a string into a valid Textual/CSS identifier.
+
+    Identifiers must contain only letters, numbers, underscores or hyphens and
+    must not begin with a number.
+    """
+    cleaned = re.sub(r"[^a-zA-Z0-9_-]", "-", str(value).lower())
+    cleaned = re.sub(r"-+", "-", cleaned).strip("-")
+    if not cleaned:
+        cleaned = "id"
+    if cleaned[0].isdigit():
+        cleaned = "_" + cleaned
+    return cleaned
+
 
 class ToolExecutionScreen(Screen):
     """Screen for tool execution and results"""
@@ -150,16 +167,27 @@ class Dashboard(Screen):
     """Main Dashboard with animations and navigation"""
     
     def compose(self) -> ComposeResult:
+        self._cat_ids: Dict[str, str] = {}
+        self._tool_ids: Dict[str, str] = {}
         yield Header()
         with Horizontal():
             with Vertical(id="sidebar"):
                 yield Label("[bold]Categories[/bold]", id="sidebar-title")
                 with ListView(id="category-list"):
+                    seen: set = set()
                     for category in TOOLS_BY_CATEGORY.keys():
-                        yield ListItem(Label(category), id=f"cat-{category.lower()}")
+                        sid = _safe_id(category)
+                        base = sid
+                        i = 2
+                        while sid in seen:
+                            sid = f"{base}-{i}"
+                            i += 1
+                        seen.add(sid)
+                        self._cat_ids[sid] = category
+                        yield ListItem(Label(category), id=f"cat-{sid}")
             
             with Vertical(id="main-content"):
-                yield Label("[bold cyan]Welcome to Aleopantest V3.3.5[/bold cyan]", id="welcome-msg")
+                yield Label("[bold cyan]Welcome to Aleopantest V4.0.4[/bold cyan]", id="welcome-msg")
                 yield Label("[#666666]by Aleocrophic[/#666666]", id="welcome-subtitle")
                 yield Label(f"Platform: [green]{PlatformDetector.get_platform_name()}[/green]", id="platform-info")
                 yield Label("Select a category to view tools", id="instruction")
@@ -194,7 +222,7 @@ class Dashboard(Screen):
                 return
                 
             cat_id_raw = event.item.id.replace("cat-", "")
-            cat_id = next((k for k in TOOLS_BY_CATEGORY.keys() if k.lower() == cat_id_raw), cat_id_raw)
+            cat_id = self._cat_ids.get(cat_id_raw, cat_id_raw)
             
             tools = TOOLS_BY_CATEGORY.get(cat_id, [])
             
@@ -202,15 +230,24 @@ class Dashboard(Screen):
             tool_list.clear()
             
             new_items = []
+            seen_tools: set = set()
             for tool_id in tools:
                 if tool_id in TOOLS_REGISTRY:
                     try:
                         instance = TOOLS_REGISTRY[tool_id]()
                         name = instance.metadata.name
-                        new_items.append(ListItem(Label(f"{name} ({tool_id})"), id=f"tool-{tool_id}"))
+                        sid = _safe_id(tool_id)
+                        base = sid
+                        i = 2
+                        while sid in seen_tools:
+                            sid = f"{base}-{i}"
+                            i += 1
+                        seen_tools.add(sid)
+                        self._tool_ids[sid] = tool_id
+                        new_items.append(ListItem(Label(f"{name} ({tool_id})"), id=f"tool-{sid}"))
                     except Exception as e:
                         # Log or handle broken tool initialization
-                        new_items.append(ListItem(Label(f"Error: {tool_id}"), id=f"tool-{tool_id}"))
+                        new_items.append(ListItem(Label(f"Error: {tool_id}"), id=f"tool-{_safe_id(tool_id)}"))
             
             if new_items:
                 tool_list.mount(*new_items)
@@ -223,7 +260,8 @@ class Dashboard(Screen):
 
     @on(ListView.Selected, "#tool-list")
     def select_tool(self, event: ListView.Selected) -> None:
-        tool_id = event.item.id.replace("tool-", "")
+        tool_id_raw = event.item.id.replace("tool-", "")
+        tool_id = self._tool_ids.get(tool_id_raw, tool_id_raw)
         self.app.push_screen(ToolExecutionScreen(tool_id))
 
 class AleopantestTUI(App):

@@ -353,6 +353,9 @@ async def run_tool(request: ToolRunRequest):
                 
                 # 2. Map 'target' to common parameter names if needed
                 if request.target:
+                    # Always seed 'target' so the universal alias resolver can map it
+                    # to whatever required parameter a tool expects (network/host/etc.)
+                    final_params.setdefault('target', request.target)
                     for p_name in ['url', 'host', 'domain', 'ip', 'target_url', 'target']:
                         if p_name in (tool_instance.metadata.parameters or {}) and p_name not in final_params:
                             final_params[p_name] = request.target
@@ -363,9 +366,9 @@ async def run_tool(request: ToolRunRequest):
                 if hasattr(tool_instance, 'validate_input'):
                     # Check if validation passes
                     try:
-                        # Some tools use positional args for validation, some use kwargs
-                        # We try to be flexible here
-                        is_valid = tool_instance.validate_input(**final_params)
+                        # resolve_call_kwargs fills required positional args from
+                        # common aliases so tools never raise a TypeError here.
+                        is_valid = tool_instance.validate_input(**tool_instance.resolve_call_kwargs(final_params))
                         if not is_valid:
                             validation_errors = tool_instance.errors or ["Input validation failed"]
                     except Exception as ve:
@@ -377,7 +380,7 @@ async def run_tool(request: ToolRunRequest):
                     tool_instance.errors = validation_errors
                     break
 
-                result = tool_instance.run(**final_params)
+                result = tool_instance.run(**tool_instance.resolve_call_kwargs(final_params))
                 
                 # Use standard BaseTool state tracking
                 if tool_instance.status == "failed" or tool_instance.errors:

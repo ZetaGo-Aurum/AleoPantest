@@ -819,7 +819,7 @@ def print_banner():
     ║       ██║   ███████╗███████║   ██║                               ║
     ║       ╚═╝   ╚══════╝╚══════╝   ╚═╝                               ║
     ║                                                                  ║
-    ║  [bold white]🛡️  Aleopantest V4.0.0 PRO[/bold white] [dim]- Codename: HYDRA[/dim]              ║
+    ║  [bold white]🛡️  Aleopantest V4.0.4 PRO[/bold white] [dim]- Codename: HYDRA[/dim]              ║
     ║  [bold yellow]⚡ {total}+ Advanced Cybersecurity Tools[/bold yellow]                       ║
     ║  [dim]{platform_emoji} Platform: {platform_info}[/dim]                             ║
     ║  [dim]👤 by Aleocrophic Team[/dim]                                      ║
@@ -851,7 +851,7 @@ def print_tools_table():
 @click.pass_context
 def cli(ctx, version, show_license, tos):
     """
-    🛡️  Aleopantest V4.0.0 PRO - by Aleocrophic
+    🛡️  Aleopantest V4.0.4 PRO - by Aleocrophic
 
     Advanced Cybersecurity Tool Suite with 548+ tools.
 
@@ -991,7 +991,7 @@ def run(tool_id, target, host, domain, url, ip, port, output, fmt, threads, time
     console.print(f"\n[bold cyan]🚀 Running {tool.metadata.name}...[/bold cyan]")
 
     try:
-        result = tool.run(**params)
+        result = tool.run(**tool.resolve_call_kwargs(params))
         if result:
             console.print_json(data=result)
             send_to_web_dashboard(tool_id, result)
