@@ -1,0 +1,46 @@
+{
+  "name": "@zetagoaurum-dev/aleopantest",
+  "version": "4.0.2",
+  "description": "AleoPantest - Advanced Penetration Testing Framework (548+ Tools). NPX/NPM bootstrap that installs the Python package into an isolated virtual environment.",
+  "keywords": [
+    "pentest",
+    "security",
+    "recon",
+    "scan",
+    "vulnerability",
+    "osint",
+    "cli",
+    "tui",
+    "automation"
+  ],
+  "homepage": "https://github.com/ZetaGo-Aurum/AleoPantest",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZetaGo-Aurum/AleoPantest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZetaGo-Aurum/AleoPantest/issues"
+  },
+  "license": "MIT",
+  "bin": {
+    "aleopantest": "bin/aleopantest.js",
+    "alpnts": "bin/aleopantest.js"
+  },
+  "files": [
+    "bin/aleopantest.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "preferGlobal": true,
+  "scripts": {
+    "test": "echo \"AleoPantest npm wrapper - no node tests\" && exit 0"
+  }
+}

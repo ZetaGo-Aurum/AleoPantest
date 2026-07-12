@@ -37,10 +37,15 @@ except ImportError:
     class HTTPException(Exception): pass
     class StaticFiles: pass
     class FileResponse: pass
+
+    class _NoArg:
+        def __call__(self, *a, **k):
+            return None
+
+    File = _NoArg()
     class JSONResponse: pass
     class Response: pass
     class UploadFile: pass
-    class File: pass
     class Form: pass
     
     class DummyApp:

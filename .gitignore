@@ -135,6 +135,7 @@ output/
 logs/
 *.json
 !config/*.json
+!package.json
 config/settings.yml
 .cache/
 

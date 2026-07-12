@@ -24,7 +24,7 @@ class UploadVuln(BaseTool):
             requirements=[],
             tags=['web', 'upload', 'file'],
             risk_level="HIGH",
-            form_schema=[{"name": "target", "type": "text", "label": "Target", "placeholder": "Enter target", "required": true}],
+            form_schema=[{"name": "target", "type": "text", "label": "Target", "placeholder": "Enter target", "required": True}],
             platform_support=["windows", "linux", "macos", "wsl", "kali", "termux"],
         )
         super().__init__(metadata)

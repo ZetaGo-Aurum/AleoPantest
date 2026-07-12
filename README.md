@@ -51,12 +51,31 @@ AleoPantest is designed to be universally compatible. Follow these simple steps 
 ### 🚀 Installation (Choose 1 of 3 Methods)
 
 #### Method 1: NPX (Fastest)
-If you have Node.js installed, you can run AleoPantest instantly without manual cloning:
+If you have Node.js installed, you can run AleoPantest instantly without manual cloning.
+The bootstrap automatically creates an isolated Python virtual environment in
+`~/.aleopantest/venv` (or `$ALEOPANTEST_HOME/venv`), so it works even on systems
+with PEP 668 "externally-managed-environment" restrictions (Debian/Ubuntu) and
+never touches your system Python:
 ```bash
 npx @zetagoaurum-dev/aleopantest --version
 # OR install globally
 npm install -g @zetagoaurum-dev/aleopantest
 ```
+
+> **npm global install permission (EACCES):** if `npm install -g` fails with
+> `EACCES: permission denied, mkdir '/usr/lib/node_modules/...'`, either run it
+> with `sudo` (recommended) or point npm at a user-owned prefix first:
+> ```bash
+> # Option A (recommended)
+> sudo npm install -g @zetagoaurum-dev/aleopantest
+> # Option B (no sudo) - one-time setup
+> npm config set prefix ~/.npm-global
+> echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.bashrc
+> source ~/.bashrc
+> npm install -g @zetagoaurum-dev/aleopantest
+> ```
+> The Python package itself is always installed into your user venv, so no root
+> is needed for that part.
 
 #### Method 2: Fast Install Scripts (Low-RAM Devices)
 Great for preventing out-of-memory errors during install:

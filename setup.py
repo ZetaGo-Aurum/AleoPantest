@@ -46,6 +46,11 @@ setup(
         'tqdm>=4.67.0',
         'psutil>=6.1.0',
         'prompt_toolkit>=3.0.48',
+        'fastapi>=0.115.0',
+        'uvicorn>=0.34.0',
+        'python-multipart>=0.0.18',
+        'jinja2>=3.1.5',
+        'httpx>=0.28.0',
     ],
     extras_require={
         'web': [

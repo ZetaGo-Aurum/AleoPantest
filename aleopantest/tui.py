@@ -11,7 +11,7 @@ import threading
 from datetime import timedelta
 from typing import Dict, Any, List, Optional
 
-from .core.platform import PlatformDetector
+from .core.platform_detector import PlatformDetector
 from .core.session import SessionManager
 from .core.automation import AutomationEngine, ContextDetector
 from .core.base_tool import BaseTool
