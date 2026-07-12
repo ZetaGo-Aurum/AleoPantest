@@ -783,7 +783,12 @@ TOOLS_BY_CATEGORY = {
 
 def get_license_text():
     """Read LICENSE file content"""
-    for p in [Path(__file__).parent.parent / "LICENSE", Path.cwd() / "LICENSE"]:
+    candidates = [
+        Path(__file__).parent / "LICENSE",                 # packaged alongside the module
+        Path(__file__).parent.parent / "LICENSE",          # repo root (editable/dev install)
+        Path.cwd() / "LICENSE",
+    ]
+    for p in candidates:
         if p.exists():
             return p.read_text(encoding="utf-8", errors="ignore")
     return "LICENSE file not found."
@@ -791,7 +796,12 @@ def get_license_text():
 
 def get_tos_text():
     """Read TERMS_OF_SERVICE.md content"""
-    for p in [Path(__file__).parent.parent / "TERMS_OF_SERVICE.md", Path.cwd() / "TERMS_OF_SERVICE.md"]:
+    candidates = [
+        Path(__file__).parent / "TERMS_OF_SERVICE.md",     # packaged alongside the module
+        Path(__file__).parent.parent / "TERMS_OF_SERVICE.md",  # repo root (editable/dev install)
+        Path.cwd() / "TERMS_OF_SERVICE.md",
+    ]
+    for p in candidates:
         if p.exists():
             return p.read_text(encoding="utf-8", errors="ignore")
     return "TERMS_OF_SERVICE.md file not found."
@@ -819,7 +829,7 @@ def print_banner():
     ║       ██║   ███████╗███████║   ██║                               ║
     ║       ╚═╝   ╚══════╝╚══════╝   ╚═╝                               ║
     ║                                                                  ║
-    ║  [bold white]🛡️  Aleopantest V4.0.4 PRO[/bold white] [dim]- Codename: HYDRA[/dim]              ║
+    ║  [bold white]🛡️  Aleopantest V4.0.5 PRO[/bold white] [dim]- Codename: HYDRA[/dim]              ║
     ║  [bold yellow]⚡ {total}+ Advanced Cybersecurity Tools[/bold yellow]                       ║
     ║  [dim]{platform_emoji} Platform: {platform_info}[/dim]                             ║
     ║  [dim]👤 by Aleocrophic Team[/dim]                                      ║
@@ -851,7 +861,7 @@ def print_tools_table():
 @click.pass_context
 def cli(ctx, version, show_license, tos):
     """
-    🛡️  Aleopantest V4.0.4 PRO - by Aleocrophic
+    🛡️  Aleopantest V4.0.5 PRO - by Aleocrophic
 
     Advanced Cybersecurity Tool Suite with 548+ tools.
 
@@ -938,6 +948,7 @@ def web(host, port):
 
 @cli.command()
 @click.argument('tool_id')
+@click.argument('target_arg', required=False, metavar='[TARGET]')
 @click.option('--target', '-t', help='Target (URL, IP, domain)')
 @click.option('--host', '-H', help='Host/IP')
 @click.option('--domain', '-d', help='Domain name')
@@ -950,7 +961,7 @@ def web(host, port):
 @click.option('--timeout', type=int, default=30, help='Timeout seconds')
 @click.option('--interactive', '-i', is_flag=True, help='Interactive mode')
 @click.option('--verbose', '-V', is_flag=True, help='Verbose output')
-def run(tool_id, target, host, domain, url, ip, port, output, fmt, threads, timeout, interactive, verbose, **kwargs):
+def run(tool_id, target_arg, target, host, domain, url, ip, port, output, fmt, threads, timeout, interactive, verbose, **kwargs):
     """Run a specific security tool
 
     EXAMPLES:
@@ -978,9 +989,14 @@ def run(tool_id, target, host, domain, url, ip, port, output, fmt, threads, time
     if threads: params['threads'] = threads
     if timeout: params['timeout'] = timeout
 
+    # A bare positional TARGET argument is accepted as a convenience:
+    #   alpnts run vuln-scan https://example.com
+    if target_arg and not params.get('target'):
+        params['target'] = target_arg
+
     # Auto-detect target from various params
     if not params.get('target'):
-        params['target'] = host or domain or url or ip
+        params['target'] = host or domain or url or ip or target_arg
 
     if interactive and not params.get('target'):
         from aleopantest.interactive import prompt_for_parameters
@@ -992,8 +1008,32 @@ def run(tool_id, target, host, domain, url, ip, port, output, fmt, threads, time
 
     try:
         result = tool.run(**tool.resolve_call_kwargs(params))
+
+        status = getattr(tool, "status", "completed")
+        errs = getattr(tool, "errors", []) or []
+        warns = getattr(tool, "warnings", []) or []
+        res_count = len(getattr(tool, "results", []) or [])
+
+        # Header panel summarizing the execution
+        summary = (
+            f"[bold]{tool.metadata.name}[/bold]  [dim]({tool_id})[/dim]\n"
+            f"Status: [{'green' if status != 'failed' else 'red'}]{status.upper()}[/{'green' if status != 'failed' else 'red'}]\n"
+            f"Results: [cyan]{res_count}[/cyan]   Warnings: [yellow]{len(warns)}[/yellow]   Errors: [red]{len(errs)}[/red]"
+        )
+        console.print(Panel(summary, title="📊 Execution Summary", border_style="cyan", expand=False))
+
+        if errs:
+            for e in errs:
+                console.print(f"[red]✗ {e}[/red]")
+        if warns:
+            for w in warns[:5]:
+                console.print(f"[yellow]⚠ {w}[/yellow]")
+
         if result:
-            console.print_json(data=result)
+            if isinstance(result, (dict, list)):
+                console.print_json(data=result)
+            else:
+                console.print(result)
             send_to_web_dashboard(tool_id, result)
             if output:
                 if fmt == 'txt':
@@ -1001,6 +1041,8 @@ def run(tool_id, target, host, domain, url, ip, port, output, fmt, threads, time
                 else:
                     tool.export_json(output)
                 console.print(f"[green]✓ Results saved to {output}[/green]")
+        elif res_count == 0 and not errs:
+            console.print("[dim]Tool completed but returned no structured output.[/dim]")
     except Exception as e:
         console.print(f"[red]❌ Error: {e}[/red]")
         if verbose:

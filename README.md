@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛡️ AleoPantest V4.0.4 PRO (Codename: HYDRA)
+# 🛡️ AleoPantest V4.0.5 PRO (Codename: HYDRA)
 *Advanced Penetration Testing & Cybersecurity Framework*
 
 [![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
@@ -29,7 +29,7 @@
 
 ## ✨ Features
 
- **Aleopantest** (by Aleocrophic) is an advanced, modular penetration testing framework designed for security professionals, system administrators, and ethical hackers. Version 4.0.4 (HYDRA) marks a massive overhaul:
+ **Aleopantest** (by Aleocrophic) is an advanced, modular penetration testing framework designed for security professionals, system administrators, and ethical hackers. Version 4.0.5 (HYDRA) marks a massive overhaul:
 
 - 🚀 **548+ Specialized Tools**: Covering everything from OSINT and Web Exploitation to Cloud Security, Active Directory, and IoT.
 - 🌐 **Global Command Alias**: Call the framework from anywhere using `alpnts` or `aleopantest`.
@@ -115,7 +115,7 @@ alpnts --version
 
 ## 🧩 Tool Categories
 
-AleoPantest V4.0.4 comes equipped with **548** fully functioning tools spanning **31** distinct categories. Use `alpnts list-tools` to see them all.
+AleoPantest V4.0.5 comes equipped with **548** fully functioning tools spanning **31** distinct categories. Use `alpnts list-tools` to see them all.
 
 | Core Security | Advanced Security | Utilities & Compliance |
 |---------------|-------------------|------------------------|

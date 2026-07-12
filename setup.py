@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="aleopantest",
-    version="4.0.4",
+    version="4.0.5",
     author="Aleocrophic Team",
     author_email="deltaastra24@gmail.com",
     description="Advanced Penetration Testing Framework - 548+ Tools, Modern TUI, Cross-Platform",
@@ -16,7 +16,12 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     package_data={
-        'aleopantest': ['web_assets/*', 'web_assets/**/*'],
+        'aleopantest': [
+            'web_assets/*',
+            'web_assets/**/*',
+            'LICENSE',
+            'TERMS_OF_SERVICE.md',
+        ],
     },
     classifiers=[
         "Programming Language :: Python :: 3",

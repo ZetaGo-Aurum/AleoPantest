@@ -184,7 +184,7 @@ function isSymlink(p) {
 }
 
 // Bump this whenever a new npm release should force a Python package upgrade.
-const BOOTSTRAP_VERSION = "4.0.4";
+const BOOTSTRAP_VERSION = "4.0.5";
 
 function readMarker(p) {
   try {

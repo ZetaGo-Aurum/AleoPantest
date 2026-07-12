@@ -122,7 +122,8 @@ class ToolExecutionScreen(Screen):
         # Run tool in background
         def run_tool():
             try:
-                result = self.tool_instance.run(**params)
+                call = self.tool_instance.resolve_call_kwargs(params)
+                result = self.tool_instance.run(**call)
                 self.app.call_from_thread(self.update_results, result)
             except Exception as e:
                 self.app.call_from_thread(self.update_results, {"error": str(e)})
@@ -137,42 +138,58 @@ class ToolExecutionScreen(Screen):
     def update_results(self, result: Any) -> None:
         from rich.markup import escape
         import json
-        
+
         # Re-enable button
         try:
             btn = self.query_one("#launch-btn", Button)
             btn.disabled = False
             btn.label = "Launch Auto"
-        except:
-            pass
-        
-        if result is None:
-            formatted = "No results returned from tool."
-        elif isinstance(result, (dict, list)):
-            try:
-                formatted = json.dumps(result, indent=2)
-            except:
-                formatted = str(result)
-        else:
-            formatted = str(result)
-            
-        # Escape the output to prevent markup parsing errors
-        try:
-            display = self.query_one("#results-display", Static)
-            display.update(f"[bold green]✓ Execution Complete[/bold green]\n\n{escape(formatted)}")
-        except:
+        except Exception:
             pass
 
+        if isinstance(result, dict) and result.get("error"):
+            formatted = f"[bold red]✗ Error[/bold red]\n\n{escape(str(result['error']))}"
+        elif result is None:
+            formatted = "[yellow]No results returned from tool.[/yellow]"
+        elif isinstance(result, (dict, list)):
+            try:
+                formatted = escape(json.dumps(result, indent=2, default=str))
+            except Exception:
+                formatted = escape(str(result))
+        else:
+            formatted = escape(str(result))
+
+        try:
+            display = self.query_one("#results-display", Static)
+            display.update(f"[bold green]✓ Execution Complete[/bold green]\n\n{formatted}")
+        except Exception:
+            pass
+
+# Emoji/icons for categories to give the TUI a modern look.
+_CATEGORY_ICONS = {
+    "Network": "🌐", "Web": "🕸️", "OSINT": "🔍", "Utilities": "🛠️",
+    "Phishing": "🎣", "Security": "🛡️", "Clickjacking": "🖱️", "Crypto": "🔐",
+    "Wireless": "📡", "Database": "🗄️", "Reporting": "📊", "Exploit": "💥",
+    "Forensics": "🔬", "Malware": "🦠", "Mobile Security": "📱", "Cloud Security": "☁️",
+    "IoT Security": "📶", "Post-Exploitation": "🚩", "Social Engineering": "👥",
+    "Active Directory": "🪪", "Api Security": "🔌", "Container": "📦",
+    "Cloud": "☁️", "Web Advanced": "🕸️", "Network Advanced": "🌐",
+    "Wireless Advanced": "📡", "Binary": "⚙️", "Osint": "🔎", "Password": "🔑",
+    "Social": "👥", "Mobile": "📱", "Automation": "🤖", "Misc": "✨",
+}
+
+
 class Dashboard(Screen):
-    """Main Dashboard with animations and navigation"""
+    """Main Dashboard with a modern 3-pane layout and live stats."""
     
     def compose(self) -> ComposeResult:
         self._cat_ids: Dict[str, str] = {}
         self._tool_ids: Dict[str, str] = {}
+        self._tools_by_cat: Dict[str, list] = {}
         yield Header()
         with Horizontal():
             with Vertical(id="sidebar"):
-                yield Label("[bold]Categories[/bold]", id="sidebar-title")
+                yield Label("🛡  CATEGORIES", id="sidebar-title")
                 with ListView(id="category-list"):
                     seen: set = set()
                     for category in TOOLS_BY_CATEGORY.keys():
@@ -184,16 +201,23 @@ class Dashboard(Screen):
                             i += 1
                         seen.add(sid)
                         self._cat_ids[sid] = category
-                        yield ListItem(Label(category), id=f"cat-{sid}")
+                        self._tools_by_cat[sid] = TOOLS_BY_CATEGORY.get(category, [])
+                        icon = _CATEGORY_ICONS.get(category, "•")
+                        yield ListItem(Label(f"{icon}  {category}  [dim]({len(self._tools_by_cat[sid])})[/dim]"), id=f"cat-{sid}")
             
             with Vertical(id="main-content"):
-                yield Label("[bold cyan]Welcome to Aleopantest V4.0.4[/bold cyan]", id="welcome-msg")
-                yield Label("[#666666]by Aleocrophic[/#666666]", id="welcome-subtitle")
-                yield Label(f"Platform: [green]{PlatformDetector.get_platform_name()}[/green]", id="platform-info")
-                yield Label("Select a category to view tools", id="instruction")
+                with Horizontal(id="stat-bar"):
+                    yield Static(f"🧰 [b]{len(TOOLS_REGISTRY)}[/b] Tools", id="stat-tools")
+                    yield Static(f"📂 [b]{len(TOOLS_BY_CATEGORY)}[/b] Categories", id="stat-cats")
+                    yield Static(f"💻 {PlatformDetector.get_platform_name()}", id="stat-platform")
+                yield Label("Select a category to begin →", id="instruction")
                 with ListView(id="tool-list"):
                     yield ListItem(Label("Select a category first..."))
-                    
+            
+            with Vertical(id="detail-panel"):
+                yield Label("🔎 TOOL DETAIL", id="detail-title")
+                yield Static("Hover or select a tool on the left to see its description and risk level here.", id="detail-body")
+        
         yield Static(id="status-bar")
         yield Footer()
 
@@ -209,7 +233,10 @@ class Dashboard(Screen):
             f"Elapsed: {session['elapsed_formatted']} | "
             f"[{color}]Remaining: {session['remaining_formatted']}[/{color}]"
         )
-        self.query_one("#status-bar", Static).update(status_text)
+        try:
+            self.query_one("#status-bar", Static).update(status_text)
+        except Exception:
+            pass
         
         if not session['is_active']:
             self.app.notify("Session quota reached! Please restart.", severity="error")
@@ -217,13 +244,11 @@ class Dashboard(Screen):
     @on(ListView.Selected, "#category-list")
     def change_category(self, event: ListView.Selected) -> None:
         try:
-            # Match category name case-insensitively
             if not event.item or not event.item.id:
                 return
                 
             cat_id_raw = event.item.id.replace("cat-", "")
             cat_id = self._cat_ids.get(cat_id_raw, cat_id_raw)
-            
             tools = TOOLS_BY_CATEGORY.get(cat_id, [])
             
             tool_list = self.query_one("#tool-list", ListView)
@@ -244,9 +269,8 @@ class Dashboard(Screen):
                             i += 1
                         seen_tools.add(sid)
                         self._tool_ids[sid] = tool_id
-                        new_items.append(ListItem(Label(f"{name} ({tool_id})"), id=f"tool-{sid}"))
+                        new_items.append(ListItem(Label(f"{name}  [dim]({tool_id})[/dim]"), id=f"tool-{sid}"))
                     except Exception as e:
-                        # Log or handle broken tool initialization
                         new_items.append(ListItem(Label(f"Error: {tool_id}"), id=f"tool-{_safe_id(tool_id)}"))
             
             if new_items:
@@ -255,6 +279,7 @@ class Dashboard(Screen):
                 tool_list.mount(ListItem(Label("[yellow]No tools found in this category[/yellow]")))
             
             self.query_one("#instruction", Label).update(f"Tools in [cyan]{cat_id}[/cyan]:")
+            self._show_category_detail(cat_id, len(tools))
         except Exception as e:
             self.app.notify(f"Error changing category: {str(e)}", severity="error")
 
@@ -262,45 +287,76 @@ class Dashboard(Screen):
     def select_tool(self, event: ListView.Selected) -> None:
         tool_id_raw = event.item.id.replace("tool-", "")
         tool_id = self._tool_ids.get(tool_id_raw, tool_id_raw)
+        self._show_tool_detail(tool_id)
         self.app.push_screen(ToolExecutionScreen(tool_id))
 
+    def _show_category_detail(self, cat_id: str, count: int) -> None:
+        try:
+            self.query_one("#detail-body", Static).update(
+                f"[bold cyan]{cat_id}[/bold cyan]\n\n"
+                f"Contains [b]{count}[/b] tools.\n\n"
+                f"Select a tool from the middle panel to view its details, then press [b]Enter[/b] to launch it."
+            )
+        except Exception:
+            pass
+
+    def _show_tool_detail(self, tool_id: str) -> None:
+        try:
+            inst = TOOLS_REGISTRY.get(tool_id)
+            if not inst:
+                return
+            instance = inst()
+            name = getattr(getattr(instance, "metadata", None), "name", tool_id)
+            desc = getattr(getattr(instance, "metadata", None), "description", "No description")
+            risk = getattr(getattr(instance, "metadata", None), "risk_level", "LOW")
+            risk_color = {"LOW": "green", "MEDIUM": "yellow", "HIGH": "red", "CRITICAL": "red"}.get(str(risk).upper(), "white")
+            self.query_one("#detail-body", Static).update(
+                f"[bold cyan]{name}[/bold cyan]  [dim]({tool_id})[/dim]\n\n"
+                f"{desc}\n\n"
+                f"Risk: [{risk_color}]{risk}[/{risk_color}]"
+            )
+        except Exception:
+            pass
+
 class AleopantestTUI(App):
-    """Main Textual Application for Aleopantest V3.3.5"""
-    TITLE = "Aleopantest v3.3.5 PRO"
+    """Main Textual Application for Aleopantest"""
+    TITLE = "Aleopantest v4.0.5 PRO"
     SUB_TITLE = "by Aleocrophic - Advanced Cyber Security Tool Suite"
     
     CSS = """
     Screen {
-        background: #0a0a0a;
-        color: #e0e0e0;
+        background: #0b0e14;
+        color: #c8d0da;
     }
 
     Header {
-        background: #1a1a1a;
-        color: #00ffff;
+        background: #11161f;
+        color: #38e1c6;
         text-style: bold;
-        border-bottom: double #00ffff;
+        border-bottom: solid #1f6feb;
+        height: 1;
     }
 
     Footer {
-        background: #1a1a1a;
-        color: #888888;
+        background: #11161f;
+        color: #7d8aa0;
+        border-top: solid #1f6feb;
     }
 
     #sidebar {
-        width: 30;
-        background: #121212;
-        border-right: solid #333;
+        width: 34;
+        background: #0e131c;
+        border-right: solid #1c2530;
         margin: 1 0;
     }
 
     #sidebar-title {
         text-align: center;
         padding: 1;
-        background: #1a1a1a;
-        color: #00ffff;
+        background: #11161f;
+        color: #38e1c6;
         text-style: bold;
-        border-bottom: solid #333;
+        border-bottom: solid #1c2530;
     }
 
     ListView {
@@ -310,17 +366,17 @@ class AleopantestTUI(App):
 
     ListItem {
         padding: 0 1;
-        color: #aaaaaa;
+        color: #9fb0c3;
     }
 
     ListItem:hover {
-        background: #1e1e1e;
-        color: #00ffff;
+        background: #16202e;
+        color: #38e1c6;
     }
 
     ListItem.--highlight {
-        background: #00ffff 20%;
-        color: #00ffff;
+        background: #1f6feb 25%;
+        color: #ffffff;
         text-style: bold;
     }
 
@@ -329,37 +385,58 @@ class AleopantestTUI(App):
         padding: 1 2;
     }
 
-    #welcome-msg {
-        text-style: bold;
-        color: #00ffff;
+    #stat-bar {
+        height: 3;
         margin-bottom: 1;
+    }
+
+    #stat-bar > Static {
+        width: 1fr;
+        background: #11161f;
+        color: #38e1c6;
+        border: solid #1c2530;
+        border-title-align: center;
+        padding: 0 1;
+        text-align: center;
         content-align: center middle;
     }
 
-    #platform-info {
-        background: #1a1a1a;
-        padding: 0 1;
-        border: solid #333;
-        margin-bottom: 1;
-    }
-
     #instruction {
-        color: #888;
+        color: #7d8aa0;
         margin-bottom: 1;
     }
 
     #tool-list {
-        border: tall #333;
+        border: tall #1c2530;
         height: 1fr;
+    }
+
+    #detail-panel {
+        width: 38;
+        background: #0e131c;
+        border-left: solid #1c2530;
+        padding: 1 2;
+    }
+
+    #detail-title {
+        color: #38e1c6;
+        text-style: bold;
+        border-bottom: solid #1c2530;
+        margin-bottom: 1;
+    }
+
+    #detail-body {
+        color: #c8d0da;
+        padding: 1;
     }
 
     #status-bar {
         dock: bottom;
         height: 1;
-        background: #1a1a1a;
-        color: #00ffff;
+        background: #11161f;
+        color: #38e1c6;
         text-align: center;
-        border-top: solid #333;
+        border-top: solid #1c2530;
     }
 
     /* Tool Execution Screen */
@@ -370,49 +447,49 @@ class AleopantestTUI(App):
 
     #tool-info-panel {
         width: 35%;
-        background: #121212;
-        border-left: solid #333;
+        background: #0e131c;
+        border-left: solid #1c2530;
         padding: 1 2;
     }
 
     #info-title {
-        color: #00ffff;
+        color: #38e1c6;
         margin-bottom: 1;
-        border-bottom: solid #333;
+        border-bottom: solid #1c2530;
     }
 
     #usage-info, #example-info, #params-info {
-        background: #0a0a0a;
+        background: #0b0e14;
         padding: 1;
-        border: solid #333;
+        border: solid #1c2530;
         margin-bottom: 1;
-        color: #ccc;
+        color: #cdd6e3;
     }
 
     #tool-title {
         text-style: bold;
-        color: #00ffff;
-        border-bottom: solid #00ffff;
+        color: #38e1c6;
+        border-bottom: solid #1f6feb;
         margin-bottom: 1;
     }
 
     #input-area {
         margin: 1 0;
-        border: tall #333;
+        border: tall #1c2530;
         padding: 1;
         height: auto;
-        background: #121212;
+        background: #0e131c;
     }
 
     Input {
-        background: #0a0a0a;
-        border: solid #333;
-        color: #00ffff;
+        background: #0b0e14;
+        border: solid #1c2530;
+        color: #38e1c6;
         margin-top: 1;
     }
 
     Input:focus {
-        border: solid #00ffff;
+        border: solid #1f6feb;
     }
 
     #action-buttons {
@@ -422,9 +499,9 @@ class AleopantestTUI(App):
 
     #launch-btn {
         width: 1fr;
-        background: #00ffff 20%;
-        color: #00ffff;
-        border: tall #00ffff;
+        background: #1f6feb 25%;
+        color: #ffffff;
+        border: tall #1f6feb;
     }
 
     #clear-btn {
@@ -433,14 +510,14 @@ class AleopantestTUI(App):
     }
 
     #launch-btn:hover {
-        background: #00ffff 40%;
+        background: #1f6feb 45%;
     }
 
     #results-display {
-        background: #050505;
-        color: #00ff00;
+        background: #05070a;
+        color: #79e87a;
         padding: 1;
-        border: solid #333;
+        border: solid #1c2530;
         height: 1fr;
         overflow-y: scroll;
     }

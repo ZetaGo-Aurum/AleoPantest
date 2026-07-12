@@ -1,13 +1,13 @@
 """
 Aleopantest - Advanced Penetration Testing Framework
 by Aleocrophic
-Version: 4.0.4
+Version: 4.0.5
 Author: Aleocrophic Team
 Description: Comprehensive penetration testing tool suite with 900+ tools
 License: MIT (For Educational Purposes Only)
 """
 
-__version__ = "4.0.4"
+__version__ = "4.0.5"
 __author__ = "Aleocrophic Team"
 __license__ = "MIT - Educational Use Only"
 __codename__ = "HYDRA"
